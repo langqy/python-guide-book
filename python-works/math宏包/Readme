@@ -1,0 +1,12 @@
+math宏包提供了以下常数：
+math.pi，
+math.e等。
+
+还提供了以下函数：
+math.sqrt，
+math.sin，
+math.cos，
+math.tan，
+math.degrees（将弧度转化为角度，这些三角函数默认都是弧度输入。），
+math.radians（将角度化为弧度），
+math.log10等。

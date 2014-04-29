@@ -1,0 +1,15 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{subst}\PY{p}{(}\PY{n}{list001}\PY{p}{,}\PY{n}{element001}\PY{p}{,}\PY{n}{element002}\PY{p}{)}\PY{p}{:}
+    \PY{k}{try}\PY{p}{:}
+        \PY{n}{list001}\PY{o}{.}\PY{n}{index}\PY{p}{(}\PY{n}{element001}\PY{p}{)}
+    \PY{k}{except} \PY{n+ne}{ValueError}\PY{p}{:}
+        \PY{k}{return} \PY{n}{list001}
+    \PY{k}{else}\PY{p}{:}
+        \PY{n}{n}\PY{o}{=}\PY{n}{list001}\PY{o}{.}\PY{n}{index}\PY{p}{(}\PY{n}{element001}\PY{p}{)}
+        \PY{k}{del} \PY{n}{list001}\PY{p}{[}\PY{n}{n}\PY{p}{]}
+        \PY{n}{list001}\PY{p}{[}\PY{n}{n}\PY{p}{:}\PY{n}{n}\PY{p}{]}\PY{o}{=}\PY{p}{[}\PY{n}{element002}\PY{p}{]}
+        \PY{k}{return} \PY{n}{subst}\PY{p}{(}\PY{n}{list001}\PY{p}{,}\PY{n}{element001}\PY{p}{,}\PY{n}{element002}\PY{p}{)}
+
+\PY{k}{print}\PY{p}{(}\PY{n}{subst}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{a}\PY{l+s}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{b}\PY{l+s}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{k}{print}\PY{p}{(}\PY{n}{subst}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{]}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{replaced}\PY{l+s}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}

@@ -1,0 +1,1383 @@
+% !Mode:: "TeX:UTF-8"%確保文檔utf-8編碼
+%新加入的命令如下：addchtoc addsectoc reduline showendnotes hlabel
+%新加入的环境如下：common-format  fig scalefig xverbatim
+
+\documentclass[12pt,oneside]{book}
+\newlength{\textpt}
+\setlength{\textpt}{12pt}
+\newif\ifphone
+\phonefalse
+
+
+\usepackage{myconfig}
+\usepackage{mytitle}
+
+
+
+\begin{document}
+\frontmatter
+
+\titlea{python3指南}
+\titleb{用python3玩转电脑}
+\author{万泽}
+\authorinfo{作者：}
+\editor{德山书生}
+\email{a358003542@gmail.com}
+\editorinfo{编者：}
+\version{0.01}
+\titleLB
+
+\addchtoc{前言}
+\chapter*{前言}
+\begin{common-format}
+xverbatim环境目前不能进行交互，如果终端交互又不支持pdf的结果输出了。决定新加入一个模式，1显示代码3用geany打开代码。后面就用编辑器调试吧。
+这里因为涉及到交互，看了一下tee命令，似乎使用“python3 test.py | tee test.py.out”这样的命令应该是可行的，但是可惜要某调用gnome-terminal就不能生成文件，要某不调用texmaker本身就弹不出对话框。现在只好设置一个简单的13模式，所谓3实际上非常的简单，就是用geany打开那个代码，因为geany编辑器调整好倒也方便，只是遇到这种交互程序的生成结果需要手动复制了。
+
+
+需要提醒的是在本文档中不管是xverbatim环境生成的code文件还是cverbatim环境，最前面都多了一个空行，因为最前面有一个newlinechar符号最后转变成换行了，我还不知道如何避免，所以，如果你需要将代码文件以可执行模式执行（以脚本文件模式载入的没有问题），你需要进入文件按一下Backspace键将第一行消去即可。
+
+主要参考资料：
+
+1.python入门教程 Python 教學文件 作者：Guido van Rossum  Fred L. Drake
+
+2.A Comprehensive Introduction to Python Programming and\\ GUI Design Using Tkinter 作者：Bruno Dufour
+
+3.Python and Tkinter Programming  JOHN E. G RAYSON
+
+4.learning python v5  主要python语言参考   python学习手册（第四版） 老鼠版
+
+5.programming python v4 蟒蛇版
+
+6.python官网其他参考资料（遇到问题则google之，这部分不会专门学习）
+
+7.tkinter官方文档
+
+8.pyqt4 tutorial \href{http://zetcode.com/gui/pyqt4/}{英文网站} 也参考了jimmykuu的中文翻译，\href{http://blog.cx125.com/books/PyQt4_Tutorial/}{中文翻译网站}
+
+
+
+%这里空一行。
+
+\end{common-format}
+
+
+\addchtoc{目录}
+\setcounter{tocdepth}{2}
+\tableofcontents
+
+\begin{common-format}
+\mainmatter
+
+\part{python3基础}
+
+\chapter{beginning}
+\section{python简介}
+Python是个成功的脚本语言。它最初由Guido van Rossum开发，在1991年第一次发布。Python由ABC和Haskell语言所启发。Python是一个高级的、通用的、跨平台、解释型的语言。一些人更倾向于称之为动态语言。它很易学，Python是一种简约的语言。它的最明显的一个特征是，不使用分号或括号，Python使用缩进。现在，Python由来自世界各地的庞大的志愿者维护。
+
+python现在主要有两个版本区别，python2和python3。作为新学者推荐完全使用python3编程，本文档完全基于python3。
+
+完全没有编程经验的人推荐简单学一下c语言和scheme语言（就简单学习一下这个语言的基本概念即可）。相信我学习这两门语言不会浪费你任何时间，其中scheme语言如果你学得深入的话甚至编译器的基本原理你都能够学到。了解了这两门语言的核心理念，基本上任何语言在你看来都大同小异了。
+
+\section{进入python的REPL环境}
+在ubuntu13.10下终端中输入python即进入python语言的REPL环境，目前默认的是python2。你可以运行：\\
+\verb+python  --version+\\
+来查看。要进入python3在终端中输入python3即可。
+
+
+\section{python3命令行用法}
+命令行的一般格式就是：\\
+\verb+python3  [可选项]  test.py  [可选参数1 可选参数2]+
+
+同样类似的运行\verb+python3  --help+即可以查看python3命令的一些可选项。比如加入\textbf{-i}选项之后，python执行完脚本之后会进入REPL环境继续等待下一个命令，这个在最后结果一闪而过的时候有用。后面的-c，-m选项还看不明白。
+
+\subsection{python执行脚本参数的传递}
+上面的命令行接受多个参数都没有问题的，不会报错，哪怕你在py文件并没有用到他们。在py文件中要使用他们，首先导入sys宏包，然后sys.argv[0]是现在这个py文件在系统中的文件名，接下来的sys.argv[1]就是之前命令行接受的第一个参数，后面的就依次类推了。
+
+
+\section{geany的相关配置}
+geany的其他配置这里不做过多说明，就自动执行命令默认的应该是python2，修改成为：\\
+\verb+python3  -i  %f  +\\
+即可。
+
+
+\section{代码注释}
+python语言的注释符号和bash语言（linux终端的编程语言）一样用的是\#{}符号来注释代码。然后py文件开头一般如下面代码所示：
+\begin{Verbatim}
+#!/usr/bin/env python3
+#-*-coding:utf-8-*-
+\end{Verbatim}
+其中代码第一行表示等下如果py文件可执行模式执行那么将用python3来编译\footnote{也就是用chmod加上可执行权限那么可以直接执行了。第一行完整的解释是什么通过\textit{env}程序来搜索python的路径，这样代码更具可移植性。}，第二行的意思是py文件编码是utf-8编码的，python3直接支持utf-8各个符号，这是很强大的一个更新。
+
+
+多行注释可以利用编辑器快速每行前面加上\#{}符号。
+
+\section{Unicode码支持}
+前面谈及python3是可以直接支持Unicode码的，如果以可执行模式加载，那么第二行需要写上：\\
+\verb+#-*-coding:utf-8-*-+\\
+这么一句。
+
+\begin{Verbatim}
+#!/usr/bin/env python3
+#-*-coding:utf-8-*-
+print('\u2460')
+\end{Verbatim}
+上面的数字是具体这个Unicode符号的十六进制。
+
+\section{代码多行表示一行}
+这个技巧防止代码越界所以经常会用到。用反斜线\textbackslash 即可。不过通常更常用的是将表达式用圆括号( )括起来，这样内部可以直接换行并继续。在python中任何表达式都可以包围在圆括号中。
+
+\subsection{一行表示多行}
+python中一般不用分号，但是分号的意义大致和bash或者c语言中的意义类似，表示一行结束的意思。其中c语言我们知道是必须使用分号的。
+
+
+\section{输入和输出}
+\subsection{最基本的input和print命令}
+input函数请求用户输入，并将这个值赋值给某个变量。注意赋值之后类型是字符串，但后面你可以用强制类型转换——int函数（变成整数），float函数（变成实数），str函数（变成字符串）——将其转变过来。print函数就是一般的输出函数。
+
+\begin{Verbatim}
+x=input('请输入一个实数：')
+string001='你输入的这个实数乘以2等于：'+ str(float(x)*2)
+print(string001)
+\end{Verbatim}
+
+
+
+
+
+\chapter{程序中的逻辑}
+\section{条件语句}
+python中的条件语句基本格式如下：
+\begin{Verbatim}
+if  test:
+    条件判断执行区块
+\end{Verbatim}
+也就是if命令后面跟个条件判断语句，然后记住加个冒号，然后后面缩进的区块都是条件判断为真的时候要执行的语句。
+
+\begin{Verbatim}
+if  test:
+    do something001
+else :
+    do something002
+\end{Verbatim}
+这里的逻辑是条件判断，如果真，do something001；如果假，do something002。
+
+\begin{Verbatim}
+if  test001:
+    do something001
+elif test002:
+    do something002
+\end{Verbatim}
+显然你一看就明白了，elif是else和if的结合。
+
+\begin{xverbatim}[129]{py}
+x=0
+if x>0:
+    print('x大于0')
+elif x<0:
+    print('x小于0')
+else:
+    print('x等于0')
+\end{xverbatim}
+这种结构类似于switch语句，你也可以看作类似下面图片描述的横向并排结构。
+\begin{linefig}{if-elif语句示意}
+\label{fig:if-elif语句示意}
+\end{linefig}
+
+
+\subsection{逻辑与或否}
+and表示逻辑与，or表示逻辑或，not表示逻辑否。
+
+下面编写一个逻辑，判断一个字符串，这个字符串开头必须是a或者b，结尾必须是s，倒数第二个字符不能是单引号'。在这里就演示一下逻辑。。
+\begin{xverbatim}[129]{py}
+x='agais'
+if ((x[0] == 'a' or x[0] == 'b')
+    and x[-1] =='s'
+    and (not x[-2] =="'")):
+    print('yes it is..')
+\end{xverbatim}
+上面的显示效果是xverbatim环境input之后的问题，目前主要的问题就是新的一行前面的空格无法显示，想了一些方法都不行，只好作罢。
+
+
+
+\subsection{其他逻辑小知识}
+在python中，有些关于逻辑真假上的小知识，需要简单了解下。
+\begin{itemize}
+\item 数0、空对象或者其他特殊对象None值都认为是假
+\item 其他非零的数字或非空的对象都认为是真
+\item 前面两条用bool函数可以进行强制类型转换
+\item 比较和相等测试会递归作用在数据结构中
+\item 比较和相等测试会返回True或False（1和0的custom version（翻译为定制版？））
+\end{itemize}
+
+
+\subsection{try语句捕捉错误}
+\begin{Verbatim}
+while True:
+    x=input('请输入一个数值，我将返回它除以2之后的数值\n输入"quit"退出\n')
+    if x=='quit':
+        break
+    try :
+        num=float(x)
+    except:
+        print('输入有错')
+    else:
+        print(num/2)
+print('再见')
+\end{Verbatim}
+
+
+
+
+
+\section{迭代语句}
+一般有内部重复操作的程序可以先考虑for迭代结构实现，实在不行才考虑while循环结构，毕竟简单更美更安全。
+
+python的for迭代语句有点类似lisp语言的dolist和dotimes函数，具体例子如下：
+\begin{xverbatim}[129]{py}
+for x in 'abc':
+    print(x)
+\end{xverbatim}
+in后面跟的是序列类型，也就是字符串，列表，数组。这个语句可以看作先执行x='a'，然后执行缩进的区块，后面依次类推。
+
+如果缩进区块中有对原列表进行的操作，为了避免逻辑混乱，之前in的列表应该是之前的列表，也就是你需要制造一个之前的列表的复制品，用\verb+list[:]+这样的形式就能达到这个目的。
+
+\subsection{range函数}
+range函数是为for迭代语句准备的，有点类似于lisp的dotimes函数，但是功能更全更接近common-lisp的loop宏了。
+
+\verb+range(1,10,2)+\\
+range函数的用法如上，表示从1开始到10，步长为2，如果用list函数将其包裹，将会输出[1,3,5,7,9]。如果不考虑步长的话，这个range函数就有点类似于在序列连着来那一小节\ref{sec:序列连着来}谈论的区间的情况。所以range(10)就可以看作[0,10)，range(1,10)就可以看作[1,10)。但是在这里再加上步长的概念和区间的概念又有所不同了，range函数产生的是一个什么迭代器对象，目前我只知道这个对象和之前谈论的序列对象是不同的。
+
+\begin{xverbatim}[129]{py}
+for x in range(-10,-20,-3):
+    print(x)
+\end{xverbatim}
+上面例子还演示了range的负数概念，这里如果用区间概念来考察的话，是不能理解的，之所以行得通，是因为它的步长是负数，如果不是负数，那么情况就会和之前讨论的结果类似，将是一个空值。
+
+
+
+
+
+
+
+\section{循环语句}
+while语句用法和大多数编程语言类似，就是条件控制，循环结构。
+\begin{Verbatim}
+while test:
+    do something
+\end{Verbatim}
+
+\subsection{break命令}
+break跳出最近的while或者for循环结构。
+
+\subsection{continue命令}
+continue命令接下来的循环结构的执行区块将不执行了，跳到条件判断那里看看是不是继续循环。如果是，那么继续循环。
+
+\subsection{循环结构中的else命令}
+循环结构（for语句和while语句）最后还可以有一个else字句，表示循环执行完了（for是执行完了，while是条件为假时也相当于执行完了。）将执行这个语句。
+
+如果break跳出语句，那么最后的else字句将不执行，说明else字句是平行于该循环结构的语句。
+
+\subsection{pass命令}
+pass命令就是什么都不做。pass命令即可用于循环语句也可用于条件语句，其中有些条件语句有的时候是需要什么都不做。
+
+
+
+
+
+\chapter{程序中的操作对象}
+python和c语言不同，c 是什么\verb+int x = 3+ ，也就是这个变量是整数啊，字符啊什么的都要明确指定，python不需要这样做，只需要声明\verb+x ＝ 3+即可。但是我们知道任何程序语言它到最后必然要明确某一个变量（这里也包括后面的更加复杂的各个结构对象）的内存分配，只是python语言帮我们将这些工作做了，所以就让我们省下这份心吧。
+
+\begin{Verbatim}
+''' 这是一个多行注释
+    你可以在这里写上很多废话
+    '''
+x = 10
+print(x,type(x))
+\end{Verbatim}
+
+python程序由各个模块（modules）组成，模块就是各个文件。模块由声明（statements）组成，声明由表达式（expressions）组成，表达式负责创造和操作对象（objects）。在python中一切皆对象。python语言内置对象（数值、字符串、列表、数组、字典、文件、集合、其他内置对象。）后面会详细说明之。
+
+
+\section{对象同时赋值}
+下面的例子很好地说明了具体的情况：
+\subsection{平行赋值}
+\begin{Verbatim}
+x,y=1,'a'
+[z,w]=['b',10]
+print(x,y,z,w)
+\end{Verbatim}
+
+我们记得python中表达式可以加上圆括号，所以这里\verb+x,y+产生的是一个数组\verb+(x,y)+，然后是对应的数组平行赋值，第二行是列表的平行赋值。这是一个很有用的技巧。
+
+\subsection{同时赋相同的值}
+\begin{Verbatim}
+x=y='a'
+z=w=2
+print(x,y,z,w)
+\end{Verbatim}
+
+
+\section{数值}
+python的数值的内置类型有：int，float，complex等\footnote{这些int、float等命令都是强制类型转换命令}。\\python的基本算术运算操作有加减乘除（+ - * /）。然后‘=’表示赋值，类似数学书上的中缀表达式和优先级和括号法则等，这些都是一般编程语言说到烂的东西了。
+
+\begin{Verbatim}
+print((1+2)*(10-5)/2)
+print(2**100)
+\end{Verbatim}
+
+
+\subsection{数学幂方运算}
+$ x^y $，x的y次方如上面第二行所述就是用\verb+x**y+这样的形式即可。
+
+\subsection{相除取整}
+就作为正整数相除使用\verb+x//y+得到的值意义还是很明显的就是商。带上负号感觉有点怪了，这里先略过。相关的还有取余数，就是\verb+x%y+，这样就得到x除以y之后的余数了，同样带上符号情况有变，这里先略过。
+
+\subsection{复数}
+python直接支持复数， 复数的写法是类似\verb|1+2j|这样的形式，然后如果z被赋值了一个复数，这样它就是一个复数类型，那么这个类具有两个属性量，\textbf{real}和\textbf{imag}。也就是使用\verb+z.real+就给出这个复数的实数部。imag是imaginary number的缩写，虚数，想像出来的数。
+
+\subsection{abs函数}
+大家都知道abs函数是绝对值函数，这个python自带的，不需要加载什么宏包。作用于复数也是可以的：
+\begin{Verbatim}
+z=3+4j
+print(z.real,z.imag)
+print(abs(z))
+\end{Verbatim}
+
+这个和数学中复数绝对值的定义完全一致，也就是复数的模：\\
+$ \left| z \right| =\sqrt { a^{ 2 }+b^{ 2 } }  $
+
+\subsection{math宏包}
+math宏包提供了以下常数：\textbf{math.pi}，\textbf{math.e}等。\\
+还提供了以下函数：\\
+\textbf{math.sqrt}，\\
+\textbf{math.sin}，\textbf{math.cos}，\textbf{math.tan}，\\
+\textbf{math.degrees}（将弧度转化为角度，这些三角函数默认都是弧度输入。），\\
+\textbf{math.radians}（将角度化为弧度），\\
+\textbf{math.log10}等。
+
+更多具体细节请参看\href{http://docs.python.org/3.4/library/math.html}{官方文档}。
+
+这里简单写个例子：
+\begin{Verbatim}
+from math import *
+print(pi)
+print(sqrt(85))
+print(sin(radians(30)))#sin(30°)
+\end{Verbatim}
+
+
+\subsection{random宏包}
+random宏包提供了一些函数来解决随机数问题。
+\begin{description}
+\item[random] random函数产生0到1之间的随机实数（包括0）
+\item[uniform] uniform函数产生从a到b之间的随机实数（a，b的值指定，包括a。）
+\item[randrange] randrange函数产生从a到b之间的随机整数，步长为c（a，b，c的值指定，相当于choice(range(start,stop,step))，range(0,5)是从0到4不包括5，所以这里是从a到b不包括b。）
+\item[choice] choice随机从一个列表或者字符串中取出一个元素。
+\end{description}
+
+更多详细细节请参阅\href{http://docs.python.org/3.4/library/random.html}{官方帮助文档}。
+
+下面是一个简单的例子：
+\begin{Verbatim}
+from random import *
+print(random())
+print(uniform(1,10))
+print(randrange(1,6))
+print(choice('abcdefghij'))
+print(choice(['①','②','③']))
+\end{Verbatim}
+
+
+
+
+
+
+
+\section{序列}
+字符串，列表，元组（tuple，这里最好翻译成元组，因为里面的内容不一定是数值。）都是序列（sequence）的子类，所以序列的一些性质他们都具有，最好在这里一起讲方便理解记忆。
+
+\subsection{len函数}
+len函数返回序列所含元素的个数：
+\begin{xverbatim}[129]{py}
+string001='string'
+list001=['a','b','c']
+tuple001=(1,2,3,4)
+
+for x in [string001,list001,tuple001]:
+    print(len(x))
+\end{xverbatim}
+
+
+\subsection{调出某个值}
+对于序列来说后面跟个方括号，然后加上序号（程序界的老规矩，从0开始计数。），那么调出对应位置的那个值。还以上面那个例子来说明。
+\begin{xverbatim}[129]{py}
+string001='string'
+list001=['a','b','c']
+tuple001=(1,2,3,4)
+
+for x in [string001,list001,tuple001]:
+    print(x[2])
+\end{xverbatim}
+
+\subsubsection{倒着来}
+倒着来计数-1表示倒数第一个，-2表示倒数第二个。依次类推。
+\begin{xverbatim}[129]{py}
+string001='string'
+list001=['a','b','c']
+tuple001=(1,2,3,4)
+
+for x in [string001,list001,tuple001]:
+    print(x[-1],x[-2])
+\end{xverbatim}
+
+\subsubsection{连着来}
+\label{sec:序列连着来}
+前面不写表示从头开始，后面不写表示到达尾部。中间加个冒号的形式表示从那里到那里。这里\textbf{注意}后面那个元素是\uwave{不包括}进来，看来python区间的默认含义都是包头不包尾。这样如果你想要最后一个元素也进去，只有使用默认的不写形式了。
+\begin{xverbatim}[129]{py}
+string001='string'
+list001=['a','b','c']
+tuple001=(1,2,3,4)
+
+for x in [string001,list001,tuple001]:
+    print(x[1:3],x[-2:-1],x[:-1],x[1:],x[1:-1])
+\end{xverbatim}
+用数学半开半闭区间的定义来理解这里的包含关系还是很便捷的。
+\begin{enumerate}
+\item 首先是数学半开半闭区间，左元素和右元素都是之前叙述的对应的定位点。左元素包含右元素不包含。
+\item 其次方向应该是从左到右，如果定义的区间是从右到左，那么将产生空值。
+\item 如果区间超过，那么从左到右包含的所有元素就是结果。
+\item 最后如果左右元素定位点相同，那么将产生空值，比如：\\
+\verb+string001[2:-4]+，其中2和-4实际上是定位在同一个元素之上的。额外值得一提的列表插入操作，请参看列表的插入操作这一小节。\ref{sec:列表插入操作}
+\end{enumerate}
+
+
+\subsection{序列的可更改性}
+字符串不可以直接更改，但可以组合成为新的字符串；列表可以直接更改；元组不可以直接更改。
+
+
+
+\subsection{序列的加法和减法}
+两个字符串相加就是字符串拼接了。乘法就是加法的重复，所以一个字符串乘以一个数字就是自己和自己拼接了几次。列表还有元组和字符串一样大致情况类似。
+
+\begin{xverbatim}[129]{py}
+print('abc'+'def')
+print('abc'*3)
+print([1,2,3]+[4,5,6])
+print((0,'a')*2)
+\end{xverbatim}
+
+
+
+\section{字符串}
+python语言不像c语言字符和字符串是不分的，用单引号或者双引号包起来就表示一个字符串了。单引号和双引号的区别是一般用单引号，如果字符串里面有单引号，那么就使用双引号，这样单引号直接作为字符处理而不需要而外的转义处理——所谓转义处理和其他很多编程语言一样用\textbackslash 符号。比如要显示\verb+'+就输入\verb+\'+。
+
+\subsection{三单引号和三双引号}
+在单引号或者双引号的情况下，你可以使用\verb+\n+来换行，其中\textbackslash n表示换行。此外还可以使用三单引号'''或者三双引号"""来包围横跨多行的字符串，其中换行的意义就是换行，不需要似前面那样的处理。
+
+\begin{Verbatim}
+print('''\
+这是一段测试文字
+  this is a test line
+      其中空白和    换行都所见所得式的保留。''')
+\end{Verbatim}
+
+\subsection{find方法}
+
+\subsection{replace方法}
+
+
+\subsection{format方法}
+字符串的format方法方便对字符串内的一些变量进行替换操作，其中花括号不带数字跟format方法里面所有的替换量，带数字0表示第一个替换量，后面类推。
+\begin{Verbatim}
+print('1+1={0}，2+2={1}'.format(1+1,2+2))
+\end{Verbatim}
+
+
+\section{列表}
+方括号包含几个元素就是列表。
+
+
+\subsection{列表的插入操作}
+\label{sec:列表插入操作}
+字符串和数组都不可以直接更改所以不存在这个问题，列表可以。其中列表还可以以一种定位在相同元素的区间的方法来实现插入操作，这个和之前理解的区间多少有点违和，不过考虑到定位在相同元素的区间本来就概念模糊，所以在这里就看作特例，视作在这个\uwave{定位点相同元素之前}插入吧。
+\begin{xverbatim}[129]{py}
+list001=['one','two','three']
+list001[1:-2]=['four','five']
+print(list001)
+\end{xverbatim}
+
+除了序列中的一些继承的操作之外，列表还有很多方法，实际上这还算少的（如果你见识了lisp中各种列表操作）。因为列表这个数据结构可以直接修改相当灵活，下面我打算将我学lisp语言中接触到的一些列表操作对应过来一一说明之：
+
+extend方法似乎和列表之间的加法重合了，比如\\list001.extend([4,5,6])就和list001=list001+[4,5,6]是一致的，而且用加法表示还可以自由选择是不是覆盖原定义，这实际上更加自由。所以extend方法略过。
+
+insert方法也就是列表的插入操作，这个前面关于列表的插入实现方法说过一种了，所以insert方法也略过。
+
+\subsection{append方法}
+python的append方法和lisp中的append还是有点差异的，python的append就是在最后面加\textbf{一个元素}，如果你append一个列表那么这一个列表整体作为一个元素。
+
+其次append是list类中的一个方法，也就是list001.append这样的形式，也就是永久的改变了某个列表实例的值了。
+
+\subsection{reverse方法}
+reverse方法不接受任何参数，直接将一个列表永久性地翻转过来。
+
+\subsection{remove方法}
+remove方法和lisp中的remove含义大致接近，就是移除第一个相同的元素，如果没有返回相同的元素，返回错误。
+
+\subsection{index方法}
+
+
+\subsection{列表元素的替换}
+lisp语言中有subst函数，是substitute的缩写。作用于整个列表，列表中所有出现的某个元素都要被另一个元素替换掉。
+
+由于我现在对如何修改python语言内置类还毫无头绪，只好简单写这么一个函数了。
+\begin{xverbatim}[129]{py}
+def subst(list001,element001,element002):
+    try:
+        list001.index(element001)
+    except ValueError:
+        return list001
+    else:
+        n=list001.index(element001)
+        del list001[n]
+        list001[n:n]=[element002]
+        return subst(list001,element001,element002)
+
+print(subst([1,'a',3,[4,5]],[4,5],'b'))
+print(subst([1,1,5,4,1,6],1,'replaced'))
+\end{xverbatim}
+这个subst函数接受三个参数，表示接受的列表，要替换的元素和替换成为的元素。这里使用的程序结构是try...except...else...语句。其中try来侦测是不是有错误，其中index方法是看那个要替换的元素存不存在，由于不存在这个函数将产生一个\textbf{ValueError}错误，所以用except来接著。既然没有要替换的元素了，那么返回原列表即可，程序中止。
+
+else语句接著没有错误的时候你要执行的操作，先index再删掉这个元素，再在之前插入那个元素，然后使用了递归算法，调用函数自身。
+
+\subsection{让某个函数依次作用于列表中的元素}
+lisp中的mapcar函数有这个功用，python中的map函数基本上和它情况类似。
+
+我们先来看lisp中的情况：
+\begin{xverbatim}[129]{lisp}
+(defun square (n) (* n n))
+(format t "~&~s" (mapcar #'square '(1 2 3 4 5)) )
+\end{xverbatim}
+
+再来看python中的情况：
+\begin{xverbatim}[129]{py}
+def square(n):
+    return n*n
+    
+print(map(square,[1,2,3,4,5]))
+print([square(x) for x in [1,2,3,4,5]])
+\end{xverbatim}
+用map函数将会生成一个map对象（？），需要外面加上list函数才能生成列表形式。第二种形式直接生成列表形式，而且风格更加接近python，还是推荐使用这种形式把。
+
+
+\subsection{count方法}
+
+\subsection{for语句的进阶}
+在lisp语言的loop宏中，还有很多高级应用，比如
+
+\begin{description}
+\item[collect] 将迭代产生的所有信息收集到列表中。
+\item[summing] 将迭代产生的所有信息加到一起。
+\item[count] 跟着一个判断函数，每次迭代运行一次，然后记录得到的True即真值的情况的总数。
+\item[minimize] 将每次迭代的结果进行比较，然后返回最小值。
+\item[maximize] 同minimize，返回最大值。
+\item[append] 将每次迭代产生的列表append在一起。
+\end{description}
+
+那么在python中如何实现以上功能呢？
+
+在这里最基本的是通过迭代语句产生一个列表，然后通过某些函数比如minimize对应min函数，maximize对应max函数等对这个列表进行一些操作即可。
+\begin{xverbatim}[129]{py}
+from random import *
+def random_list_max(n):
+    y=[randint(1,n) for x in range(10000)]
+    list_count=[y.count(x) for x in range(1,n+1)]
+    return list_count.index(max(list_count))+1
+
+print(random_list_max(40))
+\end{xverbatim}
+
+
+find-if                 remove-if                 remove-if-not
+find-if  是将一个判断函数作用于一个列表，然后返回第一个为真的元素。
+remove-if 是将一个判断函数作用一个列表，真则移去。
+remove-if-not  这个更常用一些，将一个判断函数作用一个列表，假则移去，留下真的部分。
+
+reduce
+reduce是将一个函数作用于一个列表，这个函数需要两个input参量，简单来说就是比如说加法，那么这个列表上的数字依此全部加上。大体过程如下图所示：
+
+every
+every对后面列表中每一个元素用前面的判断函数来进行判断，如果有一个nil那么返回nil，如果都是T那么返回T。
+
+some
+
+用于列表的push和pop宏
+
+用牛顿迭代法求平方根
+数值分析的牛顿迭代法是一种通用方程式求解方法，这里就简单的计算开平方根。
+
+
+让n从0到多少记数，然后让另外一个值表示对应的某个函数。比如数学中的级数概念。
+现在有几何级数，0对应1，1对应1/2的一次方，2对应1/2的2次方....
+
+
+\section{元组}
+圆括号包含几个元素就是元组。
+
+\section{字典}
+
+%#字典
+%{'food':'spam'}
+%
+%#数组
+%(1,2,3)
+%#文件
+%f = open('eggs.txt','w')
+%f.write('hello\nworld \nhello world!')
+%f.close()
+%f = open('eggs.txt')
+%text = f.read()
+%print(text)
+%#集合
+%set('abc')
+\section{文件}
+
+
+\section{集合}
+
+
+\section{其他内置对象}
+
+
+
+\chapter{操作或者函数}
+\section{自定义函数}
+定义函数用def命令，语句基本结构如下：
+\begin{Verbatim}
+def yourfunctionname(para001,para002...):
+    do something001
+    do something002
+\end{Verbatim}
+
+\section{参数和默认参数}
+定义的函数圆括号那里就是接受的参数，如果参数后面跟个等号，来个赋值语句，那个这个赋的值就是这个参数的默认值。
+
+\section{递归函式}
+虽然递归函式能够在某种程度上取代前面的一些循环或者迭代程序结构，不过不推荐这么做。这里谈及递归函式是把某些问题归结为数学函数问题，而这些问题常常用递归算法更加直观（不一定高效）。比如下面的菲波那奇函数：
+\begin{xverbatim}[129]{py}
+def fib(n):
+    if n==0:
+        return 1
+    if n==1:
+        return 1
+    else:
+        return fib(n-1)+fib(n-2)
+        
+for x in range(5):
+    print(fib(x))
+\end{xverbatim}
+我们可以看到，对于这样专门的数学问题来说，用这样的递归算法来表述是非常简洁易懂的。至于其内部细节，我们可以将上面定义的fib称之为函式，函式是一种操作的模式，然后具体操作就是复制出这个函式（函数或者操作都是数据），然后按照这个函式来扩展生成具体的函数或者操作。
+
+下面看通过递归函式来写阶乘函数，非常的简洁，我以为这就是最好最美的方法了。
+\begin{xverbatim}[129]{py}
+def fact(n):
+    if n == 0:
+        return 1
+    else:
+        return n*fact(n-1)
+        
+print(fact(0),fact(10))
+\end{xverbatim}
+
+其实通过递归函式也可以实现类似for的迭代结构，不过我觉得递归函式还是不应该滥用。比如下面通过递归函式生成一种执行某个操作n次的结构：
+
+\begin{xverbatim}[129]{py}
+def dosomething(n):
+    if n==0:
+        pass
+    elif n==1:
+        print('do!')
+    else:
+        print('do!')
+        return dosomething(n-1)
+
+print(dosomething(5))
+\end{xverbatim}
+可以看到，如果把上面的print语句换成其他的某个操作，比如机器人向前走一步，那么这里dosomething换个名字向前走(5)就成了向前走5步了。
+
+
+\section{lambda函式}
+lambda
+λ表达式这个在刚开始介绍lisp语言的时候已有所说明，简单来说就是函数只是一个映射规则，变量名，函数名都无所谓的。这里就是没有名字的函数的意思。
+
+lambda函式在python这里主要针对某些简单的函数。比如下面：
+\begin{xverbatim}[129]{py}
+f=lambda x,y,z:x+y+z
+print(f(1,2,3))
+\end{xverbatim}
+
+\chapter{模块}
+现在让我们赶快进入模块基础知识的学习，建立编写自己的宏包，这样不断积累自己的知识，不断变得更强。
+
+现在让我们建立一个文件，名字就叫做“mypython3.py”。我们知道用import命令可以导入某个模块名，但模块内具体的函数等还是要用mypython3.fib这样的形式调用，这不太友好。
+
+\section{自建宏包搜索路径管理}
+在这里我们新建一个mypython3.py文件，然后将前面的fib函数放进去。接下来要做的就是宏包的搜索路径管理，让python编译器能够找到你编写的这个脚本。
+
+这个搜索路径你可以使用\verb+python3 --help+来查看，是PYTHO-\\NPATH这个量控制的。现在要做的是让终端每次登录的时候加载上这个变量。
+
+\begin{Verbatim}
+PYTHONPATH=$HOME/pymf
+export PYTHONPATH
+\end{Verbatim}
+上面的\verb+$HOME+就是你的主文件目录，然后我新建了一个pymf文件夹。这两行内容你写入主文件目录下的\textbf{.bashrc}文件里面，就可以立即生效。
+
+\href{http://stackoverflow.com/questions/415403/whats-the-difference-between-bashrc-bash-profile-and-environment}{这个网站}解释说\textbf{.bashrc}文件是单独每个交互shell启动时加载的文件。有些网站谈及修改\verb+.bash_profile+这个文件，我试了下在Ubuntu13.10下并不行。
+
+作为tex下的write18命令执行python脚本似乎并不加载任何shell脚本，也没有办法，在这里只好手工加载了。在终端下会自动加载上面的配置，目前还找不到好的解决办法。
+
+
+\section{导入模块内的变量或者函数}
+\verb+form mypython3 import fib+\\
+这样你就可以直接使用fib名字来调用fib函数了。
+\begin{xverbatim}[129]{py}
+import os,sys;sys.path.append(os.environ['HOME']+'/pymf')
+from pyconfig import fib
+for x in range(5):
+    print(fib(x))
+\end{xverbatim}
+上面第一行稍作处理至少让其更具通用性吧，多上一行代码也算不上什么事，至少让其更具通用性，目前就这样把。
+
+
+\end{common-format}  
+\end{document}
+
+
+\chapter{python知识高级篇}
+
+\section{类}
+
+\section{person数据库}
+\begin{cverbatim}{py}
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+##########################
+\end{cverbatim}
+
+\subsection{classtools.py}
+\subsubsection{AttrDisplay类}
+\begin{cverbatim}{py}
+class AttrDisplay:
+    def gatherattrs(self):
+        attrs = []
+        for key in sorted(self.__dict__):
+            attrs.append('%s=%s' % (key,getattr(self,key)))
+        return ', '.join(attrs)
+             
+    def __repr__(self):
+        return '[%s: %s]' % (self.__class__.__name__,
+        self.gatherattrs())
+\end{cverbatim}
+
+\begin{cverbatim}{py}
+if __name__ == '__main__':
+    class TopTest(AttrDisplay):
+        count=0
+        def __init__(self):
+            self.attr1 = TopTest.count
+            self.attr2 = TopTest.count+1
+            TopTest.count +=2
+            
+    class SubTest(TopTest):
+        pass
+        
+    X,Y=TopTest(),SubTest()
+    print(X)
+    print(Y)
+\end{cverbatim}
+
+\endcodefile[person数据库]{classtools}
+
+
+\subsection{person.py}
+\begin{cverbatim}{py}
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+##################################
+#序言部分
+\end{cverbatim}
+
+\subsubsection{Person类}
+\begin{cverbatim}{py}
+from classtools import AttrDisplay
+class Person(AttrDisplay):
+    def __init__(self, name, job=None, pay=0):
+        self.name = name
+        self.job = job
+        self.pay = pay
+    def lastname(self):
+        return self.name.split()[-1]
+    def giveraise(self,percent):
+        self.pay = int(self.pay * (1+percent))
+#    def __repr__(self):
+#        return '[Person: %s,%s]' % (self.name,self.pay)
+\end{cverbatim}
+
+类名一般都大写。
+
+特殊的\verb+__init__+ 用于这个类具体创建instance实例的时候执行的动作。self表示创建的那个实例，self.name表示实例的名字，self.name ＝name表示接受的name将会传递值给self.name，同时创建的那个实例将会拥有一个自己的name属性。其他属性操作类似。\verb+__init__+ 这里实际上也是进行了函数重载。
+
+和一般函数的做法一样，job=None，表示job这个参数是一个可选参数，它有一个默认值None。
+
+这里新建了一个Person类，这个类有三个属性：name，姓名，job，工作，和pay，薪酬。
+
+新建了lastname方法，将会该实例的名字的最后的姓氏。
+
+新建了giveRaise方法，还需要一个参数percent，这样该实例的pay属性将会提高这么多百分比。这里的int函数是将数值转化为整数。
+
+重新定义\verb+__repr__+，将会影响print函数的行为。
+
+
+\subsubsection{Manager类}
+\begin{cverbatim}{py}
+class Manager(Person):
+    def __init__(self,name,pay):
+        Person.__init__(self,name,'mgr',pay)
+    def giveraise(self,percent,bonus=0.10):
+        Person.giveraise(self,percent+bonus)
+\end{cverbatim}
+这里定义了一个类Manager，它还接受一个参数Person，表示它是Person的子类，即一切Person类的属性它都将继承。
+
+这里重新定义了giveraise方法，用一种巧妙的方式。直接借用Person类原有的giveraise方法，对参数输入稍作修正。
+
+重载\verb+__init__+方法，提供更加灵活的本地方案。
+
+在python中：\\
+\verb+instance.method(args...)+\\
+都会化成这样的形式：\\
+\verb+class.method(instance, args...)+\\
+这种转换只针对实例。
+
+python中超类，子类，实例的重载是由一种搜索机制实现的：
+\begin{fig}{类搜索结构图}
+\label{fig:类搜索结构图}
+\end{fig}
+python首先搜索self有没有这个属性或者方法，如果没有，就向上搜索。比如说实例没有，就向上搜索那个子类，子类没有就向上搜索那个超类。
+
+
+\begin{cverbatim}{py}
+if __name__ == '__main__':
+    bob = Person('Bob Smith')
+    sue = Person('Sue Jones', job='dev', pay=100000)
+    print(bob)
+    print(sue)
+    print(bob.lastname())
+    sue.giveraise(0.10)
+    print(sue)
+    tom=Manager('Tom Jones',50000)
+    tom.giveraise(0.10)
+    print(tom.lastname())
+    print(tom)
+\end{cverbatim}
+如果py文件是import的形式，那么这段代码将不会执行。只有以脚本python3 test.py之类的形式才执行。
+
+可见继承过来的类将不会有自己默认定义的\verb+__init__+等方法。
+
+\endcodefile[person数据库]{person}
+
+
+
+
+\part{tkinter基础}
+\chapter{tkinter第一个例子}
+\section{安装tkinter宏包}
+在ubuntu下运行下面命令即可：\\
+\verb+sudo apt-get install python3-tk+
+
+\section{刚开始}
+文件example001.py在“tkinter第一个例子”文件夹中：
+\begin{cverbatim}{py}
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+####序言部分
+from tkinter import Label
+##############
+widget001=Label(None,text='你好，这是第一个例子。')
+widget001.pack()
+widget001.mainloop()
+\end{cverbatim}
+\endcodefile[tkinter第一个例子]{标签}
+
+
+\subsection{加上按钮和事件}
+\begin{cverbatim}{py}
+#! /usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import sys
+from tkinter import *
+\end{cverbatim}
+
+这是代码文件的开头，其中代码第5行使用了星号，这个对于其他宏包并不合适，不过tkinter会根据需要来加载类等，所以直接全部引用也没事
+
+\begin{cverbatim}{py}
+mainwindow=Tk()
+
+def quit(event):
+    print('拜拜......')
+    sys.exit()
+
+def hello(event):
+    print('双击')
+
+def greeting(event):
+    print('你好')
+\end{cverbatim}
+
+这里定义了一些简单的函数，后面会用到的，没什么难理解的。代码第1行根据类Tk新建了一个实例mainwindow，这个是惯例，表示母窗体。
+
+\begin{cverbatim}{py}
+Label(text='你好').pack( side=TOP)
+\end{cverbatim}
+这里新建了一个标签，前面谈及的。不同的是采用的匿名方式，直接用Label类生成一个匿名Label实例然后pack进默认母窗体中。后面pack函数的\textbf{side}有选项：\textbf{TOP，BOTTOM，LEFT，RIGHT}表示这个标签的绑定地方，默认是TOP。
+
+\begin{cverbatim}{py}
+button001=Button(mainwindow, text='点我')
+button001.pack(side=LEFT)
+\end{cverbatim}
+这里根据Button类新建了一个按钮实例，各个参数意义很明显，和上面标签声明不同，这里采用的是标准的类的声明使用方式，以后都推荐使用这种方式。
+
+\begin{cverbatim}{py}
+button001.bind('<Button-1>',hello)
+button001.bind('<Double-1>',quit)#多个事件
+
+button002=Button(mainwindow, text='你好')
+button002.pack(side=RIGHT)
+button002.bind('<Button-1>',greeting)
+
+mainloop()
+\end{cverbatim}
+这里代码第1行使用了按钮实例button001的bind方法，这个方法将某一个事件和某一个方法（操作或者函数）绑定起来。这里\textbf{<Button-1>}是鼠标左键，总的意思是如果按钮button001上鼠标左键点击了，那么执行hello函数。
+
+后面类似的定义了一个按钮实例button002，其中<Double-1>是鼠标左键双击的意思。
+
+然后调用mainloop()函数，整个程序的事件监听循环跑起来。
+
+\endcodefile[tkinter第一个例子]{按钮和事件}
+
+
+\subsection{加入lambda函式}
+\begin{Verbatim}
+#! /usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import sys
+from tkinter import *
+
+
+mainwindow=Tk()
+
+def quit(event):
+    print('拜拜......')
+    sys.exit()
+
+
+Label(text='你好').pack( side=TOP)
+
+
+button001=Button(mainwindow, text='点我')
+button001.pack(side=LEFT)
+
+
+button001.bind('<Button-1>',lambda event  : print('双击'))
+button001.bind('<Double-1>',quit)#多个事件
+
+button002=Button(mainwindow, text='你好')
+button002.pack(side=RIGHT)
+button002.bind('<Button-1>',lambda event : print('你好'))
+
+mainloop()
+\end{Verbatim}
+
+这里和之前的区别就是加入了lambda函式，注意第一个参数event是必须的。
+
+
+\chapter{tkinter的各个widget}
+在tkinter中，所有图形部件（widget）（比如Button，Checkbutton等）都是类Widget的子类，而且他们都是一个平行的继承层次。
+
+\section{Label类}
+\begin{Verbatim}
+#!/usr/bin/env python3
+#-*-coding:utf-8-*-
+
+from tkinter import *
+
+tk001=Tk()
+labelfont=('颜体',20,'bold')
+label001=Label(tk001,text='你好，万泽。')
+label001.config(bg='black',fg='yellow')
+label001.config(font=labelfont)
+label001.config(height=3,width=20)
+label001.pack(expand=YES,fill=BOTH)
+
+mainloop()
+\end{Verbatim}
+这里label001是根据Label类新建的一个标签实例，其依附母体是tk001，标签文本是“你好，万泽。”。然后pack方法使用\textbf{expand=YES,fill=BOTH}，也就是这个标签会填充整个窗口。然后config方法进行了这个标签的一些属性设置：
+\begin{description}
+\item[bg] 调整背景颜色
+\item[fg] 调整字体颜色
+\item[font] 设置其他字体属性，这里有一系列的属性，分别是字族、大小和粗体（此外还有normal，roman，italic，underline，overstrike\footnote{删除线}。
+\item[height和width] 调整这个标签实例的高和宽。
+\end{description}
+
+然后设置了这个标签的初始大小。
+
+字体\textbf{Times} ,\textbf{Courier} ,\textbf{ Helvetica}tkinter保证可以使用，当然其他系统内的自己也可以使用。
+
+\section{Button类}
+\begin{Verbatim}
+#!/usr/bin/env python3
+#-*-coding:utf-8-*-
+from tkinter import *
+
+button001 = Button(text='点我', padx=10, pady=10)
+button001.config(cursor='hand2')
+button001.config(bd=5, relief=RAISED)
+button001.config(bg='dark green', fg='white')
+button001.config(font=('helvetica', 20, 'underline italic'))
+
+button001.pack(padx=20, pady=20)
+mainloop()
+\end{Verbatim}
+上面新建了一个Button类，其中padx是按钮的宽，pady是按钮的高。然后接下来config函数配置的有：\begin{description}
+\item[cursor] 调整鼠标指针移动到按钮上时候的形状，有选项：hand2，gumby，watch，pencil，cross。
+\item[bd] 调整按钮最外围的边框宽度。
+\item[relief] 调整按钮的类型，有选项：FLAT，SUNKEN，RAISED，\\GROOVE，SOLID，RIDGE。 
+\end{description}
+
+
+
+\section{Dialogs}
+\begin{Verbatim}
+#!/usr/bin/env python3
+#-*-coding:utf-8-*-
+
+from tkinter import *
+from tkinter.messagebox import *
+
+def callback():
+    if askyesno('确认信息', '你真的要退出吗？'):
+        showwarning('确认退出', '退出')
+    else:
+        showinfo('确认不退出', '不退出')
+
+errmsg='没有spam!'
+Button(text='Quit', command=callback).pack(fill=X)
+Button(text='Spam', command=(lambda: showerror('Spam', errmsg))).pack(fill=X)
+mainloop()
+\end{Verbatim}
+
+
+
+\section{Entry类}
+\begin{Verbatim}
+from tkinter import *
+from quitter import Quitter
+def fetch():
+    print('Input => "%s"' % ent.get()) # get text
+root = Tk()
+ent = Entry(root)
+ent.insert(0, 'Type words here')
+ent.pack(side=TOP, fill=X) # set text
+# grow horiz
+ent.focus()
+ent.bind('<Return>', lambda event: fetch())
+btn = Button(root, text='Fetch', command=fetch)
+btn.pack(side=LEFT)
+Quitter(root).pack(side=RIGHT)
+root.mainloop()
+\end{Verbatim}
+
+
+
+
+\chapter{通过类重用自己的GUI}
+
+
+\part{tkinter实例}
+\chapter{小型计算器程序}
+
+
+
+
+
+
+
+\part{pyqt4基础}
+\chapter{pyqt4第一个例子}
+
+\section{安装pyqt4}
+ubuntu下安装pyqt4即安装python3-pyqt4即可：\\
+\verb+sudo apt-get install python3-pyqt4+
+
+检查pyqt4安装情况执行以下脚本即可，显示的是当前安装的pyqt4的版本号:
+\begin{xverbatim}[129]{py}
+from PyQt4.QtCore import QT_VERSION_STR
+print(QT_VERSION_STR)
+\end{xverbatim}
+
+\section{pyqt4模块简介}
+\begin{description}
+\item[QtCore] 模块包括了核心的非GUI功能，该模块用来对时间、文件、目录、各种数据类型、流、网址、媒体类型、线程或进程进行处理。
+\item[QtGui] 模块包括图形化窗口部件和及相关类。包括如按钮、窗体、状态栏、滑块、位图、颜色、字体等等。
+\item[QtHelp] 模块包含了用于创建和查看可查找的文档的类。
+\item[QtNetwork] 模块包括网络编程的类。这些类可以用来编写TCP/IP和UDP的客户端和服务器。它们使得网络编程更容易和便捷。
+\item[QtOpenGL] 模块使用OpenGL库来渲染3D和2D图形。该模块使得Qt GUI库和OpenGL库无缝集成。
+\item[QtScript] 模块包含了使PyQt应用程序使用JavaScript解释器编写脚本的类。
+\item[QtSql] 模块提供操作数据库的类。
+\item[QtSvg] 模块提供了显示SVG文件内容的类。可缩放矢量图形(SVG)是一种用XML描述二维图形和图形应用的语言。
+\item[QtTest] 模块包含了对PyQt应用程序进行单元测试的功能。（PyQt没有实现完全的Qt单元测试框架，相反，它假设使用标准的Python单元测试框架来实现模拟用户和GUI进行交互。）
+\item[QtWebKit] 模块实现了基于开源浏览器引擎WebKit的浏览器引擎。
+\item[QtXml] 包括处理XML文件的类，该模块提供了SAX和DOM API的接口。
+\item[QtXmlPatterns] 模块包含的类实现了对XML和自定义数据模型的XQuery和XPath的支持。
+\item[phonon] 模块包含的类实现了跨平台的多媒体框架，可以在PyQt应用程序中使用音频和视频内容。
+\item[QtMultimedia] 模块提供了低级的多媒体功能，开发人员通常使用\textbf{phonon}模块。
+\item[QtAssistant] 模块包含的类允许集成\textbf{Qt Assistant}到PyQt应用程序中，提供在线帮助。
+\item[QtDesigner] 模块包含的类允许使用PyQt扩展\textbf{Qt Designer}。
+\item[Qt] 模块综合了上面描述的模块中的类到一个单一的模块中。这样做的好处是你不用担心哪个模块包含哪个特定的类，坏处是加载进了整个Qt框架，从而增加了应用程序的内存占用。
+\item[uic] 模块包含的类用来处理.ui文件，该文件由Qt Designer创建，用于描述整个或者部分用户界面。它包含的加载.ui文件和直接渲染以及从.ui文件生成Python代码为以后执行的类。
+\end{description}
+
+
+\section{刚开始}
+文件：example001.py
+\begin{cverbatim}{py}
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+####序言部分
+import sys
+from PyQt4  import QtGui
+##############
+app001 = QtGui.QApplication(sys.argv)
+
+widget001 = QtGui.QWidget()
+widget001.resize(800, 600)
+widget001.setWindowTitle('第一个程序')
+widget001.show()
+
+sys.exit(app001.exec_())
+\end{cverbatim}
+
+\endcodefile[pyqt4第一个例子]{example001}
+前面的注释部分就不用说了，然后导入sys，是为了后面接受sys.argv参数。导入QtGui是为了后面创建QWidget类的实例。
+
+任何程序都需要创建一个QApplication类的实例，这里是app001，后面跟著数字001就是为了强调这是一个实例。
+
+然后接下来创建QWidget类的实例widget001，首先是引用类的\verb+__init__+方法，然后QWidget类里面有resize方法，这个方法调整等下生成的程序窗口的大小。而setWindowTitle方法设置等下程序窗口上面的标题。show方法就是显示这个窗口。
+
+后面我们看到系统要退出是调用的app001实例的exec\_ 方法，这一句还不太清楚。
+
+
+\section{加上图标}
+\begin{cverbatim}{py}
+#!/usr/bin/env python3
+#-*- coding: utf-8 -*-
+\end{cverbatim}
+现在我在前面第一个程序的基础上稍作修改，来给这个程序加上图标。为了模拟Texmaker，程序的名字就叫做Texmaker。
+\begin{cverbatim}{py}
+import sys
+from PyQt4  import QtGui
+#######################
+class MyQWidget(QtGui.QWidget):
+    def __init__(self,parent=None):
+        QtGui.QWidget.__init__(self,parent)
+
+        self.setGeometry(0, 0, 800, 600)
+        #坐标0 0 大小1360 768
+        self.setWindowTitle('Texmaker')
+        self.setWindowIcon(QtGui.QIcon\
+        ('icons/texmaker.ico'))
+
+app001 = QtGui.QApplication(sys.argv)
+widget001 = MyQWidget()
+widget001.show()
+sys.exit(app001.exec_())
+\end{cverbatim}
+
+
+因为自己的DIY开始变多了，所以这里新建了一个类，名字就简单叫做MyQWidget，然后重新定义了这个类的初始函数。首先是继承自QtGui.QWidget类，然后延续了该类的初始函数，而parent被默认为None。
+
+然后用QWidget的setGeometry方法来调整窗口的左上顶点的坐标和窗口的X，Y的大小。这里0，0表示从屏幕的最左上点开始显示，同样800，600类似前面的resize函数的配置。
+
+setWindowTitle方法前面谈论过了，这里加入图标是通过setWindowIcon方法来做到的。这个方法调用了QtGui.QIcon方法，不管这么多，后面跟的就是图标的存放路径，使用相对路径。在运行这个例子的时候，请随便弄个图标文件过来。
+
+后面的和前面类似就不多说了。
+\endcodefile[pyqt4第一个例子]{example002}
+
+\section{窗口弹出提示信息}
+\begin{cverbatim}{py}
+#!/usr/bin/env python3
+#-*- coding: utf-8 -*-
+import sys
+from PyQt4  import QtGui
+#######################
+\end{cverbatim}
+接下来要做的DIY就是让这个窗口可以弹出提示信息，就是鼠标停置一会儿会弹出一段小文字。
+\begin{cverbatim}{py}
+class MyQWidget(QtGui.QWidget):
+    def __init__(self,parent=None):
+        QtGui.QWidget.__init__(self,parent)
+
+        self.setGeometry(0, 0, 800, 600)
+        #坐标0 0 大小1360 768
+        self.setWindowTitle('Texmaker')
+        self.setWindowIcon(QtGui.QIcon\
+        ('icons/texmaker.ico'))
+        self.setToolTip('<b>看什么看、、</b>')
+        #<b></b> 加粗
+        QtGui.QToolTip.setFont(QtGui.QFont\
+        ('微软雅黑', 10))
+
+app001 = QtGui.QApplication(sys.argv)
+widget001 = MyQWidget()
+widget001.show()
+sys.exit(app001.exec_())
+\end{cverbatim}
+上面这段代码和前面的代码的不同就在于MyQWidget类的初始函数新加入了两条命令。其中setToolTip方法设置具体显示的文本内容，而<b></b>之间的文字会加粗。然后后面那条命令是设置字体和字号的，我不太清楚这里随便设置系统的字体微软雅黑是不是有效。
+
+\endcodefile[pyqt4第一个例子]{example003}
+
+\section{退出的时候询问}
+目前程序点击那个叉叉图标关闭程序的时候将会直接退出，这里新加入一个询问机制。
+\begin{cverbatim}{py}
+#!/usr/bin/env python3
+#-*- coding: utf-8 -*-
+import sys
+from PyQt4  import QtGui
+#######################
+\end{cverbatim}
+接下来要做的DIY就是让这个窗口可以弹出提示信息，就是鼠标停置一会儿会弹出一段小文字。
+\begin{cverbatim}{py}
+class MyQWidget(QtGui.QWidget):
+    def __init__(self,parent=None):
+        QtGui.QWidget.__init__(self,parent)
+
+        self.setGeometry(0, 0, 800, 600)
+        #坐标0 0 大小1360 768
+        self.setWindowTitle('Texmaker')
+        self.setWindowIcon(QtGui.QIcon\
+        ('icons/texmaker.ico'))
+        self.setToolTip('<b>看什么看、、</b>')
+        #<b></b> 加粗
+        QtGui.QToolTip.setFont(QtGui.QFont\
+        ('微软雅黑', 10))
+        
+    def closeEvent(self, event):
+        #重新定义colseEvent
+        reply = QtGui.QMessageBox.question\
+        (self, '信息',
+            "你确定要退出吗？",
+             QtGui.QMessageBox.Yes,
+             QtGui.QMessageBox.No)
+
+        if reply == QtGui.QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
+app001 = QtGui.QApplication(sys.argv)
+widget001 = MyQWidget()
+widget001.show()
+sys.exit(app001.exec_())
+\end{cverbatim}
+这段代码重新了原来的colseEvent方法，这里调用的那个方法内部“信息”两个字是弹出的信息框的标题，后面是信息框里面显示的文字。这里具体代码我还不是很懂。
+\endcodefile[pyqt4第一个例子]{example004}
+
+\section{居中显示窗体}
+\begin{cverbatim}{py}
+#!/usr/bin/env python3
+#-*- coding: utf-8 -*-
+import sys
+from PyQt4  import QtGui
+#######################
+\end{cverbatim}
+接下来要做的DIY是让窗体弹出的时候居中显示，前面是设置了窗体的起点坐标的，这里新建了一个center方法来确认窗体居中显示。
+\begin{cverbatim}{py}
+class MyQWidget(QtGui.QWidget):
+    def __init__(self,parent=None):
+        QtGui.QWidget.__init__(self,parent)
+
+        #self.setGeometry(0, 0, 800, 600)
+        #坐标0 0 大小1360 768
+        self.resize(800,600)
+        self.center()
+        self.setWindowTitle('Texmaker')
+        self.setWindowIcon(QtGui.QIcon\
+        ('icons/texmaker.ico'))
+        self.setToolTip('<b>看什么看、、</b>')
+        #<b></b> 加粗
+        QtGui.QToolTip.setFont(QtGui.QFont\
+        ('微软雅黑', 10))
+        
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        #接受屏幕几何
+        size =  self.geometry()
+        self.move((screen.width()-size.width())/2,\
+         (screen.height()-size.height())/2)       
+
+    def closeEvent(self, event):
+        #重新定义colseEvent
+        reply = QtGui.QMessageBox.question\
+        (self, '信息',
+            "你确定要退出吗？",
+             QtGui.QMessageBox.Yes,
+             QtGui.QMessageBox.No)
+
+        if reply == QtGui.QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
+app001 = QtGui.QApplication(sys.argv)
+widget001 = MyQWidget()
+widget001.show()
+sys.exit(app001.exec_())
+\end{cverbatim}
+这里做的改动就是新建了一个center方法，接受实例。然后对这个实例也就是窗口的具体位置做一些调整。前面使用了resize和center两个方法来调整窗口的大小和窗口的位置。
+
+从center方法中我们可以看到move方法的X，Y是从屏幕的坐标原点（0，0）开始计算的。第一个参数X表示向右移动了多少宽度，Y表示向下移动了多少高度。
+\endcodefile[pyqt4第一个例子]{example005}
+
+\chapter{pyqt4第二个例子}
+QtGui.QMainWindow类提供应用程序主窗口，可以创建一个经典的拥有状态栏、工具栏和菜单栏的应用程序骨架。
+
+前面第一个例子都是用的QtGui.QWidget类创建的一个窗体。关于QWidget和QMainWindow这两个类的区别\href{http://stackoverflow.com/questions/3298792/whats-the-difference-between-qmainwindow-and-qwidget-and-qdialog}{参考这个网站}得出的结论是：QWdget类在Qt中是所有可画类的基础（这里的意思可能是窗体的基础吧。） 任何基于QWidget的类都可以作为独立窗体而显示出来而不需要母体（parent）。
+
+QMainWindow类是针对主窗体一般需求而设计的，它预定义了菜单栏状态栏和其他widget（窗口小部件） 。因为它继承自QWidget，所以前面谈及的一些属性修改都适用于它。
+
+
+\section{加上状态栏}
+
+
+
+\section{加上菜单栏}
+
+\section{加上工具栏}
+
+\section{一个综合例子}
+
+
+\section{事件和信号}
+
+
+
+
+
+
+
+%这里空一行
+
+\end{common-format}
+\end{document}

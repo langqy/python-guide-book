@@ -1,0 +1,6 @@
+\begin{description}
+\item[random] random函数产生0到1之间的随机实数（包括0）
+\item[uniform] uniform函数产生从a到b之间的随机实数（a，b的值指定，包括a。）
+\item[randrange] randrange函数产生从a到b之间的随机整数，步长为c（a，b，c的值指定，相当于choice(range(start,stop,step))，range(0,5)是从0到4不包括5，所以这里是从a到b不包括b。）
+\item[choice] choice随机从一个列表或者字符串中取出一个元素。
+\end{description}
