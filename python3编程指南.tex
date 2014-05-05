@@ -483,6 +483,7 @@ print('''\
 
 \subsection{find方法}
 
+
 \subsection{replace方法}
 
 
@@ -748,81 +749,12 @@ for x in range(5):
 上面第一行稍作处理至少让其更具通用性吧，多上一行代码也算不上什么事，至少让其更具通用性，目前就这样把。
 
 
-\end{common-format}  
-\end{document}
-
 
 \chapter{python知识高级篇}
 
 \section{类}
 
 \section{person数据库}
-\begin{cverbatim}{py}
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-##########################
-\end{cverbatim}
-
-\subsection{classtools.py}
-\subsubsection{AttrDisplay类}
-\begin{cverbatim}{py}
-class AttrDisplay:
-    def gatherattrs(self):
-        attrs = []
-        for key in sorted(self.__dict__):
-            attrs.append('%s=%s' % (key,getattr(self,key)))
-        return ', '.join(attrs)
-             
-    def __repr__(self):
-        return '[%s: %s]' % (self.__class__.__name__,
-        self.gatherattrs())
-\end{cverbatim}
-
-\begin{cverbatim}{py}
-if __name__ == '__main__':
-    class TopTest(AttrDisplay):
-        count=0
-        def __init__(self):
-            self.attr1 = TopTest.count
-            self.attr2 = TopTest.count+1
-            TopTest.count +=2
-            
-    class SubTest(TopTest):
-        pass
-        
-    X,Y=TopTest(),SubTest()
-    print(X)
-    print(Y)
-\end{cverbatim}
-
-\endcodefile[person数据库]{classtools}
-
-
-\subsection{person.py}
-\begin{cverbatim}{py}
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-##################################
-#序言部分
-\end{cverbatim}
-
-\subsubsection{Person类}
-\begin{cverbatim}{py}
-from classtools import AttrDisplay
-class Person(AttrDisplay):
-    def __init__(self, name, job=None, pay=0):
-        self.name = name
-        self.job = job
-        self.pay = pay
-    def lastname(self):
-        return self.name.split()[-1]
-    def giveraise(self,percent):
-        self.pay = int(self.pay * (1+percent))
-#    def __repr__(self):
-#        return '[Person: %s,%s]' % (self.name,self.pay)
-\end{cverbatim}
 
 类名一般都大写。
 
@@ -840,13 +772,7 @@ class Person(AttrDisplay):
 
 
 \subsubsection{Manager类}
-\begin{cverbatim}{py}
-class Manager(Person):
-    def __init__(self,name,pay):
-        Person.__init__(self,name,'mgr',pay)
-    def giveraise(self,percent,bonus=0.10):
-        Person.giveraise(self,percent+bonus)
-\end{cverbatim}
+
 这里定义了一个类Manager，它还接受一个参数Person，表示它是Person的子类，即一切Person类的属性它都将继承。
 
 这里重新定义了giveraise方法，用一种巧妙的方式。直接借用Person类原有的giveraise方法，对参数输入稍作修正。
@@ -866,26 +792,9 @@ python中超类，子类，实例的重载是由一种搜索机制实现的：
 python首先搜索self有没有这个属性或者方法，如果没有，就向上搜索。比如说实例没有，就向上搜索那个子类，子类没有就向上搜索那个超类。
 
 
-\begin{cverbatim}{py}
-if __name__ == '__main__':
-    bob = Person('Bob Smith')
-    sue = Person('Sue Jones', job='dev', pay=100000)
-    print(bob)
-    print(sue)
-    print(bob.lastname())
-    sue.giveraise(0.10)
-    print(sue)
-    tom=Manager('Tom Jones',50000)
-    tom.giveraise(0.10)
-    print(tom.lastname())
-    print(tom)
-\end{cverbatim}
 如果py文件是import的形式，那么这段代码将不会执行。只有以脚本python3 test.py之类的形式才执行。
 
 可见继承过来的类将不会有自己默认定义的\verb+__init__+等方法。
-
-\endcodefile[person数据库]{person}
-
 
 
 
@@ -897,74 +806,31 @@ if __name__ == '__main__':
 
 \section{刚开始}
 文件example001.py在“tkinter第一个例子”文件夹中：
-\begin{cverbatim}{py}
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-####序言部分
-from tkinter import Label
-##############
-widget001=Label(None,text='你好，这是第一个例子。')
-widget001.pack()
-widget001.mainloop()
-\end{cverbatim}
-\endcodefile[tkinter第一个例子]{标签}
+
 
 
 \subsection{加上按钮和事件}
-\begin{cverbatim}{py}
-#! /usr/bin/env python3
-# -*- coding: utf-8 -*-
 
-import sys
-from tkinter import *
-\end{cverbatim}
 
 这是代码文件的开头，其中代码第5行使用了星号，这个对于其他宏包并不合适，不过tkinter会根据需要来加载类等，所以直接全部引用也没事
 
-\begin{cverbatim}{py}
-mainwindow=Tk()
 
-def quit(event):
-    print('拜拜......')
-    sys.exit()
 
-def hello(event):
-    print('双击')
-
-def greeting(event):
-    print('你好')
-\end{cverbatim}
 
 这里定义了一些简单的函数，后面会用到的，没什么难理解的。代码第1行根据类Tk新建了一个实例mainwindow，这个是惯例，表示母窗体。
 
-\begin{cverbatim}{py}
-Label(text='你好').pack( side=TOP)
-\end{cverbatim}
+
 这里新建了一个标签，前面谈及的。不同的是采用的匿名方式，直接用Label类生成一个匿名Label实例然后pack进默认母窗体中。后面pack函数的\textbf{side}有选项：\textbf{TOP，BOTTOM，LEFT，RIGHT}表示这个标签的绑定地方，默认是TOP。
 
-\begin{cverbatim}{py}
-button001=Button(mainwindow, text='点我')
-button001.pack(side=LEFT)
-\end{cverbatim}
+
 这里根据Button类新建了一个按钮实例，各个参数意义很明显，和上面标签声明不同，这里采用的是标准的类的声明使用方式，以后都推荐使用这种方式。
 
-\begin{cverbatim}{py}
-button001.bind('<Button-1>',hello)
-button001.bind('<Double-1>',quit)#多个事件
-
-button002=Button(mainwindow, text='你好')
-button002.pack(side=RIGHT)
-button002.bind('<Button-1>',greeting)
-
-mainloop()
-\end{cverbatim}
 这里代码第1行使用了按钮实例button001的bind方法，这个方法将某一个事件和某一个方法（操作或者函数）绑定起来。这里\textbf{<Button-1>}是鼠标左键，总的意思是如果按钮button001上鼠标左键点击了，那么执行hello函数。
 
 后面类似的定义了一个按钮实例button002，其中<Double-1>是鼠标左键双击的意思。
 
 然后调用mainloop()函数，整个程序的事件监听循环跑起来。
 
-\endcodefile[tkinter第一个例子]{按钮和事件}
 
 
 \subsection{加入lambda函式}
@@ -1115,17 +981,17 @@ root.mainloop()
 
 
 \part{pyqt4基础}
-\chapter{pyqt4第一个例子}
+\chapter{第一个例子}
 
 \section{安装pyqt4}
 ubuntu下安装pyqt4即安装python3-pyqt4即可：\\
 \verb+sudo apt-get install python3-pyqt4+
 
 检查pyqt4安装情况执行以下脚本即可，显示的是当前安装的pyqt4的版本号:
-\begin{xverbatim}[129]{py}
+\begin{Verbatim}
 from PyQt4.QtCore import QT_VERSION_STR
 print(QT_VERSION_STR)
-\end{xverbatim}
+\end{Verbatim}
 
 \section{pyqt4模块简介}
 \begin{description}
@@ -1150,26 +1016,9 @@ print(QT_VERSION_STR)
 \end{description}
 
 
-\section{刚开始}
-文件：example001.py
-\begin{cverbatim}{py}
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-####序言部分
-import sys
-from PyQt4  import QtGui
-##############
-app001 = QtGui.QApplication(sys.argv)
+\section{第一个例子}
+文件：第一个例子.py
 
-widget001 = QtGui.QWidget()
-widget001.resize(800, 600)
-widget001.setWindowTitle('第一个程序')
-widget001.show()
-
-sys.exit(app001.exec_())
-\end{cverbatim}
-
-\endcodefile[pyqt4第一个例子]{example001}
 前面的注释部分就不用说了，然后导入sys，是为了后面接受sys.argv参数。导入QtGui是为了后面创建QWidget类的实例。
 
 任何程序都需要创建一个QApplication类的实例，这里是app001，后面跟著数字001就是为了强调这是一个实例。
@@ -1179,32 +1028,8 @@ sys.exit(app001.exec_())
 后面我们看到系统要退出是调用的app001实例的exec\_ 方法，这一句还不太清楚。
 
 
-\section{加上图标}
-\begin{cverbatim}{py}
-#!/usr/bin/env python3
-#-*- coding: utf-8 -*-
-\end{cverbatim}
+\subsection{加上图标}
 现在我在前面第一个程序的基础上稍作修改，来给这个程序加上图标。为了模拟Texmaker，程序的名字就叫做Texmaker。
-\begin{cverbatim}{py}
-import sys
-from PyQt4  import QtGui
-#######################
-class MyQWidget(QtGui.QWidget):
-    def __init__(self,parent=None):
-        QtGui.QWidget.__init__(self,parent)
-
-        self.setGeometry(0, 0, 800, 600)
-        #坐标0 0 大小1360 768
-        self.setWindowTitle('Texmaker')
-        self.setWindowIcon(QtGui.QIcon\
-        ('icons/texmaker.ico'))
-
-app001 = QtGui.QApplication(sys.argv)
-widget001 = MyQWidget()
-widget001.show()
-sys.exit(app001.exec_())
-\end{cverbatim}
-
 
 因为自己的DIY开始变多了，所以这里新建了一个类，名字就简单叫做MyQWidget，然后重新定义了这个类的初始函数。首先是继承自QtGui.QWidget类，然后延续了该类的初始函数，而parent被默认为None。
 
@@ -1212,168 +1037,79 @@ sys.exit(app001.exec_())
 
 setWindowTitle方法前面谈论过了，这里加入图标是通过setWindowIcon方法来做到的。这个方法调用了QtGui.QIcon方法，不管这么多，后面跟的就是图标的存放路径，使用相对路径。在运行这个例子的时候，请随便弄个图标文件过来。
 
-后面的和前面类似就不多说了。
-\endcodefile[pyqt4第一个例子]{example002}
 
-\section{窗口弹出提示信息}
-\begin{cverbatim}{py}
-#!/usr/bin/env python3
-#-*- coding: utf-8 -*-
-import sys
-from PyQt4  import QtGui
-#######################
-\end{cverbatim}
+\subsection{窗口弹出提示信息}
 接下来要做的DIY就是让这个窗口可以弹出提示信息，就是鼠标停置一会儿会弹出一段小文字。
-\begin{cverbatim}{py}
-class MyQWidget(QtGui.QWidget):
-    def __init__(self,parent=None):
-        QtGui.QWidget.__init__(self,parent)
 
-        self.setGeometry(0, 0, 800, 600)
-        #坐标0 0 大小1360 768
-        self.setWindowTitle('Texmaker')
-        self.setWindowIcon(QtGui.QIcon\
-        ('icons/texmaker.ico'))
-        self.setToolTip('<b>看什么看、、</b>')
-        #<b></b> 加粗
-        QtGui.QToolTip.setFont(QtGui.QFont\
-        ('微软雅黑', 10))
-
-app001 = QtGui.QApplication(sys.argv)
-widget001 = MyQWidget()
-widget001.show()
-sys.exit(app001.exec_())
-\end{cverbatim}
 上面这段代码和前面的代码的不同就在于MyQWidget类的初始函数新加入了两条命令。其中setToolTip方法设置具体显示的文本内容，而<b></b>之间的文字会加粗。然后后面那条命令是设置字体和字号的，我不太清楚这里随便设置系统的字体微软雅黑是不是有效。
 
-\endcodefile[pyqt4第一个例子]{example003}
 
-\section{退出的时候询问}
+\subsection{退出的时候询问}
 目前程序点击那个叉叉图标关闭程序的时候将会直接退出，这里新加入一个询问机制。
-\begin{cverbatim}{py}
-#!/usr/bin/env python3
-#-*- coding: utf-8 -*-
-import sys
-from PyQt4  import QtGui
-#######################
-\end{cverbatim}
+
 接下来要做的DIY就是让这个窗口可以弹出提示信息，就是鼠标停置一会儿会弹出一段小文字。
-\begin{cverbatim}{py}
-class MyQWidget(QtGui.QWidget):
-    def __init__(self,parent=None):
-        QtGui.QWidget.__init__(self,parent)
 
-        self.setGeometry(0, 0, 800, 600)
-        #坐标0 0 大小1360 768
-        self.setWindowTitle('Texmaker')
-        self.setWindowIcon(QtGui.QIcon\
-        ('icons/texmaker.ico'))
-        self.setToolTip('<b>看什么看、、</b>')
-        #<b></b> 加粗
-        QtGui.QToolTip.setFont(QtGui.QFont\
-        ('微软雅黑', 10))
-        
-    def closeEvent(self, event):
-        #重新定义colseEvent
-        reply = QtGui.QMessageBox.question\
-        (self, '信息',
-            "你确定要退出吗？",
-             QtGui.QMessageBox.Yes,
-             QtGui.QMessageBox.No)
-
-        if reply == QtGui.QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
-
-app001 = QtGui.QApplication(sys.argv)
-widget001 = MyQWidget()
-widget001.show()
-sys.exit(app001.exec_())
-\end{cverbatim}
 这段代码重新了原来的colseEvent方法，这里调用的那个方法内部“信息”两个字是弹出的信息框的标题，后面是信息框里面显示的文字。这里具体代码我还不是很懂。
-\endcodefile[pyqt4第一个例子]{example004}
 
-\section{居中显示窗体}
-\begin{cverbatim}{py}
-#!/usr/bin/env python3
-#-*- coding: utf-8 -*-
-import sys
-from PyQt4  import QtGui
-#######################
-\end{cverbatim}
+
+\subsection{居中显示窗体}
 接下来要做的DIY是让窗体弹出的时候居中显示，前面是设置了窗体的起点坐标的，这里新建了一个center方法来确认窗体居中显示。
-\begin{cverbatim}{py}
-class MyQWidget(QtGui.QWidget):
-    def __init__(self,parent=None):
-        QtGui.QWidget.__init__(self,parent)
 
-        #self.setGeometry(0, 0, 800, 600)
-        #坐标0 0 大小1360 768
-        self.resize(800,600)
-        self.center()
-        self.setWindowTitle('Texmaker')
-        self.setWindowIcon(QtGui.QIcon\
-        ('icons/texmaker.ico'))
-        self.setToolTip('<b>看什么看、、</b>')
-        #<b></b> 加粗
-        QtGui.QToolTip.setFont(QtGui.QFont\
-        ('微软雅黑', 10))
-        
-    def center(self):
-        screen = QtGui.QDesktopWidget().screenGeometry()
-        #接受屏幕几何
-        size =  self.geometry()
-        self.move((screen.width()-size.width())/2,\
-         (screen.height()-size.height())/2)       
-
-    def closeEvent(self, event):
-        #重新定义colseEvent
-        reply = QtGui.QMessageBox.question\
-        (self, '信息',
-            "你确定要退出吗？",
-             QtGui.QMessageBox.Yes,
-             QtGui.QMessageBox.No)
-
-        if reply == QtGui.QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
-
-app001 = QtGui.QApplication(sys.argv)
-widget001 = MyQWidget()
-widget001.show()
-sys.exit(app001.exec_())
-\end{cverbatim}
 这里做的改动就是新建了一个center方法，接受实例。然后对这个实例也就是窗口的具体位置做一些调整。前面使用了resize和center两个方法来调整窗口的大小和窗口的位置。
 
 从center方法中我们可以看到move方法的X，Y是从屏幕的坐标原点（0，0）开始计算的。第一个参数X表示向右移动了多少宽度，Y表示向下移动了多少高度。
-\endcodefile[pyqt4第一个例子]{example005}
 
-\chapter{pyqt4第二个例子}
-QtGui.QMainWindow类提供应用程序主窗口，可以创建一个经典的拥有状态栏、工具栏和菜单栏的应用程序骨架。
+
+\chapter{第二个例子}
+文件：第二个例子.py
+
+第二个例子是在第一个例子的基础上进行进一步的修改。
+
+QtGui.QMainWindow类提供应用程序主窗口，可以创建一个经典的拥有状态栏、工具栏和菜单栏的应用程序骨架。（之前使用的是QWidget类，现在换成QMainWindow类。）
 
 前面第一个例子都是用的QtGui.QWidget类创建的一个窗体。关于QWidget和QMainWindow这两个类的区别\href{http://stackoverflow.com/questions/3298792/whats-the-difference-between-qmainwindow-and-qwidget-and-qdialog}{参考这个网站}得出的结论是：QWdget类在Qt中是所有可画类的基础（这里的意思可能是窗体的基础吧。） 任何基于QWidget的类都可以作为独立窗体而显示出来而不需要母体（parent）。
 
 QMainWindow类是针对主窗体一般需求而设计的，它预定义了菜单栏状态栏和其他widget（窗口小部件） 。因为它继承自QWidget，所以前面谈及的一些属性修改都适用于它。
 
-
 \section{加上状态栏}
+在\verb+__init__+方法下加入语句：\\
+\verb+self.statusBar().showMessage('这是状态栏')+
 
+这样就显示了状态栏信息。
+
+这里用QMainWindow类的statusBar方法获得状态栏，然后用状态栏的showMessage方法插入状态栏信息。
 
 
 \section{加上菜单栏}
+用QMainWindow类的menuBar方法来获得一个菜单栏。然后用这个菜单栏对象的addMenu方法来创建一个新的菜单对象——方法里面的内容是新建菜单显示的名字。
 
-\section{加上工具栏}
+\subsection{菜单加上动作}
+某个菜单对象使用addAction方法来加上某个动作。\\
+\verb+file.addAction(exit)+
 
-\section{一个综合例子}
+
+\section{加上动作}
+也就是所谓的Action对象，通过QtGui类的QAction子类创建动作对象。创建过程的三个参数是图标，文本和母体。
+
+\verb+exit.setStatusTip('退出程序')+\\
+setStatusTip方法设置状态栏提示信息。
 
 
 \section{事件和信号}
+将事件和信号联系起来用connect方法，该方法接受三个参数：第一个是对于谁，第二个是做了什么，第三个下面做什么。
+
+\begin{Verbatim}
+self.connect(exit, QtCore.SIGNAL('triggered()'),
+ QtCore.SLOT('close()'))
+\end{Verbatim}
+
+这里的意思是对于self上面的exit对象，接受了信号triggered，然后执行操作close()。
 
 
 
 
+\chapter{第三个例子}
+\section{加上工具栏}
 
 
 
