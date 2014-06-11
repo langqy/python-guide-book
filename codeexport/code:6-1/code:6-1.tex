@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{os}\PY{o}{,}\PY{n+nn}{sys}
+\PY{n}{sys}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{environ}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{HOME}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{o}{+}\PY{l+s}{\PYZsq{}}\PY{l+s}{/pymf}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+\PY{k+kn}{from} \PY{n+nn}{pyconfig} \PY{k+kn}{import} \PY{o}{*}
+
+\PY{k}{print}\PY{p}{(}\PY{p}{[}\PY{n}{fib}\PY{p}{(}\PY{n}{n}\PY{p}{)} \PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}

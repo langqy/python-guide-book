@@ -44,7 +44,7 @@ xverbatim环境目前不能进行交互，如果终端交互又不支持pdf的�
 
 3.Python and Tkinter Programming  JOHN E. G RAYSON
 
-4.learning python v5  主要python语言参考   python学习手册（第四版） 老鼠版
+4.learning python v5  主要python语言参考   python学习手册（第四版） 老鼠版（略过：23，24，30，31，异常和工具，高级话题，）
 
 5.programming python v4 蟒蛇版
 
@@ -145,7 +145,7 @@ print(string001)
 
 
 \chapter{程序中的逻辑}
-\section{条件语句}
+\section{条件判断}
 python中的条件语句基本格式如下：
 \begin{Verbatim}
 if  test:
@@ -225,11 +225,25 @@ while True:
 print('再见')
 \end{Verbatim}
 
+\subsection{in语句}
+\begin{Verbatim}
+>>> 'a' in ['a',1,2]
+True
+>>> dict
+{'a': 1, 'c': 2, 'b': 3, 'd': 4}
+>>> 'e' in dict
+False
+>>> '2' in dict
+False
+\end{Verbatim}
+从上面例子可以看到，一般的列表判断元素是否存在和我们之前预料的一致，关于字典需要说的就是in语句\uwave{只判断键}，不判断值。
 
 
 
 
-\section{迭代语句}
+
+
+\section{迭代}
 一般有内部重复操作的程序可以先考虑for迭代结构实现，实在不行才考虑while循环结构，毕竟简单更美更安全。
 
 python的for迭代语句有点类似lisp语言的dolist和dotimes函数，具体例子如下：
@@ -237,7 +251,7 @@ python的for迭代语句有点类似lisp语言的dolist和dotimes函数，具体
 for x in 'abc':
     print(x)
 \end{xverbatim}
-in后面跟的是序列类型，也就是字符串，列表，数组。这个语句可以看作先执行x='a'，然后执行缩进的区块，后面依次类推。
+in后面跟的是\textbf{序列}类型，也就是字符串，列表，数组都是可以的。这个语句可以看作先执行x='a'，然后执行缩进的区块，后面依次类推。
 
 如果缩进区块中有对原列表进行的操作，为了避免逻辑混乱，之前in的列表应该是之前的列表，也就是你需要制造一个之前的列表的复制品，用\verb+list[:]+这样的形式就能达到这个目的。
 
@@ -254,12 +268,20 @@ for x in range(-10,-20,-3):
 上面例子还演示了range的负数概念，这里如果用区间概念来考察的话，是不能理解的，之所以行得通，是因为它的步长是负数，如果不是负数，那么情况就会和之前讨论的结果类似，将是一个空值。
 
 
+\subsection{迭代加上操作}
+迭代产生信息流并经过某些操作之后生成目标序列：
+\begin{Verbatim}
+squares=[x**2 for x in [1,2,3,4,5]]
+squares
+\end{Verbatim}
 
 
 
 
 
-\section{循环语句}
+
+
+\section{循环}
 while语句用法和大多数编程语言类似，就是条件控制，循环结构。
 \begin{Verbatim}
 while test:
@@ -325,12 +347,34 @@ print((1+2)*(10-5)/2)
 print(2**100)
 \end{Verbatim}
 
+\subsection{二进制八进制十六进制}
+二进制的数字以0b（零比）开头，八进制的数字以0o（零哦）开头，十六进制的数字以0x（零艾克斯）开头。
+\begin{Verbatim}
+0b101010, 0o177, 0x9ff
+\end{Verbatim}
+
+以二进制格式查看数字使用bin命令，以十六进制查看数字使用hex命令。
+\begin{Verbatim}
+>>> bin(42)
+'0b101010'
+>>> hex(42)
+'0x2a'
+\end{Verbatim}
+
+
+
 
 \subsection{数学幂方运算}
-$ x^y $，x的y次方如上面第二行所述就是用\verb+x**y+这样的形式即可。
+$ x^y $，x的y次方如上面第二行所述就是用\verb+x**y+这样的形式即可。此外pow函数作用是一样的，\verb+pow(x,y)+。
+
+
+\subsection{数值比较}
+数值比较除了之前提及的>，<，==之外，>=，<=，!=也是有的（大于等于，小于等于，不等于）。此外python还支持连续比较，就是数学格式$a<x<b$，x在区间$(a,b)$的判断。在python中可以直接写成如下形式：\verb+a<x<b+。这实际实现的过程就是两个比较操作的进一步与操作。
 
 \subsection{相除取整}
-就作为正整数相除使用\verb+x//y+得到的值意义还是很明显的就是商。带上负号感觉有点怪了，这里先略过。相关的还有取余数，就是\verb+x%y+，这样就得到x除以y之后的余数了，同样带上符号情况有变，这里先略过。
+就作为正整数相除使用\verb+x//y+得到的值意义还是很明显的就是商。带上负号感觉有点怪了，这里先略过。相关的还有取余数，就是\verb+x%y+，这样就得到x除以y之后的余数了，同样带上负号情况有变，这里先略过。
+
+
 
 \subsection{复数}
 python直接支持复数， 复数的写法是类似\verb|1+2j|这样的形式，然后如果z被赋值了一个复数，这样它就是一个复数类型，那么这个类具有两个属性量，\textbf{real}和\textbf{imag}。也就是使用\verb+z.real+就给出这个复数的实数部。imag是imaginary number的缩写，虚数，想像出来的数。
@@ -346,28 +390,88 @@ print(abs(z))
 这个和数学中复数绝对值的定义完全一致，也就是复数的模：\\
 $ \left| z \right| =\sqrt { a^{ 2 }+b^{ 2 } }  $
 
-\subsection{math宏包}
-math宏包提供了以下常数：\textbf{math.pi}，\textbf{math.e}等。\\
-还提供了以下函数：\\
-\textbf{math.sqrt}，\\
-\textbf{math.sin}，\textbf{math.cos}，\textbf{math.tan}，\\
-\textbf{math.degrees}（将弧度转化为角度，这些三角函数默认都是弧度输入。），\\
-\textbf{math.radians}（将角度化为弧度），\\
-\textbf{math.log10}等。
-
-更多具体细节请参看\href{http://docs.python.org/3.4/library/math.html}{官方文档}。
-
-这里简单写个例子：
+\subsection{round函数}
+简单的理解就是这个函数实现了对数值的四舍五入功能，第二个参数默认是0，即保留零位小数的意思。
 \begin{Verbatim}
-from math import *
-print(pi)
-print(sqrt(85))
-print(sin(radians(30)))#sin(30°)
+>>> round(3.1415926,0)
+3.0
+>>> round(3.1415926,1)
+3.1
+>>> round(3.1415926,2)
+3.14
+>>> round(3.1415926,3)
+3.142
+>>> round(3.1415926,4)
+3.1416
+>>> round(3.1415926,5)
+3.14159
 \end{Verbatim}
 
 
+
+\subsection{min，max和sum函数}
+min，max函数的用法和sum的用法稍微有点差异，简单起见可以认为min，max，sum都接受一个元组或者列表（还有其他？），然后返回这个元组或者列表其中的最小值，最大值或者相加总和。此外min和max还支持min(1,2,3)这样的形式，而sum不支持。
+\begin{Verbatim}
+>>> min((1,6,8,3,4))
+1
+>>> max([1,6,8,3,4])
+8
+>>> sum([1,6,8,3,4])
+22
+>>> min(1,6,8,3,4)
+1
+\end{Verbatim}
+
+
+
+\subsection{位操作}
+python支持位操作的，这里简单说一下：位左移操作<<，位与操作\&{}，位或操作|，位异或操作\^{}。
+\begin{Verbatim}
+>>> x=0b0001
+>>> bin(x << 2)
+'0b100'
+>>> bin(x | 0b010)
+'0b11'
+>>> bin(x & 0b1)
+'0b1'
+>>> bin(x ^ 0b101)
+'0b100'
+\end{Verbatim}
+
+
+
+
+\subsection{math宏包}
+在\verb+from math import *+之后，可以直接用符号pi和e来引用圆周率和自然常数。此外math宏包还提供了很多数学函数，比如：
+\begin{description}
+\item[sqrt] 开平方根函数，sqrt(x)。
+\item[sin] 正弦函数，类似的还有cos，tan等，sin(x)。
+\item[degrees] 将弧度转化为角度，三角函数默认输入的是弧度值。
+\item[radians] 将角度转化位弧度，radians(30)。 
+\item[log] 开对数，log(x,y)，即$\log_y x$，y默认是e。
+\item[exp] 指数函数，exp(x)。
+\item[pow] 扩展了内置方法，现在支持float了。pow(x,y)
+\end{description}
+
+这里简单写个例子：
+\begin{Verbatim}
+>>> from math import *
+>>> print(pi)
+3.141592653589793
+>>> print(sqrt(85))
+9.219544457292887
+>>> print(round(sin(radians(30)),1))#sin(30°)
+0.5
+\end{Verbatim}
+
+
+更多具体细节请参看\href{http://docs.python.org/3.4/library/math.html}{官方文档}。
+
+
+
+
 \subsection{random宏包}
-random宏包提供了一些函数来解决随机数问题。
+random宏包提供了一些函数来解决随机数问题。%内容待充实
 \begin{description}
 \item[random] random函数产生0到1之间的随机实数（包括0）
 \item[uniform] uniform函数产生从a到b之间的随机实数（a，b的值指定，包括a。）
@@ -375,17 +479,24 @@ random宏包提供了一些函数来解决随机数问题。
 \item[choice] choice随机从一个列表或者字符串中取出一个元素。
 \end{description}
 
-更多详细细节请参阅\href{http://docs.python.org/3.4/library/random.html}{官方帮助文档}。
-
 下面是一个简单的例子：
-\begin{Verbatim}
+\begin{xverbatim}[129]{py}
 from random import *
 print(random())
 print(uniform(1,10))
 print(randrange(1,6))
 print(choice('abcdefghij'))
 print(choice(['①','②','③']))
-\end{Verbatim}
+\end{xverbatim}
+
+更多详细细节请参阅\href{http://docs.python.org/3.4/library/random.html}{官方帮助文档}。
+
+
+\subsection{numpy宏包}
+关于numpy宏包的介绍请看文件夹[\textit{玩ipython notebook}]。
+
+
+
 
 
 
@@ -482,16 +593,51 @@ print('''\
 \end{Verbatim}
 
 \subsection{find方法}
+字符串的find方法可用来查找某个子字符串，没有找到返回-1，找到了返回字符串的偏移量。用法就是：\verb+s.find('d')+。
 
 
 \subsection{replace方法}
+字符串的replace方法进行替换操作，接受两个参数：第一个参数是待匹配的子字符串，第二个参数是要替换成为的样子。
 
+\subsection{upper方法}
+将字符串转换成大写形式。
+
+\subsection{isdigit方法}
+类似的还有isalpha方法，测试是不是数字或字母。值得注意的是就算是字母组成的语句，中间有空间也会返回False。
+
+\subsection{split方法}
+字符串的split方法可以将字符串比如有空格或者逗号等分隔符分割而成，可以将其分割成子字符串列表。默认是空格是分隔符。
+
+\subsection{join方法}
+字符串的join方法非常有用，严格来说它接受一个迭代器参数，不过最常见的是列表，如下所示：
+\begin{Verbatim}
+>>> list001=['a','b','c']
+>>> "".join(list001)
+'abc'
+\end{Verbatim}
+
+
+
+\subsection{rstrip方法}
+字符串右边的空格都删除。换行符也会被删除掉。
 
 \subsection{format方法}
 字符串的format方法方便对字符串内的一些变量进行替换操作，其中花括号不带数字跟format方法里面所有的替换量，带数字0表示第一个替换量，后面类推。
 \begin{Verbatim}
 print('1+1={0}，2+2={1}'.format(1+1,2+2))
 \end{Verbatim}
+
+\subsection{转义和不转义}
+\verb+\n    \t  +这是一般常用的转义字符，换行和制表。此外还有\verb+\\+输出\textbackslash 符号。
+
+如果输出字符串不想转义那么使用如下格式：
+\begin{Verbatim}
+>>> print(r'\t \n \test')
+\t \n \test
+\end{Verbatim}
+
+
+
 
 
 \section{列表}
@@ -514,17 +660,59 @@ extend方法似乎和列表之间的加法重合了，比如\\list001.extend([4,
 insert方法也就是列表的插入操作，这个前面关于列表的插入实现方法说过一种了，所以insert方法也略过。
 
 \subsection{append方法}
-python的append方法和lisp中的append还是有点差异的，python的append就是在最后面加\textbf{一个元素}，如果你append一个列表那么这一个列表整体作为一个元素。
+python的append方法和lisp中的append还是有点差异的，python的append就是在最后面加\textbf{一个元素}，如果你append一个列表那么这一个列表整体作为一个元素。lisp的append函数和python的extend方法类似，接受一个列表。
 
 其次append是list类中的一个方法，也就是list001.append这样的形式，也就是永久的改变了某个列表实例的值了。
+
+
 
 \subsection{reverse方法}
 reverse方法不接受任何参数，直接将一个列表永久性地翻转过来。
 
-\subsection{remove方法}
-remove方法和lisp中的remove含义大致接近，就是移除第一个相同的元素，如果没有返回相同的元素，返回错误。
+\subsection{sort方法}
+也就是排序，永久性改变列表。默认是递增排序，可以用\textbf{reverse=True}来调成递减排序。可以用\textbf{key=function}来设置排序的函数，这个排序函数是单参数函数。
+
+类似的有sorted函数，不同的sorted函数返回的是一个新的列表而不是原处修改。
+
+
+
+\subsection{删除某个元素}
+\begin{itemize}
+\item 赋空列表值，相当于所有元素都删除了。 
+\item pop方法：接受一个参数，就是列表元素的定位值，然后那个元素就删除了，方法并返回那个元素的值。如果不接受参数默认是删除最后一个元素。
+\item remove方法：移除第一个相同的元素，如果没有返回相同的元素，返回错误。
+\item del函数：删除列表中的某个元素。
+\end{itemize}
+
+\begin{Verbatim}
+>>> list001=['a','b','c','d','e']
+>>> list001.pop(2)
+'c'
+>>> list001
+['a', 'b', 'd', 'e']
+>>> list001.pop()
+'e'
+>>> list001
+['a', 'b', 'd']
+>>> list001.remove('a')
+>>> list001
+['b', 'd']
+>>> del list001[1]
+>>> list001
+['b']
+\end{Verbatim}
+
+
+
 
 \subsection{index方法}
+index方法返回某个相同元素的偏移值。
+\begin{Verbatim}
+>>> list001=[1,'a',100]
+>>> list001.index('a')
+1
+\end{Verbatim}
+
 
 
 \subsection{列表元素的替换}
@@ -550,7 +738,7 @@ print(subst([1,1,5,4,1,6],1,'replaced'))
 
 else语句接著没有错误的时候你要执行的操作，先index再删掉这个元素，再在之前插入那个元素，然后使用了递归算法，调用函数自身。
 
-\subsection{让某个函数依次作用于列表中的元素}
+\subsection{列表解析}
 lisp中的mapcar函数有这个功用，python中的map函数基本上和它情况类似。
 
 我们先来看lisp中的情况：
@@ -564,13 +752,20 @@ lisp中的mapcar函数有这个功用，python中的map函数基本上和它情�
 def square(n):
     return n*n
     
-print(map(square,[1,2,3,4,5]))
+print(list(map(square,[1,2,3,4,5])))
 print([square(x) for x in [1,2,3,4,5]])
 \end{xverbatim}
-用map函数将会生成一个map对象（？），需要外面加上list函数才能生成列表形式。第二种形式直接生成列表形式，而且风格更加接近python，还是推荐使用这种形式把。
+map函数将某个应数应用于某个列表的元素中并生成一个map对象，需要外面加上list函数才能生成列表形式。第二种方式更有python风格，是推荐使用的列表解析方法。
 
 
 \subsection{count方法}
+统计某个元素出现的次数。
+\begin{Verbatim}
+>>> list001=[1,'a',100,1,1,1]
+>>> list001.count(1)
+4
+\end{Verbatim}
+
 
 \subsection{for语句的进阶}
 在lisp语言的loop宏中，还有很多高级应用，比如
@@ -590,7 +785,7 @@ print([square(x) for x in [1,2,3,4,5]])
 \begin{xverbatim}[129]{py}
 from random import *
 def random_list_max(n):
-    y=[randint(1,n) for x in range(10000)]
+    y=[randint(1,n) for x in range(1000)]
     list_count=[y.count(x) for x in range(1,n+1)]
     return list_count.index(max(list_count))+1
 
@@ -598,55 +793,518 @@ print(random_list_max(40))
 \end{xverbatim}
 
 
-find-if                 remove-if                 remove-if-not
-find-if  是将一个判断函数作用于一个列表，然后返回第一个为真的元素。
-remove-if 是将一个判断函数作用一个列表，真则移去。
-remove-if-not  这个更常用一些，将一个判断函数作用一个列表，假则移去，留下真的部分。
-
-reduce
-reduce是将一个函数作用于一个列表，这个函数需要两个input参量，简单来说就是比如说加法，那么这个列表上的数字依此全部加上。大体过程如下图所示：
-
-every
-every对后面列表中每一个元素用前面的判断函数来进行判断，如果有一个nil那么返回nil，如果都是T那么返回T。
-
-some
-
-用于列表的push和pop宏
-
-用牛顿迭代法求平方根
-数值分析的牛顿迭代法是一种通用方程式求解方法，这里就简单的计算开平方根。
 
 
-让n从0到多少记数，然后让另外一个值表示对应的某个函数。比如数学中的级数概念。
-现在有几何级数，0对应1，1对应1/2的一次方，2对应1/2的2次方....
 
 
-\section{元组}
-圆括号包含几个元素就是元组。
+
+
+
 
 \section{字典}
+与列表一样字典是可变的，可以像列表一样引用然后原处修改，del语句也适用。
 
-%#字典
-%{'food':'spam'}
-%
-%#数组
-%(1,2,3)
-%#文件
-%f = open('eggs.txt','w')
-%f.write('hello\nworld \nhello world!')
-%f.close()
-%f = open('eggs.txt')
-%text = f.read()
-%print(text)
-%#集合
-%set('abc')
-\section{文件}
+\subsection{创建字典}
+字典是一种映射，并没有从左到右的顺序，只是简单地将键映射到值。字典的声明格式如下：
+\begin{Verbatim}
+dict001={'name':'tom','height':'180','color':'red'}
+dict001['name']
+\end{Verbatim}
+
+或者创建一个空字典，然后一边赋值一边创建对应的键：
+\begin{Verbatim}
+dict002={}
+dict002['name']='bob'
+dict002['height']=195
+\end{Verbatim}
+
+所以对字典内不存在的键赋值是可行的。
+
+
+
+
+
+
+
+
+\subsection{字典里面有字典}
+和列表的不同就在于字典的索引方式是根据“键”来的。
+\begin{Verbatim}
+dict003={'name':{'first':'bob','second':'smith'}}
+dict003['name']['first']
+\end{Verbatim}
+
+\subsection{字典遍历操作}
+字典特定顺序的遍历操作的通用做法就是通过字典的keys方法收集键的列表，然后用列表的sort方法处理之后用for语句遍历，如下所示：
+\begin{Verbatim}
+dict={'a':1,'c':2,'b':3}
+dictkeys=list(dict.keys())
+dictkeys.sort()
+for key in dictkeys:
+    print(key,'->',dict[key])
+\end{Verbatim}
+
+如果你对字典遍历的顺序没有要求，那么就可以简单的这样处理：
+\begin{Verbatim}
+>>> for key in dict:
+...     print(key,'->',dict[key])
+... 
+c -> 2
+a -> 1
+b -> 3
+\end{Verbatim}
+
+
+
+\subsubsection{sorted函数}
+sorted方法可以对字典直接排序，返回的是该字典键值的列表。
+\begin{Verbatim}
+dict={'a':1,'c':2,'b':3}
+for key in sorted(dict):
+    print(key,'->',dict[key])
+\end{Verbatim}
+
+\subsubsection{values方法}
+和keys方法类似，收集的值。
+\begin{Verbatim}
+>>> dict001.values()
+dict_values([3, 1, 2])
+>>> list(dict001.values())
+[3, 1, 2]
+\end{Verbatim}
+
+\subsubsection{items方法}
+和keys和values方法类似，不同的是返回的是(key,value)对。
+\begin{Verbatim}
+>>> dict001.items()
+dict_items([('c', 3), ('a', 1), ('b', 2)])
+>>> list(dict001.items())
+[('c', 3), ('a', 1), ('b', 2)]
+\end{Verbatim}
+
+
+
+
+
+\subsection{字典的in语句}
+可以看到in语句只针对字典的键，不针对字典的值。
+\begin{Verbatim}
+>>> dict001={'a':1,'b':2,'c':3}
+>>> 2 in dict001
+False
+>>> 'b' in dict001
+True
+\end{Verbatim}
+
+\subsection{字典对象的get方法}
+get方法是去找某个键的值，为什么不直接引用呢，get方法的好处就是某个键不存在也不会出错。
+\begin{Verbatim}
+>>> dict001={'a':1,'b':2,'c':3}
+>>> dict001.get('b')
+2
+>>> dict001.get('e')
+\end{Verbatim}
+
+\subsection{update方法}
+感觉字典就是一个小型数据库，update方法将另外一个字典里面的键和值覆盖进之前的字典中去，称之为更新，没有的加上，有的覆盖。
+\begin{Verbatim}
+>>> dict001={'a':1,'b':2,'c':3}
+>>> dict002={'e':4,'a':5}
+>>> dict001.update(dict002)
+>>> dict001
+{'c': 3, 'a': 5, 'e': 4, 'b': 2}
+\end{Verbatim}
+
+\subsection{pop方法}
+pop方法类似列表的pop方法，不同引用的是键，而不是偏移地址，这个就不多说了。
+
+
+
+\subsection{字典解析}
+这种字典解析方式还是很好理解的。
+\begin{Verbatim}
+>>> dict001={x:x**2 for x in [1,2,3,4]}
+>>> dict001
+{1: 1, 2: 4, 3: 9, 4: 16}
+\end{Verbatim}
+
+\subsubsection{zip函数创建字典}
+可以利用zip函数来通过两个列表平成一个字典，这个有时很有用。zip函数刚开始返回的是什么zip对象，然后对其进行字典解析。
+\begin{Verbatim}
+>>> dict001=zip(['a','b','c'],[1,2,3])
+>>> dict001
+<zip object at 0xb6b464ac>
+>>> dict001={a:b for (a,b) in dict001}
+>>> dict001
+{'c': 3, 'a': 1, 'b': 2}
+\end{Verbatim}
+
+这种解析方式的理解有一定难度，主要是zip函数这里比较抽象了。而下面这段代码是\emph{python2}的，就比较好理解一点。所以要理解python3的那种语法，只好认为python3中的zip对象只是还未展开的如下所示结构的那种列表。值得一提的在python3中\uwave{dict强制变换不能使用}了。
+\begin{Verbatim}
+>>> zip(['a','b','c'],[1,2,3])
+[('a', 1), ('b', 2), ('c', 3)]
+>>> dict001=dict(zip(['a','b','c'],[1,2,3]))
+>>> dict001
+{'a': 1, 'c': 3, 'b': 2}
+\end{Verbatim}
+
+
+\subsection{字典的集合操作}
+python3的字典更多的接近集合了，它现在支持很多集合操作，比如-，\&{}，|等。字典的集合操作是以键参与集合操作的。
 
 
 \section{集合}
+集合可以用过可以通过set函数创建一个集合对象，集合的元素是无序的，数学上类似的集合操作这里都有：
+\begin{Verbatim}
+>>> set001=set('hello')
+>>> set001
+set(['h', 'e', 'l', 'o'])
+>>> set002={'h','a','b'}
+>>> set002
+set(['a', 'h', 'b'])
+>>> print(set001)
+set(['h', 'e', 'l', 'o'])
+>>> set001 & set002
+set(['h'])
+>>> set001 | set002
+set(['a', 'b', 'e', 'h', 'l', 'o'])
+>>> set001 - set002
+set(['e', 'l', 'o'])
+>>> {x**2 for x in [1,2,3,4,5]}
+set([16, 1, 4, 25, 9])
+\end{Verbatim}
+
+其中\verb+&  |  -+就是交，与，差的意思。
 
 
-\section{其他内置对象}
+
+
+\section{元组}
+圆括号包含几个元素就是元组(tuple)。元组和列表的不同在于元组是不可改变。元组也是从属于序列对象的，元组的很多方法之前都讲了。而且元组在使用上和列表极其接近，有很多内容这里也略过了。
+
+值得一提的是如果输入的时候写的是\textit{x,y}这样的形式，实际上表达式就加上括号了，也就是一个元组了\textit{(x,y)}。
+
+
+
+
+\section{文件}
+
+\subsection{写文件}
+对文件的操作首先需要用open函数创建一个文件对象，简单的理解就是把相应的接口搭接好。文件对象的write方法进行对某个文件的写操作，最后需要调用close方法写的内容才真的写进去了。
+
+\begin{Verbatim}
+file001 = open('test.txt','w')
+file001.write('hello world1\n')
+file001.write('hello world2\n')
+file001.close()
+\end{Verbatim}
+
+如果你们了解C语言的文件操作，在这里会为python语言的简单便捷赞叹不已。就是这样三句话：创建一个文件对象，然后调用这个文件对象的wirte方法写入一些内容，然后用close方法关闭这个文件即可。
+
+
+\subsection{读文件}
+一般的用法就是用open函数创建一个文件对象，然后用read方法调用文件的内容。最后记得用close关闭文件。
+\begin{Verbatim}
+file001 = open('test.txt')
+filetext=file001.read()
+print(filetext)
+file001.close()
+\end{Verbatim}
+
+此外还有readline方法是一行一行的读取某文件的内容。
+
+
+\subsection{open函数的处理模式}
+open函数的处理模式如下：
+\begin{description}
+\item['r'] 默认值，read，读文件。
+\item['w'] wirte，写文件，如果文件不存在会创建文件，如果文件已存在，文件原内容会清空。
+\item['a'] append，附加内容，也就是后面用write方法内容会附加在原文件之后。
+\item['b'] 处理模式设置的\uwave{附加}选项，'b'不能单独存在，要和上面三个基本模式进行组合，比如'rb'等，意思是二进制数据格式读。
+\item['+'] 处理模式设置的\uwave{附加}选项，同样'+'不能单独存在，要和上面三个基本模式进行组合，比如'r+'等，+是updating更新的意思，也就是既可以读也可以写，那么'r+'，'w+'，'a+'还有什么区别呢？区别就是'r+'不具有文件创建功能，如果文件不存在会报错，然后'r+'不会清空文件，如果'r+'不清空文件用write方法情况会有点复杂；而'w+'具有文件创建功能，然后'w+'的write方法内容都是重新开始的；而'a+'的write方法内容是附加在原文件上的，然后'a+'也有文件创建功能。
+\end{description}
+
+
+
+\subsection{用with语句打开文件}
+类似之前的例子我们可以用with语句来打开文件，这样就不用close方法来关闭文件了。然后with语句来提供了类似try语句的功能可以自动应对打开文件时的一些异常情况。
+\begin{Verbatim}
+with open('test.txt','w') as file001:
+    file001.write('hello world1\n')
+    file001.write('hello world2\n')
+
+with open('test.txt','r') as file001:
+    filetext=file001.read()
+    print(filetext)
+\end{Verbatim}
+
+
+\subsection{除字符串外其他类型的读取}
+文本里面存放的都是字符串类型，也就是写入文件需要用str函数强行将其他类型转变成字符串类型，而读取进来想要进行一些操作则需要将字符串类型转变回去。
+
+\subsubsection{eval函数}
+
+
+\subsubsection{pickle宏包}
+推荐使用pickle宏包来处理其他类型的文件读写问题，相对来说更简单更安全。
+
+
+\section{总结}
+
+
+\chapter{类}
+类相当于自己创造一个自己的操作对象。一般面向对象(OOP)编程的基本概念这里不重复说明了，如有不明请读者自己随便搜索一篇网页阅读下即可。
+
+\section{python中类的结构}
+python中的类就好像树叶，所有的类就构成了一棵树，而python中超类，子类，实例的重载或继承关系等就是由一种搜索机制实现的：
+\begin{fig}{类搜索结构图}
+\label{fig:类搜索结构图}
+\end{fig}
+python首先搜索self有没有这个属性或者方法，如果没有，就向上搜索。比如说实例l1没有，就向上搜索C1，C1没有就向上搜索C2或C3等。
+
+实例继承了创造他的类的属性，创造他的类上面可能还有更上层的超类，类似的概念还有子类，表示这个 类在树形层次中比较低。
+
+well，简单来说类的结构和搜索机制就是这样的，很好地模拟了真实世界知识的树形层次结构。
+
+上面那副图实际编写的代码如下：
+\begin{Verbatim}
+class C2: ...
+class C3: ...
+class C1(C2,C3): ...
+l1=C1()
+l2=C1()
+\end{Verbatim}
+其中class语句是创造类，而C1继承自C2和C3，这是多重继承，从左到右是内部的搜索顺序（会影响重载）。l1和l2是根据类C1创造的两个实例。
+
+对于初次接触类这个概念的读者并不指望他们马上就弄懂类这个概念，这个概念倒并一定要涉及很多哲学的纯思考的东西，也可以看作一种编程经验或技术的总结。多接触也许对类的学习更重要，而不是纯哲学抽象概念的讨论，毕竟类这个东西创造出来就是为了更好地描述现实世界的。
+
+最后别人编写的很多宏包就是一堆类，你就是要根据这些类来根据自己的情况情况编写自己的子类，为了更好地利用前人的成果，或者你的成果更好地让别人快速使用和上手，那么你需要好好掌握类这个工具。
+
+\section{类的最基础知识}
+\subsection{类的创建}
+\begin{Verbatim}
+class MyClass:
+    something
+\end{Verbatim}
+类的创建语法如上所示，然后你需要想一个好一点的类名。类名规范的写法是首字母大写，这样好和其他变量有所区分。
+
+\subsection{根据类创建实例}
+按照如下语句格式就根据MyClass类创建了一个实例myclass001。
+\begin{Verbatim}
+myclass001=MyClass()
+\end{Verbatim}
+
+\subsection{类的属性}
+\begin{Verbatim}
+>>> class MyClass:
+...  name='myclass'
+... 
+>>> myclass001=MyClass()
+>>> myclass001.name
+'myclass'
+>>> MyClass.name
+'myclass'
+>>> myclass001.name='myclass001'
+>>> myclass001.name
+'myclass001'
+>>> MyClass.name
+'myclass'
+\end{Verbatim}
+如上代码所示，我们首先创建了一个类，这个类加上了一个name属性，然后创建了一个实例myclass001，然后这个实例和这个类都有了name属性。然后我们通过实例加上点加上name的这种格式引用了这个实例的name属性，并将其值做了修改。
+
+这个例子简单演示了类的创建，属性添加，实例创建，多态等核心概念。后面类的继承等概念都和这些大同小异了。
+
+
+\subsection{类的方法}
+类的方法就是类似上面类的属性一样加上def语句来定义一个函数，只是函数在类里面我们一般称之为方法。这里演示一个例子，读者看一下就明白了。
+\begin{Verbatim}
+>>> class MyClass:
+...  name='myclass'
+...  def double(self):
+...   self.name=self.name*2
+...   print(self.name)
+... 
+>>> myclass001=MyClass()
+>>> myclass001.name
+'myclass'
+>>> myclass001.double()
+myclassmyclass
+>>> myclass001.name
+'myclassmyclass'
+\end{Verbatim}
+
+这里需要说明的是在类的定义结构里面，self代表着类自身，self.name代表着对自身name属性的引用。然后实例在调用自身的这个方法时用的是myclass001.double()这样的结构，这里double函数实际上接受的第一个参数就是自身，也就是myclass001，而不是无参数函数。所以类里面的方法（被外部引用的话）至少有一个参数self。
+
+
+
+
+
+\section{类的继承}
+实例虽然说是根据类创建出来的，但实际上实例和类也是一种继承关系，实例继承自类，而类和类的继承关系也与之类似，只是语法稍有不同。下面我们来看这个例子：
+\begin{xverbatim}[129]{py}
+class Hero():
+    def addlevel(self):
+        self.level=self.level+1
+        self.hp=self.hp+self.addhp
+
+class Garen(Hero):
+    level=1
+    hp=455
+    addhp=96
+
+garen001=Garen()
+for i in range(6):
+    print('级别:',garen001.level,'生命值：' ,garen001.hp)
+    garen001.addlevel()
+\end{xverbatim}
+
+\begin{fig}[0.5]{类的继承示例}
+\caption{类的继承示例}
+\label{fig:类的继承示例}
+\end{fig}
+
+这里就简单的两个类，盖伦Garen类是继承自Hero类的，实例garen001是继承自Garen类的，这样garen001也有了addlevel方法，就是将自己的level属性加一，同时hp生命值也加上一定的值，整个过程还是很直观的。
+
+
+\section{类的内置方法}
+如果构建一个类，就使用pass语句，什么都不做，python还是会为这个类自动创建一些属性或者方法。
+\begin{Verbatim}
+>>> class TestClass:
+...  pass
+... 
+>>> dir(TestClass)
+['__class__', '__delattr__', '__dict__', '__dir__', '__doc__',
+ '__eq__', '__format__', '__ge__', '__getattribute__',
+  '__gt__',  '__hash__', '__init__', '__le__', '__lt__',
+   '__module__', '__ne__', '__new__', '__reduce__', 
+   '__reduce_ex__', '__repr__', '__setattr__', 
+   '__sizeof__', '__str__', '__subclasshook__',
+    '__weakref__']
+\end{Verbatim}
+
+这些变量名字前后都加上双下划线是给python这个语言的设计者用的，一般应用程序开发者还是不要这么做。
+
+这些内置方法用户同样也是可以重定义他们从来覆盖掉原来的定义，其中特别值得一讲的就是\verb+__init__+方法或者称之为构造函数。
+
+\subsection{\_\_init\_\_{}方法}
+\verb+__init__+方法对应的就是该类创建实例的时候的构造函数。比如：
+\begin{Verbatim}
+>>> class Point:
+...  def __init__(self,x,y):
+...   self.x=x
+...   self.y=y
+... 
+>>> point001=Point(5,4)
+>>> point001.x
+5
+>>> point001.y
+4
+\end{Verbatim}
+这个例子重载了\verb+__init__+函数，然后让他接受三个参数，self等下要创建的实例，x，还有y通过下面的语句给这个待创建的实例的属性x和y赋了值。
+
+
+\subsection{self意味着什么}
+self在类中是一个很重要的概念，当类的结构层次较简单时还容易看出来， 当类的层次结构很复杂之后，你可能会弄糊涂。\uwave{self就是指现在引用的这个实例}。比如你现在通过调用某个实例的某个方法，这个方法可能是一个远在天边的某个类给出的定义，就算如此，那个定义里面的self还是指调用这个方法的那个实例，这一点要牢记于心。
+
+
+\subsection{类的操作第二版}
+现在我们可以写出和之前那个版本相比更加专业的类的使用版本了。
+\begin{xverbatim}[129]{py}
+class Hero():
+    def addlevel(self):
+        self.level=self.level+1
+        self.hp=self.hp+self.addhp
+
+class Garen(Hero):
+    def __init__(self):
+        self.level=1
+        self.hp=455
+        self.addhp=96
+        self.skill=['不屈','致命打击','勇气','审判','德玛西亚正义']
+
+garen001=Garen()
+for i in range(6):
+    print('级别:',garen001.level,'生命值：' ,garen001.hp)
+    garen001.addlevel()
+print('盖伦的技能有：',"".join([x + '  ' for x in garen001.skill]))
+\end{xverbatim}
+
+似乎专业的做法类里面多放点方法，最好不要放属性，不太清楚是什么。但确实这样写给人感觉更干净点，方法是方法，如果没有调用代码就放在那里我们不用管它，后面用了构造函数我们就去查看相关类的构造方法，这样很省精力。
+
+
+\section{类的操作第三版}
+\begin{xverbatim}[129]{py}
+class Unit():
+    def __init__(self,hp,atk,color):
+        self.hp=hp
+        self.atk=atk
+        self.color=color
+    def __str__(self):
+        return '生命值：{0}，攻击力：{1}，颜色：\
+        {2}'.format(self.hp,self.atk,self.color)
+
+class Hero(Unit):
+    def __init__(self,level,hp,atk,color):
+        Unit.__init__(self,hp,atk,color)
+        self.level=level
+    def __str__(self):
+        return '级别：{0},生命值：{1}，攻击力：{2}，\
+        颜色：{3}'.format(self.level,self.hp,self.atk,self.color)
+
+    def addlevel(self):
+        self.level=self.level+1
+        self.hp=self.hp+self.addhp
+        self.atk=self.atk+self.addatk
+
+class Garen(Hero):
+    def __init__(self,color='blue'):
+        Hero.__init__(self,1,455,56,color)
+        self.name='盖伦'
+        self.addhp=96
+        self.addatk=3.5
+        self.skill=['不屈','致命打击','勇气','审判','德玛西亚正义']
+
+if __name__ == '__main__':
+    garen001=Garen('red')
+    garen002=Garen()
+    print(garen001)
+    unit001=Unit(1000,1000,'gray')
+    print(unit001)
+    for i in range(6):
+        print(garen001)
+        garen001.addlevel()
+    print('盖伦的技能有：',"".join([x + '  ' for x in garen001.skill]))
+\end{xverbatim}
+现在就这个例子相对于第二版所作的改动，也就是核心知识点说明之。其中函数参量列表中这样表述\verb+color='blue'+表示blue是color变量的备选值，也就是color成了可选参量了。
+
+
+\subsection{构造函数的继承和重载}
+上面例子很核心的一个概念就是\verb+__init__+构造函数的继承和重载。比如我们看到garen001实例的创建，其中就引用了Hero的构造函数，特别强调的是\uwave{只有创造实例的时候比如这样的形式Garen()才叫做调用了Garen类的构造方法}， 比如这里\\
+\verb+Hero.__init__(self,1,455,56,color)+就是调用了Hero类的构造函数，这个时候需要把self写上，因为self就是最终创建的实例garen001，而不是Hero，而且调用Hero类的构造函数就必须按照它的参量列表形式来。这个概念需要弄清楚！
+
+理解了这一点，在类的继承关系中的构造函数的继承和重载就好看了。比如这里Hero类的构造函数又是继承自Unit类的构造函数，Hero类额外有一个参量level接下来也要开辟存储空间配置好。
+
+\subsection{\_\_str\_\_{}函数的继承和重载}
+第二个修改是这里重定义了一些类的\verb+__str__+函数，通过重新定义它可以改变默认print某个类对象是的输出。默认只是一段什么什么类并无具体内容信息。具体就是return一段你想要的字符串样式即可。
+
+
+
+\subsection{类的其他内置方法}
+类还有其他的一些内置方法，比如\verb+__add__+就控制这对象面对加号时候的行为。这些我们暂时先略过。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -716,89 +1374,140 @@ f=lambda x,y,z:x+y+z
 print(f(1,2,3))
 \end{xverbatim}
 
-\chapter{模块}
-现在让我们赶快进入模块基础知识的学习，建立编写自己的宏包，这样不断积累自己的知识，不断变得更强。
 
-现在让我们建立一个文件，名字就叫做“mypython3.py”。我们知道用import命令可以导入某个模块名，但模块内具体的函数等还是要用mypython3.fib这样的形式调用，这不太友好。
 
-\section{自建宏包搜索路径管理}
-在这里我们新建一个mypython3.py文件，然后将前面的fib函数放进去。接下来要做的就是宏包的搜索路径管理，让python编译器能够找到你编写的这个脚本。
+\chapter{宏包}
+现在让我们进入宏包基础知识的学习吧，建立编写自己的宏包，这样不断积累自己的知识，不断变得更强。
 
-这个搜索路径你可以使用\verb+python3 --help+来查看，是PYTHO-\\NPATH这个量控制的。现在要做的是让终端每次登录的时候加载上这个变量。
+实际上之前我们已经接触过很多python自身的标准宏包或者其他作者写的第三方宏包，而import和from语句就是加载宏包用的。这里我们主要讨论如何自己编写自己的宏包。
 
+from语句和import语句内部作用机制很类似，只是在变量名的处理方式上有点差异（from会把变量名复制过来）。这里重点就import的工作方式说明如下：
+\begin{enumerate}
+\item 首先需要找到宏包文件。
+\item 然后将宏包文件编译成位码（需要时，根据文件的时间戳。），你会看到新多出来一个\verb+__pycache__+文件夹。
+\item 执行编译出来的位码，创建该py文件定义的对象。
+\end{enumerate}
+这三个步骤是第一次import的时候会执行的，第二次import的时候会跳过去，而直接引用内存中已加载的对象。
+
+
+
+\section{找到宏包文件}
+python宏包的搜索路径会搜索几个地方，这些地方最后都会放在sys.path这个列表里面，所以在你的py文件刚开始修改这个sys.path，append上你想要的地址也是可以的。我在这里选择了这种简单的方法，除此之外还有很多方法这里先不涉及。
+
+比如主文件一般如下：
 \begin{Verbatim}
-PYTHONPATH=$HOME/pymf
-export PYTHONPATH
+import os,sys
+sys.path.append(os.environ['HOME']+'/pymf')
+from pyconfig import *
 \end{Verbatim}
-上面的\verb+$HOME+就是你的主文件目录，然后我新建了一个pymf文件夹。这两行内容你写入主文件目录下的\textbf{.bashrc}文件里面，就可以立即生效。
+这里为什么使用\verb+from pyconfig import *+这样的语句而不是import语句呢？因为我决定整个项目的主py文件除了这一个from语句之外不会再import或者from其他宏包了，其他所有宏包的引用都放在pyconfig.py这个主配置文件里面。
 
-\href{http://stackoverflow.com/questions/415403/whats-the-difference-between-bashrc-bash-profile-and-environment}{这个网站}解释说\textbf{.bashrc}文件是单独每个交互shell启动时加载的文件。有些网站谈及修改\verb+.bash_profile+这个文件，我试了下在Ubuntu13.10下并不行。
+pyconfig.py任务就是加载最常用最通用的一些宏包，如果你实际编写的另外一个项目通用pyconfig文件满足不了你的要求了，那么你可以把那个pyconfig文件复制过来，然后放在你的项目文件夹里面，然后继续衍化修改。这个经验是我从\LaTeX 文档的编写中总结出来的，既满足了共性又满足了个性。
 
-作为tex下的write18命令执行python脚本似乎并不加载任何shell脚本，也没有办法，在这里只好手工加载了。在终端下会自动加载上面的配置，目前还找不到好的解决办法。
+那么为什么要用from语句，很简单。如果用import语句，那么pyconfig.py文件里面import math宏包，在主py文件里面引用就要使用这样的格式\verb+pyconfig.math.pi+，这既不方便而且违背大家平时惯用的那种math.pi格式。
 
 
-\section{导入模块内的变量或者函数}
-\verb+form mypython3 import fib+\\
-这样你就可以直接使用fib名字来调用fib函数了。
+现在我们让可以开始编写自己的宏包吧。
+
+\section{编写宏包}
+well，编写宏包就是一些py文件，然后宏包的名字和py文件里面的内容编写好就是了。
+
+我现在编写了一个pyconfig.py文件，放在主文件夹（ubuntu系统）的pymf文件里面的。里面定义了一个斐波拉契函数，如下所示：
+\begin{Verbatim}
+#菲波那奇数列
+def fib(n):
+    if n==0:
+        return 1
+    if n==1:
+        return 1
+    else:
+        return fib(n-1)+fib(n-2)
+\end{Verbatim}
+
+然后我们的测试小脚本如下：
 \begin{xverbatim}[129]{py}
-import os,sys;sys.path.append(os.environ['HOME']+'/pymf')
-from pyconfig import fib
-for x in range(5):
-    print(fib(x))
+import os,sys
+sys.path.append(os.environ['HOME']+'/pymf')
+from pyconfig import *
+
+print([fib(n) for n in range(10)])
 \end{xverbatim}
-上面第一行稍作处理至少让其更具通用性吧，多上一行代码也算不上什么事，至少让其更具通用性，目前就这样把。
+
+一些你觉得常用的类和函数就直接放在pyconfig.py文件里面吧，然后一些不太常用的你可以分类出来放在其他py文件里面，然后pyconfig.py文件用import或者from语句来加载那个宏包即可，这里就不多说了。
+
+
+\section{import语句}
+import语句的一般使用方法之前已有接触，比如import math，然后要使用math宏包里面的函数或者类等需要使用这样的带点的变量名结构：math.pi。
+
+此外import语句还有一个常见的缩写名使用技巧，比如import numpy as np，那么后面就可以这样写了， np.array，而不是numpy.array。
+
+
+\section{from语句}
+from语句的使用有以下两种情况：
+\begin{Verbatim}
+from this import this
+from what import *
+\end{Verbatim}
+第一种形式是点名只导入某个变量，第二种形式是都导入进来。我想读者肯定知道这点，使用第二种导入形式的时候要小心变量名覆盖问题，这个自己心里有数即可。
+
+
+\section{reload函数}
+reload函数可以重新载入某个宏包，这个重载和程序重新运行第一次载入宏包又有点区别。
 
 
 
-\chapter{python知识高级篇}
-
-\section{类}
-
-\section{person数据库}
-
-类名一般都大写。
-
-特殊的\verb+__init__+ 用于这个类具体创建instance实例的时候执行的动作。self表示创建的那个实例，self.name表示实例的名字，self.name ＝name表示接受的name将会传递值给self.name，同时创建的那个实例将会拥有一个自己的name属性。其他属性操作类似。\verb+__init__+ 这里实际上也是进行了函数重载。
-
-和一般函数的做法一样，job=None，表示job这个参数是一个可选参数，它有一个默认值None。
-
-这里新建了一个Person类，这个类有三个属性：name，姓名，job，工作，和pay，薪酬。
-
-新建了lastname方法，将会该实例的名字的最后的姓氏。
-
-新建了giveRaise方法，还需要一个参数percent，这样该实例的pay属性将会提高这么多百分比。这里的int函数是将数值转化为整数。
-
-重新定义\verb+__repr__+，将会影响print函数的行为。
-
-
-\subsubsection{Manager类}
-
-这里定义了一个类Manager，它还接受一个参数Person，表示它是Person的子类，即一切Person类的属性它都将继承。
-
-这里重新定义了giveraise方法，用一种巧妙的方式。直接借用Person类原有的giveraise方法，对参数输入稍作修正。
-
-重载\verb+__init__+方法，提供更加灵活的本地方案。
-
-在python中：\\
-\verb+instance.method(args...)+\\
-都会化成这样的形式：\\
-\verb+class.method(instance, args...)+\\
-这种转换只针对实例。
-
-python中超类，子类，实例的重载是由一种搜索机制实现的：
-\begin{fig}{类搜索结构图}
-\label{fig:类搜索结构图}
-\end{fig}
-python首先搜索self有没有这个属性或者方法，如果没有，就向上搜索。比如说实例没有，就向上搜索那个子类，子类没有就向上搜索那个超类。
-
-
-如果py文件是import的形式，那么这段代码将不会执行。只有以脚本python3 test.py之类的形式才执行。
-
-可见继承过来的类将不会有自己默认定义的\verb+__init__+等方法。
 
 
 
-\part{tkinter基础}
+
+
+\part{python3高级篇}
+
+\chapter{模块}
+多个宏包py文件组成一个多文件夹目录的整体就是一个模块，这个暂时还用不到而且处理起来更加复杂，暂时略过。
+
+
+
+
+\part{玩ipython3 notebook}
+1.安装
+
+2.基本介绍：
+numpy更好地处理行列式和矩阵对象。
+
+3.更多内容在文件夹[玩ipython3 notebook]里面。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%这里空一行
+
+\end{common-format}
+\end{document}
+
+
+
+
+
+
+
+
+
+\part{tkinter宏包}
 \chapter{tkinter第一个例子}
 \section{安装tkinter宏包}
 在ubuntu下运行下面命令即可：\\
@@ -966,21 +1675,12 @@ root.mainloop()
 \end{Verbatim}
 
 
-
-
 \chapter{通过类重用自己的GUI}
 
 
-\part{tkinter实例}
-\chapter{小型计算器程序}
 
 
-
-
-
-
-
-\part{pyqt4基础}
+\part{pyqt4宏包}
 \chapter{第一个例子}
 
 \section{安装pyqt4}
@@ -1035,7 +1735,7 @@ print(QT_VERSION_STR)
 
 然后用QWidget的setGeometry方法来调整窗口的左上顶点的坐标和窗口的X，Y的大小。这里0，0表示从屏幕的最左上点开始显示，同样800，600类似前面的resize函数的配置。
 
-setWindowTitle方法前面谈论过了，这里加入图标是通过setWindowIcon方法来做到的。这个方法调用了QtGui.QIcon方法，不管这么多，后面跟的就是图标的存放路径，使用相对路径。在运行这个例子的时候，请随便弄个图标文件过来。
+setWindowTitle方法前面谈论过了，这里加入图标是通过setWi\- ndowIcon方法来做到的。这个方法调用了QtGui.QIcon方法，不管这么多，后面跟的就是图标的存放路径，使用相对路径。在运行这个例子的时候，请随便弄个图标文件过来。
 
 
 \subsection{窗口弹出提示信息}

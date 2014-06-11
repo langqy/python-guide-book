@@ -1,0 +1,14 @@
+\BOOKMARK [0][-]{section*.1}{前言}{}% 1
+\BOOKMARK [0][-]{section*.3}{目录}{}% 2
+\BOOKMARK [1][-]{section.0.1}{安装}{section*.3}% 3
+\BOOKMARK [1][-]{section.0.2}{ndarray对象}{section*.3}% 4
+\BOOKMARK [1][-]{section.0.3}{ndarray元素的引用}{section*.3}% 5
+\BOOKMARK [1][-]{section.0.4}{多维ndarray}{section*.3}% 6
+\BOOKMARK [1][-]{section.0.5}{shape属性}{section*.3}% 7
+\BOOKMARK [1][-]{section.0.6}{dtype属性}{section*.3}% 8
+\BOOKMARK [1][-]{section.0.7}{in语句}{section*.3}% 9
+\BOOKMARK [1][-]{section.0.8}{reshape方法}{section*.3}% 10
+\BOOKMARK [1][-]{section.0.9}{copy方法}{section*.3}% 11
+\BOOKMARK [1][-]{section.0.10}{ndarray变成list}{section*.3}% 12
+\BOOKMARK [1][-]{section.0.11}{类似range的arange函数}{section*.3}% 13
+\BOOKMARK [0][-]{chapter.1}{参考资料}{}% 14

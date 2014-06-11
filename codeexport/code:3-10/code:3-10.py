@@ -1,9 +1,7 @@
 
-from random import *
-def random_list_max(n):
-    y=[randint(1,n) for x in range(10000)]
-    list_count=[y.count(x) for x in range(1,n+1)]
-    return list_count.index(max(list_count))+1
+def square(n):
+    return n*n
 
-print(random_list_max(40))
+print(list(map(square,[1,2,3,4,5])))
+print([square(x) for x in [1,2,3,4,5]])
 

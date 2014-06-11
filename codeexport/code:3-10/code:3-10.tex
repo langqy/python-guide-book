@@ -1,9 +1,7 @@
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{k+kn}{from} \PY{n+nn}{random} \PY{k+kn}{import} \PY{o}{*}
-\PY{k}{def} \PY{n+nf}{random\PYZus{}list\PYZus{}max}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:}
-    \PY{n}{y}\PY{o}{=}\PY{p}{[}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{n}\PY{p}{)} \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{10000}\PY{p}{)}\PY{p}{]}
-    \PY{n}{list\PYZus{}count}\PY{o}{=}\PY{p}{[}\PY{n}{y}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{n}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{]}
-    \PY{k}{return} \PY{n}{list\PYZus{}count}\PY{o}{.}\PY{n}{index}\PY{p}{(}\PY{n+nb}{max}\PY{p}{(}\PY{n}{list\PYZus{}count}\PY{p}{)}\PY{p}{)}\PY{o}{+}\PY{l+m+mi}{1}
+\PY{k}{def} \PY{n+nf}{square}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{n}{n}\PY{o}{*}\PY{n}{n}
 
-\PY{k}{print}\PY{p}{(}\PY{n}{random\PYZus{}list\PYZus{}max}\PY{p}{(}\PY{l+m+mi}{40}\PY{p}{)}\PY{p}{)}
+\PY{k}{print}\PY{p}{(}\PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{n}{square}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\PY{k}{print}\PY{p}{(}\PY{p}{[}\PY{n}{square}\PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{]}\PY{p}{)}
 \end{Verbatim}

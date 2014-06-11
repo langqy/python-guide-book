@@ -1,12 +1,16 @@
 
-def fib(n):
-    if n==0:
-        return 1
-    if n==1:
-        return 1
-    else:
-        return fib(n-1)+fib(n-2)
+class Hero():
+    def addlevel(self):
+        self.level=self.level+1
+        self.hp=self.hp+self.addhp
 
-for x in range(5):
-    print(fib(x))
+class Garen(Hero):
+    level=1
+    hp=455
+    addhp=96
+
+garen001=Garen()
+for i in range(6):
+    print('级别:',garen001.level,'生命值：' ,garen001.hp)
+    garen001.addlevel()
 
