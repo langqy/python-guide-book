@@ -1040,13 +1040,22 @@ with open('test.txt','r') as file001:
 
 
 \subsection{除字符串外其他类型的读取}
-文本里面存放的都是字符串类型，也就是写入文件需要用str函数强行将其他类型转变成字符串类型，而读取进来想要进行一些操作则需要将字符串类型转变回去。
+文本里面存放的都是字符串类型，也就是写入文件需要用str函数强行将其他类型转变成字符串类型，而读取进来想要进行一些操作则需要将字符串类型转变回去。比如用int或者float等，不过列表和字典的转变则需要eval函数。
 
-\subsubsection{eval函数}
+eval这个函数严格来讲作用倒不是为了进行上面说的类型转换的，它就是一个内置函数，一个字符串类型python代码用eval函数处理了之后就能转变为可执行代码。
+\begin{Verbatim}
+>>> eval('1+1')
+2
+>>> eval('[1,2,3]')
+[1, 2, 3]
+>>> eval("{'a':1,'b':2,'c':3}")
+{'c': 3, 'b': 2, 'a': 1}
+\end{Verbatim}
+
+推荐使用pickle宏包来处理其他类型的文件读写问题，相对来说更简单更安全。请参看pickle宏包这一小节\ref{sec:pickle宏包}。
 
 
-\subsubsection{pickle宏包}
-推荐使用pickle宏包来处理其他类型的文件读写问题，相对来说更简单更安全。
+
 
 
 \section{总结}
@@ -1289,6 +1298,10 @@ if __name__ == '__main__':
 
 
 
+
+
+
+
 \subsection{类的其他内置方法}
 类还有其他的一些内置方法，比如\verb+__add__+就控制这对象面对加号时候的行为。这些我们暂时先略过。
 
@@ -1466,350 +1479,59 @@ reload函数可以重新载入某个宏包，这个重载和程序重新运行�
 \chapter{模块}
 多个宏包py文件组成一个多文件夹目录的整体就是一个模块，这个暂时还用不到而且处理起来更加复杂，暂时略过。
 
-
-
-
-\part{玩ipython3 notebook}
-1.安装
-
-2.基本介绍：
-numpy更好地处理行列式和矩阵对象。
-
-3.更多内容在文件夹[玩ipython3 notebook]里面。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%这里空一行
-
-\end{common-format}
-\end{document}
-
-
-
-
-
-
-
-
-
-\part{tkinter宏包}
-\chapter{tkinter第一个例子}
-\section{安装tkinter宏包}
-在ubuntu下运行下面命令即可：\\
-\verb+sudo apt-get install python3-tk+
-
-\section{刚开始}
-文件example001.py在“tkinter第一个例子”文件夹中：
-
-
-
-\subsection{加上按钮和事件}
-
-
-这是代码文件的开头，其中代码第5行使用了星号，这个对于其他宏包并不合适，不过tkinter会根据需要来加载类等，所以直接全部引用也没事
-
-
-
-
-这里定义了一些简单的函数，后面会用到的，没什么难理解的。代码第1行根据类Tk新建了一个实例mainwindow，这个是惯例，表示母窗体。
-
-
-这里新建了一个标签，前面谈及的。不同的是采用的匿名方式，直接用Label类生成一个匿名Label实例然后pack进默认母窗体中。后面pack函数的\textbf{side}有选项：\textbf{TOP，BOTTOM，LEFT，RIGHT}表示这个标签的绑定地方，默认是TOP。
-
-
-这里根据Button类新建了一个按钮实例，各个参数意义很明显，和上面标签声明不同，这里采用的是标准的类的声明使用方式，以后都推荐使用这种方式。
-
-这里代码第1行使用了按钮实例button001的bind方法，这个方法将某一个事件和某一个方法（操作或者函数）绑定起来。这里\textbf{<Button-1>}是鼠标左键，总的意思是如果按钮button001上鼠标左键点击了，那么执行hello函数。
-
-后面类似的定义了一个按钮实例button002，其中<Double-1>是鼠标左键双击的意思。
-
-然后调用mainloop()函数，整个程序的事件监听循环跑起来。
-
-
-
-\subsection{加入lambda函式}
+\part{常用的宏包}
+\chapter{pickle宏包}
+\label{sec:pickle宏包}
+pickle宏包可以将某\uwave{一个}复杂的对象永久存入\uwave{一个}文件中，以后再导入这个文件，这样自动将这个复杂的对象导入进来了。
+\section{将对象存入文件}
 \begin{Verbatim}
-#! /usr/bin/env python3
-# -*- coding: utf-8 -*-
+import pickle
 
-import sys
-from tkinter import *
+class Test:
+    def __init__(self):
+        self.a=0
+        self.b=0
+        self.c=1
+        self.d=1
 
+    def __str__(self):
+        return str(self.__dict__)
 
-mainwindow=Tk()
-
-def quit(event):
-    print('拜拜......')
-    sys.exit()
-
-
-Label(text='你好').pack( side=TOP)
-
-
-button001=Button(mainwindow, text='点我')
-button001.pack(side=LEFT)
-
-
-button001.bind('<Button-1>',lambda event  : print('双击'))
-button001.bind('<Double-1>',quit)#多个事件
-
-button002=Button(mainwindow, text='你好')
-button002.pack(side=RIGHT)
-button002.bind('<Button-1>',lambda event : print('你好'))
-
-mainloop()
+if __name__ == '__main__':
+    test001=Test()
+    print(test001)
+    testfile=open('data.pkl','wb')
+    pickle.dump(test001,testfile)
+    testfile.close()
 \end{Verbatim}
 
-这里和之前的区别就是加入了lambda函式，注意第一个参数event是必须的。
-
-
-\chapter{tkinter的各个widget}
-在tkinter中，所有图形部件（widget）（比如Button，Checkbutton等）都是类Widget的子类，而且他们都是一个平行的继承层次。
-
-\section{Label类}
+\section{从文件中取出对象}
+值得一提的是从文件中取出对象，原来的类的定义还是必须存在，也就是声明一次在内存中的，否则会出错。
 \begin{Verbatim}
-#!/usr/bin/env python3
-#-*-coding:utf-8-*-
+import pickle
 
-from tkinter import *
+class Test:
+    def __init__(self):
+        self.a=0
+        self.b=0
+        self.c=1
+        self.d=1
 
-tk001=Tk()
-labelfont=('颜体',20,'bold')
-label001=Label(tk001,text='你好，万泽。')
-label001.config(bg='black',fg='yellow')
-label001.config(font=labelfont)
-label001.config(height=3,width=20)
-label001.pack(expand=YES,fill=BOTH)
+    def __str__(self):
+        return str(self.__dict__)
 
-mainloop()
-\end{Verbatim}
-这里label001是根据Label类新建的一个标签实例，其依附母体是tk001，标签文本是“你好，万泽。”。然后pack方法使用\textbf{expand=YES,fill=BOTH}，也就是这个标签会填充整个窗口。然后config方法进行了这个标签的一些属性设置：
-\begin{description}
-\item[bg] 调整背景颜色
-\item[fg] 调整字体颜色
-\item[font] 设置其他字体属性，这里有一系列的属性，分别是字族、大小和粗体（此外还有normal，roman，italic，underline，overstrike\footnote{删除线}。
-\item[height和width] 调整这个标签实例的高和宽。
-\end{description}
-
-然后设置了这个标签的初始大小。
-
-字体\textbf{Times} ,\textbf{Courier} ,\textbf{ Helvetica}tkinter保证可以使用，当然其他系统内的自己也可以使用。
-
-\section{Button类}
-\begin{Verbatim}
-#!/usr/bin/env python3
-#-*-coding:utf-8-*-
-from tkinter import *
-
-button001 = Button(text='点我', padx=10, pady=10)
-button001.config(cursor='hand2')
-button001.config(bd=5, relief=RAISED)
-button001.config(bg='dark green', fg='white')
-button001.config(font=('helvetica', 20, 'underline italic'))
-
-button001.pack(padx=20, pady=20)
-mainloop()
-\end{Verbatim}
-上面新建了一个Button类，其中padx是按钮的宽，pady是按钮的高。然后接下来config函数配置的有：\begin{description}
-\item[cursor] 调整鼠标指针移动到按钮上时候的形状，有选项：hand2，gumby，watch，pencil，cross。
-\item[bd] 调整按钮最外围的边框宽度。
-\item[relief] 调整按钮的类型，有选项：FLAT，SUNKEN，RAISED，\\GROOVE，SOLID，RIDGE。 
-\end{description}
-
-
-
-\section{Dialogs}
-\begin{Verbatim}
-#!/usr/bin/env python3
-#-*-coding:utf-8-*-
-
-from tkinter import *
-from tkinter.messagebox import *
-
-def callback():
-    if askyesno('确认信息', '你真的要退出吗？'):
-        showwarning('确认退出', '退出')
-    else:
-        showinfo('确认不退出', '不退出')
-
-errmsg='没有spam!'
-Button(text='Quit', command=callback).pack(fill=X)
-Button(text='Spam', command=(lambda: showerror('Spam', errmsg))).pack(fill=X)
-mainloop()
+if __name__ == '__main__':
+    testfile=open('data.pkl','rb')
+    test001=pickle.load(testfile)
+    print(test001)
+    testfile.close()
 \end{Verbatim}
 
 
-
-\section{Entry类}
-\begin{Verbatim}
-from tkinter import *
-from quitter import Quitter
-def fetch():
-    print('Input => "%s"' % ent.get()) # get text
-root = Tk()
-ent = Entry(root)
-ent.insert(0, 'Type words here')
-ent.pack(side=TOP, fill=X) # set text
-# grow horiz
-ent.focus()
-ent.bind('<Return>', lambda event: fetch())
-btn = Button(root, text='Fetch', command=fetch)
-btn.pack(side=LEFT)
-Quitter(root).pack(side=RIGHT)
-root.mainloop()
-\end{Verbatim}
-
-
-\chapter{通过类重用自己的GUI}
+\chapter{shelve宏包}
 
 
 
-
-\part{pyqt4宏包}
-\chapter{第一个例子}
-
-\section{安装pyqt4}
-ubuntu下安装pyqt4即安装python3-pyqt4即可：\\
-\verb+sudo apt-get install python3-pyqt4+
-
-检查pyqt4安装情况执行以下脚本即可，显示的是当前安装的pyqt4的版本号:
-\begin{Verbatim}
-from PyQt4.QtCore import QT_VERSION_STR
-print(QT_VERSION_STR)
-\end{Verbatim}
-
-\section{pyqt4模块简介}
-\begin{description}
-\item[QtCore] 模块包括了核心的非GUI功能，该模块用来对时间、文件、目录、各种数据类型、流、网址、媒体类型、线程或进程进行处理。
-\item[QtGui] 模块包括图形化窗口部件和及相关类。包括如按钮、窗体、状态栏、滑块、位图、颜色、字体等等。
-\item[QtHelp] 模块包含了用于创建和查看可查找的文档的类。
-\item[QtNetwork] 模块包括网络编程的类。这些类可以用来编写TCP/IP和UDP的客户端和服务器。它们使得网络编程更容易和便捷。
-\item[QtOpenGL] 模块使用OpenGL库来渲染3D和2D图形。该模块使得Qt GUI库和OpenGL库无缝集成。
-\item[QtScript] 模块包含了使PyQt应用程序使用JavaScript解释器编写脚本的类。
-\item[QtSql] 模块提供操作数据库的类。
-\item[QtSvg] 模块提供了显示SVG文件内容的类。可缩放矢量图形(SVG)是一种用XML描述二维图形和图形应用的语言。
-\item[QtTest] 模块包含了对PyQt应用程序进行单元测试的功能。（PyQt没有实现完全的Qt单元测试框架，相反，它假设使用标准的Python单元测试框架来实现模拟用户和GUI进行交互。）
-\item[QtWebKit] 模块实现了基于开源浏览器引擎WebKit的浏览器引擎。
-\item[QtXml] 包括处理XML文件的类，该模块提供了SAX和DOM API的接口。
-\item[QtXmlPatterns] 模块包含的类实现了对XML和自定义数据模型的XQuery和XPath的支持。
-\item[phonon] 模块包含的类实现了跨平台的多媒体框架，可以在PyQt应用程序中使用音频和视频内容。
-\item[QtMultimedia] 模块提供了低级的多媒体功能，开发人员通常使用\textbf{phonon}模块。
-\item[QtAssistant] 模块包含的类允许集成\textbf{Qt Assistant}到PyQt应用程序中，提供在线帮助。
-\item[QtDesigner] 模块包含的类允许使用PyQt扩展\textbf{Qt Designer}。
-\item[Qt] 模块综合了上面描述的模块中的类到一个单一的模块中。这样做的好处是你不用担心哪个模块包含哪个特定的类，坏处是加载进了整个Qt框架，从而增加了应用程序的内存占用。
-\item[uic] 模块包含的类用来处理.ui文件，该文件由Qt Designer创建，用于描述整个或者部分用户界面。它包含的加载.ui文件和直接渲染以及从.ui文件生成Python代码为以后执行的类。
-\end{description}
-
-
-\section{第一个例子}
-文件：第一个例子.py
-
-前面的注释部分就不用说了，然后导入sys，是为了后面接受sys.argv参数。导入QtGui是为了后面创建QWidget类的实例。
-
-任何程序都需要创建一个QApplication类的实例，这里是app001，后面跟著数字001就是为了强调这是一个实例。
-
-然后接下来创建QWidget类的实例widget001，首先是引用类的\verb+__init__+方法，然后QWidget类里面有resize方法，这个方法调整等下生成的程序窗口的大小。而setWindowTitle方法设置等下程序窗口上面的标题。show方法就是显示这个窗口。
-
-后面我们看到系统要退出是调用的app001实例的exec\_ 方法，这一句还不太清楚。
-
-
-\subsection{加上图标}
-现在我在前面第一个程序的基础上稍作修改，来给这个程序加上图标。为了模拟Texmaker，程序的名字就叫做Texmaker。
-
-因为自己的DIY开始变多了，所以这里新建了一个类，名字就简单叫做MyQWidget，然后重新定义了这个类的初始函数。首先是继承自QtGui.QWidget类，然后延续了该类的初始函数，而parent被默认为None。
-
-然后用QWidget的setGeometry方法来调整窗口的左上顶点的坐标和窗口的X，Y的大小。这里0，0表示从屏幕的最左上点开始显示，同样800，600类似前面的resize函数的配置。
-
-setWindowTitle方法前面谈论过了，这里加入图标是通过setWi\- ndowIcon方法来做到的。这个方法调用了QtGui.QIcon方法，不管这么多，后面跟的就是图标的存放路径，使用相对路径。在运行这个例子的时候，请随便弄个图标文件过来。
-
-
-\subsection{窗口弹出提示信息}
-接下来要做的DIY就是让这个窗口可以弹出提示信息，就是鼠标停置一会儿会弹出一段小文字。
-
-上面这段代码和前面的代码的不同就在于MyQWidget类的初始函数新加入了两条命令。其中setToolTip方法设置具体显示的文本内容，而<b></b>之间的文字会加粗。然后后面那条命令是设置字体和字号的，我不太清楚这里随便设置系统的字体微软雅黑是不是有效。
-
-
-\subsection{退出的时候询问}
-目前程序点击那个叉叉图标关闭程序的时候将会直接退出，这里新加入一个询问机制。
-
-接下来要做的DIY就是让这个窗口可以弹出提示信息，就是鼠标停置一会儿会弹出一段小文字。
-
-这段代码重新了原来的colseEvent方法，这里调用的那个方法内部“信息”两个字是弹出的信息框的标题，后面是信息框里面显示的文字。这里具体代码我还不是很懂。
-
-
-\subsection{居中显示窗体}
-接下来要做的DIY是让窗体弹出的时候居中显示，前面是设置了窗体的起点坐标的，这里新建了一个center方法来确认窗体居中显示。
-
-这里做的改动就是新建了一个center方法，接受实例。然后对这个实例也就是窗口的具体位置做一些调整。前面使用了resize和center两个方法来调整窗口的大小和窗口的位置。
-
-从center方法中我们可以看到move方法的X，Y是从屏幕的坐标原点（0，0）开始计算的。第一个参数X表示向右移动了多少宽度，Y表示向下移动了多少高度。
-
-
-\chapter{第二个例子}
-文件：第二个例子.py
-
-第二个例子是在第一个例子的基础上进行进一步的修改。
-
-QtGui.QMainWindow类提供应用程序主窗口，可以创建一个经典的拥有状态栏、工具栏和菜单栏的应用程序骨架。（之前使用的是QWidget类，现在换成QMainWindow类。）
-
-前面第一个例子都是用的QtGui.QWidget类创建的一个窗体。关于QWidget和QMainWindow这两个类的区别\href{http://stackoverflow.com/questions/3298792/whats-the-difference-between-qmainwindow-and-qwidget-and-qdialog}{参考这个网站}得出的结论是：QWdget类在Qt中是所有可画类的基础（这里的意思可能是窗体的基础吧。） 任何基于QWidget的类都可以作为独立窗体而显示出来而不需要母体（parent）。
-
-QMainWindow类是针对主窗体一般需求而设计的，它预定义了菜单栏状态栏和其他widget（窗口小部件） 。因为它继承自QWidget，所以前面谈及的一些属性修改都适用于它。
-
-\section{加上状态栏}
-在\verb+__init__+方法下加入语句：\\
-\verb+self.statusBar().showMessage('这是状态栏')+
-
-这样就显示了状态栏信息。
-
-这里用QMainWindow类的statusBar方法获得状态栏，然后用状态栏的showMessage方法插入状态栏信息。
-
-
-\section{加上菜单栏}
-用QMainWindow类的menuBar方法来获得一个菜单栏。然后用这个菜单栏对象的addMenu方法来创建一个新的菜单对象——方法里面的内容是新建菜单显示的名字。
-
-\subsection{菜单加上动作}
-某个菜单对象使用addAction方法来加上某个动作。\\
-\verb+file.addAction(exit)+
-
-
-\section{加上动作}
-也就是所谓的Action对象，通过QtGui类的QAction子类创建动作对象。创建过程的三个参数是图标，文本和母体。
-
-\verb+exit.setStatusTip('退出程序')+\\
-setStatusTip方法设置状态栏提示信息。
-
-
-\section{事件和信号}
-将事件和信号联系起来用connect方法，该方法接受三个参数：第一个是对于谁，第二个是做了什么，第三个下面做什么。
-
-\begin{Verbatim}
-self.connect(exit, QtCore.SIGNAL('triggered()'),
- QtCore.SLOT('close()'))
-\end{Verbatim}
-
-这里的意思是对于self上面的exit对象，接受了信号triggered，然后执行操作close()。
-
-
-
-
-\chapter{第三个例子}
-\section{加上工具栏}
 
 
 

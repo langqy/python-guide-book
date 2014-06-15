@@ -119,4 +119,8 @@
 \BOOKMARK [1][-]{section.6.5}{reload函数}{chapter.6}% 119
 \BOOKMARK [-1][-]{part.2}{II python3高级篇}{}% 120
 \BOOKMARK [0][-]{chapter.7}{模块}{part.2}% 121
-\BOOKMARK [-1][-]{part.3}{III 玩ipython3 notebook}{}% 122
+\BOOKMARK [-1][-]{part.3}{III 常用的宏包}{}% 122
+\BOOKMARK [0][-]{chapter.8}{pickle宏包}{part.3}% 123
+\BOOKMARK [1][-]{section.8.1}{将对象存入文件}{chapter.8}% 124
+\BOOKMARK [1][-]{section.8.2}{从文件中取出对象}{chapter.8}% 125
+\BOOKMARK [0][-]{chapter.9}{shelve宏包}{part.3}% 126

@@ -95,8 +95,6 @@
 \contentsline {subsection}{\numberline {3.9.3}open函数的处理模式}{43}{subsection.3.9.3}
 \contentsline {subsection}{\numberline {3.9.4}用with语句打开文件}{44}{subsection.3.9.4}
 \contentsline {subsection}{\numberline {3.9.5}除字符串外其他类型的读取}{44}{subsection.3.9.5}
-\contentsline {subsubsection}{eval函数}{45}{subsubsection*.10}
-\contentsline {subsubsection}{pickle宏包}{45}{subsubsection*.11}
 \contentsline {section}{\numberline {3.10}总结}{45}{section.3.10}
 \contentsline {chapter}{\numberline {4}类}{46}{chapter.4}
 \contentsline {section}{\numberline {4.1}python中类的结构}{46}{section.4.1}
@@ -127,4 +125,8 @@
 \contentsline {section}{\numberline {6.5}reload函数}{66}{section.6.5}
 \contentsline {part}{II\hspace {1em}python3高级篇}{67}{part.2}
 \contentsline {chapter}{\numberline {7}模块}{68}{chapter.7}
-\contentsline {part}{III\hspace {1em}玩ipython3 notebook}{69}{part.3}
+\contentsline {part}{III\hspace {1em}常用的宏包}{69}{part.3}
+\contentsline {chapter}{\numberline {8}pickle宏包}{70}{chapter.8}
+\contentsline {section}{\numberline {8.1}将对象存入文件}{70}{section.8.1}
+\contentsline {section}{\numberline {8.2}从文件中取出对象}{71}{section.8.2}
+\contentsline {chapter}{\numberline {9}shelve宏包}{72}{chapter.9}

@@ -1,0 +1,17 @@
+\BOOKMARK [0][-]{section*.1}{前言}{}% 1
+\BOOKMARK [0][-]{section*.3}{目录}{}% 2
+\BOOKMARK [0][-]{chapter.1}{刚开始}{}% 3
+\BOOKMARK [1][-]{section.1.1}{安装pyqt4}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.2}{pyqt4模块简介}{chapter.1}% 5
+\BOOKMARK [0][-]{chapter.2}{第一个例子}{}% 6
+\BOOKMARK [1][-]{section.2.1}{窗口}{chapter.2}% 7
+\BOOKMARK [1][-]{section.2.2}{加上图标}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.3}{弹出提示信息}{chapter.2}% 9
+\BOOKMARK [1][-]{section.2.4}{关闭窗体时询问}{chapter.2}% 10
+\BOOKMARK [1][-]{section.2.5}{屏幕居中显示窗体}{chapter.2}% 11
+\BOOKMARK [1][-]{section.2.6}{QMainWindow类}{chapter.2}% 12
+\BOOKMARK [1][-]{section.2.7}{加上状态栏}{chapter.2}% 13
+\BOOKMARK [1][-]{section.2.8}{加上菜单栏}{chapter.2}% 14
+\BOOKMARK [2][-]{subsection.2.8.1}{加上动作}{section.2.8}% 15
+\BOOKMARK [2][-]{subsection.2.8.2}{事件和信号}{section.2.8}% 16
+\BOOKMARK [1][-]{section.2.9}{加上工具栏}{chapter.2}% 17

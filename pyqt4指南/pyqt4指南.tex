@@ -1,0 +1,367 @@
+% !Mode:: "TeX:UTF-8"%確保文檔utf-8編碼
+%新加入的命令如下：addchtoc addsectoc reduline showendnotes hlabel
+%新加入的环境如下：common-format  fig linefig xverbatim
+
+\documentclass[12pt,oneside]{book}
+\newlength{\textpt}
+\setlength{\textpt}{12pt}
+\newif\ifphone
+\phonefalse
+
+
+\usepackage{myconfig}
+\usepackage{mytitle}
+
+
+
+
+\begin{document}
+\frontmatter
+
+\titlea{pyqt4指南}
+\author{万泽}
+\authorinfo{作者：}
+\editor{德山书生}
+\email{a358003542@gmail.com}
+\editorinfo{编者：德山书生，湖南常德人氏。}
+\version{0.1}
+\titleLA
+
+\addchtoc{前言}
+\chapter*{前言}
+\begin{common-format}
+前置知识：python语言基础知识。从变量各个操作对象到程序结构直到类。
+
+
+本文参考资料：\\
+1.pyqt4教程，\href{http://blog.cx125.com/books/PyQt4_Tutorial/}{http://blog.cx125.com/books/PyQt4\_{}Tutorial/}
+
+2.Prentice Hall，Rapid GUI Programming with Python and Qt，2007年10月
+
+3.
+
+
+%这里空一行。
+
+\end{common-format}
+
+
+\addchtoc{目录}
+\setcounter{tocdepth}{2}
+\tableofcontents
+
+\begin{common-format}
+\mainmatter
+
+\chapter{刚开始}
+
+\section{安装pyqt4}
+ubuntu下安装pyqt4即安装python3-pyqt4即可：\\
+\verb+sudo apt-get install python3-pyqt4+
+
+检查pyqt4安装情况执行以下脚本即可，显示的是当前安装的pyqt4的版本号:
+\begin{Verbatim}
+from PyQt4.QtCore import QT_VERSION_STR
+print(QT_VERSION_STR)
+\end{Verbatim}
+
+\section{pyqt4模块简介}
+\begin{description}
+\item[QtCore] 模块包括了核心的非GUI功能，该模块用来对时间、文件、目录、各种数据类型、流、网址、媒体类型、线程或进程进行处理。
+\item[QtGui] 模块包括图形化窗口部件和及相关类。包括如按钮、窗体、状态栏、滑块、位图、颜色、字体等等。
+\item[QtHelp] 模块包含了用于创建和查看可查找的文档的类。
+\item[QtNetwork] 模块包括网络编程的类。这些类可以用来编写TCP/IP和UDP的客户端和服务器。它们使得网络编程更容易和便捷。
+\item[QtOpenGL] 模块使用OpenGL库来渲染3D和2D图形。该模块使得Qt GUI库和OpenGL库无缝集成。
+\item[QtScript] 模块包含了使PyQt应用程序使用JavaScript解释器编写脚本的类。
+\item[QtSql] 模块提供操作数据库的类。
+\item[QtSvg] 模块提供了显示SVG文件内容的类。可缩放矢量图形(SVG)是一种用XML描述二维图形和图形应用的语言。
+\item[QtTest] 模块包含了对PyQt应用程序进行单元测试的功能。（PyQt没有实现完全的Qt单元测试框架，相反，它假设使用标准的Python单元测试框架来实现模拟用户和GUI进行交互。）
+\item[QtWebKit] 模块实现了基于开源浏览器引擎WebKit的浏览器引擎。
+\item[QtXml] 包括处理XML文件的类，该模块提供了SAX和DOM API的接口。
+\item[QtXmlPatterns] 模块包含的类实现了对XML和自定义数据模型的XQuery和XPath的支持。
+\item[phonon] 模块包含的类实现了跨平台的多媒体框架，可以在PyQt应用程序中使用音频和视频内容。
+\item[QtMultimedia] 模块提供了低级的多媒体功能，开发人员通常使用\textbf{phonon}模块。
+\item[QtAssistant] 模块包含的类允许集成\textbf{Qt Assistant}到PyQt应用程序中，提供在线帮助。
+\item[QtDesigner] 模块包含的类允许使用PyQt扩展\textbf{Qt Designer}。
+\item[Qt] 模块综合了上面描述的模块中的类到一个单一的模块中。这样做的好处是你不用担心哪个模块包含哪个特定的类，坏处是加载进了整个Qt框架，从而增加了应用程序的内存占用。
+\item[uic] 模块包含的类用来处理.ui文件，该文件由Qt Designer创建，用于描述整个或者部分用户界面。它包含的加载.ui文件和直接渲染以及从.ui文件生成Python代码为以后执行的类。
+\end{description}
+
+
+\chapter{第一个例子}
+\section{窗口}
+\begin{Verbatim}
+import sys
+from PyQt4  import QtGui
+
+class MyQWidget(QtGui.QWidget):
+    def __init__(self,parent=None):
+        QtGui.QWidget.__init__(self,parent)
+        self.setGeometry(0, 0, 800, 600)
+        #坐标0 0 大小800 600
+        self.setWindowTitle('myapp')
+
+myapp = QtGui.QApplication(sys.argv)
+mywidget = MyQWidget()
+mywidget.show()
+sys.exit(myapp.exec_())
+\end{Verbatim}
+
+首先导入sys宏包，是为了后面接受sys.argv参数\footnote{这里sys.argv就是这个py文件的文件名组成的列表：['窗口.py']}。从PyQt4模块导入QtGui宏包，是为了后面创建QWidget类的实例。
+
+接下来我们定义了MyQWidget类，它继承自QtGui的QWidget类。然后重定义了构造函数，首先继承了QtGui的QWidget类的构造函数，这里将parent的默认参数传递进去了。
+
+然后通过QWidget类定义好的\textbf{setGeometry}方法来调整窗口的左顶点的坐标位置和窗口的大小。
+
+然后通过\textbf{setWindowTitle}方法来设置这个窗口程序的标题，这里就简单设置为myapp了。
+
+任何窗口程序都需要创建一个QApplication类的实例，这里是myapp。然后接下来创建QWidget类的实例mywidget，然后通过调用mywidget的方法\textbf{show}来显示窗体。
+
+最后我们看到系统要退出是调用的myapp实例的\textbf{exec\_}方法。
+
+
+\section{加上图标}
+现在我们在前面第一个程序的基础上稍作修改，来给这个程序加上图标。程序代码如下：
+\begin{Verbatim}
+import sys
+from PyQt4  import QtGui
+
+class MyQWidget(QtGui.QWidget):
+    def __init__(self,parent=None):
+        QtGui.QWidget.__init__(self,parent)
+        self.resize(800,600)
+        self.setWindowTitle('myapp')
+        self.setWindowIcon(QtGui.QIcon\
+        ('icons/myapp.ico'))
+
+
+myapp = QtGui.QApplication(sys.argv)
+mywidget = MyQWidget()
+mywidget.show()
+sys.exit(myapp.exec_())
+\end{Verbatim}
+
+这个程序相对上面的程序就增加了一个\textbf{setWindowIcon}方法，这个方法调用了QtGui.QIcon方法，然后后面跟的就是图标的存放路径，使用相对路径。在运行这个例子的时候，请随便弄个图标文件过来。
+
+这个程序为了简单起见就使用了QWidget类的\textbf{resize}方法来设置窗体的大小。
+
+
+
+\section{弹出提示信息}
+\begin{Verbatim}
+import sys
+from PyQt4  import QtGui
+
+class MyQWidget(QtGui.QWidget):
+    def __init__(self,parent=None):
+        QtGui.QWidget.__init__(self,parent)
+        self.resize(800,600)
+        self.setWindowTitle('myapp')
+        self.setWindowIcon(QtGui.QIcon\
+        ('icons/myapp.ico'))
+        self.setToolTip('看什么看^_^')
+        QtGui.QToolTip.setFont(QtGui.QFont\
+        ('微软雅黑', 12))
+
+myapp = QtGui.QApplication(sys.argv)
+mywidget = MyQWidget()
+mywidget.show()
+sys.exit(myapp.exec_())
+\end{Verbatim}
+
+上面这段代码和前面的代码的不同就在于MyQWidget类的初始函数新加入了两条命令。其中\textbf{setToolTip}方法设置具体显示的文本内容，然后后面调用QToolTip类的\textbf{setFont}方法来设置字体和字号，我不太清楚这里随便设置系统的字体微软雅黑是不是有效。
+
+这样你的鼠标停放在窗口上一会儿会弹出一小段提示文字。
+
+
+\section{关闭窗体时询问}
+目前程序点击那个叉叉图标关闭程序的时候将会直接退出，这里新加入一个询问机制。
+\begin{Verbatim}
+import sys
+from PyQt4  import QtGui
+
+class MyQWidget(QtGui.QWidget):
+    def __init__(self,parent=None):
+        QtGui.QWidget.__init__(self,parent)
+        self.resize(800,600)
+        self.setWindowTitle('myapp')
+        self.setWindowIcon(QtGui.QIcon\
+        ('icons/myapp.ico'))
+        self.setToolTip('看什么看^_^')
+        QtGui.QToolTip.setFont(QtGui.QFont\
+        ('微软雅黑', 12))
+
+    def closeEvent(self, event):
+        reply = QtGui.QMessageBox.question\
+        (self, '信息',
+            "你确定要退出吗？",
+             QtGui.QMessageBox.Yes,
+             QtGui.QMessageBox.No)
+
+        if reply == QtGui.QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
+myapp = QtGui.QApplication(sys.argv)
+mywidget = MyQWidget()
+mywidget.show()
+sys.exit(myapp.exec_())
+\end{Verbatim}
+
+这段代码和前面代码的不同就是重新定义了\textbf{colseEvent}事件。这段代码的核心就是QtGui类的QMessageBox类的question方法，这个方法将会弹出一个询问窗体。这个方法接受四个参数：第一个参数是这个窗体所属的母体，这里就是self也就是实例mywidget；第二个参数是弹出窗体的标题；第三个参数是一个标准button；第四个参数也是一个标准button，是默认（也就是按enter直接选定的）的button。然后这个方法返回的是那个被点击了的标准button的标识符，所以后面和标准buttonYes比较了，然后执行event的accept方法。
+
+这样这个程序在关闭的时候会弹出一个对话框，询问你是否真的要关闭，具体请读者自己实验一下。
+
+\section{屏幕居中显示窗体}
+\begin{Verbatim}
+import sys
+from PyQt4  import QtGui
+
+class MyQWidget(QtGui.QWidget):
+    def __init__(self,parent=None):
+        QtGui.QWidget.__init__(self,parent)
+        self.resize(800,600)
+        self.center()
+        self.setWindowTitle('myapp')
+        self.setWindowIcon(QtGui.QIcon\
+        ('icons/myapp.ico'))
+        self.setToolTip('看什么看^_^')
+        QtGui.QToolTip.setFont(QtGui.QFont\
+        ('微软雅黑', 12))
+
+    def closeEvent(self, event):
+        #重新定义colseEvent
+        reply = QtGui.QMessageBox.question\
+        (self, '信息',
+            "你确定要退出吗？",
+             QtGui.QMessageBox.Yes,
+             QtGui.QMessageBox.No)
+
+        if reply == QtGui.QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+            
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        size =  self.geometry()
+        self.move((screen.width()-size.width())/2,\
+         (screen.height()-size.height())/2)
+
+myapp = QtGui.QApplication(sys.argv)
+mywidget = MyQWidget()
+mywidget.show()
+sys.exit(myapp.exec_())
+\end{Verbatim}
+这个例子和前面相比改动是新建了一个center方法，接受一个实例，这里是mywidget。然后对这个实例也就是窗口的具体位置做一些调整。
+
+QDesktopWidget类的\textbf{screenGeometry}方法返回一个量，这个量的width属性就是屏幕的宽度（按照pt像素计，比如1366×768\\，宽度就是1366），这个量的height属性就是屏幕的高度。
+
+然后QWidget类的\textbf{geometry}方法同样返回一个量，这个量的width是这个窗体的宽度，这个量的height属性是这个窗体的高度。
+
+然后调用QWidget类的move方法，这里是对mywidget这个实例作用。我们可以看到move方法的X，Y是从屏幕的坐标原点 (0,0) 开始计算的。第一个参数X表示向右移动了多少宽度，Y表示向下移动了多少高度。
+
+整个函数的作用效果就是将这个窗体居中显示。
+
+
+\section{QMainWindow类}
+QtGui.QMainWindow类提供应用程序主窗口，可以创建一个经典的拥有状态栏、工具栏和菜单栏的应用程序骨架。（之前使用的是QWidget类，现在换成QMainWindow类。）
+
+前面第一个例子都是用的QtGui.QWidget类创建的一个窗体。关于QWidget和QMainWindow这两个类的区别\href{http://stackoverflow.com/questions/3298792/whats-the-difference-between-qmainwindow-and-qwidget-and-qdialog}{参考这个网站}得出的结论是：QWdget类在Qt中是所有可画类的基础（这里的意思可能是窗体的基础吧。） 任何基于QWidget的类都可以作为独立窗体而显示出来而不需要母体（parent）。
+
+QMainWindow类是针对主窗体一般需求而设计的，它预定义了菜单栏状态栏和其他widget（窗口小部件） 。因为它继承自QWidget，所以前面谈及的一些属性修改都适用于它。那么首先我们将之前的代码中的QWidget类换成QMainWindow类。
+
+
+\begin{Verbatim}
+import sys
+from PyQt4  import QtGui
+
+class MainWindow(QtGui.QMainWindow):
+    def __init__(self,parent=None):
+        QtGui.QMainWindow.__init__(self,parent)
+        self.resize(800,600)
+        self.center()
+        self.setWindowTitle('myapp')
+        self.setWindowIcon(QtGui.QIcon\
+        ('icons/myapp.ico'))
+        self.setToolTip('看什么看^_^')
+        QtGui.QToolTip.setFont(QtGui.QFont\
+        ('微软雅黑', 12))
+
+    def closeEvent(self, event):
+        reply = QtGui.QMessageBox.question\
+        (self, '信息',
+            "你确定要退出吗？",
+             QtGui.QMessageBox.Yes,
+             QtGui.QMessageBox.No)
+
+        if reply == QtGui.QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        size =  self.geometry()
+        self.move((screen.width()-size.width())/2,\
+         (screen.height()-size.height())/2)
+
+myapp = QtGui.QApplication(sys.argv)
+mainwindow = MainWindow()
+mainwindow.show()
+sys.exit(myapp.exec_())
+\end{Verbatim}
+
+现在程序运行情况良好，我们继续加点东西进去。
+
+
+\section{加上状态栏}
+在\verb+__init__+方法下加入语句：\\
+\verb+self.statusBar().showMessage('这是状态栏')+
+
+这样就显示了状态栏信息。
+
+这里用QMainWindow类的statusBar方法获得状态栏，然后用状态栏的showMessage方法插入状态栏信息。
+
+
+\section{加上菜单栏}
+用QMainWindow类的menuBar方法来获得一个菜单栏。然后用这个菜单栏对象的addMenu方法来创建一个新的菜单对象——方法里面的内容是新建菜单显示的名字。
+
+\subsection{加上动作}
+某个菜单对象使用addAction方法来加上某个动作。\\
+\verb+file.addAction(exit)+
+
+
+也就是所谓的Action对象，通过QtGui类的QAction子类创建动作对象。创建过程的三个参数是图标，文本和母体。
+
+\verb+exit.setStatusTip('退出程序')+\\
+setStatusTip方法设置状态栏提示信息。
+
+
+\subsection{事件和信号}
+下面就pyqt4中的事件和信号机制详细说明之。
+
+将事件和信号联系起来用connect方法，该方法接受三个参数：第一个是对于谁，第二个是做了什么，第三个下面做什么。
+
+\begin{Verbatim}
+self.connect(exit, QtCore.SIGNAL('triggered()'),
+ QtCore.SLOT('close()'))
+\end{Verbatim}
+
+这里的意思是对于self上面的exit对象，接受了信号triggered，然后执行操作close()。
+
+
+\section{加上工具栏}
+
+
+
+
+
+%这里空一行
+
+\end{common-format}
+\end{document}
+
+
+
