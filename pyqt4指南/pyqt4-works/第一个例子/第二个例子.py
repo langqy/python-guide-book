@@ -1,46 +1,111 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-##################################
-#序言部分
 import sys
-#from PyQt4  import Qt
+import PyQt4  # just to tell pyqode we want to use PyQt4.
 from PyQt4  import QtGui
 from PyQt4  import QtCore
-###################################
-#程序正式开始
+import pyqode.core
+
 class MainWindow(QtGui.QMainWindow):
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
-
-#        self.setGeometry(0, 0, 800, 600)
+#基本UI
         self.resize(800,600)
         self.center()
-        self.setWindowTitle('Texmaker')
+        self.setWindowTitle('myapp')
         self.setWindowIcon(QtGui.QIcon\
-        ('icons/texmaker.ico'))
+        ('icons/myapp.ico'))
         self.setToolTip('<b>看什么看、、</b>')
-        #<b></b> 加粗
         QtGui.QToolTip.setFont(QtGui.QFont\
         ('微软雅黑', 10))
         self.statusBar().showMessage('这是状态栏')
 
-        exit = QtGui.QAction(QtGui.QIcon('icons/exit.png'), '退出', self)
-        #exit.setShortcut('Ctrl+Q')
+#动作和连接
+        exit = QtGui.QAction('退出', self)
         exit.setStatusTip('退出程序')
-        self.connect(exit, QtCore.SIGNAL('triggered()'), QtCore.SLOT('close()'))
+        exit.triggered.connect(self.close)
 
+        about = QtGui.QAction('关于本程序', self)
+        about.triggered.connect(self.about)
+
+        aboutqt = QtGui.QAction('关于Qt', self)
+        aboutqt.triggered.connect(self.aboutqt)
+
+        newfile=QtGui.QAction('新建',self)
+        newfile.triggered.connect(self.newfile)
+
+        openfile=QtGui.QAction('打开',self)
+        openfile.triggered.connect(self.openfile)
+
+        savefile=QtGui.QAction('保存',self)
+        savefile.triggered.connect(self.savefile)
+
+        saveasfile=QtGui.QAction('另存为',self)
+        saveasfile.triggered.connect(self.saveasfile)
+
+#菜单栏
         menubar = self.menuBar()
         menu001 = menubar.addMenu('文件')
+        menu001.addAction(newfile)
+        menu001.addAction(openfile)
+        menu001.addAction(savefile)
+        menu001.addAction(saveasfile)
         menu001.addAction(exit)
         menu002 = menubar.addMenu('编辑')
         menu003 = menubar.addMenu('查看')
         menu004 = menubar.addMenu('工具')
         menu005 = menubar.addMenu('设置')
         menu006 = menubar.addMenu('帮助')
+        menu006.addAction(about)
+        menu006.addAction(aboutqt)
+#工具栏
+        toolbar001=self.addToolBar("新建")
+        toolbar001.addAction(newfile)
+        toolbar001.addAction(openfile)
+        toolbar001.addAction(savefile)
+#编辑器
+#参照QTextEdit
+        self.editor = pyqode.core.QGenericCodeEdit(self)
+        self.setCentralWidget(self.editor)
+        self.setCurrentFileName()
+        print(self.editor.fileName)
 
-        textEdit = QtGui.QTextEdit()
-        self.setCentralWidget(textEdit)
+#函数
+    def setCurrentFileName(self, fileName=''):
+        self.fileName = fileName
+        self.editor.document().setModified(False)
+        if not fileName:
+            shownName = 'untitled.txt'
+        else:
+            shownName = QtCore.QFileInfo(fileName).fileName()
+        self.setWindowTitle(self.tr("%s[*] - %s" % (shownName, "Rich Text")))
+        self.setWindowModified(False)
+
+    def about(self):
+        QtGui.QMessageBox.about(self,"关于本程序","本程序是一个教学用的编辑器。")
+    def aboutqt(self):
+        QtGui.QMessageBox.aboutQt(self)
+
+    def newfile(self):
+        self.editor.clear()
+
+    def openfile(self):
+        filename=QtGui.QFileDialog.getOpenFileName(self,"打开文件...",".","")
+        self.editor.openFile(filename)
+        self.fileName=filename
+
+    def savefile(self):
+        s = open(self.fileName,'w')
+        s.write(self.editor.toPlainText())
+        s.close()
+
+    def saveasfile(self):
+        filename=QtGui.QFileDialog.getSaveFileName(self,'另存为...','ultitle.name','')
+        self.fileName=filename
+        s = open(self.fileName,'w')
+        s.write(self.editor.toPlainText())
+        s.close()
 
 
 
@@ -64,30 +129,12 @@ class MainWindow(QtGui.QMainWindow):
         else:
             event.ignore()
 
-app001 = QtGui.QApplication(sys.argv)
-main001 = MainWindow()
-main001.show()
-sys.exit(app001.exec_())
+def main():
+    myapp = QtGui.QApplication(sys.argv)
+    mymainwindow = MainWindow()
+    mymainwindow.show()
+    sys.exit(myapp.exec_())
 
 
-
-
-#if __name__ == '__main__': #if run as script
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+if __name__ == '__main__':
+    main()

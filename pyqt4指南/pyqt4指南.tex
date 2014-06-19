@@ -38,7 +38,9 @@
 
 2.Prentice Hall，Rapid GUI Programming with Python and Qt，2007年10月
 
-3.
+3.http://pyqt.sourceforge.net/Docs/PyQt4/classes.html
+
+4.
 
 
 %这里空一行。
@@ -317,6 +319,8 @@ sys.exit(myapp.exec_())
 
 
 \section{加上状态栏}
+
+
 在\verb+__init__+方法下加入语句：\\
 \verb+self.statusBar().showMessage('这是状态栏')+
 
@@ -327,6 +331,8 @@ sys.exit(myapp.exec_())
 
 \section{加上菜单栏}
 用QMainWindow类的menuBar方法来获得一个菜单栏。然后用这个菜单栏对象的addMenu方法来创建一个新的菜单对象——方法里面的内容是新建菜单显示的名字。
+
+
 
 \subsection{加上动作}
 某个菜单对象使用addAction方法来加上某个动作。\\
@@ -352,7 +358,324 @@ self.connect(exit, QtCore.SIGNAL('triggered()'),
 这里的意思是对于self上面的exit对象，接受了信号triggered，然后执行操作close()。
 
 
-\section{加上工具栏}
+%写作思路：第一个例子状态栏写完，菜单栏把关闭按钮还有事件信号动作讲完然后第一个例子菜单加一个帮助选项，在关于本程序设计一个弹出信息框的机制。这样第一个例子就算完了。
+
+\chapter{文本编辑器}
+
+
+
+\chapter{布局设计}
+先就常用布局类进行介绍，然后引入用qt设计器来手工绘制UI的过程。
+
+\section{QHBoxLayout类}
+在QtGui模块中，继承自QBoxLayout，QBoxLayout继承自QLayout，QLayout继承自QObject和QLayoutItem。
+
+简单布局，让元素横向排列。
+
+使用方法如下：
+\begin{Verbatim}
+mainlayout=QtGui.QHBoxLayout()
+mainlayout.addWidget(button1)
+mainlayout.addWidget(button2)
+self.setLayout(mainlayout)
+\end{Verbatim}
+首先建立一个布局对象，有QHBoxLayout类生成，然后在这个布局实例里面用\textbf{addWidget}方法来加入元素，然后将这个布局用主窗口的\textbf{setLayout}方法设置进去。
+
+\section{QVBoxLayout类}
+在QtGui模块中，继承自QBoxLayout，QBoxLayout继承自QLayout，QLayout继承自QObject和QLayoutItem。
+
+和QHBoxLayout类似，简单布局，竖向排列。
+
+
+\chapter{pyqt4类详解}
+\section{QWidget类}
+在QtGui模块中，继承自QObject和QPaintDevice。
+
+\subsection{构造函数}
+\begin{Verbatim}
+QWidget.__init__(self, QWidget parent = None, Qt.WindowFlags flags = 0)
+\end{Verbatim}
+
+默认parent是None，如果是其他widget，那么这个widget就变成那个（参量）widget的子窗口了，如果那个（参量）widget删除了，这个widget也就是删除了。
+
+\subsection{激活窗口}
+\begin{Verbatim}
+QWidget.activateWindow(self)
+\end{Verbatim}
+activateWindow方法用于激活这个窗口，这个窗口是可见的并且可以键盘输入。点击窗口的标题栏一个窗口就上前显现了用的就是这个函数。
+
+\subsection{调整窗口大小}
+\begin{Verbatim}
+QWidget.setGeometry(self, QRect)
+QWidget.setGeometry(self, int ax, int ay, int aw, int ah)
+QWidget.resize(self, QSize)
+QWidget.resize(self, int w, int h)
+\end{Verbatim}
+
+\subsection{设置图标}
+\begin{Verbatim}
+QWidget.setWindowIcon(self, QIcon icon)
+QWidget.setWindowIconText(self, QString)
+\end{Verbatim}
+就是设置程序下面显示的图标和图标文字。（QString对象我测试了直接用python3的字符串对象也是可以的。）
+
+
+\subsection{设置窗口标题}
+\begin{Verbatim}
+QWidget.setWindowTitle(self, QString)
+\end{Verbatim}
+
+
+\subsection{show方法}
+\begin{Verbatim}
+QWidget.show(self)
+\end{Verbatim}
+显示某个窗口和它的子窗口，相当于让这个窗口可见，和\textbf{setVisible(True)}等价。
+
+\subsection{设置提示词}
+\begin{Verbatim}
+QWidget.setToolTip(self, QString)
+\end{Verbatim}
+
+\subsection{closeEvent方法}
+\begin{Verbatim}
+QWidget.closeEvent (self, QCloseEvent)
+\end{Verbatim}
+一般在窗口关闭时调用，你可以重定义这个方法来改变窗口在面对关闭事件时的反应。
+
+
+
+\section{QIcon类}
+在QtGui模块中。
+
+这个类提供了可缩放图标的解决方案。
+
+\subsection{构造函数}
+\begin{Verbatim}
+__init__(self)
+__init__(self, QPixmap pixmap)
+__init__(self, QIcon other)
+__init__(self, QString fileName)
+__init__(self, QIconEngine engine)
+__init__(self, QIconEngineV2 engine)
+__init__(self, QVariant variant)
+\end{Verbatim}
+
+最常用的是第四种形式，也就是用相对路径（要注意操作系统的不同可能带来的问题）引用某个图标文件。
+
+
+\section{QPushButton类}
+来自QtGui模块，继承自QAbstractButton类，QAbstractButton类继承自QWidget类。
+
+QPushButton也就是GUI设计中最常见的按钮。
+
+\subsection{构造函数}
+\begin{Verbatim}
+__init__(self, QWidget parent = None)
+__init__(self, QString text, QWidget parent = None)
+__init__(self, QIcon icon, QString text, QWidget parent = None)
+\end{Verbatim}
+我们看到按钮显示的文字和图标在这里是可以设置的。
+
+
+\section{QFileDialog}
+来自QtGui模块，继承自QDialog，QDialog继承自QWidget。
+
+弹出一个文件或目录选择对话框。
+
+简单的使用常通过静态方法来实现：
+\subsection{静态方法}
+更多信息请参见官方类文档。
+
+\subsubsection{getExistingDirectory方法}
+返回用户选定的已存在的目录。这里parent是对话框依附的父窗口，caption是弹出窗口的标题，directory是窗口弹出时默认打开的位置，options是？
+
+\subsubsection{getOpenFileName方法}
+返回用户选定的已存在文件。比如：
+\begin{Verbatim}
+filename=QtGui.QFileDialog.getOpenFileName(self,"打开文件...",".","")
+\end{Verbatim}
+这里filename是字符串类型，就是你选择的文件的名字（包含绝对引用地址），后面"."是当前目录的意思，在后面过滤器空字符串表示所有的文件都显示。
+
+
+\section{QColorDialog类}
+来自QtGui模块，继承自QDialog，QDialog继承自QWidget。
+
+弹出一个选择颜色的窗口。
+
+\subsection{静态方法}
+\subsubsection{getColor方法}
+简单的设置不给参数也是可以的。
+
+\section{QFontDialog类}
+来自QtGui模块，继承自QDialog，QDialog继承自QWidget。
+
+弹出一个选择字体的窗口。
+\subsection{静态方法}
+\subsubsection{getFont方法}
+简单的设置不给参数也是可以的。
+
+
+\section{QMessageBox类}
+来自QtGui模块，继承自QDialog，QDialog继承自QWidget。
+
+弹出一个对话框用于用户做出一些选择或者给出一些提示信息。
+
+\subsection{静态方法}
+\subsubsection{about方法}
+需要三个参数，第一个参数是窗口的依附父窗口，第二个参数是窗口的标题，第三个参数是窗口的文字信息。
+
+\subsubsection{aboutQt方法}
+最少只需要一个参数，即弹出窗口的依附父窗口。
+
+
+\section{QMainWindow类}
+
+
+
+\section{QDialog类}
+
+
+\chapter{pyqt4实例}
+\section{按钮打印你好}
+\begin{Verbatim}
+import sys
+from PyQt4  import QtGui
+
+class Mybutton(QtGui.QPushButton):
+    def __init__(self,parent=None):
+        QtGui.QPushButton.__init__(self,parent)
+        self.resize(150, 90)
+        self.center()
+        self.setWindowTitle('你好')
+        self.clicked.connect(self.hello)
+
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        size =  self.geometry()
+        self.move((screen.width()-size.width())/2,\
+         (screen.height()-size.height())/2)
+
+    def hello(self):
+        print('你好')
+
+myapp = QtGui.QApplication(sys.argv)
+mywidget = Mybutton()
+mywidget.show()
+
+myapp.exec_()
+sys.exit()
+\end{Verbatim}
+这个代码最值得一提的就是pyqt4最新的信号－槽机制。就是某个对象的某个信号调用connect方法连接到某个槽上，所谓槽实际上就是定义的函数，只是这个函数没加上()圆括号，只是一个函数符号，所以称之为槽。
+
+
+\section{文件对话框}
+\begin{Verbatim}
+import sys
+from PyQt4  import QtGui
+
+class Mybutton(QtGui.QPushButton):
+    def __init__(self,parent=None):
+        QtGui.QPushButton.__init__(self,"打开文件",parent)
+        self.resize(150, 90)
+        self.center()
+        self.setWindowTitle('打开文件')
+        self.clicked.connect(self.openfile)
+
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        size =  self.geometry()
+        self.move((screen.width()-size.width())/2,\
+         (screen.height()-size.height())/2)
+
+
+    def openfile(self):
+        filename=QtGui.QFileDialog.getOpenFileName(self,"打开文件...",".","")
+        print('文件'+str(filename)+'已选择')
+
+myapp = QtGui.QApplication(sys.argv)
+mywidget = Mybutton()
+mywidget.show()
+
+myapp.exec_()
+sys.exit()
+\end{Verbatim}
+这个例子和上面例子的区别就在于将按钮的动作改成了openfile，然后用QFileDialog的静态方法getOpenFileName来获取打开文件的对话框。
+
+
+\section{更多的按钮更多的对话框}
+这个例子我们在前面两个例子的基础上，加上更多的按钮并对应更多的对话框（文件选择对话框，颜色选择对话框，字体选择对话框，一般信息对话框，一般选择对话框（关闭机制））。同时引入一种简单的布局。
+
+\begin{Verbatim}
+import sys
+from PyQt4  import QtGui
+
+class Mywidget(QtGui.QWidget):
+    def __init__(self,parent=None):
+        QtGui.QWidget.__init__(self,parent)
+        self.center()
+        self.setWindowTitle('myapp')
+
+        button1=QtGui.QPushButton("文件")
+        button2=QtGui.QPushButton("颜色")
+        button3=QtGui.QPushButton("字体")
+        button4=QtGui.QPushButton("关于")
+        button5=QtGui.QPushButton("关于Qt")
+        mainlayout=QtGui.QHBoxLayout()
+        mainlayout.addWidget(button1)
+        mainlayout.addWidget(button2)
+        mainlayout.addWidget(button3)
+        mainlayout.addWidget(button4)
+        mainlayout.addWidget(button5)
+        self.setLayout(mainlayout)
+        button1.clicked.connect(self.openfile)
+        button2.clicked.connect(self.choosecolor)
+        button3.clicked.connect(self.choosefont)
+        button4.clicked.connect(self.about)
+        button5.clicked.connect(self.aboutqt)
+
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        size =  self.geometry()
+        self.move((screen.width()-size.width())/2,\
+         (screen.height()-size.height())/2)
+
+    def openfile(self):
+        filename=QtGui.QFileDialog.getOpenFileName(self,"打开文件...",".","")
+        print('文件'+str(filename)+'已选择')
+
+    def choosecolor(self):
+        colorname=QtGui.QColorDialog.getColor()
+        print('颜色'+str(colorname)+'已选择')
+
+    def choosefont(self):
+        fontname=QtGui.QFontDialog.getFont()
+        print('字体'+str(fontname)+'已选择')
+
+    def about(self):
+        QtGui.QMessageBox.about(self,"关于本程序","本程序用于测试按钮和对话框。")
+    def aboutqt(self):
+        QtGui.QMessageBox.aboutQt(self)
+
+    def closeEvent(self, event):
+        #重新定义colseEvent
+        reply = QtGui.QMessageBox.question\
+        (self, '信息',
+            "你确定要退出吗？",
+             QtGui.QMessageBox.Yes,
+             QtGui.QMessageBox.No)
+
+        if reply == QtGui.QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
+myapp = QtGui.QApplication(sys.argv)
+mywidget = Mywidget()
+mywidget.show()
+myapp.exec_()
+sys.exit()
+\end{Verbatim}
 
 
 

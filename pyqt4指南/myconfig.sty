@@ -64,8 +64,8 @@
   bindingoffset=0mm,%裝訂線
   top=35mm,  %上邊距 包括頁眉
   bottom=30mm,%下邊距 包括頁腳
-  left=35mm,  %左邊距or inner
-  right=40mm,  %右邊距or  outer
+  left=30mm,  %左邊距or inner
+  right=30mm,  %右邊距or  outer
   headheight=10mm,%頁眉
   headsep=15mm,%
   footskip=15mm,%頁腳
@@ -232,7 +232,9 @@ text-micro = μ
 
 %插入代码
 \RequirePackage{xverbatim}%小代码环境
-
+%Verbatim environment a little diy
+\fvset{frame=lines,tabsize=4 ,baselinestretch=2,
+    xleftmargin=6pt, fontsize=\footnotesize , numbersep=2pt}
 %=============插入尾注=========%
 \RequirePackage{endnotes}
 

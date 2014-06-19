@@ -1475,6 +1475,41 @@ reload函数可以重新载入某个宏包，这个重载和程序重新运行�
 
 
 \part{python3高级篇}
+\chapter{类}
+\section{静态方法}
+\begin{Verbatim}
+class Test:
+#    @staticmethod
+    def hello():
+        print('aaa')
+
+test=Test()
+test.hello()
+\end{Verbatim}
+在上面的例子中，我们希望创造一个函数，这个函数和self或者其他类都没有关系（这里的其他类一般指继承来的）。如上所示，hello函数只是希望简单打印一小段字符，如上面这样的代码是错误的，如果我们在这个函数上面加上\textbf{@staticmethod}，那么上面这段代码就不会出错了，
+
+\begin{Verbatim}
+class Test:
+    @staticmethod
+    def hello():
+        print('aaa')
+
+test=Test()
+test.hello()
+\end{Verbatim}
+这样在类里面定义出来的函数叫做这个类的静态方法，静态方法同样可以继承等等，而静态方法通常使用最大的特色就是不需要建立实例，即可以直接从类来调用，如下所示：
+\begin{Verbatim}
+class Test:
+    @staticmethod
+    def hello():
+        print('aaa')
+
+Test.hello()
+\end{Verbatim}
+
+
+
+
 
 \chapter{模块}
 多个宏包py文件组成一个多文件夹目录的整体就是一个模块，这个暂时还用不到而且处理起来更加复杂，暂时略过。

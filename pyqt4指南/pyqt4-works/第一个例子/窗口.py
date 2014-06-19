@@ -2,7 +2,6 @@
 #-*- coding: utf-8 -*-
 import sys
 from PyQt4  import QtGui
-#######################
 
 
 class MyQWidget(QtGui.QWidget):
@@ -12,8 +11,8 @@ class MyQWidget(QtGui.QWidget):
         #坐标0 0 大小800 600
         self.setWindowTitle('myapp')
 
+
 myapp = QtGui.QApplication(sys.argv)
 mywidget = MyQWidget()
 mywidget.show()
 sys.exit(myapp.exec_())
-
