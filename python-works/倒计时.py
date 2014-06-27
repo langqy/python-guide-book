@@ -2,7 +2,6 @@
 #-*-coding:utf-8-*-
 
 import subprocess
-#from tkinter import *
 import time
 #a is duration b is frequency
 def beep(a,b):

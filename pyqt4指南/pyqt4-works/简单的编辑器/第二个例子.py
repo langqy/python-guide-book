@@ -2,10 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import PyQt4  # just to tell pyqode we want to use PyQt4.
 from PyQt4  import QtGui
 from PyQt4  import QtCore
-import pyqode.core
+
 
 class MainWindow(QtGui.QMainWindow):
     def __init__(self):
@@ -18,8 +17,12 @@ class MainWindow(QtGui.QMainWindow):
         ('icons/myapp.ico'))
         self.setToolTip('<b>看什么看、、</b>')
         QtGui.QToolTip.setFont(QtGui.QFont\
-        ('微软雅黑', 10))
+        ('微软雅黑', 12))
         self.statusBar().showMessage('这是状态栏')
+#编辑器
+        self.editor =QtGui.QTextEdit(self)
+        self.fileName=''
+        self.setCentralWidget(self.editor)
 
 #动作和连接
         exit = QtGui.QAction('退出', self)
@@ -44,6 +47,23 @@ class MainWindow(QtGui.QMainWindow):
         saveasfile=QtGui.QAction('另存为',self)
         saveasfile.triggered.connect(self.saveasfile)
 
+        copy=QtGui.QAction('复制',self)
+        copy.triggered.connect(self.editor.copy)
+
+        cut=QtGui.QAction('剪切',self)
+        cut.triggered.connect(self.editor.cut)
+
+        paste=QtGui.QAction('粘贴',self)
+        paste.triggered.connect(self.editor.paste)
+
+        redo=QtGui.QAction('重做',self)
+        redo.triggered.connect(self.editor.redo)
+
+        undo=QtGui.QAction('撤销上次操作',self)
+        undo.triggered.connect(self.editor.undo)
+
+
+
 #菜单栏
         menubar = self.menuBar()
         menu001 = menubar.addMenu('文件')
@@ -53,34 +73,26 @@ class MainWindow(QtGui.QMainWindow):
         menu001.addAction(saveasfile)
         menu001.addAction(exit)
         menu002 = menubar.addMenu('编辑')
+        menu002.addAction(copy)
+        menu002.addAction(cut)
+        menu002.addAction(paste)
+        menu002.addAction(redo)
+        menu002.addAction(undo)
         menu003 = menubar.addMenu('查看')
         menu004 = menubar.addMenu('工具')
         menu005 = menubar.addMenu('设置')
         menu006 = menubar.addMenu('帮助')
         menu006.addAction(about)
         menu006.addAction(aboutqt)
-#工具栏
-        toolbar001=self.addToolBar("新建")
-        toolbar001.addAction(newfile)
-        toolbar001.addAction(openfile)
-        toolbar001.addAction(savefile)
-#编辑器
-#参照QTextEdit
-        self.editor = pyqode.core.QGenericCodeEdit(self)
-        self.setCentralWidget(self.editor)
-        self.setCurrentFileName()
-        print(self.editor.fileName)
+
+
 
 #函数
-    def setCurrentFileName(self, fileName=''):
-        self.fileName = fileName
-        self.editor.document().setModified(False)
-        if not fileName:
-            shownName = 'untitled.txt'
-        else:
-            shownName = QtCore.QFileInfo(fileName).fileName()
-        self.setWindowTitle(self.tr("%s[*] - %s" % (shownName, "Rich Text")))
-        self.setWindowModified(False)
+    def issaved(self):
+        if  self.editor.document().isModified():
+            return False
+        else :
+            return True
 
     def about(self):
         QtGui.QMessageBox.about(self,"关于本程序","本程序是一个教学用的编辑器。")
@@ -88,26 +100,34 @@ class MainWindow(QtGui.QMainWindow):
         QtGui.QMessageBox.aboutQt(self)
 
     def newfile(self):
-        self.editor.clear()
+        if  self.issaved():
+            self.editor.clear()
 
     def openfile(self):
         filename=QtGui.QFileDialog.getOpenFileName(self,"打开文件...",".","")
-        self.editor.openFile(filename)
         self.fileName=filename
+        f = open(self.fileName,'r')
+        self.editor.setPlainText(f.read())
+        f.close()
+
 
     def savefile(self):
-        s = open(self.fileName,'w')
-        s.write(self.editor.toPlainText())
-        s.close()
+        if self.fileName == '' :
+            self.saveasfile()
+        else:
+            f=open(self.fileName,'w')
+            f.write(self.editor.toPlainText())
+            f.close()
+        self.editor.document().setModified(False)
+
 
     def saveasfile(self):
-        filename=QtGui.QFileDialog.getSaveFileName(self,'另存为...','ultitle.name','')
+        filename=QtGui.QFileDialog.getSaveFileName(self,'另存为...','untitle.txt','')
         self.fileName=filename
-        s = open(self.fileName,'w')
-        s.write(self.editor.toPlainText())
-        s.close()
-
-
+        f = open(self.fileName,'w')
+        f.write(self.editor.toPlainText())
+        f.close()
+        self.editor.document().setModified(False)
 
     def center(self):
         screen = QtGui.QDesktopWidget().screenGeometry()
@@ -115,19 +135,14 @@ class MainWindow(QtGui.QMainWindow):
         size =  self.geometry()
         self.move((screen.width()-size.width())/2,
         (screen.height()-size.height())/2)
-#左侧点绝对位置坐标move
-    def closeEvent(self, event):
-        #重新定义colseEvent
-        reply = QtGui.QMessageBox.question\
-        (self, '信息',
-            "你确定要退出吗？",
-             QtGui.QMessageBox.Yes,
-             QtGui.QMessageBox.No)
 
-        if reply == QtGui.QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
+    def closeEvent(self, event):
+        if not self.issaved():
+            reply = QtGui.QMessageBox.question(self, '信息',"文档还没有保存，你确定要退出吗？",QtGui.QMessageBox.Yes,QtGui.QMessageBox.No)
+            if reply == QtGui.QMessageBox.Yes:
+                event.accept()
+            else:
+                event.ignore()
 
 def main():
     myapp = QtGui.QApplication(sys.argv)

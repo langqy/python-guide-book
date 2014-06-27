@@ -1,12 +1,10 @@
 % !Mode:: "TeX:UTF-8"%確保文檔utf-8編碼
 %新加入的命令如下：addchtoc addsectoc reduline showendnotes hlabel
-%新加入的环境如下：common-format  fig scalefig xverbatim
+%新加入的环境如下：common-format  fig  xverbatim
 
 \documentclass[12pt,oneside]{book}
 \newlength{\textpt}
 \setlength{\textpt}{12pt}
-\newif\ifphone
-\phonefalse
 
 
 \usepackage{myconfig}
@@ -72,7 +70,7 @@ xverbatim环境目前不能进行交互，如果终端交互又不支持pdf的�
 
 \chapter{beginning}
 \section{python简介}
-Python是个成功的脚本语言。它最初由Guido van Rossum开发，在1991年第一次发布。Python由ABC和Haskell语言所启发。Python是一个高级的、通用的、跨平台、解释型的语言。一些人更倾向于称之为动态语言。它很易学，Python是一种简约的语言。它的最明显的一个特征是，不使用分号或括号，Python使用缩进。现在，Python由来自世界各地的庞大的志愿者维护。
+Python是个成功的脚本语言。它最初由Guido van Rossum开发，\sidenote{这是一段测试文字}在1991年第一次发布。Python由ABC和Haskell语言所启发。Python是一个高级的、通用的、跨平台、解释型的语言。一些人更倾向于称之为动态语言。它很易学，Python是一种简约的语言。它的最明显的一个特征是，不使用分号或括号，Python使用缩进。现在，Python由来自世界各地的庞大的志愿者维护。
 
 python现在主要有两个版本区别，python2和python3。作为新学者推荐完全使用python3编程，本文档完全基于python3。
 
@@ -169,19 +167,9 @@ elif test002:
 \end{Verbatim}
 显然你一看就明白了，elif是else和if的结合。
 
-\begin{xverbatim}[129]{py}
-x=0
-if x>0:
-    print('x大于0')
-elif x<0:
-    print('x小于0')
-else:
-    print('x等于0')
-\end{xverbatim}
-这种结构类似于switch语句，你也可以看作类似下面图片描述的横向并排结构。
-\begin{linefig}{if-elif语句示意}
-\label{fig:if-elif语句示意}
-\end{linefig}
+
+
+
 
 
 \subsection{逻辑与或否}
@@ -198,6 +186,66 @@ if ((x[0] == 'a' or x[0] == 'b')
 上面的显示效果是xverbatim环境input之后的问题，目前主要的问题就是新的一行前面的空格无法显示，想了一些方法都不行，只好作罢。
 
 
+\subsection{稍复杂的条件判断}
+现在我们了解了if，elif和else语句，然后还了解了逻辑与或非的组合判断。那么在实际编程中如何处理复杂的条件逻辑呢？
+
+首先能够用逻辑语句与或非组合起来的就将其组合起来，而不要过分使用嵌套。然后让我们看下面几个小代码： 
+\begin{tcbpython}[]
+x=-2
+if x>0:
+    print('x大于0')
+else:
+    print('x小于0')
+\end{tcbpython}
+
+\begin{tcbpython}
+x=2
+if x>0:
+    print('x大于0')
+elif x<0:
+    print('x小于0')
+else:
+    print('x等于0')
+\end{tcbpython}
+
+\begin{tcbpython}
+x=2
+if x>0:
+    print('x大于0')
+if x<0:
+    print('x小于0')
+else:
+    print('x等于0')
+\end{tcbpython}
+
+%警告，自动编号会因为本章前面加入tcbcode环境而被破坏。
+如tcbcode-\ref{tcbcode-2.1}所示，如果一个情况分成两部分，那么就用if...eles...语句，而如果一个情况分成三部分，那么就用if...elif...else语句（如tcbcode-\ref{tcbcode-2.2}）。同一深度的这些平行语句对应的是“或”逻辑，或者说类似其他编程语言的switch语句。我们再看一看tcbcode-\ref{tcbcode-2.3}，这个代码是\emph{错误的}，两个if语句彼此并不构成逻辑分析关系。\footnote{四个甚至更多的平行或逻辑就用更多的elif，读者请自己实验一下。}
+
+\begin{tcbpython}
+x=-2
+if x>0:
+    print('x大于0')
+    if x>2:
+        print('x>2')
+    elif x<2:
+        print('0<x<2')
+    else:
+        print('x=2')
+elif x<0:
+    print('x小于0')
+else:
+    print('x等于0')
+\end{tcbpython}
+
+然后我们看到上面的最后一个代码tcbcode-\ref{tcbcode-2.4}，这个例子演示的是在加深一个深度个条件判断语句它当时处于的逻辑判断情况，这个语句的条件判断逻辑是本语句的判断逻辑再和左边（也就是前面）的深度的判断逻辑的“与”逻辑，或者说成是“交集”。比如说\textit{print('0<x<2')}这个语句就是本语句的判断逻辑x<2和上一层判断逻辑x>0的“交集”，也就是0<x<2。
+
+整个过程的情况如下图所示：
+\begin{linefig}{复杂条件判断}
+\caption{复杂条件判断}
+\label{fig:复杂条件判断}
+\end{linefig}
+为了在编程的时候对处于何种判断逻辑之下有一个清晰的认识，强烈建议读者好好思考一下。毕竟磨刀不误砍柴功。
+
 
 \subsection{其他逻辑小知识}
 在python中，有些关于逻辑真假上的小知识，需要简单了解下。
@@ -211,19 +259,23 @@ if ((x[0] == 'a' or x[0] == 'b')
 
 
 \subsection{try语句捕捉错误}
-\begin{Verbatim}
+try语句是编程中用来处理可能出现的错误或者已经出现但并不打算应付的错误最通用的方式。比如一个变量你预先想的是接受一个数值，但是用户却输入了一个字符，这个时候你就可以将这段语句包围在try里面；或者有时你在编程的时候就发现了这种情况，只是懒得理会他们，那么简单的把这块出错的语句包围在try里面，然后后面跟个except语句，打印出一个信息“出错了”，即可。用法如下所示：
+\begin{tcbpython}
 while True:
-    x=input('请输入一个数值，我将返回它除以2之后的数值\n输入"quit"退出\n')
+    x=input('请输入一个数，将返回它除以2之后的数值\n输入"quit"退出\n')
     if x=='quit':
         break
     try :
         num=float(x)
-    except:
-        print('输入有错')
-    else:
         print(num/2)
-print('再见')
-\end{Verbatim}
+    except:
+        print('出错了')
+\end{tcbpython}
+
+
+
+
+
 
 \subsection{in语句}
 \begin{Verbatim}
@@ -320,9 +372,10 @@ print(x,type(x))
 python程序由各个模块（modules）组成，模块就是各个文件。模块由声明（statements）组成，声明由表达式（expressions）组成，表达式负责创造和操作对象（objects）。在python中一切皆对象。python语言内置对象（数值、字符串、列表、数组、字典、文件、集合、其他内置对象。）后面会详细说明之。
 
 
-\section{对象同时赋值}
-下面的例子很好地说明了具体的情况：
-\subsection{平行赋值}
+\section{赋值}
+python中的赋值语法非常的简单，x=1，就是一个赋值语句了。和c语言不同，c是必须先声明int x之类，开辟一个内存空间，然后才能给这个x赋值。而python的x=1语句实际上至少完成了三个工作：一，判断1的类型（动态类型语言必须要这步）；二，把这个类型的对象存储在内存里面；三，创建x这个名字和这个名字指向这个内存，x似乎可以称之为对应c语言的指针对象。
+
+\subsection{序列赋值}
 \begin{Verbatim}
 x,y=1,'a'
 [z,w]=['b',10]
@@ -337,6 +390,31 @@ x=y='a'
 z=w=2
 print(x,y,z,w)
 \end{Verbatim}
+这种语句形式c语言里面也有，不过内部实现机制就非常的不一样了。python当声明x=y的时候，x和y是相同的指针值，然后相同的指针值都指向了'a'这个字符串对象，也可以说x和y就是一个东西，只是取的名字不同罢了。
+
+但如果写成这种形式：
+\begin{Verbatim}
+x=1
+y=1
+\end{Verbatim}
+那么x和y还是指向的同一个对象，甚至是同一内存区块吗？如果是的话，那我对python内部如何处理的实现了这样的效果很感兴趣了。
+
+
+\subsection{增强赋值语句}
+x=x+y可以写作x += y。类似的还有：
+\begin{tabular}{|c|c|c|}
+\hline 
++= & \&{}= & >>= \\ 
+\hline 
+-= & |= & <<= \\ 
+\hline 
+*= & \^{}= & **= \\ 
+\hline 
+/= & \%{}= & //= \\ 
+\hline 
+\end{tabular} 
+
+
 
 
 \section{数值}
@@ -410,6 +488,7 @@ $ \left| z \right| =\sqrt { a^{ 2 }+b^{ 2 } }  $
 
 
 \subsection{min，max和sum函数}
+\label{sec:sum函数}
 min，max函数的用法和sum的用法稍微有点差异，简单起见可以认为min，max，sum都接受一个元组或者列表（还有其他？），然后返回这个元组或者列表其中的最小值，最大值或者相加总和。此外min和max还支持min(1,2,3)这样的形式，而sum不支持。
 \begin{Verbatim}
 >>> min((1,6,8,3,4))
@@ -782,6 +861,7 @@ map函数将某个应数应用于某个列表的元素中并生成一个map对�
 那么在python中如何实现以上功能呢？
 
 在这里最基本的是通过迭代语句产生一个列表，然后通过某些函数比如minimize对应min函数，maximize对应max函数等对这个列表进行一些操作即可。
+
 \begin{xverbatim}[129]{py}
 from random import *
 def random_list_max(n):
@@ -1299,24 +1379,8 @@ if __name__ == '__main__':
 
 
 
-
-
-
 \subsection{类的其他内置方法}
 类还有其他的一些内置方法，比如\verb+__add__+就控制这对象面对加号时候的行为。这些我们暂时先略过。
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1331,7 +1395,14 @@ def yourfunctionname(para001,para002...):
 \end{Verbatim}
 
 \section{参数和默认参数}
-定义的函数圆括号那里就是接受的参数，如果参数后面跟个等号，来个赋值语句，那个这个赋的值就是这个参数的默认值。
+定义的函数圆括号那里就是接受的参数，如果参数后面跟个等号，来个赋值语句，那个这个赋的值就是这个参数的默认值。比如下面随便写个演示程序：
+\begin{xverbatim}[129]{py}
+def test(x='hello'):
+    print(x)
+test()
+test('world')
+\end{xverbatim}
+
 
 \section{递归函式}
 虽然递归函式能够在某种程度上取代前面的一些循环或者迭代程序结构，不过不推荐这么做。这里谈及递归函式是把某些问题归结为数学函数问题，而这些问题常常用递归算法更加直观（不一定高效）。比如下面的菲波那奇函数：
@@ -1376,16 +1447,75 @@ print(dosomething(5))
 \end{xverbatim}
 可以看到，如果把上面的print语句换成其他的某个操作，比如机器人向前走一步，那么这里dosomething换个名字向前走(5)就成了向前走5步了。
 
+\section{不定参量函数}
+我们在前面谈到sum函数\ref{sec:sum函数}只接受一个列表，而不支持这样的形式：sum(1,2,3,4,5)。现在我们设计这样一个可以接受不定任意数目参量的函数。首先让我们看看一种奇怪的赋值方式。
+
+\subsection{序列解包赋值}
+\begin{Verbatim}
+>>> a,b,*c=1,2,3,4,5,6,7,8,9
+>>> print(a,b,c,sep=' | ')
+1 | 2 | [3, 4, 5, 6, 7, 8, 9]
+>>> a,*b,c=1,2,3,4,5,6,7,8,9
+>>> print(a,b,c,sep=' | ')
+1 | [2, 3, 4, 5, 6, 7, 8] | 9
+>>> *a,b,c=1,2,3,4,5,6,7,8,9
+>>> print(a,b,c,sep=' | ')
+[1, 2, 3, 4, 5, 6, 7] | 8 | 9
+\end{Verbatim}
+带上一个星号*的变量变得有点类似通配符的味道了，针对后面的序列\footnote{似乎序列赋值内置迭代操作}（数组，列表，字符串），它都会将遇到的元素收集在一个列表里面，然后说是它的。
+
+
+\subsection{函数中的通配符}
+\begin{Verbatim}
+>>> def test(*args):
+...  print(args)
+... 
+>>> test(1,2,3,'a')
+(1, 2, 3, 'a')
+\end{Verbatim}
+我们看到类似上面序列解包赋值中的带星号表通配的概念，在定义函数的时候写上一个带星号的参量（我们可以想象在函数传递参数的时候有一个类似的序列解包赋值过程），在函数定义里面，这个args就是接受到的参量组成的\emph{数组}。
+
+
+\subsection{mysum函数}
+\begin{xverbatim}[129]{py}
+def mysum(*args):
+    return sum([arg for arg in args[:]])
+
+print(mysum(1,2,3,4,5,6))
+\end{xverbatim}
+这样我们定义的可以接受任意参数的mysum函数，如上所示。具体过程就是将接受到的args进行列表解析，然后用sum函数处理了一下。
+
+
+\subsection{任意数目的可选参数}
+在函数定义的写上带上两个星号的变量**args，那么args在函数里面的意思就是接受到的可选参数组成的一个字典值。
+\begin{Verbatim}
+>>> def test(**args):
+...  print(args)
+... 
+>>> test(a=1,b=2)
+{'b': 2, 'a': 1}
+\end{Verbatim}
+
+老实说一般参数，可选参数（关键字参数），任意参数，任意关键字参数所有这些概念混在一起非常的让人困惑了，这一块有时间再好好琢磨一下。
+
 
 \section{lambda函式}
 lambda
 λ表达式这个在刚开始介绍lisp语言的时候已有所说明，简单来说就是函数只是一个映射规则，变量名，函数名都无所谓的。这里就是没有名字的函数的意思。
 
-lambda函式在python这里主要针对某些简单的函数。比如下面：
+具体的样子如下面所示：
 \begin{xverbatim}[129]{py}
 f=lambda x,y,z:x+y+z
 print(f(1,2,3))
 \end{xverbatim}
+
+lanmbda函式在有些情况下要用到，比如pyqt里面的信号－槽机制用connect方法的时候，槽比如是函数名或者无参函数，如果用户想加入参量的话，可以使用lamba函式引入，具体这里我还不够清晰。
+
+
+\section{print函数}
+print函数因为很常用和基础，就放在这里了。
+
+print函数接受任意的参量，逐个打印出来。然后它还有一些关键字参数，\textbf{sep}：默认值是' '，也就是一个空格，如果修改为空字符串，那么逐个打印出来的字符之间就没有间隔了。\textbf{end}：默认值是'\textbackslash{}n'，\textbf{file}默认值是sys.stdout，也就是在终端显示，你可以修改为某个文件变量，这样直接往某个文件里面输出内容。
 
 
 
@@ -1514,6 +1644,12 @@ Test.hello()
 \chapter{模块}
 多个宏包py文件组成一个多文件夹目录的整体就是一个模块，这个暂时还用不到而且处理起来更加复杂，暂时略过。
 
+\chapter{pyqt4GUI设计}
+具体内容请参看文件夹\textbf{pyqt4指南}。
+
+
+
+
 \part{常用的宏包}
 \chapter{pickle宏包}
 \label{sec:pickle宏包}
@@ -1565,6 +1701,7 @@ if __name__ == '__main__':
 
 \chapter{shelve宏包}
 
+\chapter{collections宏包}
 
 
 

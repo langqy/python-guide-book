@@ -1,12 +1,9 @@
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{k}{def} \PY{n+nf}{dosomething}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:}
-    \PY{k}{if} \PY{n}{n}\PY{o}{==}\PY{l+m+mi}{0}\PY{p}{:}
-        \PY{k}{pass}
-    \PY{k}{elif} \PY{n}{n}\PY{o}{==}\PY{l+m+mi}{1}\PY{p}{:}
-        \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{do!}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{fact}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+    \PY{k}{if} \PY{n}{n} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+        \PY{k}{return} \PY{l+m+mi}{1}
     \PY{k}{else}\PY{p}{:}
-        \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{do!}\PY{l+s}{\PYZsq{}}\PY{p}{)}
-        \PY{k}{return} \PY{n}{dosomething}\PY{p}{(}\PY{n}{n}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{k}{return} \PY{n}{n}\PY{o}{*}\PY{n}{fact}\PY{p}{(}\PY{n}{n}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
 
-\PY{k}{print}\PY{p}{(}\PY{n}{dosomething}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{k}{print}\PY{p}{(}\PY{n}{fact}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{,}\PY{n}{fact}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}

@@ -33,14 +33,16 @@
 前置知识：python语言基础知识。从变量各个操作对象到程序结构直到类。
 
 
-本文参考资料：\\
+本文主要参考资料：\\
 1.pyqt4教程，\href{http://blog.cx125.com/books/PyQt4_Tutorial/}{http://blog.cx125.com/books/PyQt4\_{}Tutorial/}
 
 2.Prentice Hall，Rapid GUI Programming with Python and Qt，2007年10月
 
 3.http://pyqt.sourceforge.net/Docs/PyQt4/classes.html
 
-4.
+4.http://straightedgelinux.com/blog/python/html/pyqtxt.html
+
+5.
 
 
 %这里空一行。
@@ -319,48 +321,204 @@ sys.exit(myapp.exec_())
 
 
 \section{加上状态栏}
+\begin{Verbatim}
+#!/usr/bin/env python3
+#-*- coding: utf-8 -*-
+import sys
+from PyQt4  import QtGui
+
+class MainWindow(QtGui.QMainWindow):
+    def __init__(self,parent=None):
+        QtGui.QMainWindow.__init__(self,parent)
+        self.resize(800,600)
+        self.center()
+        self.setWindowTitle('myapp')
+        self.setWindowIcon(QtGui.QIcon\
+        ('icons/myapp.ico'))
+        self.setToolTip('看什么看^_^')
+        QtGui.QToolTip.setFont(QtGui.QFont\
+        ('微软雅黑', 12))
 
 
-在\verb+__init__+方法下加入语句：\\
-\verb+self.statusBar().showMessage('这是状态栏')+
+    def closeEvent(self, event):
+        reply = QtGui.QMessageBox.question\
+        (self, '信息',
+            "你确定要退出吗？",
+             QtGui.QMessageBox.Yes,
+             QtGui.QMessageBox.No)
 
-这样就显示了状态栏信息。
+        if reply == QtGui.QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
 
-这里用QMainWindow类的statusBar方法获得状态栏，然后用状态栏的showMessage方法插入状态栏信息。
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        size =  self.geometry()
+        self.move((screen.width()-size.width())/2,\
+         (screen.height()-size.height())/2)
+
+myapp = QtGui.QApplication(sys.argv)
+mainwindow = MainWindow()
+mainwindow.show()
+mainwindow.statusBar().showMessage('程序已就绪...')
+sys.exit(myapp.exec_())
+\end{Verbatim}
+
+这个程序和前面的区别在于最后倒数第二行，调用mainwindow这个QMainWindow类生成的实例的\textbf{statusBar}方法生成一个QStatusBar对象，然后调用QStatusBar类的\textbf{showMessage}方法来显示一段文字。
+
+如果你希望这段代码在\verb+__init__+方法里面，那么具体实现过程也与上面描述的类似。考虑到状态栏有些程序不一定需要，这里暂时不加到构造函数里面了。
 
 
 \section{加上菜单栏}
-用QMainWindow类的menuBar方法来获得一个菜单栏。然后用这个菜单栏对象的addMenu方法来创建一个新的菜单对象——方法里面的内容是新建菜单显示的名字。
-
-
-
-\subsection{加上动作}
-某个菜单对象使用addAction方法来加上某个动作。\\
-\verb+file.addAction(exit)+
-
-
-也就是所谓的Action对象，通过QtGui类的QAction子类创建动作对象。创建过程的三个参数是图标，文本和母体。
-
-\verb+exit.setStatusTip('退出程序')+\\
-setStatusTip方法设置状态栏提示信息。
-
-
-\subsection{事件和信号}
-下面就pyqt4中的事件和信号机制详细说明之。
-
-将事件和信号联系起来用connect方法，该方法接受三个参数：第一个是对于谁，第二个是做了什么，第三个下面做什么。
-
 \begin{Verbatim}
-self.connect(exit, QtCore.SIGNAL('triggered()'),
- QtCore.SLOT('close()'))
+#!/usr/bin/env python3
+#-*- coding: utf-8 -*-
+import sys
+from PyQt4  import QtGui
+
+class MainWindow(QtGui.QMainWindow):
+    def __init__(self,parent=None):
+        QtGui.QMainWindow.__init__(self,parent)
+        self.resize(800,600)
+        self.center()
+        self.setWindowTitle('myapp')
+        self.setWindowIcon(QtGui.QIcon\
+        ('icons/myapp.ico'))
+        self.setToolTip('看什么看^_^')
+        QtGui.QToolTip.setFont(QtGui.QFont\
+        ('微软雅黑', 12))
+
+    #菜单栏
+        self.menubar = self.menuBar()
+        menu_file=self.menubar.addMenu('文件')
+        menu_edit=self.menubar.addMenu('编辑')
+        menu_help=self.menubar.addMenu('帮助')
+
+    def closeEvent(self, event):
+        reply = QtGui.QMessageBox.question\
+        (self, '信息',
+            "你确定要退出吗？",
+             QtGui.QMessageBox.Yes,
+             QtGui.QMessageBox.No)
+
+        if reply == QtGui.QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        size =  self.geometry()
+        self.move((screen.width()-size.width())/2,\
+         (screen.height()-size.height())/2)
+
+myapp = QtGui.QApplication(sys.argv)
+mainwindow = MainWindow()
+mainwindow.show()
+mainwindow.statusBar().showMessage('程序已就绪...')
+sys.exit(myapp.exec_())
+\end{Verbatim}
+和上面讨论加上状态栏类似，这里用QMainWindow类的menuBar方法来获得一个菜单栏对象。然后用这个菜单栏对象的\textbf{addMenu}方法来创建一个新的菜单对象（QMenu类）——方法里面的内容是新建菜单显示的名字。
+
+建议给菜单对象取个名字，后面方便引用。
+
+
+
+\section{加上动作}
+\begin{Verbatim}
+#!/usr/bin/env python3
+#-*- coding: utf-8 -*-
+import sys
+from PyQt4  import QtGui
+
+class MainWindow(QtGui.QMainWindow):
+    def __init__(self,parent=None):
+        QtGui.QMainWindow.__init__(self,parent)
+        self.resize(800,600)
+        self.center()
+        self.setWindowTitle('myapp')
+        self.setWindowIcon(QtGui.QIcon\
+        ('icons/myapp.ico'))
+        self.setToolTip('看什么看^_^')
+        QtGui.QToolTip.setFont(QtGui.QFont\
+        ('微软雅黑', 12))
+
+    #动作和连接
+        act_exit = QtGui.QAction('退出', self)
+        act_exit.setStatusTip('退出程序')
+        act_exit.triggered.connect(self.close)
+
+        act_about = QtGui.QAction('关于本程序', self)
+        act_about.triggered.connect(self.about)
+
+        act_aboutqt = QtGui.QAction('关于Qt', self)
+        act_aboutqt.triggered.connect(self.aboutqt)
+
+    #菜单栏
+        self.menubar = self.menuBar()
+        menu_file=self.menubar.addMenu('文件')
+        menu_file.addAction(act_exit)
+        menu_edit=self.menubar.addMenu('编辑')
+        menu_help=self.menubar.addMenu('帮助')
+        menu_help.addAction(act_about)
+        menu_help.addAction(act_aboutqt)
+
+#函数
+    def about(self):
+        QtGui.QMessageBox.about(self,"关于本程序","本程序是一个用于教学的程序。\n\nFell free to use it\n(including it's source code).")
+    def aboutqt(self):
+        QtGui.QMessageBox.aboutQt(self)
+
+    def closeEvent(self, event):
+        reply = QtGui.QMessageBox.question\
+        (self, '信息',
+            "你确定要退出吗？",
+             QtGui.QMessageBox.Yes,
+             QtGui.QMessageBox.No)
+
+        if reply == QtGui.QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        size =  self.geometry()
+        self.move((screen.width()-size.width())/2,\
+         (screen.height()-size.height())/2)
+
+myapp = QtGui.QApplication(sys.argv)
+mainwindow = MainWindow()
+mainwindow.show()
+mainwindow.statusBar().showMessage('程序已就绪...')
+sys.exit(myapp.exec_())
+\end{Verbatim}
+现在在前面例子的基础上给之前的菜单对象加上动作。比如menu\_{}file就是之前创建的一个菜单对象，现在调用这个对象的\textbf{addAction}方法，将act\_{}exit动作对象加进去。
+
+act\_{}exit动作对象需要在前面定义，通过QtGui类的QAction类的构造函数来创建一个动作对象。构造函数最少需要两个参量：第一个是显示的文本，第二个是这个动作依附的母体（也就是常见的parent变量），通常这里填上self即可。
+
+在这里这个动作对象，就是菜单的下拉选项，如果我们用鼠标点击一下的话，将会触发\textbf{triggered}信号，如果我们connect方法连接到某个槽上（或者某个你定义的函数），那么将会触发这个函数的执行。下面就信号－槽机制详细说明之。
+\subsection{信号－槽机制}
+GUI程序一般都引入一种事件和信号机制，well，简单来说就是一个循环程序，这个循环程序等到某个时刻程序会自动做某些事情比如刷新程序界面啊，或者扫描键盘鼠标之类的，等用户点击鼠标或者按了键盘之后，它会接受这个信号然后做出相应的反应。
+
+所以你一定猜到了，close函数可能就是要退出这个循环程序。我们调用主程序的\verb+exec_+方法，就是开启这个循环程序。
+\begin{Verbatim}
+myapp.exec_()
 \end{Verbatim}
 
-这里的意思是对于self上面的exit对象，接受了信号triggered，然后执行操作close()。
+pyqt4的旧信号－槽连接语句我在这里忽略了，网上到处都是。下面就新的语句说明之。
+\begin{Verbatim}
+act_exit.triggered.connect(self.close)
+\end{Verbatim}
+我们看到新的信号－槽机制语句变得更精简更易懂了。整个过程就是如我前面所述，某个对象发出了某个信号，然后用connect将这个信号和某个槽（或者你定义的某个函数）连接起来即形成了一个反射弧了。
+
+这里的槽就是self主窗口实例的close方法，这个是主窗口自带的函数。
+
+下面我们看到aboutqt和about函数，是重新定义的。具体读者如果不懂请翻阅QMessageBox类的静态方法about和aboutqt。
 
 
-%写作思路：第一个例子状态栏写完，菜单栏把关闭按钮还有事件信号动作讲完然后第一个例子菜单加一个帮助选项，在关于本程序设计一个弹出信息框的机制。这样第一个例子就算完了。
-
-\chapter{文本编辑器}
+\chapter{简单的编辑器}
 
 
 

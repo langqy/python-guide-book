@@ -2,17 +2,16 @@
 #-*-coding:utf-8-*-
 
 import sys
-#from tkinter import *
-string001 =''
+
+string =''
 while True :
     x=input('请输入文字：')
-    string001= string001+x
+    string= string+x
     if x=='quit':
         break
 
 pyout=open(sys.argv[1] ,"w")
-print(string001 , file=pyout)
-
+print(string , file=pyout)
 
 pyout.close()
 

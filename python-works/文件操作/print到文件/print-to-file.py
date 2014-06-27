@@ -2,7 +2,7 @@
 #-*-coding:utf-8-*-
 
 import sys
-#from tkinter import *
+
 x=input('请输入文字：')
 string001= x
 pyout=open(sys.argv[1] ,"w")

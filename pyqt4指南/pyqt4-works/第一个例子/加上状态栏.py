@@ -36,5 +36,6 @@ class MainWindow(QtGui.QMainWindow):
 myapp = QtGui.QApplication(sys.argv)
 mainwindow = MainWindow()
 mainwindow.show()
+mainwindow.statusBar().showMessage('程序已就绪...')
 sys.exit(myapp.exec_())
 

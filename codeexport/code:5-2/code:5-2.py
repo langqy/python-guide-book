@@ -1,9 +1,12 @@
 
-def fact(n):
-    if n == 0:
+def fib(n):
+    if n==0:
+        return 1
+    if n==1:
         return 1
     else:
-        return n*fact(n-1)
+        return fib(n-1)+fib(n-2)
 
-print(fact(0),fact(10))
+for x in range(5):
+    print(fib(x))
 

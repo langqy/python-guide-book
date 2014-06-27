@@ -1,12 +1,9 @@
 
-def dosomething(n):
-    if n==0:
-        pass
-    elif n==1:
-        print('do!')
+def fact(n):
+    if n == 0:
+        return 1
     else:
-        print('do!')
-        return dosomething(n-1)
+        return n*fact(n-1)
 
-print(dosomething(5))
+print(fact(0),fact(10))
 

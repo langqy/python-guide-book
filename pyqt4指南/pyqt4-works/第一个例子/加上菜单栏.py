@@ -15,6 +15,12 @@ class MainWindow(QtGui.QMainWindow):
         QtGui.QToolTip.setFont(QtGui.QFont\
         ('微软雅黑', 12))
 
+    #菜单栏
+        self.menubar = self.menuBar()
+        menu_file=self.menubar.addMenu('文件')
+        menu_edit=self.menubar.addMenu('编辑')
+        menu_help=self.menubar.addMenu('帮助')
+
     def closeEvent(self, event):
         reply = QtGui.QMessageBox.question\
         (self, '信息',
@@ -36,5 +42,5 @@ class MainWindow(QtGui.QMainWindow):
 myapp = QtGui.QApplication(sys.argv)
 mainwindow = MainWindow()
 mainwindow.show()
+mainwindow.statusBar().showMessage('程序已就绪...')
 sys.exit(myapp.exec_())
-
