@@ -2,9 +2,10 @@
 #-*-coding:utf-8-*-
 
 import sys
-#from tkinter import *
 
-print('hello,' + sys.argv[1]+'.')
+print(sys.argv)
+for i in range(len(sys.argv)):
+    print(sys.argv[i])
 
 #if __name__ == '__main__': #if run as script
 

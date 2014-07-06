@@ -2,7 +2,6 @@
 #-*-coding:utf-8-*-
 
 #import sys
-#from tkinter import *
 
 class Unit():
     def __init__(self,hp,atk,color):

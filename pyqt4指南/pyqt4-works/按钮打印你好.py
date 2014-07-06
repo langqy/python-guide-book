@@ -5,7 +5,7 @@ from PyQt4  import QtGui
 
 class Mybutton(QtGui.QPushButton):
     def __init__(self,parent=None):
-        QtGui.QPushButton.__init__(self,"nihao",parent)
+        super().__init__("nihao",parent)
         self.resize(150, 90)
         self.center()
         self.setWindowTitle('你好')

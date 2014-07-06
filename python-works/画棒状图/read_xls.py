@@ -12,7 +12,7 @@ print(sheet1.nrows,sheet1.ncols)
 
 data=[[sheet1.cell_value(r,c) for c in range(sheet1.ncols)] for r in range(sheet1.nrows)]
 
-print(data[0][0])
+print(data)
 
 
 

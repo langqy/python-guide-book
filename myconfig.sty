@@ -160,6 +160,7 @@ text-micro = μ
   \@cftbsnum #1\@cftasnum~\@cftasnumb%
 }
 
+
 %==============超鏈接===============%
 \RequirePackage[colorlinks=true,linkcolor=blue,citecolor=blue]{hyperref} %設置書簽和目錄鏈接等
 \newcommand{\hlabel}[1]{\phantomsection \label{#1}}%某一小段的引用
@@ -222,7 +223,7 @@ text-micro = μ
 \definecolor{pythonback}{RGB}{240,240,240}
 \definecolor{bashback}{RGB}{48,10,36}
 \newtcblisting{tcbminted}[2][]{listing engine=minted,minted language=#2,minted options={fontsize=\footnotesize,frame=none},listing only,#1,breakable=true,colback=white,boxrule=0.4pt}
-\newtcblisting[auto counter,number within=chapter]{tcbpython}[1][]{listing engine=minted,minted language=python,minted options={fontsize=\footnotesize,frame=none},listing only,#1,breakable=true,colback=pythonback,boxrule=0.4pt,boxsep=0pt,before=\noindent tcbcode-\thetcbcounter\par\noindent,label={tcbcode-\thetcbcounter}}
+\newtcblisting{tcbpython}[1][]{listing engine=minted,minted language=python,minted options={fontsize=\footnotesize,frame=none},listing only,#1,breakable=true,colback=pythonback,boxrule=0.4pt,boxsep=0pt}
 \newtcblisting{tcbbash}[1][]{listing engine=minted,minted style=native,minted language=bash,minted options={fontsize=\footnotesize,frame=none},listing only,#1,breakable=true,boxrule=0.4pt,colback=bashback,coltext=white}
 
 %=============插入尾注=========%
@@ -252,7 +253,7 @@ text-micro = μ
 %main body 与脚注之间的距离
 
 %===========旁注===========%
-\newcommand{\notefont}{\ttfamily\fontsize{10pt}{10pt}\selectfont }
+\newcommand{\notefont}{\itshape\fontsize{10pt}{10pt}\selectfont }
 \newcommand{\sidenote}[1]{\marginpar{\notefont #1}}
 
 

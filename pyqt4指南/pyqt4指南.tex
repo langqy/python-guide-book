@@ -5,8 +5,6 @@
 \documentclass[12pt,oneside]{book}
 \newlength{\textpt}
 \setlength{\textpt}{12pt}
-\newif\ifphone
-\phonefalse
 
 
 \usepackage{myconfig}
@@ -544,6 +542,155 @@ self.setLayout(mainlayout)
 
 和QHBoxLayout类似，简单布局，竖向排列。
 
+\chapter{pyqt4实例}
+\section{按钮打印你好}
+\begin{Verbatim}
+import sys
+from PyQt4  import QtGui
+
+class Mybutton(QtGui.QPushButton):
+    def __init__(self,parent=None):
+        QtGui.QPushButton.__init__(self,parent)
+        self.resize(150, 90)
+        self.center()
+        self.setWindowTitle('你好')
+        self.clicked.connect(self.hello)
+
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        size =  self.geometry()
+        self.move((screen.width()-size.width())/2,\
+         (screen.height()-size.height())/2)
+
+    def hello(self):
+        print('你好')
+
+myapp = QtGui.QApplication(sys.argv)
+mywidget = Mybutton()
+mywidget.show()
+
+myapp.exec_()
+sys.exit()
+\end{Verbatim}
+这个代码最值得一提的就是pyqt4最新的信号－槽机制。就是某个对象的某个信号调用connect方法连接到某个槽上，所谓槽实际上就是定义的函数，只是这个函数没加上()圆括号，只是一个函数符号，所以称之为槽。
+
+
+\section{文件对话框}
+\begin{Verbatim}
+import sys
+from PyQt4  import QtGui
+
+class Mybutton(QtGui.QPushButton):
+    def __init__(self,parent=None):
+        QtGui.QPushButton.__init__(self,"打开文件",parent)
+        self.resize(150, 90)
+        self.center()
+        self.setWindowTitle('打开文件')
+        self.clicked.connect(self.openfile)
+
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        size =  self.geometry()
+        self.move((screen.width()-size.width())/2,\
+         (screen.height()-size.height())/2)
+
+
+    def openfile(self):
+        filename=QtGui.QFileDialog.getOpenFileName(self,"打开文件...",".","")
+        print('文件'+str(filename)+'已选择')
+
+myapp = QtGui.QApplication(sys.argv)
+mywidget = Mybutton()
+mywidget.show()
+
+myapp.exec_()
+sys.exit()
+\end{Verbatim}
+这个例子和上面例子的区别就在于将按钮的动作改成了openfile，然后用QFileDialog的静态方法getOpenFileName来获取打开文件的对话框。
+
+
+\section{更多的按钮更多的对话框}
+这个例子我们在前面两个例子的基础上，加上更多的按钮并对应更多的对话框（文件选择对话框，颜色选择对话框，字体选择对话框，一般信息对话框，一般选择对话框（关闭机制））。同时引入一种简单的布局。
+
+\begin{Verbatim}
+import sys
+from PyQt4  import QtGui
+
+class Mywidget(QtGui.QWidget):
+    def __init__(self,parent=None):
+        QtGui.QWidget.__init__(self,parent)
+        self.center()
+        self.setWindowTitle('myapp')
+
+        button1=QtGui.QPushButton("文件")
+        button2=QtGui.QPushButton("颜色")
+        button3=QtGui.QPushButton("字体")
+        button4=QtGui.QPushButton("关于")
+        button5=QtGui.QPushButton("关于Qt")
+        mainlayout=QtGui.QHBoxLayout()
+        mainlayout.addWidget(button1)
+        mainlayout.addWidget(button2)
+        mainlayout.addWidget(button3)
+        mainlayout.addWidget(button4)
+        mainlayout.addWidget(button5)
+        self.setLayout(mainlayout)
+        button1.clicked.connect(self.openfile)
+        button2.clicked.connect(self.choosecolor)
+        button3.clicked.connect(self.choosefont)
+        button4.clicked.connect(self.about)
+        button5.clicked.connect(self.aboutqt)
+
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        size =  self.geometry()
+        self.move((screen.width()-size.width())/2,\
+         (screen.height()-size.height())/2)
+
+    def openfile(self):
+        filename=QtGui.QFileDialog.getOpenFileName(self,"打开文件...",".","")
+        print('文件'+str(filename)+'已选择')
+
+    def choosecolor(self):
+        colorname=QtGui.QColorDialog.getColor()
+        print('颜色'+str(colorname)+'已选择')
+
+    def choosefont(self):
+        fontname=QtGui.QFontDialog.getFont()
+        print('字体'+str(fontname)+'已选择')
+
+    def about(self):
+        QtGui.QMessageBox.about(self,"关于本程序","本程序用于测试按钮和对话框。")
+    def aboutqt(self):
+        QtGui.QMessageBox.aboutQt(self)
+
+    def closeEvent(self, event):
+        #重新定义colseEvent
+        reply = QtGui.QMessageBox.question\
+        (self, '信息',
+            "你确定要退出吗？",
+             QtGui.QMessageBox.Yes,
+             QtGui.QMessageBox.No)
+
+        if reply == QtGui.QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
+myapp = QtGui.QApplication(sys.argv)
+mywidget = Mywidget()
+mywidget.show()
+myapp.exec_()
+sys.exit()
+\end{Verbatim}
+
+\section{funnyclock例子}
+请参看github项目：\href{https://github.com/a358003542/funnyclock}{一个有趣的时钟例子}
+
+
+\section{timer例子}
+请参看github项目：\href{https://github.com/a358003542/timer}{一个计时和倒计时程序}
+
+
 
 \chapter{pyqt4类详解}
 \section{QWidget类}
@@ -694,146 +841,7 @@ filename=QtGui.QFileDialog.getOpenFileName(self,"打开文件...",".","")
 \section{QDialog类}
 
 
-\chapter{pyqt4实例}
-\section{按钮打印你好}
-\begin{Verbatim}
-import sys
-from PyQt4  import QtGui
 
-class Mybutton(QtGui.QPushButton):
-    def __init__(self,parent=None):
-        QtGui.QPushButton.__init__(self,parent)
-        self.resize(150, 90)
-        self.center()
-        self.setWindowTitle('你好')
-        self.clicked.connect(self.hello)
-
-    def center(self):
-        screen = QtGui.QDesktopWidget().screenGeometry()
-        size =  self.geometry()
-        self.move((screen.width()-size.width())/2,\
-         (screen.height()-size.height())/2)
-
-    def hello(self):
-        print('你好')
-
-myapp = QtGui.QApplication(sys.argv)
-mywidget = Mybutton()
-mywidget.show()
-
-myapp.exec_()
-sys.exit()
-\end{Verbatim}
-这个代码最值得一提的就是pyqt4最新的信号－槽机制。就是某个对象的某个信号调用connect方法连接到某个槽上，所谓槽实际上就是定义的函数，只是这个函数没加上()圆括号，只是一个函数符号，所以称之为槽。
-
-
-\section{文件对话框}
-\begin{Verbatim}
-import sys
-from PyQt4  import QtGui
-
-class Mybutton(QtGui.QPushButton):
-    def __init__(self,parent=None):
-        QtGui.QPushButton.__init__(self,"打开文件",parent)
-        self.resize(150, 90)
-        self.center()
-        self.setWindowTitle('打开文件')
-        self.clicked.connect(self.openfile)
-
-    def center(self):
-        screen = QtGui.QDesktopWidget().screenGeometry()
-        size =  self.geometry()
-        self.move((screen.width()-size.width())/2,\
-         (screen.height()-size.height())/2)
-
-
-    def openfile(self):
-        filename=QtGui.QFileDialog.getOpenFileName(self,"打开文件...",".","")
-        print('文件'+str(filename)+'已选择')
-
-myapp = QtGui.QApplication(sys.argv)
-mywidget = Mybutton()
-mywidget.show()
-
-myapp.exec_()
-sys.exit()
-\end{Verbatim}
-这个例子和上面例子的区别就在于将按钮的动作改成了openfile，然后用QFileDialog的静态方法getOpenFileName来获取打开文件的对话框。
-
-
-\section{更多的按钮更多的对话框}
-这个例子我们在前面两个例子的基础上，加上更多的按钮并对应更多的对话框（文件选择对话框，颜色选择对话框，字体选择对话框，一般信息对话框，一般选择对话框（关闭机制））。同时引入一种简单的布局。
-
-\begin{Verbatim}
-import sys
-from PyQt4  import QtGui
-
-class Mywidget(QtGui.QWidget):
-    def __init__(self,parent=None):
-        QtGui.QWidget.__init__(self,parent)
-        self.center()
-        self.setWindowTitle('myapp')
-
-        button1=QtGui.QPushButton("文件")
-        button2=QtGui.QPushButton("颜色")
-        button3=QtGui.QPushButton("字体")
-        button4=QtGui.QPushButton("关于")
-        button5=QtGui.QPushButton("关于Qt")
-        mainlayout=QtGui.QHBoxLayout()
-        mainlayout.addWidget(button1)
-        mainlayout.addWidget(button2)
-        mainlayout.addWidget(button3)
-        mainlayout.addWidget(button4)
-        mainlayout.addWidget(button5)
-        self.setLayout(mainlayout)
-        button1.clicked.connect(self.openfile)
-        button2.clicked.connect(self.choosecolor)
-        button3.clicked.connect(self.choosefont)
-        button4.clicked.connect(self.about)
-        button5.clicked.connect(self.aboutqt)
-
-    def center(self):
-        screen = QtGui.QDesktopWidget().screenGeometry()
-        size =  self.geometry()
-        self.move((screen.width()-size.width())/2,\
-         (screen.height()-size.height())/2)
-
-    def openfile(self):
-        filename=QtGui.QFileDialog.getOpenFileName(self,"打开文件...",".","")
-        print('文件'+str(filename)+'已选择')
-
-    def choosecolor(self):
-        colorname=QtGui.QColorDialog.getColor()
-        print('颜色'+str(colorname)+'已选择')
-
-    def choosefont(self):
-        fontname=QtGui.QFontDialog.getFont()
-        print('字体'+str(fontname)+'已选择')
-
-    def about(self):
-        QtGui.QMessageBox.about(self,"关于本程序","本程序用于测试按钮和对话框。")
-    def aboutqt(self):
-        QtGui.QMessageBox.aboutQt(self)
-
-    def closeEvent(self, event):
-        #重新定义colseEvent
-        reply = QtGui.QMessageBox.question\
-        (self, '信息',
-            "你确定要退出吗？",
-             QtGui.QMessageBox.Yes,
-             QtGui.QMessageBox.No)
-
-        if reply == QtGui.QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
-
-myapp = QtGui.QApplication(sys.argv)
-mywidget = Mywidget()
-mywidget.show()
-myapp.exec_()
-sys.exit()
-\end{Verbatim}
 
 
 
