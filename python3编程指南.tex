@@ -896,17 +896,8 @@ a -> 1
 b -> 3
 \end{Verbatim}
 
-
-
-\subsubsection{sorted函数}
-sorted方法可以对字典直接排序，返回的是该字典键值的列表。
-\begin{Verbatim}
-dict={'a':1,'c':2,'b':3}
-for key in sorted(dict):
-    print(key,'->',dict[key])
-\end{Verbatim}
-
-
+\subsubsection{keys方法}
+收集键值。
 
 \subsubsection{values方法}
 和keys方法类似，收集的值。
@@ -925,6 +916,20 @@ dict_items([('c', 3), ('a', 1), ('b', 2)])
 >>> list(dict001.items())
 [('c', 3), ('a', 1), ('b', 2)]
 \end{Verbatim}
+
+\subsection{sorted函数}
+sorted方法可以对字典直接排序，返回的是该字典键值的列表。
+\begin{Verbatim}
+dict={'a':1,'c':2,'b':3}
+for key in sorted(dict):
+    print(key,'->',dict[key])
+\end{Verbatim}
+
+
+\subsubsection{reverse选项}
+reverse=True  排序反转。
+
+
 
 
 
@@ -1232,6 +1237,7 @@ super是python3新加入的特性，按照官方文档，有两种用法：
 第二种是多重继承的，搜索顺序和多重继承的搜索顺序相同，也就是从左到右。请注意调试下面的例子，如果调用c.d就会返回错误，说明调用的是类A的构造函数。
 
 \begin{xverbatim}[129]{py}
+
 class A():
     def __init__(self,a):
         self.a=a
@@ -1256,6 +1262,7 @@ class C(A,B):
         super().fun()
         super().fun2('what')
         super().fun3()
+        print(super().b)
 
 c=C()
 print(c.a,c.b)
@@ -2028,9 +2035,12 @@ sudo pip3 install setuptools
 \end{Verbatim}
 
 
-\chapter{sqlalchemy宏包}
-
-一个程序没有数据库哪有什么用处啊。
+\chapter{sql数据库技术}
+\begin{flushright}
+\begin{notecard}[red!30]{12em}
+ 一个程序没有数据库哪有什么用处啊。
+\end{notecard}
+\end{flushright}
 
 
 数据库有很多类型，比如sql为代表的关系数据库，在python中推荐sqlite3宏包，这个python3里面自带的标准模块，不过你的linux系统还是需要安装sqlite3命令行工具。也就是：
@@ -2038,6 +2048,9 @@ sudo pip3 install setuptools
 \begin{tcbbash}[]
 sudo apt-get install sqlite3
 \end{tcbbash}
+
+
+
 
 而在python中既要有sql的底层又要有良好的python语法接口，推荐使用sqlalchemy宏包。
 
