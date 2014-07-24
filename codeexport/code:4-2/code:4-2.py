@@ -1,4 +1,5 @@
 
+
 class A():
     def __init__(self,a):
         self.a=a
@@ -23,6 +24,7 @@ class C(A,B):
         super().fun()
         super().fun2('what')
         super().fun3()
+        print(super().b)
 
 c=C()
 print(c.a,c.b)

@@ -1,6 +1,8 @@
 
-print('abc'+'def')
-print('abc'*3)
-print([1,2,3]+[4,5,6])
-print((0,'a')*2)
+string001='string'
+list001=['a','b','c']
+tuple001=(1,2,3,4)
+
+for x in [string001,list001,tuple001]:
+    print(x[::-1])
 

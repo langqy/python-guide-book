@@ -92,7 +92,7 @@ print(QT_VERSION_STR)
 
 \chapter{第一个例子}
 \section{窗口}
-\begin{Verbatim}
+\begin{tcbpython}
 import sys
 from PyQt4  import QtGui
 
@@ -107,7 +107,7 @@ myapp = QtGui.QApplication(sys.argv)
 mywidget = MyQWidget()
 mywidget.show()
 sys.exit(myapp.exec_())
-\end{Verbatim}
+\end{tcbpython}
 
 首先导入sys宏包，是为了后面接受sys.argv参数\footnote{这里sys.argv就是这个py文件的文件名组成的列表：['窗口.py']}。从PyQt4模块导入QtGui宏包，是为了后面创建QWidget类的实例。
 
@@ -124,7 +124,7 @@ sys.exit(myapp.exec_())
 
 \section{加上图标}
 现在我们在前面第一个程序的基础上稍作修改，来给这个程序加上图标。程序代码如下：
-\begin{Verbatim}
+\begin{tcbpython}
 import sys
 from PyQt4  import QtGui
 
@@ -141,7 +141,9 @@ myapp = QtGui.QApplication(sys.argv)
 mywidget = MyQWidget()
 mywidget.show()
 sys.exit(myapp.exec_())
-\end{Verbatim}
+\end{tcbpython}
+
+
 
 这个程序相对上面的程序就增加了一个\textbf{setWindowIcon}方法，这个方法调用了QtGui.QIcon方法，然后后面跟的就是图标的存放路径，使用相对路径。在运行这个例子的时候，请随便弄个图标文件过来。
 
@@ -150,7 +152,7 @@ sys.exit(myapp.exec_())
 
 
 \section{弹出提示信息}
-\begin{Verbatim}
+\begin{tcbpython}
 import sys
 from PyQt4  import QtGui
 
@@ -169,7 +171,9 @@ myapp = QtGui.QApplication(sys.argv)
 mywidget = MyQWidget()
 mywidget.show()
 sys.exit(myapp.exec_())
-\end{Verbatim}
+\end{tcbpython}
+
+
 
 上面这段代码和前面的代码的不同就在于MyQWidget类的初始函数新加入了两条命令。其中\textbf{setToolTip}方法设置具体显示的文本内容，然后后面调用QToolTip类的\textbf{setFont}方法来设置字体和字号，我不太清楚这里随便设置系统的字体微软雅黑是不是有效。
 
@@ -178,7 +182,8 @@ sys.exit(myapp.exec_())
 
 \section{关闭窗体时询问}
 目前程序点击那个叉叉图标关闭程序的时候将会直接退出，这里新加入一个询问机制。
-\begin{Verbatim}
+
+\begin{tcbpython}
 import sys
 from PyQt4  import QtGui
 
@@ -209,14 +214,18 @@ myapp = QtGui.QApplication(sys.argv)
 mywidget = MyQWidget()
 mywidget.show()
 sys.exit(myapp.exec_())
-\end{Verbatim}
+\end{tcbpython}
+
+
 
 这段代码和前面代码的不同就是重新定义了\textbf{colseEvent}事件。这段代码的核心就是QtGui类的QMessageBox类的question方法，这个方法将会弹出一个询问窗体。这个方法接受四个参数：第一个参数是这个窗体所属的母体，这里就是self也就是实例mywidget；第二个参数是弹出窗体的标题；第三个参数是一个标准button；第四个参数也是一个标准button，是默认（也就是按enter直接选定的）的button。然后这个方法返回的是那个被点击了的标准button的标识符，所以后面和标准buttonYes比较了，然后执行event的accept方法。
 
 这样这个程序在关闭的时候会弹出一个对话框，询问你是否真的要关闭，具体请读者自己实验一下。
 
 \section{屏幕居中显示窗体}
-\begin{Verbatim}
+
+
+\begin{tcbpython}
 import sys
 from PyQt4  import QtGui
 
@@ -255,7 +264,10 @@ myapp = QtGui.QApplication(sys.argv)
 mywidget = MyQWidget()
 mywidget.show()
 sys.exit(myapp.exec_())
-\end{Verbatim}
+\end{tcbpython}
+
+
+
 这个例子和前面相比改动是新建了一个center方法，接受一个实例，这里是mywidget。然后对这个实例也就是窗口的具体位置做一些调整。
 
 QDesktopWidget类的\textbf{screenGeometry}方法返回一个量，这个量的width属性就是屏幕的宽度（按照pt像素计，比如1366×768\\，宽度就是1366），这个量的height属性就是屏幕的高度。
@@ -275,7 +287,8 @@ QtGui.QMainWindow类提供应用程序主窗口，可以创建一个经典的拥
 QMainWindow类是针对主窗体一般需求而设计的，它预定义了菜单栏状态栏和其他widget（窗口小部件） 。因为它继承自QWidget，所以前面谈及的一些属性修改都适用于它。那么首先我们将之前的代码中的QWidget类换成QMainWindow类。
 
 
-\begin{Verbatim}
+
+\begin{tcbpython}
 import sys
 from PyQt4  import QtGui
 
@@ -313,13 +326,16 @@ myapp = QtGui.QApplication(sys.argv)
 mainwindow = MainWindow()
 mainwindow.show()
 sys.exit(myapp.exec_())
-\end{Verbatim}
+\end{tcbpython}
+
+
 
 现在程序运行情况良好，我们继续加点东西进去。
 
 
 \section{加上状态栏}
-\begin{Verbatim}
+
+\begin{tcbpython}[]
 #!/usr/bin/env python3
 #-*- coding: utf-8 -*-
 import sys
@@ -361,7 +377,9 @@ mainwindow = MainWindow()
 mainwindow.show()
 mainwindow.statusBar().showMessage('程序已就绪...')
 sys.exit(myapp.exec_())
-\end{Verbatim}
+\end{tcbpython}
+
+
 
 这个程序和前面的区别在于最后倒数第二行，调用mainwindow这个QMainWindow类生成的实例的\textbf{statusBar}方法生成一个QStatusBar对象，然后调用QStatusBar类的\textbf{showMessage}方法来显示一段文字。
 
@@ -369,7 +387,8 @@ sys.exit(myapp.exec_())
 
 
 \section{加上菜单栏}
-\begin{Verbatim}
+
+\begin{tcbpython}[]
 #!/usr/bin/env python3
 #-*- coding: utf-8 -*-
 import sys
@@ -416,7 +435,8 @@ mainwindow = MainWindow()
 mainwindow.show()
 mainwindow.statusBar().showMessage('程序已就绪...')
 sys.exit(myapp.exec_())
-\end{Verbatim}
+\end{tcbpython}
+
 和上面讨论加上状态栏类似，这里用QMainWindow类的menuBar方法来获得一个菜单栏对象。然后用这个菜单栏对象的\textbf{addMenu}方法来创建一个新的菜单对象（QMenu类）——方法里面的内容是新建菜单显示的名字。
 
 建议给菜单对象取个名字，后面方便引用。
@@ -424,7 +444,8 @@ sys.exit(myapp.exec_())
 
 
 \section{加上动作}
-\begin{Verbatim}
+
+\begin{tcbpython}[]
 #!/usr/bin/env python3
 #-*- coding: utf-8 -*-
 import sys
@@ -464,7 +485,8 @@ class MainWindow(QtGui.QMainWindow):
 
 #函数
     def about(self):
-        QtGui.QMessageBox.about(self,"关于本程序","本程序是一个用于教学的程序。\n\nFell free to use it\n(including it's source code).")
+        QtGui.QMessageBox.about(self,"关于本程序","本程序是一个用于教学的程序。
+        \n\nFell free to use it\n(including it's source code).")
     def aboutqt(self):
         QtGui.QMessageBox.aboutQt(self)
 
@@ -491,24 +513,29 @@ mainwindow = MainWindow()
 mainwindow.show()
 mainwindow.statusBar().showMessage('程序已就绪...')
 sys.exit(myapp.exec_())
-\end{Verbatim}
+\end{tcbpython}
+
 现在在前面例子的基础上给之前的菜单对象加上动作。比如menu\_{}file就是之前创建的一个菜单对象，现在调用这个对象的\textbf{addAction}方法，将act\_{}exit动作对象加进去。
 
 act\_{}exit动作对象需要在前面定义，通过QtGui类的QAction类的构造函数来创建一个动作对象。构造函数最少需要两个参量：第一个是显示的文本，第二个是这个动作依附的母体（也就是常见的parent变量），通常这里填上self即可。
 
 在这里这个动作对象，就是菜单的下拉选项，如果我们用鼠标点击一下的话，将会触发\textbf{triggered}信号，如果我们connect方法连接到某个槽上（或者某个你定义的函数），那么将会触发这个函数的执行。下面就信号－槽机制详细说明之。
+
 \subsection{信号－槽机制}
 GUI程序一般都引入一种事件和信号机制，well，简单来说就是一个循环程序，这个循环程序等到某个时刻程序会自动做某些事情比如刷新程序界面啊，或者扫描键盘鼠标之类的，等用户点击鼠标或者按了键盘之后，它会接受这个信号然后做出相应的反应。
 
 所以你一定猜到了，close函数可能就是要退出这个循环程序。我们调用主程序的\verb+exec_+方法，就是开启这个循环程序。
-\begin{Verbatim}
+
+\begin{tcbpython}
 myapp.exec_()
-\end{Verbatim}
+\end{tcbpython}
 
 pyqt4的旧信号－槽连接语句我在这里忽略了，网上到处都是。下面就新的语句说明之。
-\begin{Verbatim}
+
+\begin{tcbpython}
 act_exit.triggered.connect(self.close)
-\end{Verbatim}
+\end{tcbpython}
+
 我们看到新的信号－槽机制语句变得更精简更易懂了。整个过程就是如我前面所述，某个对象发出了某个信号，然后用connect将这个信号和某个槽（或者你定义的某个函数）连接起来即形成了一个反射弧了。
 
 这里的槽就是self主窗口实例的close方法，这个是主窗口自带的函数。
@@ -517,6 +544,171 @@ act_exit.triggered.connect(self.close)
 
 
 \chapter{简单的编辑器}
+简单编辑器这个例子还是在前面第一个例子的基础上进一步加上了一些功能，使之更加像一个我们平时所见的那种编辑器。主要基本知识前面的第一个例子都讲了，这里为了加快进度和节省文档篇幅，将这个代码的完整版放出来然后慢慢讲解。
+
+\begin{tcbpython}[]
+#!/usr/bin/env python3
+#-*- coding: utf-8 -*-
+
+import sys
+from PyQt4  import QtGui
+from PyQt4  import QtCore
+
+class MainWindow(QtGui.QMainWindow):
+    def __init__(self):
+        super().__init__()
+#基本UI
+        self.resize(800,600)
+        self.center()
+        self.setWindowTitle('mytexteditor')
+        self.setWindowIcon(QtGui.QIcon\
+        ('icons/myapp.ico'))
+        self.setToolTip('看什么看^_^')
+        QtGui.QToolTip.setFont(QtGui.QFont\
+        ('微软雅黑', 12))
+
+        self.statusBar().showMessage('这是状态栏')
+#编辑器
+        self.editor =QtGui.QTextEdit(self)
+        self.fileName=''#打开文件初值
+        self.setCentralWidget(self.editor)
+
+#动作和连接
+        exit = QtGui.QAction('退出', self)
+        exit.setStatusTip('退出程序')
+        exit.triggered.connect(self.close)
+
+        about = QtGui.QAction('关于本程序', self)
+        about.triggered.connect(self.about)
+
+        aboutqt = QtGui.QAction('关于Qt', self)
+        aboutqt.triggered.connect(self.aboutqt)
+
+        newfile=QtGui.QAction('新建',self)
+        newfile.triggered.connect(self.newfile)
+
+        openfile=QtGui.QAction('打开',self)
+        openfile.triggered.connect(self.openfile)
+
+        savefile=QtGui.QAction('保存',self)
+        savefile.triggered.connect(self.savefile)
+
+        saveasfile=QtGui.QAction('另存为',self)
+        saveasfile.triggered.connect(self.saveasfile)
+
+        copy=QtGui.QAction('复制',self)
+        copy.triggered.connect(self.editor.copy)
+
+        cut=QtGui.QAction('剪切',self)
+        cut.triggered.connect(self.editor.cut)
+
+        paste=QtGui.QAction('粘贴',self)
+        paste.triggered.connect(self.editor.paste)
+
+        redo=QtGui.QAction('重做',self)
+        redo.triggered.connect(self.editor.redo)
+
+        undo=QtGui.QAction('撤销上次操作',self)
+        undo.triggered.connect(self.editor.undo)
+
+#菜单栏
+        menubar = self.menuBar()
+        menu001 = menubar.addMenu('文件')
+        menu001.addAction(newfile)
+        menu001.addAction(openfile)
+        menu001.addAction(savefile)
+        menu001.addAction(saveasfile)
+        menu001.addAction(exit)
+        menu002 = menubar.addMenu('编辑')
+        menu002.addAction(copy)
+        menu002.addAction(cut)
+        menu002.addAction(paste)
+        menu002.addAction(redo)
+        menu002.addAction(undo)
+        menu003 = menubar.addMenu('查看')
+        menu004 = menubar.addMenu('工具')
+        menu005 = menubar.addMenu('设置')
+        menu006 = menubar.addMenu('帮助')
+        menu006.addAction(about)
+        menu006.addAction(aboutqt)
+
+#函数
+    def issaved(self):
+        if  self.editor.document().isModified():
+            return False
+        else :
+            return True
+
+    def about(self):
+        QtGui.QMessageBox.about(self,"关于本程序","本程序是一个用于教学的程序。
+        \n\nFell free to use it\n(including it's source code).")
+    def aboutqt(self):
+        QtGui.QMessageBox.aboutQt(self)
+
+    def newfile(self):
+        if  self.issaved():
+            self.editor.clear()
+
+
+    def openfile(self):
+        filename=QtGui.QFileDialog.getOpenFileName(self,"打开文件...",".","")
+        self.fileName=filename
+        f = open(self.fileName,'r')
+        self.editor.setPlainText(f.read())
+        f.close()
+
+    def savefile(self):
+        if self.fileName == '' :
+            self.saveasfile()
+        else:
+            f=open(self.fileName,'w')
+            f.write(self.editor.toPlainText())
+            f.close()
+        self.editor.document().setModified(False)
+
+    def saveasfile(self):
+        filename=QtGui.QFileDialog.getSaveFileName(self,'另存为...','untitle.txt','')
+        self.fileName=filename
+        f = open(self.fileName,'w')
+        f.write(self.editor.toPlainText())
+        f.close()
+        self.editor.document().setModified(False)
+
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        #接受屏幕几何
+        size =  self.geometry()
+        self.move((screen.width()-size.width())/2,
+        (screen.height()-size.height())/2)
+
+    def closeEvent(self, event):
+        if not self.issaved():
+            reply = QtGui.QMessageBox.question(self, '信息',
+            "文档还没有保存，你确定要退出吗？",
+            QtGui.QMessageBox.Yes,QtGui.QMessageBox.No)
+            if reply == QtGui.QMessageBox.Yes:
+                event.accept()
+            else:
+                event.ignore()
+
+def main():
+    myapp = QtGui.QApplication(sys.argv)
+    mymainwindow = MainWindow()
+    mymainwindow.show()
+    sys.exit(myapp.exec_())
+
+if __name__ == '__main__':
+    main()
+\end{tcbpython}
+
+别看这个例子似乎有点复杂了，但其实它相对于前面的第一个例子只是加上了pyqt4内置的文本编辑器窗件，然后做了一些优化，仅此而已。就作为文本编辑器而言还有很大的改进优化空间，有兴趣的读者可以自己查看相关资料（建议参考那些成熟的文本编辑器都是如何做的。）
+
+请读者看到\verb+#编辑器+的下面的代码，这里利用pyqt4的QTextEdit类来创建了一个文本编辑器对象，然后新建了一个变量，fileName，这个存储着当前程序打开的文件名。然后QMainWindow类的布局默认中间是什么CentralWidget，这里将其设置为self.editor也就是我们创建的文本编辑器对象即可。
+
+做到这里我们发现一个文本编辑窗口已经出来了，如果你愿意，这就算是一个最最简单的文本编辑器了，只是一些最最基本的功能没加上使得这个程序毫无用处。
+
+
+
 
 
 
