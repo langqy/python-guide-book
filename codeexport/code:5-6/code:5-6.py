@@ -1,6 +1,9 @@
 
-def mysum(*args):
-    return sum([arg for arg in args[:]])
+def fact(n):
+    if n == 0:
+        return 1
+    else:
+        return n*fact(n-1)
 
-print(mysum(1,2,3,4,5,6))
+print(fact(0),fact(10))
 

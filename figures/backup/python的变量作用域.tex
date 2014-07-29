@@ -1,0 +1,32 @@
+% !Mode:: "TeX:UTF-8"%確保文檔utf-8編碼
+\documentclass[tikz,border=2pt]{standalone}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont[BoldFont=Adobe 黑体 Std,ItalicFont=Adobe 楷体 Std]
+    {Adobe 宋体 Std}%影響rmfamily字體
+\setCJKsansfont{Adobe 黑体 Std}%影響sffamily字體
+\setCJKmonofont{Adobe 楷体 Std}%影響ttfamily字體
+
+\usetikzlibrary{intersections,calc,positioning}
+
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+
+\begin{document}
+
+\begin{tikzpicture}
+ 
+ \node[draw,rectangle] {函数里面的函数};
+ 
+ \draw (-2,1)  rectangle (2,-1) node[ above left] {某个函数};
+ 
+ \draw (-3,2)  rectangle (3,-2) node[ above left] {全局变量};
+ 
+ \draw (-4,3)  rectangle (4,-3) node[ above left] {内置作用域};
+
+\end{tikzpicture}
+
+
+\end{document}

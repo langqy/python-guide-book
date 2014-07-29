@@ -4,5 +4,5 @@ list001=['a','b','c']
 tuple001=(1,2,3,4)
 
 for x in [string001,list001,tuple001]:
-    print(x[1:3],x[-2:-1],x[:-1],x[1:],x[1:-1])
+    print(x[2])
 

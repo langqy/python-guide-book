@@ -1,9 +1,4 @@
 
-def fact(n):
-    if n == 0:
-        return 1
-    else:
-        return n*fact(n-1)
-
-print(fact(0),fact(10))
+for (a,*b,c) in [(1,2,3,4,5,6),(1,2,3,4,5),(1,2,3,4)]:
+    print(b)
 

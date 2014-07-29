@@ -1,4 +1,12 @@
 
-f=lambda x,y,z:x+y+z
-print(f(1,2,3))
+def dosomething(n):
+    if n==0:
+        pass
+    elif n==1:
+        print('do!')
+    else:
+        print('do!')
+        return dosomething(n-1)
+
+print(dosomething(5))
 

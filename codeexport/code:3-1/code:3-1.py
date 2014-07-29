@@ -1,8 +1,5 @@
 
-from random import *
-print(random())
-print(uniform(1,10))
-print(randrange(1,6))
-print(choice('abcdefghij'))
-print(choice(['①','②','③']))
+x,y=1,'a'
+[z,w]=['b',10]
+print(x,y,z,w)
 

@@ -1,12 +1,6 @@
 
-def dosomething(n):
-    if n==0:
-        pass
-    elif n==1:
-        print('do!')
-    else:
-        print('do!')
-        return dosomething(n-1)
+def mysum(*args):
+    return sum(args[:])
 
-print(dosomething(5))
+print(mysum(1,2,3,4,5,6))
 
