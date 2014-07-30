@@ -22,7 +22,7 @@
 \editor{德山书生}
 \email{a358003542@gmail.com}
 \editorinfo{编者：}
-\version{0.01}
+\version{0.02}
 \titleLB
 
 \addchtoc{前言}
@@ -86,7 +86,7 @@ python现在主要有两个版本区别，python2和python3。作为新学者推
 同样类似的运行\verb+python3  --help+即可以查看python3命令的一些可选项。比如加入\textbf{-i}选项之后，python执行完脚本之后会进入REPL环境继续等待下一个命令，这个在最后结果一闪而过的时候有用。后面的-c，-m选项还看不明白。
 
 \subsection{python执行脚本参数的传递}
-上面的命令行接受多个参数都没有问题的，不会报错，哪怕你在py文件并没有用到他们。在py文件中要使用他们，首先导入sys宏包，然后sys.argv[0]是现在这个py文件在系统中的文件名，接下来的sys.argv[1]就是之前命令行接受的第一个参数，后面的就依次类推了。
+上面的命令行接受多个参数都没有问题的，不会报错，哪怕你在py文件并没有用到他们。在py文件中要使用他们，首先导入sys模块，然后sys.argv[0]是现在这个py文件在系统中的文件名，接下来的sys.argv[1]就是之前命令行接受的第一个参数，后面的就依次类推了。
 
 
 \section{geany的相关配置}
@@ -527,7 +527,7 @@ $ x^y $，x的y次方如上面第二行所述就是用\verb+x**y+这样的形式
 python直接支持复数， 复数的写法是类似\verb|1+2j|这样的形式，然后如果z被赋值了一个复数，这样它就是一个复数类型，那么这个类具有两个属性量，\textbf{real}和\textbf{imag}。也就是使用\verb+z.real+就给出这个复数的实数部。imag是imaginary number的缩写，虚数，想像出来的数。
 
 \subsection{abs函数}
-大家都知道abs函数是绝对值函数，这个python自带的，不需要加载什么宏包。作用于复数也是可以的：
+大家都知道abs函数是绝对值函数，这个python自带的，不需要加载什么模块。作用于复数也是可以的：
 \begin{Verbatim}
 z=3+4j
 print(z.real,z.imag)
@@ -589,8 +589,8 @@ python支持位操作的，这里简单说一下：位左移操作<<，位与操
 
 
 
-\subsection{math宏包}
-在\verb+from math import *+之后，可以直接用符号pi和e来引用圆周率和自然常数。此外math宏包还提供了很多数学函数，比如：
+\subsection{math模块}
+在\verb+from math import *+之后，可以直接用符号pi和e来引用圆周率和自然常数。此外math模块还提供了很多数学函数，比如：
 \begin{description}
 \item[sqrt] 开平方根函数，sqrt(x)。
 \item[sin] 正弦函数，类似的还有cos，tan等，sin(x)。
@@ -618,8 +618,8 @@ python支持位操作的，这里简单说一下：位左移操作<<，位与操
 
 
 
-\subsection{random宏包}
-random宏包提供了一些函数来解决随机数问题。%内容待充实
+\subsection{random模块}
+random模块提供了一些函数来解决随机数问题。%内容待充实
 \begin{description}
 \item[random] random函数产生0到1之间的随机实数（包括0）
 \item[uniform] uniform函数产生从a到b之间的随机实数（a，b的值指定，包括a。）
@@ -1373,7 +1373,7 @@ eval这个函数严格来讲作用倒不是为了进行上面说的类型转换�
 {'c': 3, 'b': 2, 'a': 1}
 \end{Verbatim}
 
-推荐使用pickle宏包来处理其他类型的文件读写问题，相对来说更简单更安全。请参看pickle宏包这一小节\ref{sec:pickle宏包}。
+推荐使用pickle模块来处理其他类型的文件读写问题，相对来说更简单更安全。请参看pickle模块这一小节\ref{sec:pickle模块}。
 
 
 
@@ -1408,7 +1408,7 @@ l2=C1()
 
 对于初次接触类这个概念的读者并不指望他们马上就弄懂类这个概念，这个概念倒并一定要涉及很多哲学的纯思考的东西，也可以看作一种编程经验或技术的总结。多接触也许对类的学习更重要，而不是纯哲学抽象概念的讨论，毕竟类这个东西创造出来就是为了更好地描述现实世界的。
 
-最后别人编写的很多宏包就是一堆类，你就是要根据这些类来根据自己的情况情况编写自己的子类，为了更好地利用前人的成果，或者你的成果更好地让别人快速使用和上手，那么你需要好好掌握类这个工具。
+最后别人编写的很多模块就是一堆类，你就是要根据这些类来根据自己的情况情况编写自己的子类，为了更好地利用前人的成果，或者你的成果更好地让别人快速使用和上手，那么你需要好好掌握类这个工具。
 
 \section{类的最基础知识}
 \subsection{类的创建}
@@ -2048,23 +2048,23 @@ print函数接受任意的参量，逐个打印出来。然后它还有一些关
 
 
 
-\chapter{宏包}
-现在让我们进入宏包基础知识的学习吧，建立编写自己的宏包，这样不断积累自己的知识，不断变得更强。
+\chapter{模块}
+现在让我们进入模块基础知识的学习吧，建立编写自己的模块，这样不断积累自己的知识，不断变得更强。
 
-实际上之前我们已经接触过很多python自身的标准宏包或者其他作者写的第三方宏包，而import和from语句就是加载宏包用的。这里我们主要讨论如何自己编写自己的宏包。
+实际上之前我们已经接触过很多python自身的标准模块或者其他作者写的第三方模块，而import和from语句就是加载模块用的。这里我们主要讨论如何自己编写自己的模块。
 
 from语句和import语句内部作用机制很类似，只是在变量名的处理方式上有点差异（from会把变量名复制过来）。这里重点就import的工作方式说明如下：
 \begin{enumerate}
-\item 首先需要找到宏包文件。
-\item 然后将宏包文件编译成位码（需要时，根据文件的时间戳。），你会看到新多出来一个\verb+__pycache__+文件夹。
+\item 首先需要找到模块文件。
+\item 然后将模块文件编译成位码（需要时，根据文件的时间戳。），你会看到新多出来一个\verb+__pycache__+文件夹。
 \item 执行编译出来的位码，创建该py文件定义的对象。
 \end{enumerate}
 这三个步骤是第一次import的时候会执行的，第二次import的时候会跳过去，而直接引用内存中已加载的对象。
 
 
 
-\section{找到宏包文件}
-python宏包的搜索路径会搜索几个地方，这些地方最后都会放在sys.path这个列表里面，所以在你的py文件刚开始修改这个sys.path，append上你想要的地址也是可以的。我在这里选择了这种简单的方法，除此之外还有很多方法这里先不涉及。
+\section{找到模块文件}
+python模块的搜索路径会搜索几个地方，这些地方最后都会放在sys.path这个列表里面，所以在你的py文件刚开始修改这个sys.path，append上你想要的地址也是可以的。我在这里选择了这种简单的方法，除此之外还有很多方法这里先不涉及。
 
 比如主文件一般如下：
 \begin{Verbatim}
@@ -2072,17 +2072,17 @@ import os,sys
 sys.path.append(os.environ['HOME']+'/pymf')
 from pyconfig import *
 \end{Verbatim}
-这里为什么使用\verb+from pyconfig import *+这样的语句而不是import语句呢？因为我决定整个项目的主py文件除了这一个from语句之外不会再import或者from其他宏包了，其他所有宏包的引用都放在pyconfig.py这个主配置文件里面。
+这里为什么使用\verb+from pyconfig import *+这样的语句而不是import语句呢？因为我决定整个项目的主py文件除了这一个from语句之外不会再import或者from其他模块了，其他所有模块的引用都放在pyconfig.py这个主配置文件里面。
 
-pyconfig.py任务就是加载最常用最通用的一些宏包，如果你实际编写的另外一个项目通用pyconfig文件满足不了你的要求了，那么你可以把那个pyconfig文件复制过来，然后放在你的项目文件夹里面，然后继续衍化修改。这个经验是我从\LaTeX 文档的编写中总结出来的，既满足了共性又满足了个性。
+pyconfig.py任务就是加载最常用最通用的一些模块，如果你实际编写的另外一个项目通用pyconfig文件满足不了你的要求了，那么你可以把那个pyconfig文件复制过来，然后放在你的项目文件夹里面，然后继续衍化修改。这个经验是我从\LaTeX 文档的编写中总结出来的，既满足了共性又满足了个性。
 
-那么为什么要用from语句，很简单。如果用import语句，那么pyconfig.py文件里面import math宏包，在主py文件里面引用就要使用这样的格式\verb+pyconfig.math.pi+，这既不方便而且违背大家平时惯用的那种math.pi格式。
+那么为什么要用from语句，很简单。如果用import语句，那么pyconfig.py文件里面import math模块，在主py文件里面引用就要使用这样的格式\verb+pyconfig.math.pi+，这既不方便而且违背大家平时惯用的那种math.pi格式。
 
 
-现在我们让可以开始编写自己的宏包吧。
+现在我们让可以开始编写自己的模块吧。
 
-\section{编写宏包}
-well，编写宏包就是一些py文件，然后宏包的名字和py文件里面的内容编写好就是了。
+\section{编写模块}
+well，编写模块就是一些py文件，然后模块的名字和py文件里面的内容编写好就是了。
 
 我现在编写了一个pyconfig.py文件，放在主文件夹（ubuntu系统）的pymf文件里面的。里面定义了一个斐波拉契函数，如下所示：
 \begin{Verbatim}
@@ -2105,11 +2105,9 @@ from pyconfig import *
 print([fib(n) for n in range(10)])
 \end{xverbatim}
 
-一些你觉得常用的类和函数就直接放在pyconfig.py文件里面吧，然后一些不太常用的你可以分类出来放在其他py文件里面，然后pyconfig.py文件用import或者from语句来加载那个宏包即可，这里就不多说了。
-
 
 \section{import语句}
-import语句的一般使用方法之前已有接触，比如import math，然后要使用math宏包里面的函数或者类等需要使用这样的带点的变量名结构：math.pi。
+import语句的一般使用方法之前已有接触，比如import math，然后要使用math模块里面的函数或者类等需要使用这样的带点的变量名结构：math.pi。
 
 此外import语句还有一个常见的缩写名使用技巧，比如import numpy as np，那么后面就可以这样写了， np.array，而不是numpy.array。
 
@@ -2123,8 +2121,14 @@ from what import *
 第一种形式是点名只导入某个变量，第二种形式是都导入进来。我想读者肯定知道这点，使用第二种导入形式的时候要小心变量名覆盖问题，这个自己心里有数即可。
 
 
+
 \section{reload函数}
-reload函数可以重新载入某个宏包，这个重载和程序重新运行第一次载入宏包又有点区别。
+reload函数可以重新载入某个模块，reload函数的优点就是不需要重新启动应用程序，更加合理的动态重载一些模块。reload只能用于python编写的模块，在python3中，reload函数被移到imp模块里面去了，因此首先需要import imp才能使用了。比如说：
+\begin{Verbatim}
+from imp import reload
+reload(somemodule)
+\end{Verbatim}
+
 
 
 
@@ -2333,7 +2337,7 @@ True
 
 
 \section{实数集合表示}
-range函数只能近似表示某部分的整数集合，那么实数集合的表示呢？我估计目前有那个python宏包已经实现这个功能呢？是什么呢？
+range函数只能近似表示某部分的整数集合，那么实数集合的表示呢？我估计目前有那个python模块已经实现这个功能呢？是什么呢？
 
 \section{map和filter函数}
 按照之前的迭代模式的描述，虽然使用常见的列表解析格式(for 语句)就可以完成对某个集合中各个元素的操作或者过滤，不过python中还有另外两个函数来实现类似的功能，map对应对集合中各个元素进行某个函数操作（可以接受lambda函式），而filter则实现如上所述的过滤功能。然后值得一提的是python3之后map函数和filter函数返回都是一个可迭代对象而不是列表，和range函数等其他可迭代对象一样可用于列表解析结构。
@@ -2425,23 +2429,202 @@ filter函数的基本逻辑是只有return True（用lambda表达式就是这个
 
 
 
-\chapter{模块}
-多个宏包py文件组成一个多文件夹目录的整体就是一个模块（我喜欢将单个py文件叫做宏包，然后多个py文件组成的文件夹甚至多个文件夹的内容整体叫做模块。）
+\chapter{模块包}
+多个模块py文件组成一个多文件夹目录的整体就是一个模块包。
 
-模块这部分知识是我们理解前人编写的各个有用的模块的基础，同时以后我们自己要编写大型的项目也是以个人编写一个模块，一个模块对应一个任务或者一个功能的形式展开的。以前我们都是编写的不超过一百行的小python代码，但就是要编写大型的项目也不意味着我们要找一个大型的编辑器，然后一写就是上万行，在模块的合理布局下，我们完全还可以轻松的一次编写也就那么一两百行的小代码，最后各个模块组合起来，就是一个宏大的系统了。
+模块包这部分知识是我们理解前人编写的各个有用的模块包的基础，同时以后我们自己要编写大型的项目也是一个人编写一个模块，一个模块对应一个任务或者一个功能的形式展开的，然后多个模块合并成一个大型的模块包。以前我们都是编写的不超过一百行的小python代码，不过就是对于大型的项目也不意味着我们要找一个大型的编辑器，然后一写就是上万行。在模块包的合理布局下，我们完全还可以轻松的一次编写也就那么一两百行的小代码，最后各个模块组合起来，就是一个宏大的系统了。
 
-所以读者已经也体会到了模块的布局思想是很重要的，这个似乎还有专门的课程，叫什么软件的设计模式之类的。
+模块包和模块在使用上的区别如下所示：
+\begin{tcbpython}
+import  dir1.dir2.mod
+form dir1.dir2.mod import *
+\end{tcbpython}
+这里模块文件在系统中的具体路径是dir0/dir1/dir2/mod.py，其中dir0是python模块的搜索路径，然后在这个搜索路径下有一个dir1文件夹，然后下面有一个dir2文件夹，然后dir2文件夹里面有个mod.py文件，这样python程序就找到这个py文件了，然后按照前面介绍的如何处理加载模块文件的方式继续进行下一步工作。
+
+
+\section{\_{}\_{}init\_{}\_{}文件}
+well，模块包和简单地模块在管理上多出来的唯一的一个内容就是你需要在每个文件夹里面加一个\verb+__init__.py+文件，文件的内容就是空白都没关系，但必须要有。然后前面说的dir0，也就是默认的各个python模块的搜索路径，这个文件夹里面不需要加\verb+__init__.py+文件。
+
+
+\subsection{我的第一个模块包例子}
+还记得在前面模块那一章我们通过修改sys.path把主文件夹下的pymf文件夹加入python模块的搜索路径了。现在我们在这个pymf文件夹里面新建一个文件夹，\verb+mymodule+。然后进入mymodule文件夹，新建一个空白文件\verb+__init__.py+，然后新建一个文件\verb+mymod.py+，然后里面定义了一个简单的myfun函数，没什么意义，就是打印了一段信息。
+
+接下来我们看看运行效果如何：
+\begin{xverbatim}[129]{py}
+import os,sys
+sys.path.append(os.environ['HOME']+'/pymf')
+from pyconfig import *
+
+import mymodule.mymod
+
+mymodule.mymod.myfun()
+\end{xverbatim}
 
 
 
+\subsection{如果不是空白？}
+\verb+__init__.py+文件如果是空白我们不用关心它到底起了什么作用，但如果它不是空白，里面有一些代码呢？那么我们就需要了解如下知识了。
+
+每个模块包下的\verb+__init__.py+在python首次导入该目录时都会执行一次这个文件内部的代码。
+
+比如上面的例子的那个\verb+__init__.py+文件我们随便写上一行打印信息命令，这样输出结果和上面一样的\footnote{上面代码的运行结果是即时编译生成的。}，然后我们做了一些其他测试。
+\begin{Verbatim}
+mymodule already import
+myfun is found
+>>> mymodule.mymod.myfun()
+myfun is found
+>>> from imp import reload
+>>> reload(mymodule)
+mymodule already import
+<module 'mymodule' from '/home/wanze/pymf/mymodule/__init__.py'>
+>>> import mymodule.mymod
+>>> 
+\end{Verbatim}
+
+\subsection{一般有什么}
+\verb+__init__.py+文件里面一般有些什么内容？我们可以看看别人编写的模块包。一般是空白的，然后有的时候情况会很复杂，定义了一些类或者函数。然后有的时候只是简单的import语句或者from语句。
+
+比如我现在在前面的例子的基础上修改\verb+__init__.py+文件，加上一句话：
+\begin{tcbpython}
+from mymodule import  mymod
+\end{tcbpython}
+
+那么上面的测试代码就可以写成这个样子了：
+\begin{tcbpython}
+import os,sys
+sys.path.append(os.environ['HOME']+'/pymf')
+from pyconfig import *
+
+import mymodule
+\end{tcbpython}
+
+只需要简单的import mymodule即可，然后\verb+__init__.py+会自动from mymodule import mymod，也就是你的那个mymod.py文件，这样mymodule文件夹里面的一些子模块py文件你都可以引用了。如下所示：
+\begin{Verbatim}
+mymodule already import
+>>> mymodule
+<module 'mymodule' from '/home/wanze/pymf/mymodule/__init__.py'>
+>>> mymodule.mymod
+<module 'mymodule.mymod' from '/home/wanze/pymf/mymodule/mymod.py'>
+>>> mymodule.mymod.myfun
+<function myfun at 0xb70cde84>
+>>> mymodule.mymod.myfun()
+myfun is found
+\end{Verbatim}
+
+不得不承认我喜欢这种管理模式，这样的管理模式更加层次结构清晰。同时我们看到\verb+__init__.py+文件似乎就是对应的mymodule这个模块。
+
+\subsection{from*全部导入}
+\verb+__init__.py+文件还有一个高级功能，不过一般不建议使用这样的全部导入语句，但这种from*语句有一个好处，那就是主模块的名字你可以不用写了，然后\verb+__init__.py+文件里面你需要写上\verb+__all__+这个变量，后面跟上一个列表，列表里面的字符串就是你想要引入的子模块。
+
+\begin{tcbpython}[]
+#mymod.py
+def myfun():
+    print('myfun is found')
+\end{tcbpython}
+
+\begin{tcbpython}[]
+#__init__.py
+print('mymodule already import')
+
+from mymodule import mymod
+__all__ = ['mymod']
+\end{tcbpython}
+然后测试代码如下：
+\begin{tcbpython}
+import os,sys
+sys.path.append(os.environ['HOME']+'/pymf')
+from pyconfig import *
+
+from  mymodule import *
+\end{tcbpython}
+
+这种写法测试结果中，mymodule是不能用了，而需要直接引用子模块的名字了：
+\begin{Verbatim}
+mymodule already import
+>>> mymod
+<module 'mymodule.mymod' from '/home/wanze/pymf/mymodule/mymod.py'>
+>>> mymodule
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'mymodule' is not defined
+\end{Verbatim}
+
+然后如果测试代码我们改成import语句，我们发现之前的那种逐步引用格式照样可行：
+\begin{tcbpython}
+import os,sys
+sys.path.append(os.environ['HOME']+'/pymf')
+from pyconfig import *
+
+import  mymodule 
+\end{tcbpython}
+\begin{Verbatim}
+mymodule already import
+>>> mymodule
+<module 'mymodule' from '/home/wanze/pymf/mymodule/__init__.py'>
+>>> mymodule.mymod
+<module 'mymodule.mymod' from '/home/wanze/pymf/mymodule/mymod.py'>
+\end{Verbatim}
 
 
 \section{模块中的帮助信息}
-\verb+__doc__+方法
+well，大家都知道，我们编写的模块主要是给别人看得，给别人用的，所以多写点帮助信息吧，这个没人嫌你写得多的。其他\#{}下的注释就不用说了，这里主要讲一下其他的帮助信息。
 
-dir函数
+还是跟着上面的例子来：
+\begin{tcbpython}
+"""mymod.py
+这是一个测试模块"""
 
-其他注释当然
+def myfun():
+    """myfun函数
+    用于打印测试"""
+
+    print('myfun is found')
+\end{tcbpython}
+
+\begin{tcbpython}
+"""mymodule
+我在mymodule文件夹的__init__.py文件里面"""
+
+print('mymodule already import')
+
+from mymodule import mymod
+__all__ = ['mymod']
+\end{tcbpython}
+
+然后是测试代码：
+\begin{tcbpython}
+import os,sys
+sys.path.append(os.environ['HOME']+'/pymf')
+from pyconfig import *
+
+import  mymodule
+\end{tcbpython}
+
+
+具体测试查看情况如下所示，其中help命令显示的内容就不粘贴在这里了，请读者自己查看之，还是很有意思的。
+\begin{Verbatim}
+mymodule already import
+>>> dir(mymodule)
+['__all__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', 'mymod']
+>>> dir(mymodule.mymod)
+['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', 'myfun']
+>>> print(mymodule.__doc__)
+mymodule
+我在mymodule文件夹的__init__.py文件里面
+>>> print(mymodule.mymod.__doc__)
+mymod.py
+这是一个测试模块
+>>> print(mymodule.mymod.myfun.__doc__)
+myfun函数
+    用于打印测试
+>>> help(mymodule)
+
+>>> help(mymodule.mymod)
+
+>>> help(mymodule.mymod.myfun)
+
+>>> 
+\end{Verbatim}
 
 
 
@@ -2506,15 +2689,15 @@ pyout.close()
 
 我们可以看到这种列表解析风格代码更加具有python风格和更加的简洁同时功能是异常的强大的。
 
-从这里起我们看到如果需要更加复杂的文本处理技巧就需要学习正则表达式和re宏包了，请参见re宏包这一小节\ref{sec:re宏包}。
+从这里起我们看到如果需要更加复杂的文本处理技巧就需要学习正则表达式和re模块了，请参见re模块这一小节\ref{sec:re模块}。
 
 
 
 
-\part{常用的宏包}
-\chapter{pickle宏包}
-\label{sec:pickle宏包}
-pickle宏包可以将某\uwave{一个}复杂的对象永久存入\uwave{一个}文件中，以后再导入这个文件，这样自动将这个复杂的对象导入进来了。
+\part{常用的模块}
+\chapter{pickle模块}
+\label{sec:pickle模块}
+pickle模块可以将某\uwave{一个}复杂的对象永久存入\uwave{一个}文件中，以后再导入这个文件，这样自动将这个复杂的对象导入进来了。
 
 \section{将对象存入文件}
 \begin{Verbatim}
@@ -2563,11 +2746,11 @@ if __name__ == '__main__':
     testfile.close()
 \end{Verbatim}
 
-pickle宏包的基本使用就是用dump函数将某个对象存入某个文件中，然后这个文件以后可以用load函数来加载，然后之前的那个对象会自动返回出来。
+pickle模块的基本使用就是用dump函数将某个对象存入某个文件中，然后这个文件以后可以用load函数来加载，然后之前的那个对象会自动返回出来。
 
 
-\chapter{shelve宏包}
-shelve宏包是基于pickle宏包的，也就是只有pickle宏包支持的对象它才支持。 之前提及pickle宏包只能针对一个对象，如果你有多个对象要处理，可以考虑使用shelve宏包，而shelve宏包就好像是自动将这些对象用字典的形式包装起来了。除此之外shelve宏包的使用更加简便了。
+\chapter{shelve模块}
+shelve模块是基于pickle模块的，也就是只有pickle模块支持的对象它才支持。 之前提及pickle模块只能针对一个对象，如果你有多个对象要处理，可以考虑使用shelve模块，而shelve模块就好像是自动将这些对象用字典的形式包装起来了。除此之外shelve模块的使用更加简便了。
 
 \section{存入多个对象}
 我们根据类的操作第三版中定义的类（\ref{sec:类的操作第三版}）建立了一个Hero.py文件，就是将那些类的定义复制进去。然后我们新建了几个实例来存入test.db文件中。
@@ -2589,9 +2772,9 @@ if __name__ == '__main__':
 我们看到整个过程的代码变得非常的简洁了，然后一个个对象是以字典的形式存入进去的。
 
 \section{读取这些对象}
-读取这些对象的代码也很简洁，就是用shelve宏包的open函数打开数据库文件，open函数会自动返回一个字典对象，这个字典对象里面的数据就对应着之前存入的键值和对象。
+读取这些对象的代码也很简洁，就是用shelve模块的open函数打开数据库文件，open函数会自动返回一个字典对象，这个字典对象里面的数据就对应着之前存入的键值和对象。
 
-同时通过这个例子我发现，如果自己定义的类，将他们提取出来放入另外一个文件，那么shelve宏包读取文件时候是不需要再引入之前的定义。这一点值得我们注意，因为shelve宏包内部也采用的是pickle的机制，所以可以猜测之前pickle的那个例子类的定义写在写入文件代码的里面，所以不能载入数据库；而如果将这些类的定义放入一个文件，然后这些类以模块或说宏包载入的形式引入，那么读取这些对象就可以以一种更优雅的形式实现。如下所示：
+同时通过这个例子我发现，如果自己定义的类，将他们提取出来放入另外一个文件，那么shelve模块读取文件时候是不需要再引入之前的定义。这一点值得我们注意，因为shelve模块内部也采用的是pickle的机制，所以可以猜测之前pickle的那个例子类的定义写在写入文件代码的里面，所以不能载入数据库；而如果将这些类的定义放入一个文件，然后这些类以模块或说模块载入的形式引入，那么读取这些对象就可以以一种更优雅的形式实现。如下所示：
 \begin{tcbpython}
 import shelve
 
@@ -2602,13 +2785,13 @@ if __name__ == '__main__':
     db.close()
 \end{tcbpython}
 
-我们看到就作为简单的程序或者原型程序的数据库，shelve宏包已经很好用而且够用了。
+我们看到就作为简单的程序或者原型程序的数据库，shelve模块已经很好用而且够用了。
 
-\subsection{zodb宏包}
+\subsection{zodb模块}
 
 
-\chapter{time宏包}
-time宏包提供了一些和时间相关的函数，更加的底层，不过有些函数可能在某些平台并不适用。类似的宏包还有datetime宏包，datetime是以类的框架来解决一些时间问题的。所以如果只是需要简单的调用一下时间，那么用time宏包，如果是大量和时间相关的问题，推荐使用datetime宏包。
+\chapter{time模块}
+time模块提供了一些和时间相关的函数，更加的底层，不过有些函数可能在某些平台并不适用。类似的模块还有datetime模块，datetime是以类的框架来解决一些时间问题的。所以如果只是需要简单的调用一下时间，那么用time模块，如果是大量和时间相关的问题，推荐使用datetime模块。
 
 \section{time函数}
 \begin{Verbatim}
@@ -2668,8 +2851,8 @@ sleep函数有时需要用到，将程序休眠个几秒的意思。需要接受
 
 
 
-\chapter{sys宏包}
-sys宏包有一些功能很常用，其实在前面我们就看到过一些了。
+\chapter{sys模块}
+sys模块有一些功能很常用，其实在前面我们就看到过一些了。
 
 \section{sys.argv}
 在刚开始说明python执行脚本参数传递的问题时就已经讲了sys.argv这个变量。这是一个由字符串组成的列表。
@@ -2707,7 +2890,7 @@ wanze@wanze-ubuntu:~$
 Linux 返回字符串值：linux；Windows返回win32；Mac OS X 返回darwin。
 
 \section{sys.path}
-一连串字符串列表，是python脚本宏包的搜索路径，所以我们自定义的python宏包，只需要在sys.path这个列表上新加一个字符串路径即可。
+一连串字符串列表，是python脚本模块的搜索路径，所以我们自定义的python模块，只需要在sys.path这个列表上新加一个字符串路径即可。
 
 \section{标准输入输出错误输出文件}
 sys.stdin，sys.stdout，sys.stderr这三个文件对象对应的就是linux系统所谓的标准输入标准输出和错误输出文件流对象。
@@ -2719,8 +2902,8 @@ sys.version输出当前python的版本信息和编译环境的详细信息。
 
 
 
-\chapter{os.path宏包}
-前面提到sys.argv只能返回当前python脚本的文件名，而我们常常需要这个python脚本的绝对路径，这可以通过os.path宏包的abspath函数来达到目的。
+\chapter{os.path模块}
+前面提到sys.argv只能返回当前python脚本的文件名，而我们常常需要这个python脚本的绝对路径，这可以通过os.path模块的abspath函数来达到目的。
 
 \section{abspath函数}
 abspath函数最常用的用法如下：
@@ -2760,10 +2943,10 @@ os.path.isfile(path)：接受一个字符串路径变量，如果是文件那么
 os.path.samefile(path1,path2)：如果两个文件或路径相同则返回True\\，否则返回False。
 
 
-\chapter{subprocess宏包}
+\chapter{subprocess模块}
 我想大家都注意到了现在的计算机都是多任务的，这种多任务的实现机制就是所谓的多个进程同时运行，因为计算机只有一个CPU（现在多核的越来越普及了，它们内部的工作原理我没了解过。）所有计算机一次只能处理一个进程，而这种多进程的实现有点类似你人脑（当然不排除某些极个别现象），你不能一边看电影一边写作业，但是可以写一会作业然后再看一会电影（当然不推荐这么做、），计算机的多进程实现机制也和这个类似，就是一会干这个进程，一会儿做那个进程。
 
-计算机的一个进程里面还可以分为很多个线程，这个较为复杂，就不谈了。比如你编写的一个脚本程序，系统就会给它分配一个进程号之类的，然后cpu有时就会转过头来执行它一下（计算机各个进程之间的切换很快的，所以才会给我们一种多任务的错觉。）而你的脚本程序里面还可以再开出其他的子进程出来， python的subprocess宏包主要负责这方面的工作。
+计算机的一个进程里面还可以分为很多个线程，这个较为复杂，就不谈了。比如你编写的一个脚本程序，系统就会给它分配一个进程号之类的，然后cpu有时就会转过头来执行它一下（计算机各个进程之间的切换很快的，所以才会给我们一种多任务的错觉。）而你的脚本程序里面还可以再开出其他的子进程出来， python的subprocess模块主要负责这方面的工作。
 
 \section{call函数}
 \begin{tcbpython}[]
@@ -2809,9 +2992,9 @@ print(name)
 
 
 
-\chapter{collections宏包}
+\chapter{collections模块}
 \section{namedtuple函数}
-collections宏包里面的namedtuple函数将会产生一个有名字的数组的类，通过这个类可以新建类似的实例。比如：
+collections模块里面的namedtuple函数将会产生一个有名字的数组的类，通过这个类可以新建类似的实例。比如：
 \begin{xverbatim}[129]{py}
 from collections import namedtuple
 
@@ -2822,13 +3005,13 @@ print(p1[0],p1.z)
 \end{xverbatim}
 
 
-\chapter{re宏包}
-\label{sec:re宏包}
+\chapter{re模块}
+\label{sec:re模块}
 
 
-\chapter{datetime宏包}
+\chapter{datetime模块}
 
-\chapter{calendar宏包}
+\chapter{calendar模块}
 
 
 
@@ -2838,9 +3021,9 @@ print(p1[0],p1.z)
 
 
 
-\part{常用的第三方宏包}
-\chapter{setuptools宏包}
-setuptools宏包方便python用户快速分发自己写的python宏包，特别是对于那些对其他宏包有依存关系的宏包。
+\part{常用的第三方模块}
+\chapter{setuptools模块}
+setuptools模块方便python用户快速分发自己写的python模块，特别是对于那些对其他模块有依存关系的模块。
 
 安装就是先安装pip3：
 \begin{Verbatim}
@@ -2862,7 +3045,7 @@ sudo pip3 install setuptools
 \end{flushright}
 
 
-数据库有很多类型，比如sql为代表的关系数据库，在python中推荐sqlite3宏包，这个python3里面自带的标准模块，不过你的linux系统还是需要安装sqlite3命令行工具。也就是：
+数据库有很多类型，比如sql为代表的关系数据库，在python中推荐sqlite3模块，这个python3里面自带的标准模块，不过你的linux系统还是需要安装sqlite3命令行工具。也就是：
 
 \begin{tcbbash}[]
 sudo apt-get install sqlite3
@@ -2871,11 +3054,11 @@ sudo apt-get install sqlite3
 
 
 
-而在python中既要有sql的底层又要有良好的python语法接口，推荐使用sqlalchemy宏包。
+而在python中既要有sql的底层又要有良好的python语法接口，推荐使用sqlalchemy模块。
 
 
 
-\chapter{numpy宏包}
+\chapter{numpy模块}
 \section{安装}
 安装使用类似的语法：
 \begin{Verbatim}
@@ -3005,7 +3188,7 @@ array([[ 1.,  0.,  0.],
 
 
 \section{从excel中读取数据}
-xlrd宏包
+xlrd模块
 
 \section{中文排序}
 \href{https://github.com/mozillazg/python-pinyin}{参考网站}
