@@ -42,7 +42,7 @@
 
 5.pyqt4 tutorial \href{http://zetcode.com/gui/pyqt4/}{英文网站} 也参考了jimmykuu的中文翻译，\href{http://blog.cx125.com/books/PyQt4_Tutorial/}{中文翻译网站}
 
-6.
+6.正则表达式部分参看的有名的精通正则表达式第三版, Jeffrey E.F. Friedl 
 
 ipython3部分
 1.An introduction to Numpy and Scipy  2012 M. Scott Shell
@@ -801,11 +801,13 @@ replaced,replaced,5,4,replaced,6
 字符串的split方法可以将字符串比如有空格或者逗号等分隔符分割而成，可以将其分割成子字符串列表。默认是空格是分隔符。
 
 \subsection{join方法}
-字符串的join方法非常有用，严格来说它接受一个迭代器参数，不过最常见的是列表，如下所示：
+字符串的join方法非常有用，严格来说它接受一个迭代器参数，不过最常见的是列表。将列表中的多个字符串连接起来，我们看到他采用了一种非常优雅的方式，就是只有两个字符串之间才插入某个字符，这正是我们所需要的。具体例子如下所示：
 \begin{Verbatim}
 >>> list001=['a','b','c']
 >>> "".join(list001)
 'abc'
+>>> ','.join(list001)
+'a,b,c'
 \end{Verbatim}
 
 
@@ -814,9 +816,12 @@ replaced,replaced,5,4,replaced,6
 字符串右边的空格都删除。换行符也会被删除掉。
 
 \subsection{format方法}
-字符串的format方法方便对字符串内的一些变量进行替换操作，其中花括号不带数字跟format方法里面所有的替换量，带数字0表示第一个替换量，后面类推。
+字符串的format方法方便对字符串内的一些变量进行替换操作，其中花括号不带数字跟format方法里面所有的替换量，带数字0表示第一个替换量，后面类推。此外还可以直接用确定的名字引用。
 \begin{Verbatim}
-print('1+1={0}，2+2={1}'.format(1+1,2+2))
+>>> print('1+1={0}，2+2={1}'.format(1+1,2+2))
+1+1=2，2+2=4
+>>> print('my name is {name}'.format(name='Jim T Kirk'))
+my name is Jim T Kirk
 \end{Verbatim}
 
 \subsection{转义和不转义}
@@ -2748,6 +2753,9 @@ if __name__ == '__main__':
 
 pickle模块的基本使用就是用dump函数将某个对象存入某个文件中，然后这个文件以后可以用load函数来加载，然后之前的那个对象会自动返回出来。
 
+\begin{Large}
+更多内容请参见\href{https://docs.python.org/3/library/pickle.html}{官方文档}。
+\end{Large}
 
 \chapter{shelve模块}
 shelve模块是基于pickle模块的，也就是只有pickle模块支持的对象它才支持。 之前提及pickle模块只能针对一个对象，如果你有多个对象要处理，可以考虑使用shelve模块，而shelve模块就好像是自动将这些对象用字典的形式包装起来了。除此之外shelve模块的使用更加简便了。
@@ -2786,6 +2794,10 @@ if __name__ == '__main__':
 \end{tcbpython}
 
 我们看到就作为简单的程序或者原型程序的数据库，shelve模块已经很好用而且够用了。
+
+\begin{Large}
+更多内容请参见\href{https://docs.python.org/3/library/shelve.html}{官方文档}。
+\end{Large}
 
 \subsection{zodb模块}
 
@@ -2834,8 +2846,9 @@ tm_min=0, tm_sec=0, tm_wday=3, tm_yday=1, tm_isdst=0)
 
 
 \section{strftime函数}
-接受那个特定格式的时间数组\verb+struct_time+作为参数，然后返回一定字符串格式的时间。
-最常用的格式符有：
+接受那个特定格式的时间数组\verb+struct_time+作为参数，然后返回一定字符串格式的时间。具体例子请参看前面的例子。
+
+其中最常用的格式符有：
 \begin{Verbatim}
 %Y，多少年；%m，多少月；%d，多少日；
 %H，多少小时；%M，多少分；%S，多少秒。
@@ -2843,13 +2856,16 @@ tm_min=0, tm_sec=0, tm_wday=3, tm_yday=1, tm_isdst=0)
 
 \%{}X直接输出09:27:19这样的格式，也就是前面的多少小时多少分多少秒可以用一个\%{}X表示即可。
 
-还有一些，比如：\%{}I表示多少小时，不过是[0-12]的形式；\%{}y表示多少年，不过是[00-99]的格式，比如2014年就输出14等等。
+还有一些，比如：\%{}I表示多少小时，不过是[0-12]的形式；\%{}y表示多少年，不过是[00-99]的格式，比如2014年就输出14；\%{}p，本地的AM或PM文字。等等。
 
 
 \section{sleep函数 }
 sleep函数有时需要用到，将程序休眠个几秒的意思。需要接受一个数值参数，单位是秒，可以是零点几秒。但sleep函数只是大概休眠几秒的意思，最好不去用来计时，因为它不大精确。
 
 
+\begin{Large}
+更多内容请参见\href{https://docs.python.org/3/library/time.html}{官方文档}。
+\end{Large}
 
 \chapter{sys模块}
 sys模块有一些功能很常用，其实在前面我们就看到过一些了。
@@ -2901,6 +2917,9 @@ sys.version输出当前python的版本信息和编译环境的详细信息。
 \mint{bash}+sys.version_info[0]+返回当前python主版本的标识，比如python3就返回数字3。
 
 
+\begin{Large}
+更多内容请参见\href{https://docs.python.org/3/library/sys.html}{官方文档}。
+\end{Large}
 
 \chapter{os.path模块}
 前面提到sys.argv只能返回当前python脚本的文件名，而我们常常需要这个python脚本的绝对路径，这可以通过os.path模块的abspath函数来达到目的。
@@ -2941,6 +2960,14 @@ os.path.isfile(path)：接受一个字符串路径变量，如果是文件那么
 
 \section{判断文件或路径是否相同}
 os.path.samefile(path1,path2)：如果两个文件或路径相同则返回True\\，否则返回False。
+
+
+\begin{Large}
+更多内容请参见\href{https://docs.python.org/3/library/os.path.html}{官方文档}。
+\end{Large}
+
+
+
 
 
 \chapter{subprocess模块}
@@ -2990,6 +3017,9 @@ print(name)
 根据Popen类创建一个进程管理实例，可以进行进程的沟通，暂停，关闭等等操作。前面的函数的实现是基于Popen类的，这是较高级的课题，这里暂时略过。
 
 
+\begin{Large}
+更多内容请参见\href{https://docs.python.org/3/library/subprocess.html}{官方文档}。
+\end{Large}
 
 
 \chapter{collections模块}
@@ -3004,9 +3034,18 @@ print(p1)
 print(p1[0],p1.z)
 \end{xverbatim}
 
+\begin{Large}
+更多内容请参见\href{https://docs.python.org/3/library/collections.html}{官方文档}。
+\end{Large}
+
 
 \chapter{re模块}
 \label{sec:re模块}
+{\Large 请参看学习正则表达式一书：\href{https://github.com/a358003542/learning-regular-expression}{学习正则表达式}}
+
+\begin{Large}
+更多内容请参见\href{https://docs.python.org/3/library/re.html}{官方文档}。
+\end{Large}
 
 
 \chapter{datetime模块}
@@ -3016,8 +3055,9 @@ print(p1[0],p1.z)
 
 
 \part{加上GUI}
+\begin{Large}
 具体内容请参看文件夹\textbf{pyqt4指南}。
-
+\end{Large}
 
 
 
@@ -3044,18 +3084,7 @@ sudo pip3 install setuptools
 \end{notecard}
 \end{flushright}
 
-
-数据库有很多类型，比如sql为代表的关系数据库，在python中推荐sqlite3模块，这个python3里面自带的标准模块，不过你的linux系统还是需要安装sqlite3命令行工具。也就是：
-
-\begin{tcbbash}[]
-sudo apt-get install sqlite3
-\end{tcbbash}
-
-
-
-
-而在python中既要有sql的底层又要有良好的python语法接口，推荐使用sqlalchemy模块。
-
+更多内容请参看学习SQL数据库一书。
 
 
 \chapter{numpy模块}
