@@ -1,4 +1,17 @@
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{f}\PY{o}{=}\PY{k}{lambda} \PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{,}\PY{n}{z}\PY{p}{:}\PY{n}{x}\PY{o}{+}\PY{n}{y}\PY{o}{+}\PY{n}{z}
-\PY{k}{print}\PY{p}{(}\PY{n}{f}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\PY{n}{lst} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{,}\PY{p}{[}\PY{p}{[}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{10}\PY{p}{]}\PY{p}{,}\PY{l+m+mi}{11}\PY{p}{]}\PY{p}{]}\PY{p}{]}\PY{p}{]}\PY{p}{,}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{p}{\PYZob{}}\PY{l+s}{\PYZsq{}}\PY{l+s}{a}\PY{l+s}{\PYZsq{}}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{b}\PY{l+s}{\PYZsq{}}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{c}\PY{l+s}{\PYZsq{}}\PY{p}{\PYZcb{}}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{9}\PY{p}{]}\PY{p}{]}
+
+\PY{k}{def} \PY{n+nf}{is\PYZus{}list}\PY{p}{(}\PY{n}{thing}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{n+nb}{isinstance}\PY{p}{(}\PY{n}{thing}\PY{p}{,} \PY{n+nb}{list}\PY{p}{)}
+
+\PY{k}{def} \PY{n+nf}{flatten}\PY{p}{(}\PY{n+nb}{iter}\PY{p}{)}\PY{p}{:}
+    \PY{n}{templst} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n+nb}{iter}\PY{p}{:}
+        \PY{k}{if} \PY{o+ow}{not} \PY{n}{is\PYZus{}list}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{:}
+            \PY{n}{templst}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+        \PY{k}{else}\PY{p}{:}
+            \PY{n}{templst} \PY{o}{+}\PY{o}{=} \PY{n}{flatten}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+    \PY{k}{return} \PY{n}{templst}
+
+\PY{k}{print}\PY{p}{(}\PY{n}{flatten}\PY{p}{(}\PY{n}{lst}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
