@@ -3198,11 +3198,19 @@ print([f for f in glob.glob('*.py') if os.stat(f).st_size > 400])
 \begin{tcbpython}[]
 import os
 import sys
+<<<<<<< HEAD
 
 filename = sys.argv[1]
 
 filesize = os.stat(filename).st_size
 
+=======
+
+filename = sys.argv[1]
+
+filesize = os.stat(filename).st_size
+
+>>>>>>> 5d80aac44820a8f15dd7cf2c9bffa01f56c9879f
 for unit in ['字节','KB','MB','GB','TB']:
     if filesize > 1024:
         filesize = filesize/1024
@@ -3387,7 +3395,7 @@ print(p1[0],p1.z)
 
 \chapter{re模块}
 \label{sec:re模块}
-{\Large 请参看学习正则表达式一书：\href{https://github.com/a358003542/learning-regular-expression}{学习正则表达式}}
+更多内容请参看指尖上的Ubuntu的正则表达式相关章节。
 
 \begin{Large}
 更多内容请参见\href{https://docs.python.org/3/library/re.html}{官方文档}。
@@ -4072,6 +4080,12 @@ sys.exit()
 \section{timer例子}
 请参看github项目：\href{https://github.com/a358003542/timer}{一个计时和倒计时程序}
 
+<<<<<<< HEAD
+=======
+
+\section{myretext例子}
+请参看github项目：\href{https://github.com/a358003542/myretext}{简单模拟了retext软件}，实现了即时编写markdown和即时显示的功能。
+>>>>>>> 5d80aac44820a8f15dd7cf2c9bffa01f56c9879f
 
 
 
@@ -4098,8 +4112,20 @@ sudo pip3 install setuptools
 \end{notecard}
 \end{flushright}
 
-更多内容请参看学习SQL数据库一书。
+更多内容请参看指尖上的Ubuntu一书其中的sql技术相关章节。
 
+
+
+
+
+\part{Linux系统进阶}
+学编程学到后面就需要学习和了解Linux系统相关知识，从Linux系统的架构可以学到很多软件架构的知识，熟悉了解Linux系统能够让我们做出更多基于Linux的实用的程序。
+
+相关更多内容请参看我编写的指尖上的Ubuntu一书。具体github地址是：\\
+\href{https://github.com/a358003542/finger-on-ubuntu}{https://github.com/a358003542/finger-on-ubuntu}
+
+
+\part{python数据处理进阶}
 
 \chapter{numpy模块}
 \section{安装}
@@ -4218,6 +4244,7 @@ array([[ 1.,  0.,  0.],
 \end{Verbatim}
 
 
+<<<<<<< HEAD
 \part{Linux系统进阶}
 学编程学到后面就需要学习和了解Linux系统相关知识，从Linux系统的架构可以学到很多软件架构的知识，熟悉了解Linux系统能够让我们做出更多基于Linux的实用的程序。
 
@@ -4232,15 +4259,13 @@ array([[ 1.,  0.,  0.],
 \part{其他}
 \chapter{暂时还不知道分类的东东}
 
+=======
+>>>>>>> 5d80aac44820a8f15dd7cf2c9bffa01f56c9879f
 \section{matplotlib加入中文}
 \href{http://blog.sciencenet.cn/blog-43412-343002.html }{参考网站}
 
 \section{matplotlib棒状图上加上说明文字}
 \href{http://stackoverflow.com/questions/7423445/how-can-i-display-text-over-columns-in-a-bar-chart-in-matplotlib}{参考网站}
-
-
-\section{从excel中读取数据}
-xlrd模块
 
 \section{中文排序}
 \href{https://github.com/mozillazg/python-pinyin}{参考网站}
@@ -4248,32 +4273,34 @@ xlrd模块
 \subsection{字典按值排序}
 字典按值排序：\href{http://www.cnpythoner.com/post/266.html}{参考网站}
 
-\section{for语句的进阶}
-在lisp语言的loop宏中，还有很多高级应用，比如
 
-\begin{description}
-\item[collect] 将迭代产生的所有信息收集到列表中。
-\item[summing] 将迭代产生的所有信息加到一起。
-\item[count] 跟着一个判断函数，每次迭代运行一次，然后记录得到的True即真值的情况的总数。
-\item[minimize] 将每次迭代的结果进行比较，然后返回最小值。
-\item[maximize] 同minimize，返回最大值。
-\item[append] 将每次迭代产生的列表append在一起。
-\end{description}
+\section{从excel中读取数据}
 
-那么在python中如何实现以上功能呢？
+xlrd模块
 
-在这里最基本的是通过迭代语句产生一个列表，然后通过某些函数比如minimize对应min函数，maximize对应max函数等对这个列表进行一些操作即可。
 
-\begin{xverbatim}[129]{py}
-from random import *
-def random_list_max(n):
-    y=[randint(1,n) for x in range(1000)]
-    list_count=[y.count(x) for x in range(1,n+1)]
-    return list_count.index(max(list_count))+1
+\part{其他python实例程序}
 
-print(random_list_max(40))
-\end{xverbatim}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\part{附录}
+\chapter{暂时还不知道分类的东东}
 \section{原处修改对象的函数没有返回值}
 这个问题我就遇到过，这个原则一定要牢记在心！
 
@@ -4285,7 +4312,11 @@ None
 \end{Verbatim}
 
 
+<<<<<<< HEAD
 \chapter{pyqt4类详解}
+=======
+\chapter{pyqt4类参考}
+>>>>>>> 5d80aac44820a8f15dd7cf2c9bffa01f56c9879f
 
 
 \section{QHBoxLayout类}
@@ -4455,7 +4486,10 @@ filename=QtGui.QFileDialog.getOpenFileName(self,"打开文件...",".","")
 
 \section{QDialog类}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5d80aac44820a8f15dd7cf2c9bffa01f56c9879f
 
 %这里空一行
 
