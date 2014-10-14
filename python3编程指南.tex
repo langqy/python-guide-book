@@ -42,11 +42,14 @@
 
 5.pyqt4 tutorial \href{http://zetcode.com/gui/pyqt4/}{英文网站} 也参考了jimmykuu的中文翻译，\href{http://blog.cx125.com/books/PyQt4_Tutorial/}{中文翻译网站}
 
-6.正则表达式部分参看的有名的精通正则表达式第三版, Jeffrey E.F. Friedl 
+6.dive into python3 \href{http://www.diveintopython3.net/index.html}{dive into python3}
 
-7.dive into python3 \href{http://www.diveintopython3.net/index.html}{dive into python3}
+正则表达式部分：
+1.\href{http://wiki.ubuntu.org.cn/Python%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97}{Python正则表达式操作指南}
 
+2.\href{https://docs.python.org/3.4/howto/regex.html#regex-howto}{regex-howto}
 
+3.\href{http://my.oschina.net/o0Kira0o/blog/138516#OSC_h4_2}{Python下的正则表达式原理和优化笔记}
 
 ipython3部分
 1.An introduction to Numpy and Scipy  2012 M. Scott Shell
@@ -71,7 +74,7 @@ ipython3部分
 
 \chapter{beginning}
 \section{python简介}
-Python是个成功的脚本语言。它最初由Guido van Rossum开发，\sidenote{这是一段测试文字}在1991年第一次发布。Python由ABC和Haskell语言所启发。Python是一个高级的、通用的、跨平台、解释型的语言。一些人更倾向于称之为动态语言。它很易学，Python是一种简约的语言。它的最明显的一个特征是，不使用分号或括号，Python使用缩进。现在，Python由来自世界各地的庞大的志愿者维护。
+Python是个成功的脚本语言。它最初由Guido van Rossum开发，在1991年第一次发布。Python由ABC和Haskell语言所启发。Python是一个高级的、通用的、跨平台、解释型的语言。一些人更倾向于称之为动态语言。它很易学，Python是一种简约的语言。它的最明显的一个特征是，不使用分号或括号，Python使用缩进。现在，Python由来自世界各地的庞大的志愿者维护。
 
 python现在主要有两个版本区别，python2和python3。作为新学者推荐完全使用python3编程，本文档完全基于python3。
 
@@ -3198,19 +3201,16 @@ print([f for f in glob.glob('*.py') if os.stat(f).st_size > 400])
 \begin{tcbpython}[]
 import os
 import sys
-<<<<<<< HEAD
 
 filename = sys.argv[1]
 
 filesize = os.stat(filename).st_size
 
-=======
 
 filename = sys.argv[1]
 
 filesize = os.stat(filename).st_size
 
->>>>>>> 5d80aac44820a8f15dd7cf2c9bffa01f56c9879f
 for unit in ['字节','KB','MB','GB','TB']:
     if filesize > 1024:
         filesize = filesize/1024
@@ -3395,12 +3395,132 @@ print(p1[0],p1.z)
 
 \chapter{re模块}
 \label{sec:re模块}
-更多内容请参看指尖上的Ubuntu的正则表达式相关章节。
+re模块提供了python对于正则表达式的支持，对于字符串操作，如果之前在介绍字符串类型的一些方法（比如split，replace等等），能够用它们解决问题就用它们，因为更快更简单。实在需要动用正则表达式理念才考虑使用re模块，而且你要克制写很多或者很复杂的（除非某些特殊情况）正则表达式的冲动，因为正则表达式的引入将会使得整个程序都更加难懂和不可捉摸。
+
 
 \begin{Large}
 更多内容请参见\href{https://docs.python.org/3/library/re.html}{官方文档}。
 \end{Large}
 
+\section{re模块中的元字符集}
+\begin{description}
+\item[\emph{.}] 表示一行内的任意字符，如果如果通过re.compile指定\textbf{re.DOTALL}，则表示多行内的任意字符，即包括了换行符。此外还可以通过字符串模板在它的前面加上\textbf{(?s)}来获得同样的效果。
+\item[\emph{*}] 对之前的字符匹配\uwave{零次}或者多次。
+\item[\emph{+}] 对之前的字符匹配\uwave{一次}或者多次。
+\item[\emph{?}] 对之前的字符匹配\uwave{零次}或者\uwave{一次}。
+\item[\emph{\{m\}}] 对之前的字符匹配(\uwave{exactly})m次。
+\item[\emph{\{m,n\}}] 对之前的字符匹配m次到n次，其中n次可能省略，视作默认值是无穷大。
+\item[\emph{\^{}}] 表示字符串的开始，如果加上\textbf{re.MULTILINE}选项，则表示行首。此外字符串模板加上\textbf{(?m)}可以获得同样的效果。
+\item[\emph{\${}}] 表示字符串的结束，同\^{}类似，如果加上\textbf{re.MULTILINE}选项，则表示行尾。此外字符串模板加上\textbf{(?m)}可以获得同样的效果。
+\item[\emph{[]}] [abc]字符组匹配一个字符，这个字符是a或者b或者c。类似的[a-z]匹配所有的小写字母，\verb+[\w]+匹配任意的字母或数字，具体请看下面的特殊字符类。
+\item[\emph{|}] 相当于正则表达式内的匹配或逻辑。
+\item[\emph{()}] 圆括号包围的部分将会记忆起来，方便后面调用。这个后面在谈及。
+\end{description}
+
+
+\section{re模块中的特殊字符类}
+\begin{Verbatim}
+\w  任意的字母或数字  [a-zA-Z0-9_]  (meaning word)
+\W  匹配任何非字母非数字 [^a-zA-Z0-9_]
+\d   [0-9]   (digit) 数字
+\D  [^0-9] 非数字
+\s   匹配任何空白字符   [ \t\n\r\f\v] 。
+\S  匹配任何非空白字符
+匹配中文:[\u4e00-\u9fa5]
+\end{Verbatim}
+
+其中\^{}在方括号[]里面，只有在最前面，才表示排除型字符组的意思。
+
+
+\section{转义问题}
+正则表达式的转义问题有时会比较纠结。一个简单的原则是以上谈及的有特殊作用的字符有转义问题，如果python中的字符都写成\verb+r''+这种形式，也就是所谓的raw string形式，这样\verb+\n+在里面就可以直接写成\verb+\n+，而\verb+\section+可以简单写为\verb+\\section+即可，也就是\verb+\+字符需要转义一次。
+
+然后字符组的方括号内[]有些字符有时是不需要转义的，这个实在不确定就转义吧，要不就用Kiki测试一下。
+
+\section{re模块的使用}
+compile方法生成regular expression object这一条线这里略过了，接下来的讨论全部基于（原始的）字符串模板。
+
+字符串模板前面提及(?m)和(?s)的用法了，然后\textbf{(?i)}表示忽略大小写。
+
+\subsection{匹配和查找}
+search，match方法简单地用法就是：
+\begin{Verbatim}
+re.search(字符串模板, 待匹配字符串)
+re.match(pattern, string)
+\end{Verbatim}
+
+它们将会返回一个match object或者none，其中match object在逻辑上就是真值的意思。match对字符串的匹配是必须从一开始就精确匹配，这对于正则表达式多少0有点突兀。推荐使用search方法，如果一定要限定行首，或者字符串开始可以用前面讨论的正则表达式各个符号来表达。请看下面的例子。
+
+\begin{tcbpython}[]
+import re
+string = '''this is test line.
+this is the second line.
+today is sunday.'''
+
+match = re.search('(?m)^today',string)
+
+if match:
+    print('所使用的正则表达式是：',match.re)
+    print('所输入的字符串是：',match.string)
+    print('匹配的结果是：',match.group(0))
+    print('匹配的字符串index',match.span())
+else:
+    print('return the none value')
+\end{tcbpython}
+
+前面说道圆括号的部分将会记忆起来，作为匹配的结果，默认整个正则表达式所匹配的全部是group中的第0个元素，然后从左到右，子group编号依次是1，2，3......。
+
+\begin{Verbatim}
+所使用的正则表达式是： re.compile('(?m)^today', re.MULTILINE)
+所输入的字符串是： this is test line.
+this is the second line.
+today is sunday.
+匹配的结果是： today
+匹配的字符串index (44, 49)
+\end{Verbatim}
+
+具体这些信息是为了说明情况，实际最简单的情况可能就需要判断一下是不是真值，字符串模板是不是匹配到了即可。
+
+
+\subsection{分割操作}
+re模块的split函数可以看作字符串的split方法的升级版本，对于所描述的任何正则表达式，匹配成功之后都将成为一个分隔符，从而将原输入字符串分割开来。
+
+下面是我写的zwc小脚本的最核心的部分，用途是统计中英文文档的具体英文单词和中文字符的个数。其中最核心的部分就是用的re的split函数进行正则表达式分割，如果不用那个圆括号的话，那么分隔符是不会包含进去的，这里就是具体匹配的中文字和各个标点符号等等。用了圆括号，那么圆括号匹配的内容也会进去列表。这里就是具体的各个分隔符。
+
+\begin{tcbpython}[]
+import re
+
+def zwc(string):
+    #中英文常用标点符号
+    lst = re.split('([\u4e00-\u9fa5\s，。；])',string)
+    #去除 空白
+    #去除\s 中英文常用标点符号
+    lst = [i for i in lst if not  i in
+    [""," ","\n","\t","\r","\f","\v","；","，","。"]]
+    print(lst)
+
+if __name__ == '__main__':
+    string='''道可道，非常道。名可名，非常名。無名天地之始，有名萬物之母。
+    故常無欲，以觀其妙；常有欲，以觀其徼。此兩者同出而異名，
+    同謂之玄，玄之又玄，眾妙之門。 '''
+    zwc(string)
+\end{tcbpython}
+
+字符分割之后后面做了一个小修正，将匹配到的空白字符和中英文标点符号等都删除了，这些是不应该统计入字数的。
+
+具体这个github项目链接在这里：\href{https://github.com/a358003542/zwc}{zwc项目}。
+
+
+\subsection{替换操作}
+基于正则表达式的替换操作非常的有用，其实前面的search方法，再加上具体匹配字符串的索引值，然后修改原字符串，然后再search这样循环操作下去，就是一个替换操作了。re模块有sub方法来专门解决这个问题。
+
+让我们为Linux系统写一个resub命令，这个命令的用途就是将某一个标准输入流或者utf-8文本文件按照你定义的正则表达式规则，依次完成一个\footnote{这里简单起见就是一个，多个情况可以考虑编写另外一个程序来控制之。}正则表达式文本替换工作。这个命令在我们需要对某个utf-8文本文件进行某个你想要的——非简单的精确相同匹配然后替换操作时——特别有用。
+
+为了作为程序的检验，这里提出两个任务：第一个任务是我们在ocr PDF文档之后的输出，经常发现很多标点符号问题，这些需要人手工修改会非常的耗费精力。其中第一个问题如下，"这是一段文字"需要替换成为“这是一段文字”。这个例子之所以特别是因为中文的双引号是分左和右的，这里必须要用正则表达式匹配和替换；第二个任务更加的复杂，那就是从排版角度上讲，如果括号里面的文字都是英文或者数字，那么就使用英文的括号()，如果括号里面有中文或者全是中文\footnote{这里程序的逻辑是都换成中文的全角括号（毕竟中文unicode码具体范围的判断是不太精确的），只有那些纯英文纯数字或者基本英文标点和其他简单符号的再换成英文括号}，那么就使用中文的括号（）。ocr出来或者甚至人编写的文档都常常难以做到没有瑕疵，第二个任务就是通过resub命令来确保之后的输出文档的括号满足这一要求。
+
+然后程序还需要建立两个选项，一个是自动替换所有，一个是对于每一个替换操作都请求确认——需要打印相关信息。
+
+程序需要经过如下几个阶段：1.明确匹配模板  1.1写出字符串模板 匹配操作 给出匹配的所有情况，最好是行模板匹配模式。  最后明确匹配情况 2.明确匹配的文字的后给出情况 
 
 \chapter{datetime模块}
 
@@ -3427,6 +3547,12 @@ ubuntu下安装pyqt4即安装python3-pyqt4即可：
 \begin{tcbbash}[]
 sudo apt-get install python3-pyqt4
 \end{tcbbash}
+
+此外本文后面会谈到用qt designer来辅助设计GUI，你还需要额外安装qt designer软件和pyuic4和pyrcc4命令。（顺便再次提醒下pyrcc4对中文目录目前支持有问题（201410）） 
+\begin{tcbbash}[]
+sudo apt-get install pyqt4-dev-tools qt4-designer
+\end{tcbbash}
+
 
 检查pyqt4安装情况执行以下脚本即可，显示的是当前安装的pyqt4的版本号:
 \begin{tcbpython}[]
@@ -4073,6 +4199,8 @@ myapp.exec_()
 sys.exit()
 \end{Verbatim}
 
+
+
 \section{funnyclock例子}
 请参看github项目：\href{https://github.com/a358003542/funnyclock}{一个有趣的时钟例子}
 
@@ -4080,12 +4208,14 @@ sys.exit()
 \section{timer例子}
 请参看github项目：\href{https://github.com/a358003542/timer}{一个计时和倒计时程序}
 
-<<<<<<< HEAD
-=======
 
 \section{myretext例子}
 请参看github项目：\href{https://github.com/a358003542/myretext}{简单模拟了retext软件}，实现了即时编写markdown和即时显示的功能。
->>>>>>> 5d80aac44820a8f15dd7cf2c9bffa01f56c9879f
+
+
+
+\chapter{pyqt4实例进阶}
+现在
 
 
 
@@ -4243,24 +4373,9 @@ array([[ 1.,  0.,  0.],
        [ 0.,  0.,  1.]])
 \end{Verbatim}
 
-
-<<<<<<< HEAD
-\part{Linux系统进阶}
-学编程学到后面就需要学习和了解Linux系统相关知识，从Linux系统的架构可以学到很多软件架构的知识，熟悉了解Linux系统能够让我们做出更多基于Linux的实用的程序。
-
-相关更多内容请参看我编写的指尖上的Ubuntu一书。具体github地址是：\\
-\href{https://github.com/a358003542/finger-on-ubuntu}{https://github.com/a358003542/finger-on-ubuntu}
-
-
-
-
-
-
 \part{其他}
 \chapter{暂时还不知道分类的东东}
 
-=======
->>>>>>> 5d80aac44820a8f15dd7cf2c9bffa01f56c9879f
 \section{matplotlib加入中文}
 \href{http://blog.sciencenet.cn/blog-43412-343002.html }{参考网站}
 
@@ -4278,6 +4393,15 @@ array([[ 1.,  0.,  0.],
 
 xlrd模块
 
+\section{原处修改对象的函数没有返回值}
+这个问题我就遇到过，这个原则一定要牢记在心！
+
+\begin{Verbatim}
+>>> lst=[1,2,3]
+>>> lst=lst.append(4)
+>>> print(lst)
+None
+\end{Verbatim}
 
 \part{其他python实例程序}
 
@@ -4299,25 +4423,17 @@ xlrd模块
 
 
 
+
 \part{附录}
-\chapter{暂时还不知道分类的东东}
-\section{原处修改对象的函数没有返回值}
-这个问题我就遇到过，这个原则一定要牢记在心！
-
-\begin{Verbatim}
->>> lst=[1,2,3]
->>> lst=lst.append(4)
->>> print(lst)
-None
-\end{Verbatim}
+\chapter{tkinter教程}
+以后GUI的设计会更加立足简单原生GUI，tkinter这部分最后可能会取代pyqt的位置。
 
 
-<<<<<<< HEAD
-\chapter{pyqt4类详解}
-=======
+
+
+
 \chapter{pyqt4类参考}
->>>>>>> 5d80aac44820a8f15dd7cf2c9bffa01f56c9879f
-
+详细的pyqt4类的参考请参看\href{http://pyqt.sourceforge.net/Docs/PyQt4/classes.html}{这个网页}。下面只是尽可能的将我涉及到的一些pyqt4的类的一些信息尽可能的写上去，某些可以临时做为参考，不全也不可能做到齐全。。
 
 \section{QHBoxLayout类}
 在QtGui模块中，继承自QBoxLayout，QBoxLayout继承自QLayout，QLayout继承自QObject和QLayoutItem。
@@ -4485,11 +4601,6 @@ filename=QtGui.QFileDialog.getOpenFileName(self,"打开文件...",".","")
 
 
 \section{QDialog类}
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 5d80aac44820a8f15dd7cf2c9bffa01f56c9879f
 
 %这里空一行
 
