@@ -746,7 +746,7 @@ for x in [string001,list001,tuple001]:
 \begin{enumerate}
 \item 首先是数学半开半闭区间，左元素和右元素都是之前叙述的对应的定位点。左元素包含右元素不包含。
 \item 其次方向应该是从左到右，如果定义的区间是从右到左，那么将产生空值。
-\item 如果区间超过，那么从左到右包含的所有元素就是结果。
+\item 如果区间超过，那么从左到右包含的所有元素就是结果，即\uwave{不会返回错误}。
 \item 最后如果左右元素定位点相同，那么将产生空值，比如：\\
 \verb+string001[2:-4]+，其中2和-4实际上是定位在同一个元素之上的。额外值得一提的列表插入操作，请参看列表的插入操作这一小节。\ref{sec:列表插入操作}
 \end{enumerate}
@@ -3130,10 +3130,19 @@ Linux 返回字符串值：linux；Windows返回win32；Mac OS X 返回darwin。
 \section{标准输入输出错误输出文件}
 sys.stdin，sys.stdout，sys.stderr这三个文件对象对应的就是linux系统所谓的标准输入标准输出和错误输出文件流对象。
 
-\section{判断python的版本}
+\section{sys.version}
 sys.version输出当前python的版本信息和编译环境的详细信息。
 
 \mint{bash}+sys.version_info[0]+返回当前python主版本的标识，比如python3就返回数字3。
+
+\section{sys.maxsize}
+返回当前计算环境下整数(int)类型的最大值，32位系统是$2**31-1$。
+>>> 2**31-1
+2147483647
+>>> import sys
+>>> sys.maxsize
+2147483647
+>>> 
 
 
 \begin{Large}
@@ -3142,9 +3151,9 @@ sys.version输出当前python的版本信息和编译环境的详细信息。
 
 
 \chapter{os模块}
-\section{当前目录管理}
+\section{getcwd函数}
 不管你在终端运行python还是运行某个python脚本，总有一个变量存储着当前工作目录的位置。你可以通过getcwd命令来查看当前工作目录。
-\subsection{getcwd函数}
+
 \begin{xverbatim}[129]{py}
 import os
 print(os.getcwd())
@@ -3161,7 +3170,7 @@ print(os.getcwd())
 /home/wanze
 \end{Verbatim}
 
-\subsection{chdir函数}
+\section{chdir函数}
 os模块里有一个chdir函数来更改当前工作目录所在地。
 \begin{Verbatim}
 >>> os.chdir('/home/wanze/pymf')
@@ -3171,7 +3180,7 @@ os模块里有一个chdir函数来更改当前工作目录所在地。
 
 
 \section{environ函数}
-最常见的用法就是返回系统中“HOME”所具体的路径名：
+os.environ，返回一个字典值，这个字典值里面存储着当前shell的一些变量和值。比如系统中“HOME”所具体的路径名是：
 \begin{tcbpython}[]
 import os
 print(os.environ['HOME'])
@@ -3180,6 +3189,9 @@ print(os.environ['HOME'])
 /home/wanze
 >>> 
 \end{Verbatim}
+
+\section{getpid函数}
+os.getpid函数，返回当前运行的进程的pid。
 
 \section{stat函数}
 返回文件的一些信息。比如st\_{}size是文件的大小，单位是字节。
@@ -3274,9 +3286,39 @@ dirname函数接受一个路径值然后 返回这个路径除开最后一个元
 'test'
 \end{Verbatim}
 
+\section{split函数}
+将路径path字符串分割，可以视作dirname和basename的组合。
+\begin{Verbatim}
+>>> os.path.split('/usr/local/bin/test.txt')
+('/usr/local/bin', 'test.txt')
+>>> os.path.dirname('/usr/local/bin/test.txt')
+'/usr/local/bin'
+>>> os.path.basename('/usr/local/bin/test.txt')
+'test.txt'
+\end{Verbatim}
+
+
+
+\section{splitext函数}
+将某个路径path的后缀分开，这里主要是针对文件名为输入的时候，那么第一个为该文件的名字，输出数组的第二个值是该文件的后缀。这个函数在提取文件名后缀和前面的名字的时候很有用，方便组合出新的文件名。
+\begin{Verbatim}
+>>> import os
+>>> fileName, fileExtension = os.path.splitext('/path/to/somefile.ext')
+>>> fileName
+'/path/to/somefile'
+>>> fileExtension
+'.ext'
+\end{Verbatim}
+
 
 \section{join函数}
 用于连接多个路径值合并成一个新的路径值，同样相对于简单的字符串拼接，用这个函数处理路径组合具有操作系统普适性和灵活性。
+\begin{Verbatim}
+>>> os.path.join(os.path.expanduser('~'),'test','lib')
+'/home/wanze/test/lib'
+\end{Verbatim}
+
+上面join函数多个参数生成的新path在windows下又是不同的输出的。
 
 
 
@@ -3297,14 +3339,16 @@ dirname函数接受一个路径值然后 返回这个路径除开最后一个元
 
 
 
+\section{exists函数}
+os.path.exists(path)：测试路径或文件等是否存在。如果存在返回True，否则返回False。
 
-
-\section{判断是否是文件或路径等}
-os.path.isfile(path)：接受一个字符串路径变量，如果是文件那么返回True，否则返回False。
+\section{isfile和isdir还有islink}
+os.path.isfile(path)：接受一个字符串路径变量，如果是文件那么返回True，否则返回False（也就是文件不存在或者不是文件是文件夹等情况都会返回False）。
 
 类似的有isdir和islink函数。
 
-\section{判断文件或路径是否相同}
+
+\section{samefile函数}
 os.path.samefile(path1,path2)：如果两个文件或路径相同则返回True\\，否则返回False。
 
 
@@ -3378,7 +3422,7 @@ print(name)
 
 \chapter{collections模块}
 \section{namedtuple函数}
-collections模块里面的namedtuple函数将会产生一个有名字的数组的类，通过这个类可以新建类似的实例。比如：
+collections模块里面的namedtuple函数将会产生一个有名字的数组的类（有名数组），通过这个类可以新建类似的实例。比如：
 \begin{xverbatim}[129]{py}
 from collections import namedtuple
 
@@ -3525,6 +3569,19 @@ if __name__ == '__main__':
 \chapter{datetime模块}
 
 \chapter{calendar模块}
+
+
+
+
+\part{系统级编程}
+学编程学到后面就需要学习和了解Linux系统相关知识，从Linux系统的架构可以学到很多软件架构的知识，熟悉了解Linux系统能够让我们做出更多基于Linux的实用的程序。
+
+相关更多内容请参看我编写的指尖上的Ubuntu一书。具体github地址是：\\
+\href{https://github.com/a358003542/finger-on-ubuntu}{https://github.com/a358003542/finger-on-ubuntu}
+
+python脚本系统级编程的一大好处就是你经过一些技艺的练习写出来的python系统脚本是可以做到跨平台兼容的。（目前还不清楚具体如何？）
+
+
 
 
 
@@ -4248,12 +4305,6 @@ sudo pip3 install setuptools
 
 
 
-\part{Linux系统进阶}
-学编程学到后面就需要学习和了解Linux系统相关知识，从Linux系统的架构可以学到很多软件架构的知识，熟悉了解Linux系统能够让我们做出更多基于Linux的实用的程序。
-
-相关更多内容请参看我编写的指尖上的Ubuntu一书。具体github地址是：\\
-\href{https://github.com/a358003542/finger-on-ubuntu}{https://github.com/a358003542/finger-on-ubuntu}
-
 
 \part{python数据处理进阶}
 
@@ -4372,6 +4423,10 @@ array([[ 1.,  0.,  0.],
        [ 0.,  1.,  0.],
        [ 0.,  0.,  1.]])
 \end{Verbatim}
+
+
+
+
 
 \part{其他}
 \chapter{暂时还不知道分类的东东}
