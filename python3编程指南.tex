@@ -46,6 +46,7 @@
 
 7.dive into python3 \href{http://www.diveintopython3.net/index.html}{dive into python3}
 
+
 正则表达式部分：
 1.\href{http://wiki.ubuntu.org.cn/Python%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97}{Python正则表达式操作指南}
 
@@ -3736,10 +3737,84 @@ sudo pip3 install setuptools
 
 
 \chapter{pillow模块}
+pillow模块让python具备的初步的图片处理能力。
+
+\section{安装}
+推荐使用pip3命令安装pillow模块。
+
+\begin{tcbbash}[]
+sudo pip3 install pillow
+\end{tcbbash}
+
+此外可能还需要其他宏包来支持一些图片格式，安装官方文档的叙述\footnote{also reference \href{http://askubuntu.com/questions/427358/install-pillow-for-python-3}{this}}，下面这些可能需要装上。
+\begin{tcbbash}[]
+sudo apt-get install python3-dev python3-setuptools
+sudo apt-get install libtiff4-dev libjpeg8-dev zlib1g-dev \
+    libfreetype6-dev liblcms2-dev libwebp-dev tcl8.5-dev tk8.5-dev
+\end{tcbbash}
+
+\subsection{测试安装情况}
+官方文档并没有给出测试安装情况的例子，这里给出刚开始那个简单的例子权做测试安装情况的测试。
+
+\begin{tcbpython}[]
+from PIL import Image
+img = Image.open("test.jpg")
+print(img.format, img.size , img.mode)
+img.show()
+\end{tcbpython}
+
+这个例子的顺利运行需要你找一个jpg图片文件。pillow模块在这里名字叫PIL是因为它的父亲是PIL，pillow fork自它，并setuptools兼容。
+
+我们看到pillow模块的语法还是很清晰的，Image是个类，open方法返回具体的jpg img 对象，这里就简单称作img对象了，img对象有format, size , mode方法，分别是图片的格式（JPEG），图片的尺寸（(1920, 1080)）和图片的模式（RGB）。然后img对象调用show方法会（通过系统内部工具）显示图片。
+
+open方法就目前按照官方文档的叙述支持如下格式：bmp，eps，gif，im，jpeg，jpeg2000，msp，pcx，png，ppm ，spider，tiff，webp，xbm，xv。还有一些格式要某只支持读要某只支持写这里不说明了。其中写的时候save方法需要明确说明图片的目标格式，而open方法打开的时候图片名字是随意的，pillow会自动检测图片的格式。
+
+如果open方法图片打开失败，将会返回\textbf{IOError}异常。
+
+\section{图片格式转换器}
+根据图片格式转换器这个例子简单说明pillow的图片格式转换功能。
 
 
+\href{https://github.com/a358003542/imgformat}{imgformat小工具}
 
 
+\chapter{matplotlib模块}
+\section{安装}
+\begin{tcbbash}[]
+sudo apt-get install python3-matplotlib
+\end{tcbbash}
+
+\section{ipython下交互绘图}
+输入\verb+%pylab+即可。
+
+
+\begin{tcbpython}[]
+import matplotlib.pyplot as plt
+\end{tcbpython}
+pyplot里面有很多基本的绘图函数，一般都如上引入为"plt"名字。
+
+\section{plt子模块}
+\subsection{plot方法}
+plt.plot([1,2,3,4])
+
+plot方法，接受一系列数字的列表，绘出线状图\footnote{更确切的描述是在默认画布上加入这些点。}。
+
+如果只接受一个列表数字作为参数，那么认为是y轴上的数值，x轴值取默认值[0,1,2......]
+
+如果接受两个列表数字作为参数，那个第一个认为是x轴上的数值，第二个是y轴上的数值。
+
+\subsection{标签}
+plt的xlabel方法，ylabel，控制图形的x轴标签和y轴标签。
+
+\subsection{show方法}
+plt的show方法，让图形绘制出来。
+
+\subsection{axis方法}
+plt的axis方法控制图形的x轴y轴具体显示的范围。
+
+plt.axis([0,10,0,10])   axis方法接受的列表参数意义是 [xmin,xmax,ymin,ymax]
+
+\subsection{hist方法}
 
 
 
@@ -3750,19 +3825,36 @@ sudo pip3 install setuptools
 sudo apt-get install python3-numpy
 \end{Verbatim}
 
+\section{引入规则}
+\begin{tcbpython}[]
+import numpy as np
+\end{tcbpython}
 
+一般numpy引入语句如上所示，这已经是个惯例了，下面这个语句就省略了。
 
 \section{ndarray对象}
 \begin{Verbatim}
-import numpy as np
-x = np.array([1,2,3,4,5,6])
-print(x)
-type(x)
+>>> x = np.array([1,2,3,4,5,6])
+>>> print(x)
+[1 2 3 4 5 6]
+>>> type(x)
+<class 'numpy.ndarray'>
 \end{Verbatim}
 
+如上所示numpy模块的array方法接受列表之后会将其变成numpy自己的ndarray对象，包括matplotlib模块等在内，它们都使用numpy模块的ndarray对象来表示和运算（类似列表的）数据。
 
-\section{ndarray元素的引用}
-语法和list对象中元素的引用类似。
+\section{arange函数}
+arange(start,end,step)  参数类似range函数。生成numpy的ndarray列表，如下所示：
+\begin{Verbatim}
+>>> x = np.arange(1,10,0.5)
+>>> type(x)
+<class 'numpy.ndarray'>
+>>> x
+array([ 1. ,  1.5,  2. ,  2.5,  3. ,  3.5,  4. ,  4.5,  5. ,  5.5,  6. ,
+        6.5,  7. ,  7.5,  8. ,  8.5,  9. ,  9.5])
+\end{Verbatim}
+
+\section{histogram函数}
 
 
 \section{多维ndarray}
@@ -3822,7 +3914,6 @@ array([[1, 2, 3],
 \section{ndarray变成list}
 
 
-\section{类似range的arange函数}
 
 \section{flatten方法}
 
@@ -3866,8 +3957,66 @@ array([[ 1.,  0.,  0.],
 \part{tkinter教程}
 以后GUI的设计会更加立足简单原生GUI，tkinter这部分最后可能会取代pyqt的位置。
 
+tkinter的界面和pyqt相比确实丑了一点，不过tkinter的优点是快速原型开发，而pyqt则多少有点过于庞大和复杂了。快速开发， 我想这正是python选择tkinter作为其默认GUI模块的原因，如果没有额外的理由，应该使用tkinter来进行你的快速GUI开发。
+
+\chapter{第一步}
+\section{安装}
+在ubuntu下你可能已经安装了tkinter模块了，不管怎么样运行下面的命令确保tkinter安装上：
+\begin{tcbbash}[]
+sudo apt-get install python3-tk
+\end{tcbbash}
+
+\subsection{测试安装情况}
+\begin{tcbpython}[]
+from tkinter import *
+tk=Tk()
+Label(tk,text='Label 的text').pack()
+tk.mainloop()
+\end{tcbpython}
+
+第一个语句是用Tk类创建了一个母窗体。
+
+第二个语句Label就是一个标签类，其中第一个参数是母窗体，text可选参数控制标签的文本，一般标签的这个text选项都会填上一些内容吧。pack方法是控制这个窗体在母窗体的布局，如果不使用这个方法窗体不会在母窗体中显示。
+
+tk母窗体的mainloop方法是开启GUI的事件驱动。
+
+\chapter{窗体类型}
+\section{Label}
+标签  Label(母窗体, ...)
+
+text =  标签文字
 
 
+
+\section{Button}
+按钮 Button(母窗体, ...)
+
+text = 按钮文字
+
+\section{Entry}
+单行输入框 Entry(母窗体, ...)
+
+get()  get方法，输入框对象调用get方法之后返回输入框内的字符串。
+
+
+\section{Frame}
+可以简单称之为面板 Frame(母窗体, ...)
+
+width = 面板宽
+height = 面板高
+
+
+\section{Combobox}
+
+
+\chapter{布局管理}
+\section{PACK方法}
+side可选参数接受如下参数：\textbf{TOP}，\textbf{BOTTOM}，\textbf{LEFT}，\textbf{RIGHT}。这样控制子窗体在母窗体中的布局位置。\uwave{默认是TOP}。
+
+母窗体下面的子窗体如果 
+
+\section{grid方法}
+看名字就知道让子窗体在母窗体服从网格布局的意思。
 
 
 
@@ -4559,16 +4708,43 @@ sys.exit()
 
 
 \chapter{pyqt4实例进阶}
-现在
+
+
+
+\part{kivy教程}
+\section{安装}
+具体安装请参看官方文档，Ubuntu下我的安装如下：
+\begin{tcbbash}[]
+sudo add-apt-repository ppa:thopiekar/pygame
+sudo add-apt-repository ppa:kivy-team/kivy
+sudo apt-get update
+sudo apt-get install python3-kivy
+sudo apt-get install kivy-examples
+\end{tcbbash}
+
+\subsection{测试安装情况}
+第一个例子作为测试安装情况：
+\begin{tcbpython}[]
+import kivy
+#kivy.require('1.8.0')
+
+from kivy.app import App
+from kivy.uix.label import Label
+class MyApp(App):
+    def build(self):
+        return Label(text='hello')
+
+
+if __name__ == '__main__':
+    MyApp().run()
+\end{tcbpython}
+
+
 
 
 
 
 \part{网络编程}
-
-
-
-
 
 
 \part{其他}
