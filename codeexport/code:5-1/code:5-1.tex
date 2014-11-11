@@ -1,6 +1,16 @@
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{y}\PY{o}{=}\PY{l+m+mi}{1}
-\PY{k}{def} \PY{n+nf}{test}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{o}{=}\PY{n}{y}\PY{p}{)}\PY{p}{:}
-    \PY{k}{return} \PY{n}{x}\PY{o}{+}\PY{n}{y}
-\PY{k}{print}\PY{p}{(}\PY{n}{test}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{k}{class} \PY{n+nc}{Hero}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf}{addlevel}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{level}\PY{o}{=}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{level}\PY{o}{+}\PY{l+m+mi}{1}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{hp}\PY{o}{=}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{hp}\PY{o}{+}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{addhp}
+
+\PY{k}{class} \PY{n+nc}{Garen}\PY{p}{(}\PY{n}{Hero}\PY{p}{)}\PY{p}{:}
+    \PY{n}{level}\PY{o}{=}\PY{l+m+mi}{1}
+    \PY{n}{hp}\PY{o}{=}\PY{l+m+mi}{455}
+    \PY{n}{addhp}\PY{o}{=}\PY{l+m+mi}{96}
+
+\PY{n}{garen001}\PY{o}{=}\PY{n}{Garen}\PY{p}{(}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{:}
+    \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{级别:}\PY{l+s}{\PYZsq{}}\PY{p}{,}\PY{n}{garen001}\PY{o}{.}\PY{n}{level}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{生命值：}\PY{l+s}{\PYZsq{}} \PY{p}{,}\PY{n}{garen001}\PY{o}{.}\PY{n}{hp}\PY{p}{)}
+    \PY{n}{garen001}\PY{o}{.}\PY{n}{addlevel}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}

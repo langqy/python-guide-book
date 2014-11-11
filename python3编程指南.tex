@@ -44,8 +44,11 @@
 
 6.pyqt4 tutorial \href{http://zetcode.com/gui/pyqt4/}{英文网站} 也参考了jimmykuu的中文翻译，\href{http://blog.cx125.com/books/PyQt4_Tutorial/}{中文翻译网站}
 
-7.dive into python3 \href{http://www.diveintopython3.net/index.html}{dive into python3}
+7.dive into python3 \href{http://www.diveintopython3.net/index.html}{dive into python3} , 这是\href{http://sebug.net/paper/books/dive-into-python3/index.html}{中文网站链接}。
 
+8. \href{https://drive.google.com/open?id=0ByWxOeitx54PNXRIMUVybTlLZDQ&authuser=0}{numpy beginner's guide book}
+
+9. \href{https://drive.google.com/open?id=0ByWxOeitx54PTXN6RW5ydzQ4YXc&authuser=0}{Introduction to Python for Econometrics, Statistics and Data Analysis}
 
 正则表达式部分：
 1.\href{http://wiki.ubuntu.org.cn/Python%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97}{Python正则表达式操作指南}
@@ -157,6 +160,21 @@ boolean类型，和大多数语言一样，就两个值：\textbf{True}，\textb
 \item 比较和相等测试会递归作用在数据结构中
 \item 比较和相等测试会返回True或False（1和0的custom version（翻译为定制版？））
 \end{itemize}
+
+\subsection{None}
+有些函数没有return的值就会返回None值，None值是NoneType对象中的一个值，和列表的空值等是不同的，它和其他任何值都不一样的。比如re.search如果没有找到匹配就会返回None值。这个时候需要知道得是None值在逻辑上是逻辑假，not None是逻辑真。
+\begin{Verbatim}
+>>> def f():
+...  pass
+... 
+>>> y = f()
+>>> y
+>>> type(y)
+<class 'NoneType'>
+\end{Verbatim}
+
+
+
 
 \section{条件判断}
 python中的条件语句基本格式如下：
@@ -497,6 +515,7 @@ python的数值的内置类型有：int，float，complex等\footnote{这些int�
 print((1+2)*(10-5)/2)
 print(2**100)
 \end{Verbatim}
+
 
 \subsection{二进制八进制十六进制}
 二进制的数字以0b（零比）开头，八进制的数字以0o（零哦）开头，十六进制的数字以0x（零艾克斯）开头。
@@ -1165,7 +1184,7 @@ def square(n):
 print(list(map(square,[1,2,3,4,5])))
 print([square(x) for x in [1,2,3,4,5]])
 \end{xverbatim}
-map函数将某个应数应用于某个列表的元素中并生成一个map对象，需要外面加上list函数才能生成列表形式。第二种方式更有python风格，是推荐使用的列表解析方法。
+map函数将某个函数应用于某个列表的元素中并生成一个map对象（可迭代对象），需要外面加上list函数才能生成列表形式。第二种方式更有python风格，是推荐使用的列表解析方法。
 
 在python中推荐多使用迭代操作和如上的列表解析风格，因为python中的迭代操作是直接用c语言实现的。
 
@@ -1178,56 +1197,91 @@ for语句后面可以跟一个if子句表示过滤条件，看下面的例子来
 
 这个例子的意思是列表解析，找到的元素进行乘以2的操作，其中过滤条件为字符是h字母开头的，也就是后面if表达式不为真的元素都被过滤掉了。
 
-\subsubsection{排列组合赋值}
-我想到列表解释的时候如果解析加赋值会如何呢？当然如果同一个变量逐个赋值这毫无意义，但如果我们将其变成一个字符串，从而形成一种延迟赋值语句这又会如何呢？
+
+\subsubsection{完整的列表解析结构}
+下面给出一个完整的列表解析结构，最常见的情况一般就一两个for语句吧，这里if外加个括号是可选项的意思。
 \begin{Verbatim}
->>> ["x,y={0},{1};".format(a,b) for a in [1,2,3] for b in [4,5]]
-['x,y=1,4;', 'x,y=1,5;', 'x,y=2,4;', 'x,y=2,5;', 'x,y=3,4;', 'x,y=3,5;']
->>> exec(["x,y={0},{1};".format(a,b) for a in [1,2,3] for b in [4,5]][0])
->>> print(x,y)
-1 4
->>> exec(["x,y={0},{1};".format(a,b) for a in [[1,2],2,3] for b in [4,5]][0])
->>> x
-[1, 2]
+[ expression for var1 in iterable1 [if condition1 ]
+                    for var2 in iterable2 [if condition2 ]
+                    ........
+                            ]
 \end{Verbatim}
-我们看到通过exec来执行之后x和y都赋给了相应的值，这似乎有点意思，因为我们可以通过itertools（排列组合等等技术）来形成一种批量赋值和进行某些操作的机制。
 
-然后我们看到将赋值改为列表也是可行的，这样我们可以猜测一般对象赋值都是可行的。
+这里的iterable1是指某个可迭代对象，也就是说那些能够返回可迭代对象的函数比如map，filter，zip，range等函数都可以放进去。不过我们要克制自己在这里别写出太过于晦涩的程序了。还有for循环语句也别嵌套太多了，这样就极容易出错的。
 
-但是字符串赋值就出现问题了：
+下面这个程序大家看看：
 \begin{Verbatim}
->>> ["x,y={0},{1};".format(a,b) for a in ['a',2,3] for b in [4,5]]
-['x,y=a,4;', 'x,y=a,5;', 'x,y=2,4;', 'x,y=2,5;', 'x,y=3,4;', 'x,y=3,5;']
+>>> [x+str(y) for x in ['a','b','c'] for y in [1,2,3,4,5,6] if y & 1]
+['a1', 'a3', 'a5', 'b1', 'b3', 'b5', 'c1', 'c3', 'c5']
+>>> [x+str(y) for x in ['a','b','c'] for y in [1,2,3,4,5,6] if not  y & 1]
+['a2', 'a4', 'a6', 'b2', 'b4', 'b6', 'c2', 'c4', 'c6']
 \end{Verbatim}
-我们可以看到a进入之后就成了变量名了，然后exec执行就会出错。如果你给a赋一个值，这样就不会出错了。（可能会有某种手段处理来实现字符串的赋值？）
 
-不过这里我们看到另外一种有趣的现象，那就是我们可以通过字符串组合来生成新的变量名。
-\begin{Verbatim}
- exec(["x={0};".format(str(a)+str(b)) for a in ['x'] for b in [0,1,2]][0])
-\end{Verbatim}
-比如如下面这样就将执行\verb+x=x0+这样的表达式，因为x0没有定义将会出错。
+\subsubsection{列表解析的好处}
+在熟悉列表解析的语句结构之后，一两个for语句不太复杂的情况下，还是很简单明了的。同时语法也更加精炼，同时运行速度较for循环要至少快上一倍。最后python的迭代思想深入骨髓，以后python的优化工作很多都围绕迭代展开，也就是多用列表解析会让你的代码以后可能运行的更快。
+
+有这么多的好处，加上这么cool的pythonic风格，推荐大家多用列表解析风格解决问题。
 
 
-\subsubsection{批量赋值}
-下面是一个批量赋值函数的粗糙例子，作为自动生成一些变量名和批量赋值这些变量名似乎没有什么用处，不过也许以后可能对于某些问题会有用处的，先暂时放在这里。
-\begin{Verbatim}
-def multiassign(n):
-    for i in ["global {0};{0} = {1};".format(str(a)+str(b),i) 
-    for a in ['x'] for (b,i) in [(i,i) for i in list(range(n))]]:
-        exec(i)
 
-if __name__ == '__main__':
-    multiassign(100)
-\end{Verbatim}
+
+
+%\subsubsection{排列组合赋值}
+%我想到列表解释的时候如果解析加赋值会如何呢？当然如果同一个变量逐个赋值这毫无意义，但如果我们将其变成一个字符串，从而形成一种延迟赋值语句这又会如何呢？
+%\begin{Verbatim}
+%>>> ["x,y={0},{1};".format(a,b) for a in [1,2,3] for b in [4,5]]
+%['x,y=1,4;', 'x,y=1,5;', 'x,y=2,4;', 'x,y=2,5;', 'x,y=3,4;', 'x,y=3,5;']
+%>>> exec(["x,y={0},{1};".format(a,b) for a in [1,2,3] for b in [4,5]][0])
+%>>> print(x,y)
+%1 4
+%>>> exec(["x,y={0},{1};".format(a,b) for a in [[1,2],2,3] for b in [4,5]][0])
+%>>> x
+%[1, 2]
+%\end{Verbatim}
+%我们看到通过exec来执行之后x和y都赋给了相应的值，这似乎有点意思，因为我们可以通过itertools（排列组合等等技术）来形成一种批量赋值和进行某些操作的机制。
+%
+%然后我们看到将赋值改为列表也是可行的，这样我们可以猜测一般对象赋值都是可行的。
+%
+%但是字符串赋值就出现问题了：
+%\begin{Verbatim}
+%>>> ["x,y={0},{1};".format(a,b) for a in ['a',2,3] for b in [4,5]]
+%['x,y=a,4;', 'x,y=a,5;', 'x,y=2,4;', 'x,y=2,5;', 'x,y=3,4;', 'x,y=3,5;']
+%\end{Verbatim}
+%我们可以看到a进入之后就成了变量名了，然后exec执行就会出错。如果你给a赋一个值，这样就不会出错了。（可能会有某种手段处理来实现字符串的赋值？）
+%
+%不过这里我们看到另外一种有趣的现象，那就是我们可以通过字符串组合来生成新的变量名。
+%\begin{Verbatim}
+% exec(["x={0};".format(str(a)+str(b)) for a in ['x'] for b in [0,1,2]][0])
+%\end{Verbatim}
+%比如如下面这样就将执行\verb+x=x0+这样的表达式，因为x0没有定义将会出错。
+%
+%
+%\subsubsection{批量赋值}
+%下面是一个批量赋值函数的粗糙例子，作为自动生成一些变量名和批量赋值这些变量名似乎没有什么用处，不过也许以后可能对于某些问题会有用处的，先暂时放在这里。
+%\begin{Verbatim}
+%def multiassign(n):
+%    for i in ["global {0};{0} = {1};".format(str(a)+str(b),i) 
+%    for a in ['x'] for (b,i) in [(i,i) for i in list(range(n))]]:
+%        exec(i)
+%
+%if __name__ == '__main__':
+%    multiassign(100)
+%\end{Verbatim}
 
 
 \subsubsection{元组的生成}
+这个时候需要加个括号表示这是一个元组对象。
+\begin{Verbatim}
 >>> [(x,x**2) for x in range(5)]
 [(0, 0), (1, 1), (2, 4), (3, 9), (4, 16)]
+\end{Verbatim}
+
 
 
 
 \subsection{for语句中列表可变的影响}
+一般情况for迭代某个可迭代对象就是可迭代对象返回一个值然后利用这个值赋值并进行下面的操作，但是列表却是一个可变的东西，如果列表在操作中被修改了，情况会怎样呢？
+
 \begin{tcbpython}[]
 lst = [1,2,3,4,5]
 index = 0
@@ -1243,10 +1297,7 @@ for x in lst:
 >>> 
 \end{Verbatim}
 
-
-
-
-
+具体这个过程的细节我不清楚，但确定的是在这里for语句并没有记忆原列表，而只是记忆了返回次数或者偏移值。
 
 
 
@@ -1281,7 +1332,7 @@ dict002['height']=195
 {'a': 1, 'b': 2, 'c': 3}
 \end{Verbatim}
 
-zip函数的例子本文多有涉及，这里不会赘述了。
+zip函数的例子请参看后面的\ref{sec:字典解析}。
 
 
 
@@ -1383,6 +1434,7 @@ pop方法类似列表的pop方法，不同引用的是键，而不是偏移地�
 
 
 \subsection{字典解析}
+\label{sec:字典解析}
 这种字典解析方式还是很好理解的。
 \begin{Verbatim}
 >>> dict001={x:x**2 for x in [1,2,3,4]}
@@ -1522,6 +1574,7 @@ True
 
 
 \section{文件}
+文件对象是可迭代对象。
 
 \subsection{写文件}
 对文件的操作首先需要用open函数创建一个文件对象，简单的理解就是把相应的接口搭接好。文件对象的write方法进行对某个文件的写操作，最后需要调用close方法写的内容才真的写进去了。
@@ -1589,305 +1642,6 @@ eval这个函数严格来讲作用倒不是为了进行上面说的类型转换�
 \end{Verbatim}
 
 推荐使用pickle模块来处理其他类型的文件读写问题，相对来说更简单更安全。请参看pickle模块这一小节\ref{sec:pickle模块}。
-
-
-
-
-
-
-
-\chapter{类}
-在python中一切皆对象。前面学的那些操作对象都是python程序语言自己内部定义的对象（Object），而接下来介绍的类的语法除了更好的理解之前的那些对象之外，再就是可以创造自己的操作对象。一般面向对象(OOP)编程的基本概念这里不重复说明了，如有不明请读者自己随便搜索一篇网页阅读下即可。
-
-\section{python中类的结构}
-python中的类就好像树叶，所有的类就构成了一棵树，而python中超类，子类，实例的重载或继承关系等就是由一种搜索机制实现的：
-\begin{fig}{类搜索结构图}
-\label{fig:类搜索结构图}
-\end{fig}
-python首先搜索self有没有这个属性或者方法，如果没有，就向上搜索。比如说实例l1没有，就向上搜索C1，C1没有就向上搜索C2或C3等。
-
-实例继承了创造他的类的属性，创造他的类上面可能还有更上层的超类，类似的概念还有子类，表示这个 类在树形层次中比较低。
-
-well，简单来说类的结构和搜索机制就是这样的，很好地模拟了真实世界知识的树形层次结构。
-
-上面那副图实际编写的代码如下：
-\begin{Verbatim}
-class C2: ...
-class C3: ...
-class C1(C2,C3): ...
-l1=C1()
-l2=C1()
-\end{Verbatim}
-其中class语句是创造类，而C1继承自C2和C3，这是多重继承，从左到右是内部的搜索顺序（会影响重载）。l1和l2是根据类C1创造的两个实例。
-
-对于初次接触类这个概念的读者并不指望他们马上就弄懂类这个概念，这个概念倒并一定要涉及很多哲学的纯思考的东西，也可以看作一种编程经验或技术的总结。多接触也许对类的学习更重要，而不是纯哲学抽象概念的讨论，毕竟类这个东西创造出来就是为了更好地描述现实世界的。
-
-最后别人编写的很多模块就是一堆类，你就是要根据这些类来根据自己的情况情况编写自己的子类，为了更好地利用前人的成果，或者你的成果更好地让别人快速使用和上手，那么你需要好好掌握类这个工具。
-
-\section{类的最基础知识}
-\subsection{类的创建}
-\begin{Verbatim}
-class MyClass:
-    something
-\end{Verbatim}
-类的创建语法如上所示，然后你需要想一个好一点的类名。类名规范的写法是首字母大写，这样好和其他变量有所区分。
-
-\subsection{根据类创建实例}
-按照如下语句格式就根据MyClass类创建了一个实例myclass001。
-\begin{Verbatim}
-myclass001=MyClass()
-\end{Verbatim}
-
-\subsection{类的属性}
-\begin{Verbatim}
->>> class MyClass:
-...  name='myclass'
-... 
->>> myclass001=MyClass()
->>> myclass001.name
-'myclass'
->>> MyClass.name
-'myclass'
->>> myclass001.name='myclass001'
->>> myclass001.name
-'myclass001'
->>> MyClass.name
-'myclass'
-\end{Verbatim}
-如上代码所示，我们首先创建了一个类，这个类加上了一个name属性，然后创建了一个实例myclass001，然后这个实例和这个类都有了name属性。然后我们通过实例加上点加上name的这种格式引用了这个实例的name属性，并将其值做了修改。
-
-这个例子简单演示了类的创建，属性添加，实例创建，多态等核心概念。后面类的继承等概念都和这些大同小异了。
-
-
-\subsection{类的方法}
-类的方法就是类似上面类的属性一样加上def语句来定义一个函数，只是函数在类里面我们一般称之为方法。这里演示一个例子，读者看一下就明白了。
-\begin{Verbatim}
->>> class MyClass:
-...  name='myclass'
-...  def double(self):
-...   self.name=self.name*2
-...   print(self.name)
-... 
->>> myclass001=MyClass()
->>> myclass001.name
-'myclass'
->>> myclass001.double()
-myclassmyclass
->>> myclass001.name
-'myclassmyclass'
-\end{Verbatim}
-
-这里需要说明的是在类的定义结构里面，self代表着类自身，self.name代表着对自身name属性的引用。然后实例在调用自身的这个方法时用的是myclass001.double()这样的结构，这里double函数实际上接受的第一个参数就是自身，也就是myclass001，而不是无参数函数。所以类里面的方法（被外部引用的话）至少有一个参数self。
-
-
-
-
-
-\section{类的继承}
-实例虽然说是根据类创建出来的，但实际上实例和类也是一种继承关系，实例继承自类，而类和类的继承关系也与之类似，只是语法稍有不同。下面我们来看这个例子：
-\begin{xverbatim}[129]{py}
-class Hero():
-    def addlevel(self):
-        self.level=self.level+1
-        self.hp=self.hp+self.addhp
-
-class Garen(Hero):
-    level=1
-    hp=455
-    addhp=96
-
-garen001=Garen()
-for i in range(6):
-    print('级别:',garen001.level,'生命值：' ,garen001.hp)
-    garen001.addlevel()
-\end{xverbatim}
-
-\begin{fig}[0.5]{类的继承示例}
-\caption{类的继承示例}
-\label{fig:类的继承示例}
-\end{fig}
-
-这里就简单的两个类，盖伦Garen类是继承自Hero类的，实例garen001是继承自Garen类的，这样garen001也有了addlevel方法，就是将自己的level属性加一，同时hp生命值也加上一定的值，整个过程还是很直观的。
-
-\subsection{super}
-\begin{flushright}
-\begin{notecard}[red!30]{16em}
-警报：这一小节super涉及到的知识稍微有点高深，请类大体基本知识都熟悉之后再来看这个。 
-\end{notecard}
-\end{flushright}
-
-super是python3新加入的特性，按照官方文档，有两种用法：
-
-第一种是如果是单继承的类的系统，super()这种形式就直接表示父类的意思。然后用super.什么什么的来引用父类的某个变量或方法，值得一提的是原父类的self参量会默认加进去了，详细请看下面的调试例子。
-
-第二种是多重继承的，搜索顺序和多重继承的搜索顺序相同，也就是从左到右。请注意调试下面的例子，如果调用c.d就会返回错误，说明调用的是类A的构造函数。
-
-\begin{xverbatim}[129]{py}
-
-class A():
-    def __init__(self,a):
-        self.a=a
-
-    @staticmethod
-    def fun():
-        print('fun')
-
-    def fun2(self,what):
-        print('fun',what)
-
-class B():
-    def __init__(self):
-        self.d=5
-    b=2
-    def fun3(self):
-        print('fun3')
-
-class C(A,B):
-    def __init__(self):
-        super().__init__(3)
-        super().fun()
-        super().fun2('what')
-        super().fun3()
-        print(super().b)
-
-c=C()
-print(c.a,c.b)
-\end{xverbatim}
-fun的输出没有产生错误是因为让其成了静态函数，所以可以以fun这样的空参数形式调用。其中的self参数不会干扰它。但是通常情况下不是静态函数的话，写的函数通常就要加上self，而super()这种调用形式默认第一个参数就是self。
-
-fun3也能被调用是因为多重继承的机制在这里，所以它会逐个找父类。然后c.d会出错，因为这里初始化是用的A类的构造函数。
-
-
-\section{类的内置方法}
-如果构建一个类，就使用pass语句，什么都不做，python还是会为这个类自动创建一些属性或者方法。
-\begin{Verbatim}
->>> class TestClass:
-...  pass
-... 
->>> dir(TestClass)
-['__class__', '__delattr__', '__dict__', '__dir__', '__doc__',
- '__eq__', '__format__', '__ge__', '__getattribute__',
-  '__gt__',  '__hash__', '__init__', '__le__', '__lt__',
-   '__module__', '__ne__', '__new__', '__reduce__', 
-   '__reduce_ex__', '__repr__', '__setattr__', 
-   '__sizeof__', '__str__', '__subclasshook__',
-    '__weakref__']
-\end{Verbatim}
-
-这些变量名字前后都加上双下划线是给python这个语言的设计者用的，一般应用程序开发者还是不要这么做。
-
-这些内置方法用户同样也是可以重定义他们从来覆盖掉原来的定义，其中特别值得一讲的就是\verb+__init__+方法或者称之为构造函数。
-
-\subsection{\_\_init\_\_{}方法}
-\verb+__init__+方法对应的就是该类创建实例的时候的构造函数。比如：
-\begin{Verbatim}
->>> class Point:
-...  def __init__(self,x,y):
-...   self.x=x
-...   self.y=y
-... 
->>> point001=Point(5,4)
->>> point001.x
-5
->>> point001.y
-4
-\end{Verbatim}
-这个例子重载了\verb+__init__+函数，然后让他接受三个参数，self等下要创建的实例，x，还有y通过下面的语句给这个待创建的实例的属性x和y赋了值。
-
-
-\subsection{self意味着什么}
-self在类中是一个很重要的概念，当类的结构层次较简单时还容易看出来， 当类的层次结构很复杂之后，你可能会弄糊涂。\uwave{self就是指现在引用的这个实例}。比如你现在通过调用某个实例的某个方法，这个方法可能是一个远在天边的某个类给出的定义，就算如此，那个定义里面的self还是指调用这个方法的那个实例，这一点要牢记于心。
-
-
-
-\subsection{类的操作第二版}
-现在我们可以写出和之前那个版本相比更加专业的类的使用版本了。
-\begin{xverbatim}[129]{py}
-class Hero():
-    def addlevel(self):
-        self.level=self.level+1
-        self.hp=self.hp+self.addhp
-
-class Garen(Hero):
-    def __init__(self):
-        self.level=1
-        self.hp=455
-        self.addhp=96
-        self.skill=['不屈','致命打击','勇气','审判','德玛西亚正义']
-
-garen001=Garen()
-for i in range(6):
-    print('级别:',garen001.level,'生命值：' ,garen001.hp)
-    garen001.addlevel()
-print('盖伦的技能有：',"".join([x + '  ' for x in garen001.skill]))
-\end{xverbatim}
-
-似乎专业的做法类里面多放点方法，最好不要放属性，不太清楚是什么。但确实这样写给人感觉更干净点，方法是方法，如果没有调用代码就放在那里我们不用管它，后面用了构造函数我们就去查看相关类的构造方法，这样很省精力。
-
-
-\section{类的操作第三版}
-\label{sec:类的操作第三版}
-\begin{xverbatim}[129]{py}
-class Unit():
-    def __init__(self,hp,atk,color):
-        self.hp=hp
-        self.atk=atk
-        self.color=color
-    def __str__(self):
-        return '生命值：{0}，攻击力：{1}，颜色：\
-        {2}'.format(self.hp,self.atk,self.color)
-
-class Hero(Unit):
-    def __init__(self,level,hp,atk,color):
-        Unit.__init__(self,hp,atk,color)
-        self.level=level
-    def __str__(self):
-        return '级别：{0},生命值：{1}，攻击力：{2}，\
-        颜色：{3}'.format(self.level,self.hp,self.atk,self.color)
-
-    def addlevel(self):
-        self.level=self.level+1
-        self.hp=self.hp+self.addhp
-        self.atk=self.atk+self.addatk
-
-class Garen(Hero):
-    def __init__(self,color='blue'):
-        Hero.__init__(self,1,455,56,color)
-        self.name='盖伦'
-        self.addhp=96
-        self.addatk=3.5
-        self.skill=['不屈','致命打击','勇气','审判','德玛西亚正义']
-
-if __name__ == '__main__':
-    garen001=Garen('red')
-    garen002=Garen()
-    print(garen001)
-    unit001=Unit(1000,1000,'gray')
-    print(unit001)
-    for i in range(6):
-        print(garen001)
-        garen001.addlevel()
-    print('盖伦的技能有：',"".join([x + '  ' for x in garen001.skill]))
-\end{xverbatim}
-现在就这个例子相对于第二版所作的改动，也就是核心知识点说明之。其中函数参量列表中这样表述\verb+color='blue'+表示blue是color变量的备选值，也就是color成了可选参量了。
-
-
-\subsection{构造函数的继承和重载}
-上面例子很核心的一个概念就是\verb+__init__+构造函数的继承和重载。比如我们看到garen001实例的创建，其中就引用了Hero的构造函数，特别强调的是\uwave{只有创造实例的时候比如这样的形式Garen()才叫做调用了Garen类的构造方法}， 比如这里\\
-\verb+Hero.__init__(self,1,455,56,color)+就是调用了Hero类的构造函数，这个时候需要把self写上，因为self就是最终创建的实例garen001，而不是Hero，而且调用Hero类的构造函数就必须按照它的参量列表形式来。这个概念需要弄清楚！
-
-理解了这一点，在类的继承关系中的构造函数的继承和重载就好看了。比如这里Hero类的构造函数又是继承自Unit类的构造函数，Hero类额外有一个参量level接下来也要开辟存储空间配置好。
-
-\subsection{\_\_str\_\_{}函数的继承和重载}
-第二个修改是这里重定义了一些类的\verb+__str__+函数，通过重新定义它可以改变默认print某个类对象是的输出。默认只是一段什么什么类并无具体内容信息。具体就是return一段你想要的字符串样式即可。
-
-
-
-
-\subsection{类的其他内置方法}
-类还有其他的一些内置方法，比如\verb+__add__+就控制这对象面对加号时候的行为。这些我们暂时先略过。
-
-更多高级类的内置方法的讨论参见类的内置高级方法这一章\ref{sec:类的高级内置方法}。
 
 
 
@@ -2137,7 +1891,7 @@ for (a,*b,c) in [(1,2,3,4,5,6),(1,2,3,4,5),(1,2,3,4)]:
 >>> test(1,2,3,'a')
 (1, 2, 3, 'a')
 \end{Verbatim}
-我们看到类似上面序列解包赋值中的带星号表通配的概念，在定义函数的时候写上一个带星号的参量（我们可以想象在函数传递参数的时候有一个类似的序列解包赋值过程），在函数定义里面，这个args就是接受到的参量组成的\emph{元组或称之为数组}。
+我们看到类似上面序列解包赋值中的带星号表通配的概念，在定义函数的时候写上一个带星号的参量（我们可以想象在函数传递参数的时候有一个类似的序列解包赋值过程），在函数定义里面，这个args就是接受到的参量组成的\emph{元组}。
 
 
 \subsection{mysum函数}
@@ -2165,22 +1919,33 @@ print(mysum(1,2,3,4,5,6))
 \subsection{解包可迭代对象传递参数}
 之前*args是在函数定义中，然后通配一些参数放入元组中。这里是在函数调用中，针对可迭代对象，可以用一个*星号将其所包含的元素迭代出来，然后和参数一一对应赋值。
 \begin{Verbatim}
->>> def f(a,b,c=3):
-...  print(a,b,c)
->>> map=map(lambda x : x+2 ,[1,2,3])
->>> f(*map)
+>>> map = map(lambda x:x+2,[1,2,3])
+>>> print(*map)
 3 4 5
->>> f(*[1,2,3])
+>>> print(*[1,2,3])
 1 2 3
 \end{Verbatim}
+
+\subsubsection{最简单的打印文件命令}
+前面说到文件也是一个可迭代对象，然后如果在这里解包文件对象将是一个最简单的打印文件命令，简单得惊天地泣鬼神了...
+\begin{tcbpython}[]
+print(*open('test.py'))
+\end{tcbpython}
+
+
 
 \subsection{解包字典成为关键字参数}
 和上面的类似，通过**args语法可以将某个字典对象解包成为某个函数的关键字参数。还是以上面那个函数f为例子：
 \begin{Verbatim}
+>>> def f(a,b,c=3):
+...  print(a,b,c)
 >>> f(**{'c':6,'b':4,'a':2})
 2 4 6
+>>> f(1,2,5)
+1 2 5
 \end{Verbatim}
 
+这个例子也告诉我们不是可选参数的a和b同样也可以通过这种字典形式复制。
 
 
 \section{参数的顺序}
@@ -2286,7 +2051,7 @@ print(copy_list([1,[2,6],3]))
 \end{tcbpython}
 
 
-这种嵌套列表的复制已经后面的修改等等操作，最合适的就是lisp的car-cdr技术了，但我不得不承认，这种递归写法是递归函式里面最难懂的了。
+这种嵌套列表的复制以及后面的修改等等操作，最合适的就是lisp的car-cdr技术了，但我不得不承认，这种递归写法是递归函式里面最难懂的了。
 
 不管怎么严格，在这个基础之上，因为第一个if not的语句中传递下来的lst实际上已经是非列表的其他元素了，然后我们可以进行一些其他修改操作，这样在保持原列表的复杂嵌套的基础上，等于遍历的对列表中的所有元素进行了某种操作。
 
@@ -2319,7 +2084,7 @@ f=lambda x,y,z:x+y+z
 print(f(1,2,3))
 \end{xverbatim}
 
-lanmbda函式在有些情况下要用到，比如pyqt里面的信号－槽机制用connect方法的时候，槽比如是函数名或者无参函数，如果用户想加入参量的话，可以使用lamba函式引入，具体这里我还不够清晰。
+lanmbda函式在有些情况下要用到，比如pyqt里面的信号－槽机制用connect方法的时候，槽比如是函数名或者无参函数，如果用户想加入参量的话，可以使用lamba函式引入。
 
 读者如果对lambda函式表达不太熟悉强烈建议先简单学一学\textbf{scheme}语言。
 
@@ -2327,6 +2092,305 @@ lanmbda函式在有些情况下要用到，比如pyqt里面的信号－槽机制
 print函数因为很常用和基础，就放在这里了。
 
 print函数接受任意的参量，逐个打印出来。然后它还有一些关键字参数，\textbf{sep}：默认值是' '，也就是一个空格，如果修改为空字符串，那么逐个打印出来的字符之间就没有间隔了。\textbf{end}：默认值是'\textbackslash{}n'，\textbf{file}默认值是sys.stdout，也就是在终端显示，你可以修改为某个文件变量，这样直接往某个文件里面输出内容。
+
+
+
+
+
+\chapter{类}
+在python中一切皆对象。前面学的那些操作对象都是python程序语言自己内部定义的对象（Object），而接下来介绍的类的语法除了更好的理解之前的那些对象之外，再就是可以创造自己的操作对象。一般面向对象(OOP)编程的基本概念这里不重复说明了，如有不明请读者自己随便搜索一篇网页阅读下即可。
+
+\section{python中类的结构}
+python中的类就好像树叶，所有的类就构成了一棵树，而python中超类，子类，实例的重载或继承关系等就是由一种搜索机制实现的：
+\begin{fig}{类搜索结构图}
+\label{fig:类搜索结构图}
+\end{fig}
+python首先搜索self有没有这个属性或者方法，如果没有，就向上搜索。比如说实例l1没有，就向上搜索C1，C1没有就向上搜索C2或C3等。
+
+实例继承了创造他的类的属性，创造他的类上面可能还有更上层的超类，类似的概念还有子类，表示这个 类在树形层次中比较低。
+
+well，简单来说类的结构和搜索机制就是这样的，很好地模拟了真实世界知识的树形层次结构。
+
+上面那副图实际编写的代码如下：
+\begin{Verbatim}
+class C2: ...
+class C3: ...
+class C1(C2,C3): ...
+l1=C1()
+l2=C1()
+\end{Verbatim}
+其中class语句是创造类，而C1继承自C2和C3，这是多重继承，从左到右是内部的搜索顺序（会影响重载）。l1和l2是根据类C1创造的两个实例。
+
+对于初次接触类这个概念的读者并不指望他们马上就弄懂类这个概念，这个概念倒并一定要涉及很多哲学的纯思考的东西，也可以看作一种编程经验或技术的总结。多接触也许对类的学习更重要，而不是纯哲学抽象概念的讨论，毕竟类这个东西创造出来就是为了更好地描述现实世界的。
+
+最后别人编写的很多模块就是一堆类，你就是要根据这些类来根据自己的情况情况编写自己的子类，为了更好地利用前人的成果，或者你的成果更好地让别人快速使用和上手，那么你需要好好掌握类这个工具。
+
+\section{类的最基础知识}
+\subsection{类的创建}
+\begin{Verbatim}
+class MyClass:
+    something
+\end{Verbatim}
+类的创建语法如上所示，然后你需要想一个好一点的类名。类名规范的写法是首字母大写，这样好和其他变量有所区分。
+
+\subsection{根据类创建实例}
+按照如下语句格式就根据MyClass类创建了一个实例myclass001。
+\begin{Verbatim}
+myclass001=MyClass()
+\end{Verbatim}
+
+\subsection{类的属性}
+\begin{Verbatim}
+>>> class MyClass:
+...  name='myclass'
+... 
+>>> myclass001=MyClass()
+>>> myclass001.name
+'myclass'
+>>> MyClass.name
+'myclass'
+>>> myclass001.name='myclass001'
+>>> myclass001.name
+'myclass001'
+>>> MyClass.name
+'myclass'
+\end{Verbatim}
+如上代码所示，我们首先创建了一个类，这个类加上了一个name属性，然后创建了一个实例myclass001，然后这个实例和这个类都有了name属性。然后我们通过实例加上点加上name的这种格式引用了这个实例的name属性，并将其值做了修改。
+
+这个例子简单演示了类的创建，属性添加，实例创建，多态等核心概念。后面类的继承等概念都和这些大同小异了。
+
+
+\subsection{类的方法}
+类的方法就是类似上面类的属性一样加上def语句来定义一个函数，只是函数在类里面我们一般称之为方法。这里演示一个例子，读者看一下就明白了。
+\begin{Verbatim}
+>>> class MyClass:
+...  name='myclass'
+...  def double(self):
+...   self.name=self.name*2
+...   print(self.name)
+... 
+>>> myclass001=MyClass()
+>>> myclass001.name
+'myclass'
+>>> myclass001.double()
+myclassmyclass
+>>> myclass001.name
+'myclassmyclass'
+\end{Verbatim}
+
+这里需要说明的是在类的定义结构里面，self代表着类自身，self.name代表着对自身name属性的引用。然后实例在调用自身的这个方法时用的是myclass001.double()这样的结构，这里double函数实际上接受的第一个参数就是自身，也就是myclass001，而不是无参数函数。所以类里面的方法（被外部引用的话）至少有一个参数self。
+
+
+
+
+
+\section{类的继承}
+实例虽然说是根据类创建出来的，但实际上实例和类也是一种继承关系，实例继承自类，而类和类的继承关系也与之类似，只是语法稍有不同。下面我们来看这个例子：
+\begin{xverbatim}[129]{py}
+class Hero():
+    def addlevel(self):
+        self.level=self.level+1
+        self.hp=self.hp+self.addhp
+
+class Garen(Hero):
+    level=1
+    hp=455
+    addhp=96
+
+garen001=Garen()
+for i in range(6):
+    print('级别:',garen001.level,'生命值：' ,garen001.hp)
+    garen001.addlevel()
+\end{xverbatim}
+
+\begin{fig}[0.5]{类的继承示例}
+\caption{类的继承示例}
+\label{fig:类的继承示例}
+\end{fig}
+
+这里就简单的两个类，盖伦Garen类是继承自Hero类的，实例garen001是继承自Garen类的，这样garen001也有了addlevel方法，就是将自己的level属性加一，同时hp生命值也加上一定的值，整个过程还是很直观的。
+
+\subsection{super}
+\begin{flushright}
+\begin{notecard}[red!30]{16em}
+警报：这一小节super涉及到的知识稍微有点高深，请对类大体基本知识都熟悉之后再来看这个。 
+\end{notecard}
+\end{flushright}
+
+super是python3新加入的特性，按照官方文档，有两种用法：
+
+第一种是如果是单继承的类的系统，super()这种形式就直接表示父类的意思。然后用super().什么什么的来引用父类的某个变量或方法，值得一提的是原父类的self参量会默认加进去了，详细请看下面的调试例子。
+
+第二种是多重继承的，搜索顺序和多重继承的搜索顺序相同，也就是从左到右。请注意调试下面的例子，如果调用c.d就会返回错误，说明调用的是类A的构造函数。
+
+\begin{xverbatim}[129]{py}
+
+class A():
+    def __init__(self,a):
+        self.a=a
+
+    @staticmethod
+    def fun():
+        print('fun')
+
+    def fun2(self,what):
+        print('fun',what)
+
+class B():
+    def __init__(self):
+        self.d=5
+    b=2
+    def fun3(self):
+        print('fun3')
+
+class C(A,B):
+    def __init__(self):
+        super().__init__(3)
+        super().fun()
+        super().fun2('what')
+        super().fun3()
+        print(super().b)
+
+c=C()
+print(c.a,c.b)
+\end{xverbatim}
+fun的输出没有产生错误是因为让其成了静态函数，所以可以以fun这样的空参数形式调用。其中的self参数不会干扰它。但是通常情况下不是静态函数的话，写的函数通常就要加上self，而super()这种调用形式默认第一个参数就是self。
+
+fun3也能被调用是因为多重继承的机制在这里，所以它会逐个找父类。然后c.d会出错，因为这里初始化是用的A类的构造函数。
+
+
+\section{类的内置方法}
+如果构建一个类，就使用pass语句，什么都不做，python还是会为这个类自动创建一些属性或者方法。
+\begin{Verbatim}
+>>> class TestClass:
+...  pass
+... 
+>>> dir(TestClass)
+['__class__', '__delattr__', '__dict__', '__dir__', '__doc__',
+ '__eq__', '__format__', '__ge__', '__getattribute__',
+  '__gt__',  '__hash__', '__init__', '__le__', '__lt__',
+   '__module__', '__ne__', '__new__', '__reduce__', 
+   '__reduce_ex__', '__repr__', '__setattr__', 
+   '__sizeof__', '__str__', '__subclasshook__',
+    '__weakref__']
+\end{Verbatim}
+
+这些变量名字前后都加上双下划线是给python这个语言的设计者用的，一般应用程序开发者还是不要这么做。
+
+这些内置方法用户同样也是可以重定义他们从来覆盖掉原来的定义，其中特别值得一讲的就是\verb+__init__+方法或者称之为构造函数。
+
+\subsection{\_\_init\_\_{}方法}
+\verb+__init__+方法对应的就是该类创建实例的时候的构造函数。比如：
+\begin{Verbatim}
+>>> class Point:
+...  def __init__(self,x,y):
+...   self.x=x
+...   self.y=y
+... 
+>>> point001=Point(5,4)
+>>> point001.x
+5
+>>> point001.y
+4
+\end{Verbatim}
+这个例子重载了\verb+__init__+函数，然后让他接受三个参数，self等下要创建的实例，x，还有y通过下面的语句给这个待创建的实例的属性x和y赋了值。
+
+
+\subsection{self意味着什么}
+self在类中是一个很重要的概念，当类的结构层次较简单时还容易看出来， 当类的层次结构很复杂之后，你可能会弄糊涂。\uwave{self就是指现在引用的这个实例}。比如你现在通过调用某个实例的某个方法，这个方法可能是一个远在天边的某个类给出的定义，就算如此，那个定义里面的self还是指调用这个方法的那个实例，这一点要牢记于心。
+
+
+
+\subsection{类的操作第二版}
+现在我们可以写出和之前那个版本相比更加专业的类的使用版本了。
+\begin{xverbatim}[129]{py}
+class Hero():
+    def addlevel(self):
+        self.level=self.level+1
+        self.hp=self.hp+self.addhp
+
+class Garen(Hero):
+    def __init__(self):
+        self.level=1
+        self.hp=455
+        self.addhp=96
+        self.skill=['不屈','致命打击','勇气','审判','德玛西亚正义']
+
+garen001=Garen()
+for i in range(6):
+    print('级别:',garen001.level,'生命值：' ,garen001.hp)
+    garen001.addlevel()
+print('盖伦的技能有：',"".join([x + '  ' for x in garen001.skill]))
+\end{xverbatim}
+
+似乎专业的做法类里面多放点方法，最好不要放属性，不太清楚是什么。但确实这样写给人感觉更干净点，方法是方法，如果没有调用代码就放在那里我们不用管它，后面用了构造函数我们就去查看相关类的构造方法，这样很省精力。
+
+
+\section{类的操作第三版}
+\label{sec:类的操作第三版}
+\begin{xverbatim}[129]{py}
+class Unit():
+    def __init__(self,hp,atk,color):
+        self.hp=hp
+        self.atk=atk
+        self.color=color
+    def __str__(self):
+        return '生命值：{0}，攻击力：{1}，颜色：\
+        {2}'.format(self.hp,self.atk,self.color)
+
+class Hero(Unit):
+    def __init__(self,level,hp,atk,color):
+        Unit.__init__(self,hp,atk,color)
+        self.level=level
+    def __str__(self):
+        return '级别：{0},生命值：{1}，攻击力：{2}，\
+        颜色：{3}'.format(self.level,self.hp,self.atk,self.color)
+
+    def addlevel(self):
+        self.level=self.level+1
+        self.hp=self.hp+self.addhp
+        self.atk=self.atk+self.addatk
+
+class Garen(Hero):
+    def __init__(self,color='blue'):
+        Hero.__init__(self,1,455,56,color)
+        self.name='盖伦'
+        self.addhp=96
+        self.addatk=3.5
+        self.skill=['不屈','致命打击','勇气','审判','德玛西亚正义']
+
+if __name__ == '__main__':
+    garen001=Garen('red')
+    garen002=Garen()
+    print(garen001)
+    unit001=Unit(1000,1000,'gray')
+    print(unit001)
+    for i in range(6):
+        print(garen001)
+        garen001.addlevel()
+    print('盖伦的技能有：',"".join([x + '  ' for x in garen001.skill]))
+\end{xverbatim}
+现在就这个例子相对于第二版所作的改动，也就是核心知识点说明之。其中函数参量列表中这样表述\verb+color='blue'+表示blue是color变量的备选值，也就是color成了可选参量了。
+
+
+\subsection{构造函数的继承和重载}
+上面例子很核心的一个概念就是\verb+__init__+构造函数的继承和重载。比如我们看到garen001实例的创建，其中就引用了Hero的构造函数，特别强调的是\uwave{只有创造实例的时候比如这样的形式Garen()才叫做调用了Garen类的构造方法}， 比如这里\\
+\verb+Hero.__init__(self,1,455,56,color)+就是调用了Hero类的构造函数，这个时候需要把self写上，因为self就是最终创建的实例garen001，而不是Hero，而且调用Hero类的构造函数就必须按照它的参量列表形式来。这个概念需要弄清楚！
+
+理解了这一点，在类的继承关系中的构造函数的继承和重载就好看了。比如这里Hero类的构造函数又是继承自Unit类的构造函数，Hero类额外有一个参量level接下来也要开辟存储空间配置好。
+
+\subsection{\_\_str\_\_{}函数的继承和重载}
+第二个修改是这里重定义了一些类的\verb+__str__+函数，通过重新定义它可以改变默认print某个类对象是的输出。默认只是一段什么什么类并无具体内容信息。具体就是return一段你想要的字符串样式即可。
+
+
+
+
+\subsection{类的其他内置方法}
+类还有其他的一些内置方法，比如\verb+__add__+就控制这对象面对加号时候的行为。这些我们暂时先略过。
+
+更多高级类的内置方法的讨论参见类的内置高级方法这一章\ref{sec:类的高级内置方法}。
+
+
 
 
 
@@ -2421,6 +2485,7 @@ reload(somemodule)
 
 
 \part{python3高级篇}
+
 \chapter{字符串操作进阶}
 \section{bytes类型介绍}
 一般就使用str字符串类型然后使用默认的utf-8编码，然后大部分情况下不会有任何问题。而且按照《Unix编程艺术》作者的观点，一般数据的存储也推荐都文本化，就直接以字符串的形式存储，至少在编程开发早期不会有任何问题。不过到后面可能要考虑速度问题还有保密问题还有某些特殊的领域是需要直接和二进制打交道的，比如处理图像声音文件等。
@@ -2450,11 +2515,6 @@ UnicodeDecodeError: 'utf-8' codec can't decode byte 0xa7 in position 0: invalid 
 
 
 
-
-
-
-\section{字符串中的赋值语句变字典值}
-现在我们打算定义一个
 
 \chapter{类的高级知识}
 在造成程序探索过程中，大部分功能都可以通过一些函数的形式来实现，只有在软件开发中期才开始考虑优化和类的包装问题。面向对象编程思想并不是一定要如此不可，在某些领域简单的函数编程也许更加简单和直接，这个倒不是我个人的观点，很多极客比如《Unix编程艺术》的作者就如此认为。
@@ -2501,6 +2561,7 @@ Test.hello()
 
 
 \section{和迭代操作有关}
+\subsection{\_{}\_{}next\_{}\_{}方法}
 比如文件对象本身就是可迭代的，调用\verb+__next__+方法就返回文件中下一行的内容，到达文件尾也就是迭代越界了返回：\textbf{StopIteration}异常。
 
 \subsection{next函数}
@@ -2519,8 +2580,13 @@ next函数比如next(f)等价于\verb+f.__next__()+，其中f是一个文件对�
 '#!/usr/bin/env python3\n'
 \end{Verbatim}
 
+所以你可以通过定义类的\verb+__next__+方法来获得这个类对于next函数时的反应。
+
+
 \subsection{iter函数}
-iter函数接受一个不可迭代对象（比如列表）然后生成一个可迭代对象。这样的可迭代对象就可以使用next函数和\verb+__next__+方法了。
+\uwave{文件对象}，\uwave{map对象}，\uwave{zip对象}，\uwave{filter对象}，\uwave{生成器对象}自身已经带有了\verb+__next__+方法，所以可以直接用next函数。不过虽然序列（列表，元组，字典，ranges对象\footnote{range函数的返回，也属于序列类型。}）等是可迭代对象，但是没有\verb+__next__+方法。
+
+iter函数可以让序列拥有\verb+__next__+方法，这样的它们就可以使用next函数了。
 
 \begin{Verbatim}
 >>> list=[1,2,3]
@@ -2554,19 +2620,12 @@ TypeError: 'list' object is not an iterator
 range对象也可以通过iter函数来生成一个可迭代对象。
 
 \subsection{enumerate函数}
-enumerate函数返回一个enumerate对象，这个对象将偏移值和元素组合起来，成为一个可迭代对象了，也就是next函数也可以使用了。
+enumerate函数返回一个enumerate对象，这个对象将偏移值和元素组合起来，成为一个可迭代对象了。
 
 \begin{Verbatim}
->>> for (offset,item) in enumerate('abcdefg'):
-...  print(offset,item)
-... 
-0 a
-1 b
-2 c
-3 d
-4 e
-5 f
-6 g
+>>> enu = enumerate('abcd')
+>>> [i for i in enu]
+[(0, 'a'), (1, 'b'), (2, 'c'), (3, 'd')]
 \end{Verbatim}
 
 \chapter{深入理解python3的迭代}
@@ -2692,7 +2751,7 @@ map函数还可以接受两个可迭代对象的协作参数模式，这个学�
 \end{Verbatim}
 
 \subsection{filter函数}
-同样和上面的谈及的类似，filter函数过滤一个可迭代对象然后产生一个可迭代对象。类似的功能可以用列表解析的后的if语句来实现。前面谈到map函数的时候提及一般还是优先使用列表解析模式，但filter函数这里有点不同，因为列表解析后面跟个if可能有时会让人困惑，所有推荐还是用filter函数来进行可迭代对象的过滤操作，当然你喜欢用if也没什么问题喽。
+同样和上面的谈及的类似，filter函数过滤一个可迭代对象然后产生一个可迭代对象。类似的功能可以用列表解析的后的if语句来实现。前面谈到map函数的时候提及一般还是优先使用列表解析模式，但filter函数这里有点不同，因为列表解析后面跟个if可能有时会让人困惑，这时推荐还是用filter函数来进行可迭代对象的过滤操作。
 
 filter函数的基本逻辑是只有return True（用lambda表达式就是这个表达式的值为真，具体请参看python的逻辑小知识和布尔值的一些规则\ref{sec:布尔值}）的时候元素才被收集起来，或者说是过滤出来。这里强调True是因为如果你的函数没有return值那么默认的是return None，这个时候元素也是不会过滤出来的。
 
@@ -2716,7 +2775,7 @@ filter函数的基本逻辑是只有return True（用lambda表达式就是这个
 \end{Verbatim}
 
 \subsection{zip函数}
-这里就顺便把zip函数也一起提了，zip函数同样返回一个可迭代对象，他接受两个可迭代对象，然后将其拼接起来。和map函数类似迭代深度由\uwave{最短}的那个可迭代对象决定。
+这里就顺便把zip函数也一起提了，zip函数同样返回一个可迭代对象，它接受任意数目的可迭代对象，然后逐个取出可迭代对象元素构成一个元组成为自己的一个元素（待迭代出来）。和map函数类似迭代深度由\uwave{最短}的那个可迭代对象决定。
 \begin{Verbatim}
 >>> zip(['a','b','c'],[1,2,3,4])
 <zip object at 0xb7055e6c>
@@ -2728,30 +2787,34 @@ filter函数的基本逻辑是只有return True（用lambda表达式就是这个
 {'c': 3, 'b': 2, 'a': 1}
 \end{Verbatim}
 
+\subsubsection{字典到列表}
+这个例子似乎使用价值不大，只是说明zip函数接受任意数目参数的情况。y.items()解包之后是4个参数传递给zip函数，而zip函数的封装逻辑就是如果有人问我，我就把你们这些迭代对象每个取出一个元素，然后用元组包装之后返回。
+\begin{xverbatim}[129]{py}
+x1 = ['a','b','c','e']
+x2 = [1,2,3,4]
+y = dict(zip(x1,x2))
+print('列表到字典：',y)
+new_x1,new_x2 = zip(*y.items())
+print(new_x1,new_x2)
+\end{xverbatim}
 
-\section{完整的列表解析结构}
-下面给出一个完整的列表解析结构，最常见的情况一般就一两个for语句吧，这里if外加个括号是可选项的意思。
+这个例子如果到更加复杂的情况，我们可以跳过字典形式，来个数据映射对：
 \begin{Verbatim}
-[ expression for var1 in iterable1 [if condition1 ]
-                    for var2 in iterable2 [if condition2 ]
-                    ........
-                            ]
+>>> x1 = ['a','b','c','e']
+>>> x2 = ['red','yellow','red','blue']
+>>> x3 = [1,2,3,4]
+>>> list(zip(x1,x2,x3))
+[('a', 'red', 1), ('b', 'yellow', 2), ('c', 'red', 3), ('e', 'blue', 4)]
+>>> new_x1,new_x2,new_x3 = zip(*list(zip(x1,x2,x3)))
+>>> new_x1
+('a', 'b', 'c', 'e')
+>>> new_x2
+('red', 'yellow', 'red', 'blue')
+>>> new_x3
+(1, 2, 3, 4)
 \end{Verbatim}
 
-这里的iterable1是指某个可迭代对象，也就是说那些能够返回可迭代对象的函数比如map，filter，zip，range等函数都可以放进去。不过我们要克制自己在这里别写出太过于晦涩的程序了。还有for循环语句也别嵌套太多了，这样就极容易出错的。
-
-下面这个程序大家看看：
-\begin{Verbatim}
->>> [x+str(y) for x in ['a','b','c'] for y in [1,2,3,4,5,6] if y & 1]
-['a1', 'a3', 'a5', 'b1', 'b3', 'b5', 'c1', 'c3', 'c5']
->>> [x+str(y) for x in ['a','b','c'] for y in [1,2,3,4,5,6] if not  y & 1]
-['a2', 'a4', 'a6', 'b2', 'b4', 'b6', 'c2', 'c4', 'c6']
-\end{Verbatim}
-
-\section{列表解析的好处}
-在熟悉列表解析的语句结构之后，一两个for语句不太复杂的情况下，还是很简单明了的。同时语法也更加精炼，同时运行速度较for循环要至少快上一倍。最后python的迭代思想深入骨髓，以后python的优化工作很多都围绕迭代展开，也就是多用列表解析会让你的代码以后可能运行的更快。
-
-有这么多的好处，加上这么cool的pythonic风格，推荐大家多用列表解析风格解决问题。
+当然对于多属性数据问题一般还是推荐使用类来处理，不过某些情况下可能不需要使用类，就这样简单处理之。
 
 
 
@@ -2960,7 +3023,6 @@ myfun函数
 
 \chapter{文件处理高级知识}
 接下来的例子如果涉及到文件的请自己随便创建一个对应文件名的文件，内容随意了。
-
 
 \section{一行行的操作}
 因为文件对象本身是可迭代的，我们简单迭代文件对象就可以对文件的一行行内容进行一些操作。比如：
@@ -3536,6 +3598,10 @@ print(p1)
 print(p1[0],p1.z)
 \end{xverbatim}
 
+\subsection{多结果输出}
+
+
+
 \begin{Large}
 更多内容请参见\href{https://docs.python.org/3/library/collections.html}{官方文档}。
 \end{Large}
@@ -3562,7 +3628,7 @@ re模块提供了python对于正则表达式的支持，对于字符串操作，
 \item[\emph{\{m\}}] 对之前的字符匹配(\uwave{exactly})m次。
 \item[\emph{\{m,n\}}] 对之前的字符匹配m次到n次，其中n次可能省略，视作默认值是无穷大。
 \item[\emph{\^{}}] 表示字符串的开始，如果加上\textbf{re.MULTILINE}选项，则表示行首。此外字符串模板加上\textbf{(?m)}可以获得同样的效果。
-\item[\emph{\${}}] 表示字符串的结束，同\^{}类似，如果加上\textbf{re.MULTILINE}选项，则表示行尾。此外字符串模板加上\textbf{(?m)}可以获得同样的效果。
+\item[\emph{\${}}] 表示字符串的结束，同\^{}类似，如果加上\textbf{re.MULTILINE}选项，则表示行尾，可以简单理解为\verb+\n+换行符。此外字符串模板加上\textbf{(?m)}可以获得同样的效果。
 \item[\emph{[]}] [abc]字符组匹配一个字符，这个字符是a或者b或者c。类似的[a-z]匹配所有的小写字母，\verb+[\w]+匹配任意的字母或数字，具体请看下面的特殊字符类。
 \item[\emph{|}] 相当于正则表达式内的匹配或逻辑。
 \item[\emph{()}] 圆括号包围的部分将会记忆起来，方便后面调用。这个后面在谈及。
@@ -3578,6 +3644,7 @@ re模块提供了python对于正则表达式的支持，对于字符串操作，
 \s   匹配任何空白字符   [ \t\n\r\f\v] 。
 \S  匹配任何非空白字符
 匹配中文:[\u4e00-\u9fa5]
+\b  文档说严格的定义是\w 和\W 之间的边界，反之亦然。粗略的理解可以看作是英文单词头或者尾。
 \end{Verbatim}
 
 其中\^{}在方括号[]里面，只有在最前面，才表示排除型字符组的意思。
@@ -3718,6 +3785,72 @@ echo $status
 
 
 
+\part{tkinter教程}
+以后GUI的设计会更加立足简单原生GUI，tkinter这部分最后可能会取代pyqt的位置。
+
+tkinter的界面和pyqt相比确实丑了一点，不过tkinter的优点是快速原型开发，而pyqt则多少有点过于庞大和复杂了。快速开发， 我想这正是python选择tkinter作为其默认GUI模块的原因，如果没有额外的理由，应该使用tkinter来进行你的快速GUI开发。
+
+\chapter{第一步}
+\section{安装}
+在ubuntu下你可能已经安装了tkinter模块了，不管怎么样运行下面的命令确保tkinter安装上：
+\begin{tcbbash}[]
+sudo apt-get install python3-tk
+\end{tcbbash}
+
+\subsection{测试安装情况}
+\begin{tcbpython}[]
+from tkinter import *
+tk=Tk()
+Label(tk,text='Label 的text').pack()
+tk.mainloop()
+\end{tcbpython}
+
+第一个语句是用Tk类创建了一个母窗体。
+
+第二个语句Label就是一个标签类，其中第一个参数是母窗体，text可选参数控制标签的文本，一般标签的这个text选项都会填上一些内容吧。pack方法是控制这个窗体在母窗体的布局，如果不使用这个方法窗体不会在母窗体中显示。
+
+tk母窗体的mainloop方法是开启GUI的事件驱动。
+
+\chapter{窗体类型}
+\section{Label}
+标签  Label(母窗体, ...)
+
+text =  标签文字
+
+
+
+\section{Button}
+按钮 Button(母窗体, ...)
+
+text = 按钮文字
+
+\section{Entry}
+单行输入框 Entry(母窗体, ...)
+
+get()  get方法，输入框对象调用get方法之后返回输入框内的字符串。
+
+
+\section{Frame}
+可以简单称之为面板 Frame(母窗体, ...)
+
+width = 面板宽
+height = 面板高
+
+
+\section{Combobox}
+
+
+\chapter{布局管理}
+\section{PACK方法}
+side可选参数接受如下参数：\textbf{TOP}，\textbf{BOTTOM}，\textbf{LEFT}，\textbf{RIGHT}。这样控制子窗体在母窗体中的布局位置。\uwave{默认是TOP}。
+
+母窗体下面的子窗体如果 
+
+\section{grid方法}
+看名字就知道让子窗体在母窗体服从网格布局的意思。
+
+
+
 
 \part{常用的第三方模块}
 \chapter{setuptools模块}
@@ -3733,6 +3866,8 @@ sudo apt-get install python3-pip
 \begin{Verbatim}
 sudo pip3 install setuptools
 \end{Verbatim}
+
+
 
 
 
@@ -3767,7 +3902,7 @@ img.show()
 
 我们看到pillow模块的语法还是很清晰的，Image是个类，open方法返回具体的jpg img 对象，这里就简单称作img对象了，img对象有format, size , mode方法，分别是图片的格式（JPEG），图片的尺寸（(1920, 1080)）和图片的模式（RGB）。然后img对象调用show方法会（通过系统内部工具）显示图片。
 
-open方法就目前按照官方文档的叙述支持如下格式：bmp，eps，gif，im，jpeg，jpeg2000，msp，pcx，png，ppm ，spider，tiff，webp，xbm，xv。还有一些格式要某只支持读要某只支持写这里不说明了。其中写的时候save方法需要明确说明图片的目标格式，而open方法打开的时候图片名字是随意的，pillow会自动检测图片的格式。
+open方法就目前按照官方文档的叙述支持如下格式：bmp，eps，gif，im，jpeg，jpeg2000，msp，pcx，png，ppm ，spider，tiff，webp\\ ，xbm，xv等。还有一些格式要某只支持读要某只支持写这里不说明了。其中写的时候save方法需要明确说明图片的目标格式，而open方法打开的时候图片名字是随意的，pillow会自动检测图片的格式。
 
 如果open方法图片打开失败，将会返回\textbf{IOError}异常。
 
@@ -3832,7 +3967,13 @@ import numpy as np
 
 一般numpy引入语句如上所示，这已经是个惯例了，下面这个语句就省略了。
 
+
+
 \section{ndarray对象}
+ndarray对象严格个意义上讲可以包含任意维度，而且每个维度的元素个数不一定要相等，而矩阵是ndarray的一个子类。这里为了讨论简单，决定最多只讨论到二维的情况，然后array多维数组只讨论矩阵排布的情况，也就是某些行元素不等的情况不考虑。为了区分方便，这里假设读者已经知道矩阵是ndarray的一个子类，也就是ndarray的属性和方法它都已经继承了，这样array，或多维数组在此处的含义就是广义的ndarray对象，而matrix，矩阵在此处的含义指矩阵对象。
+
+
+\subsection{array函数}
 \begin{Verbatim}
 >>> x = np.array([1,2,3,4,5,6])
 >>> print(x)
@@ -3843,8 +3984,9 @@ import numpy as np
 
 如上所示numpy模块的array方法接受列表之后会将其变成numpy自己的ndarray对象，包括matplotlib模块等在内，它们都使用numpy模块的ndarray对象来表示和运算（类似列表的）数据。
 
-\section{arange函数}
-arange(start,end,step)  参数类似range函数。生成numpy的ndarray列表，如下所示：
+
+\subsection{arange函数}
+arange(start,end,step)  参数类似range函数。生成numpy的一维数组列表，如下所示：
 \begin{Verbatim}
 >>> x = np.arange(1,10,0.5)
 >>> type(x)
@@ -3854,37 +3996,377 @@ array([ 1. ,  1.5,  2. ,  2.5,  3. ,  3.5,  4. ,  4.5,  5. ,  5.5,  6. ,
         6.5,  7. ,  7.5,  8. ,  8.5,  9. ,  9.5])
 \end{Verbatim}
 
+
+\subsection{dtype属性}
+ndarray里面存储的数据类型都是一致的，我们可以调用ndarray的dtype属性来查看具体存放的数据类型。
+
+\begin{Verbatim}
+>>> x = np.arange(5)
+>>> x
+array([0, 1, 2, 3, 4])
+>>> x.dtype
+dtype('int32')
+>>> y = np.arange(1,5,0.5)
+>>> y
+array([ 1. ,  1.5,  2. ,  2.5,  3. ,  3.5,  4. ,  4.5])
+>>> y.dtype
+dtype('float64')
+\end{Verbatim}
+
+ndarray可以支持很多数据类型，简单的了解就是逻辑值01，整数值int，实数值float，复数值complex。ndarray和python原来的列表区别还是很大的，更多具体的细节这里略过，总之把numpy的ndarray对象看作经过优化的更适合处理一系列\textbf{数值}数据\footnote{似乎ndarray也可以存储字符串类型，但这只会让事情变得复杂罢了。}的类型会更简单一些而且在应用上没太大损伤。
+
+
+\subsection{初步控制dtype}
+为了简单起见，这里只讨论bool，int，float和complex这几个dtype类型。
+
+用array方法的dtype可选项可以达到控制具体生成的ndarray对象的dtype属性。其中bool类型将0视作False将1或其他数字都视作True，这个操作在某些领域也许有些用处。实际上在这里array函数接受的列表中可以接受任意类型的数据，然后进行了bool函数\footnote{具体过程应该是numpy模块控制的，但在这里讨论的逻辑真假惯例和python的bool函数是一致的。}的强制类型转换罢了。
+\begin{Verbatim}
+>>> x = np.array([0,1,2,0,4,0],dtype='bool')
+>>> x
+array([False,  True,  True, False,  True, False], dtype=bool)
+\end{Verbatim}
+
+对于整数型，dtype接受的参数可以是\emph{i}或者\emph{int}，不过integer却不可以。最后的输出ndarray对象的dtype属性要视具体情况而定，这里是int32。
+\begin{Verbatim}
+>>> x = np.array([0,1,2,3,4,5],dtype='i')
+>>> x.dtype
+dtype('int32')
+>>> x = np.array([0,1,2,3,4,5],dtype='int')
+>>> x
+array([0, 1, 2, 3, 4, 5])
+>>> x.dtype
+dtype('int32')
+\end{Verbatim}
+
+对于实数型，如果输入\emph{f}，则返回的float32类型；如果输入float，则返回的是float64类型。
+\begin{Verbatim}
+>>> x = np.array([0,1,2,3,4,5],dtype='f')
+>>> x
+array([ 0.,  1.,  2.,  3.,  4.,  5.], dtype=float32)
+>>> x.dtype
+dtype('float32')
+>>> x = np.array([0,1,2,3,4,5],dtype='float')
+>>> x
+array([ 0.,  1.,  2.,  3.,  4.,  5.])
+>>> x.dtype
+dtype('float64')
+\end{Verbatim}
+
+对于复数型，dtype可以接受\emph{D}和\emph{complex}参数，具体是complex128 dtype类型，可能同样也会有点差异。
+\begin{Verbatim}
+>>> x = np.array([0,1,2,3,4,5],dtype='complex')
+>>> x
+array([ 0.+0.j,  1.+0.j,  2.+0.j,  3.+0.j,  4.+0.j,  5.+0.j])
+>>> x.dtype
+dtype('complex128')
+\end{Verbatim}
+
+关于dtype类型更多具体的细节请参看官方文档。
+
+\subsection{多个维度}
+如下所示，多个一维数组ndarray对象再放入一个列表中变成ndarray对象就是多维数组了。如果有一行列数和其它并不是相等的，显示打印是有差异的，似乎其内部实现机制也会有点差异。如果我们查看x.dtype和z.dtype，也是有差异的，具体细节我还不清楚。
+\begin{Verbatim}
+>>> x=np.array([[1,2,3,4,5],[6,7,8,9,10]])
+>>> x
+array([[ 1,  2,  3,  4,  5],
+       [ 6,  7,  8,  9, 10]])
+>>> y = np.array([np.arange(5),np.arange(6)])
+>>> y
+array([array([0, 1, 2, 3, 4]), array([0, 1, 2, 3, 4, 5])], dtype=object)
+>>> z = np.array([np.arange(5),np.arange(5)])
+>>> z
+array([[0, 1, 2, 3, 4],
+       [0, 1, 2, 3, 4]])
+\end{Verbatim}
+
+下面叙述的内容是多维数组情况的一些普适的操作（即矩阵也可如此应用）。
+
+
+\subsection{ndim属性}
+显示多维数组的维度，比如下面的一个矩阵就是二维的，更高的维度在数学上过于艰深除非要实际应用，否则还是少接触吧。
+\begin{Verbatim}
+>>> y = np.array([[1,2,3,4],[5,6,7,8],[10,11,12,14]])
+>>> y
+array([[ 1,  2,  3,  4],
+       [ 5,  6,  7,  8],
+       [10, 11, 12, 14]])
+>>> y.ndim
+2
+\end{Verbatim}
+
+
+\subsection{索引值}
+多维数组对于值的索引和列表索引值的情况并无二致，即方括号语法索引\verb+[index]+，如果要继续深入继续使用方括号语法。数字同样从0开始索引，去索引几行几列。
+
+\begin{Verbatim}
+>>> x = np.array([[1,2,3],[4,5,6],[7,8,9]])
+>>> x
+array([[1, 2, 3],
+       [4, 5, 6],
+       [7, 8, 9]])
+>>> x[0]
+array([1, 2, 3])
+>>> y
+array([array([0, 1, 2, 3, 4]), array([0, 1, 2, 3, 4, 5])], dtype=object)
+>>> y[0]
+array([0, 1, 2, 3, 4])
+>>> x[0][0]
+1
+>>> y[1][5]
+5
+\end{Verbatim}
+
+通过上面描述的索引值语法可以直接修改该ndarray对象的这个元素的值。值得强调的是多维数组和矩阵的索引值语法有点差异！numpy还提供了一种表示语法：\verb+[a,b]+，对于多维数组和\verb+[a][b]+的意思是一样的，推荐多维数组就用python的原来表示方法，意思也很明确，是a维的第几个元素。但是矩阵\udot{不}支持\verb+[a][b]+这种索引语法，而只支持\verb+[a,b]+这种表示语法，推荐对于矩阵都用带逗号的这种索引方法，表示矩阵的a行b列。
+\begin{Verbatim}
+>>> A = np.matrix([[1,2,3],[4,5,6],[7,8,9]])
+>>> A[0]
+matrix([[1, 2, 3]])
+>>> A[0][0]
+matrix([[1, 2, 3]])
+>>> A[0,0]
+1
+\end{Verbatim}
+
+
+
+\subsection{索引多个值}
+同样，索引多个值的语法和python中的语法完全一致，这里也不赘述了，就是[start:end:step]。
+\begin{Verbatim}
+>>> x = np.array([[1,2,3],[4,5,6],[7,8,9]])
+>>> x
+array([[1, 2, 3],
+       [4, 5, 6],
+       [7, 8, 9]])
+>>> x[::-1]
+array([[7, 8, 9],
+       [4, 5, 6],
+       [1, 2, 3]])
+>>> y = np.arange(10)
+>>> y
+array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+>>> y[0::2]
+array([0, 2, 4, 6, 8])
+\end{Verbatim}
+
+\subsubsection{索引多个值并修改}
+下面是索引多个值和进行修改的例子：
+\begin{Verbatim}
+>>> A = np.matrix([[1,2,3],[4,5,6],[7,8,9]])
+>>> A[:,1]
+matrix([[2],
+        [5],
+        [8]])
+>>> A[:,1] = np.matrix([2,2,2]).transpose()
+>>> A
+matrix([[1, 2, 3],
+        [4, 2, 6],
+        [7, 2, 9]])
+>>> A[0] = [1,1,1]
+>>> A
+matrix([[1, 1, 1],
+        [4, 2, 6],
+        [7, 2, 9]])
+\end{Verbatim}
+
+从上面例子可以看到，对于横向的一行修改直接用列表数据没有问题，但是如果是一列修改，则新值是需要做出一些修改好让shape对应的。在看下面的例子，选取的值是[(0,0),(0,2),(2,0),(2,2)]，则赋予的新值的矩阵shape比如是相容的，也就是元素要一一对应起来。
+\begin{Verbatim}
+>>> A = np.matrix([[1,2,3],[4,5,6],[7,8,9]])
+>>> A[::2,::2]
+matrix([[1, 3],
+        [7, 9]])
+>>> A
+matrix([[1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]])
+>>> A[::2,::2] = np.matrix([[10,10],[10,10]])
+>>> A
+matrix([[10,  2, 10],
+        [ 4,  5,  6],
+        [10,  8, 10]])
+\end{Verbatim}
+
+
+
+\subsection{加减运算}
+多维数组的加法和减法就直接用$ + $和$ - $来操作就是了，和日常写数学公式一样，然后意义就是\uwave{对应的元素}执行加法和减法操作，如果维度不匹配将会产生错误。矩阵的加法和减法同样与之类似。
+
+\begin{Verbatim}
+>>> A = np.array([[4,0,5],[-1,3,2]])
+>>> A
+array([[ 4,  0,  5],
+       [-1,  3,  2]])
+>>> B = np.array([[1,1,1],[3,5,7]])
+>>> B
+array([[1, 1, 1],
+       [3, 5, 7]])
+>>> A + B
+array([[5, 1, 6],
+       [2, 8, 9]])
+>>> A - B
+array([[ 3, -1,  4],
+       [-4, -2, -5]])
+\end{Verbatim}
+
+\subsection{和标量的运算}
+多维数组（包括矩阵）和标量之间的运算和大家预期的并无二致，运算符也和python之前的一样。有[+ - * / **]，意义就是对于每个数组中的元素都和标量做如此运算。
+
+
+\subsection{copy方法}
+多维数组和矩阵都类似列表有copy方法，返回本对象副本，不容赘述。
+
+size属性
+
+
+\section{矩阵}
+矩阵对象是ndarray对象的子类，也就是说ndarray对象的一些属性和方法它都是可以使用的。行矢量和列矢量是属于矩阵中的特殊情况。矩阵这个概念在以后的数学运算中较为重要。
+
+\subsection{matrix函数}
+用numpy的matrix函数可以创建一个矩阵对象：
+\begin{Verbatim}
+>>> x
+matrix([[1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]])
+\end{Verbatim}
+
+\subsubsection{array转matrix}
+最直接的方法就是matrix函数处理一下。
+\begin{Verbatim}
+>>> np.arange(1,10)
+array([1, 2, 3, 4, 5, 6, 7, 8, 9])
+>>> np.matrix(np.arange(1,10))
+matrix([[1, 2, 3, 4, 5, 6, 7, 8, 9]])
+\end{Verbatim}
+
+\subsection{shape属性}
+对于各个维度所含元素数目相等的多维数组来说也有一个shape属性，和这里描述的矩阵的shape意思一样，是一共有几行几列的意思。
+\begin{Verbatim}
+>>> A = np.matrix([[1,2,3],[4,5,6]])
+>>> A.shape
+(2, 3)
+\end{Verbatim}
+
+\subsection{flatten方法}
+flatten，拉平。flatten是多维数组（包括矩阵）的一个方法，可将其变为一维形式。此方法返回结果但\uwave{不原地修改}。
+
+这里将flatten方法归到矩阵这里是因为多维数组必须各个维度所含元素数目相等（也就是必须要有类似矩阵的空间矩形排布感）才有意义。然后矩阵返回的是行矢量形式。
+
+\begin{Verbatim}
+>>> x = np.array([[1,2,3],[4,5,6],[7,8,9]])
+>>> x
+array([[1, 2, 3],
+       [4, 5, 6],
+       [7, 8, 9]])
+>>> x.flatten()
+array([1, 2, 3, 4, 5, 6, 7, 8, 9])
+>>> x
+array([[1, 2, 3],
+       [4, 5, 6],
+       [7, 8, 9]])
+>>> y = np.array([[1,2,3],[4,5,6,7]])
+>>> y
+array([[1, 2, 3], [4, 5, 6, 7]], dtype=object)
+>>> y.flatten()
+array([[1, 2, 3], [4, 5, 6, 7]], dtype=object)
+>>> z
+matrix([[1, 2, 3],
+        [4, 5, 6]])
+>>> z.flatten()
+matrix([[1, 2, 3, 4, 5, 6]])
+\end{Verbatim}
+
+\subsection{矩阵转置}
+transpose方法，将矩阵转置过来。只返回结果，非原处修改函数。同样多维数组也支持transpose方法，但必须有空间矩形排布感，也就是各个维度所言元素数目相等。
+\begin{Verbatim}
+>>> x = np.matrix([[1,2,3],[4,5,6],[7,8,9]])
+>>> x
+matrix([[1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]])
+>>> x.transpose()
+matrix([[1, 4, 7],
+        [2, 5, 8],
+        [3, 6, 9]])
+\end{Verbatim}
+
+
+\subsection{行矢量和列矢量}
+行矢量和列矢量是矩阵的特殊情况，需要用matrix函数创建之。行矢量转置之后就是列矢量请注意看它的写法。
+\begin{Verbatim}
+>>> x = np.matrix([1,2,3,4,5])
+>>> x
+matrix([[1, 2, 3, 4, 5]])
+>>> x.transpose()
+matrix([[1],
+        [2],
+        [3],
+        [4],
+        [5]])
+\end{Verbatim}
+
+\subsection{矩阵相乘}
+学过线性代数印像最深的可能就是矩阵那个怪异的乘法运算了。这里有了numpy模块的支持，就可以直接用\emph{*}来执行两个矩阵的乘法，很是方便。
+
+\begin{Verbatim}
+>>> A = np.matrix([[1,0,3,-1],[2,1,0,2]])
+>>> B = np.matrix([[4,1,0],[-1,1,3],[2,0,1],[1,3,4]])
+>>> A * B
+matrix([[ 9, -2, -1],
+        [ 9,  9, 11]])
+>>> x = np.matrix([1,2,3])
+>>> y = np.matrix([4,5,6]).transpose()
+>>> x * y
+matrix([[32]])
+>>> y * x
+matrix([[ 4,  8, 12],
+        [ 5, 10, 15],
+        [ 6, 12, 18]])
+\end{Verbatim}
+
+\subsection{reshape方法}
+顾名思义reshape方法可以改变矩阵的形状\footnote{多维数组同样有个reshape方法，须有空间排布矩形感，不容赘述。}。
+\begin{Verbatim}
+>>> A = np.matrix(np.arange(1,13))
+>>> A
+matrix([[ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12]])
+>>> A.reshape(2,6)
+matrix([[ 1,  2,  3,  4,  5,  6],
+        [ 7,  8,  9, 10, 11, 12]])
+>>> B = A.reshape(2,6)
+>>> B
+matrix([[ 1,  2,  3,  4,  5,  6],
+        [ 7,  8,  9, 10, 11, 12]])
+>>> B.reshape(3,4)
+matrix([[ 1,  2,  3,  4],
+        [ 5,  6,  7,  8],
+        [ 9, 10, 11, 12]])
+>>> B.reshape(4,3)
+matrix([[ 1,  2,  3],
+        [ 4,  5,  6],
+        [ 7,  8,  9],
+        [10, 11, 12]])
+\end{Verbatim}
+
+
+
+点乘
+
+矩阵乘方
+>>> A = np.matrix([[1,2,3],[4,5,6],[7,8,9]])
+>>> A**2
+matrix([[ 30,  36,  42],
+        [ 66,  81,  96],
+        [102, 126, 150]])
+
+max方法 min方法
+
+
+\section{微积分相关}
+diff函数
+
+
+
 \section{histogram函数}
-
-
-\section{多维ndarray}
-\begin{Verbatim}
-y=np.array([[1,2,3,4,5],[6,7,8,9,10]])
-y,y[0][1],y[0]
-\end{Verbatim}
-
-
-\section{shape属性}
-ndarray对象有一个shape属性，表示几行几列。
-\begin{Verbatim}
-y.shape
-\end{Verbatim}
-
-\section{dtype属性}
-ndarray对象有一个dtype属性，表示存储相同单元的数据类型。
-
-dtype属性还有小属性itemsize
-\begin{Verbatim}
-In [1]: import numpy as np
-In [2]: a=np.arange(5)
-In [3]: a
-Out[3]: array([0, 1, 2, 3, 4])
-In [4]: a.dtype
-Out[4]: dtype('int32')
-In [5]: a.dtype.itemsize
-Out[5]: 4
-\end{Verbatim}
-
 
 
 
@@ -3894,48 +4376,6 @@ in语句测量某元素是不是在这个ndarray对象中。
 8 in y, 11 in y
 \end{Verbatim}
 
-\section{reshape方法}
-\begin{Verbatim}
-In [8]: ndarray001=np.arange(1,10).reshape(3,3)
-In [9]: ndarray001
-Out[9]: 
-array([[1, 2, 3],
-       [4, 5, 6],
-       [7, 8, 9]])
-\end{Verbatim}
-
-
-
-
-\section{copy方法}
-
-
-
-\section{ndarray变成list}
-
-
-
-\section{flatten方法}
-
-
-\section{resize方法}
-
-
-\section{transpose方法}
-
-
-\section{eye方法}
-创造单位矩阵
-
-\begin{Verbatim}
-In [10]: ndarray001=np.eye(3)
-In [11]: ndarray001
-Out[11]: 
-array([[ 1.,  0.,  0.],
-       [ 0.,  1.,  0.],
-       [ 0.,  0.,  1.]])
-
-\end{Verbatim}
 
 
 \section{读写文件}
@@ -3951,72 +4391,6 @@ array([[ 1.,  0.,  0.],
 \end{Verbatim}
 
 
-
-
-
-\part{tkinter教程}
-以后GUI的设计会更加立足简单原生GUI，tkinter这部分最后可能会取代pyqt的位置。
-
-tkinter的界面和pyqt相比确实丑了一点，不过tkinter的优点是快速原型开发，而pyqt则多少有点过于庞大和复杂了。快速开发， 我想这正是python选择tkinter作为其默认GUI模块的原因，如果没有额外的理由，应该使用tkinter来进行你的快速GUI开发。
-
-\chapter{第一步}
-\section{安装}
-在ubuntu下你可能已经安装了tkinter模块了，不管怎么样运行下面的命令确保tkinter安装上：
-\begin{tcbbash}[]
-sudo apt-get install python3-tk
-\end{tcbbash}
-
-\subsection{测试安装情况}
-\begin{tcbpython}[]
-from tkinter import *
-tk=Tk()
-Label(tk,text='Label 的text').pack()
-tk.mainloop()
-\end{tcbpython}
-
-第一个语句是用Tk类创建了一个母窗体。
-
-第二个语句Label就是一个标签类，其中第一个参数是母窗体，text可选参数控制标签的文本，一般标签的这个text选项都会填上一些内容吧。pack方法是控制这个窗体在母窗体的布局，如果不使用这个方法窗体不会在母窗体中显示。
-
-tk母窗体的mainloop方法是开启GUI的事件驱动。
-
-\chapter{窗体类型}
-\section{Label}
-标签  Label(母窗体, ...)
-
-text =  标签文字
-
-
-
-\section{Button}
-按钮 Button(母窗体, ...)
-
-text = 按钮文字
-
-\section{Entry}
-单行输入框 Entry(母窗体, ...)
-
-get()  get方法，输入框对象调用get方法之后返回输入框内的字符串。
-
-
-\section{Frame}
-可以简单称之为面板 Frame(母窗体, ...)
-
-width = 面板宽
-height = 面板高
-
-
-\section{Combobox}
-
-
-\chapter{布局管理}
-\section{PACK方法}
-side可选参数接受如下参数：\textbf{TOP}，\textbf{BOTTOM}，\textbf{LEFT}，\textbf{RIGHT}。这样控制子窗体在母窗体中的布局位置。\uwave{默认是TOP}。
-
-母窗体下面的子窗体如果 
-
-\section{grid方法}
-看名字就知道让子窗体在母窗体服从网格布局的意思。
 
 
 
@@ -4794,16 +5168,18 @@ None
 
 
 \part{附录}
-\chapter{sql数据库技术}
-\begin{flushright}
-\begin{notecard}[red!30]{12em}
- 一个程序没有数据库哪有什么用处啊。
-\end{notecard}
-\end{flushright}
 
-更多内容请参看指尖上的Ubuntu一书其中的sql技术相关章节。
+\chapter{Ubuntu上的知识手册}
+相当于我在Ubuntu收集的其他相关知识手册。
+
+\chapter{数理化经典知识手册}
+数理化经典知识手册，我收集的数理化经典知识，手册性质。从基本的哲学讨论，到初中的数学物理化学的全部，到高中的数学物理化学的大部分，到大学的微积分部分，线性代数部分等等。
+
 
 \chapter{pyqt4类参考}
+这个考虑另外写本小册子，就叫pyqt4参考手册。
+
+
 详细的pyqt4类的参考请参看\href{http://pyqt.sourceforge.net/Docs/PyQt4/classes.html}{这个网页}。下面只是尽可能的将我涉及到的一些pyqt4的类的一些信息尽可能的写上去，某些可以临时做为参考，不全也不可能做到齐全。。
 
 \section{QHBoxLayout类}

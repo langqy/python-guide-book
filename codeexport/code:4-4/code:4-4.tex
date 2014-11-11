@@ -1,42 +1,6 @@
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{k}{class} \PY{n+nc}{Unit}\PY{p}{(}\PY{p}{)}\PY{p}{:}
-    \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{hp}\PY{p}{,}\PY{n}{atk}\PY{p}{,}\PY{n}{color}\PY{p}{)}\PY{p}{:}
-        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{hp}\PY{o}{=}\PY{n}{hp}
-        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{atk}\PY{o}{=}\PY{n}{atk}
-        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{color}\PY{o}{=}\PY{n}{color}
-    \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}str\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
-        \PY{k}{return} \PY{l+s}{\PYZsq{}}\PY{l+s}{生命值：\PYZob{}0\PYZcb{}，攻击力：\PYZob{}1\PYZcb{}，颜色：}\PY{l+s+se}{\PYZbs{}}
-\PY{l+s}{        \PYZob{}2\PYZcb{}}\PY{l+s}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{hp}\PY{p}{,}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{atk}\PY{p}{,}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{color}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{mysum}\PY{p}{(}\PY{o}{*}\PY{n}{args}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{args}\PY{p}{[}\PY{p}{:}\PY{p}{]}\PY{p}{)}
 
-\PY{k}{class} \PY{n+nc}{Hero}\PY{p}{(}\PY{n}{Unit}\PY{p}{)}\PY{p}{:}
-    \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{level}\PY{p}{,}\PY{n}{hp}\PY{p}{,}\PY{n}{atk}\PY{p}{,}\PY{n}{color}\PY{p}{)}\PY{p}{:}
-        \PY{n}{Unit}\PY{o}{.}\PY{n}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{hp}\PY{p}{,}\PY{n}{atk}\PY{p}{,}\PY{n}{color}\PY{p}{)}
-        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{level}\PY{o}{=}\PY{n}{level}
-    \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}str\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
-        \PY{k}{return} \PY{l+s}{\PYZsq{}}\PY{l+s}{级别：\PYZob{}0\PYZcb{},生命值：\PYZob{}1\PYZcb{}，攻击力：\PYZob{}2\PYZcb{}，}\PY{l+s+se}{\PYZbs{}}
-\PY{l+s}{        颜色：\PYZob{}3\PYZcb{}}\PY{l+s}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{level}\PY{p}{,}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{hp}\PY{p}{,}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{atk}\PY{p}{,}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{color}\PY{p}{)}
-
-    \PY{k}{def} \PY{n+nf}{addlevel}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
-        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{level}\PY{o}{=}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{level}\PY{o}{+}\PY{l+m+mi}{1}
-        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{hp}\PY{o}{=}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{hp}\PY{o}{+}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{addhp}
-        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{atk}\PY{o}{=}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{atk}\PY{o}{+}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{addatk}
-
-\PY{k}{class} \PY{n+nc}{Garen}\PY{p}{(}\PY{n}{Hero}\PY{p}{)}\PY{p}{:}
-    \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{color}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{blue}\PY{l+s}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
-        \PY{n}{Hero}\PY{o}{.}\PY{n}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{455}\PY{p}{,}\PY{l+m+mi}{56}\PY{p}{,}\PY{n}{color}\PY{p}{)}
-        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{name}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{盖伦}\PY{l+s}{\PYZsq{}}
-        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{addhp}\PY{o}{=}\PY{l+m+mi}{96}
-        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{addatk}\PY{o}{=}\PY{l+m+mf}{3.5}
-        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{skill}\PY{o}{=}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{不屈}\PY{l+s}{\PYZsq{}}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{致命打击}\PY{l+s}{\PYZsq{}}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{勇气}\PY{l+s}{\PYZsq{}}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{审判}\PY{l+s}{\PYZsq{}}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{德玛西亚正义}\PY{l+s}{\PYZsq{}}\PY{p}{]}
-
-\PY{k}{if} \PY{n}{\PYZus{}\PYZus{}name\PYZus{}\PYZus{}} \PY{o}{==} \PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZus{}\PYZus{}main\PYZus{}\PYZus{}}\PY{l+s}{\PYZsq{}}\PY{p}{:}
-    \PY{n}{garen001}\PY{o}{=}\PY{n}{Garen}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{red}\PY{l+s}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{garen002}\PY{o}{=}\PY{n}{Garen}\PY{p}{(}\PY{p}{)}
-    \PY{k}{print}\PY{p}{(}\PY{n}{garen001}\PY{p}{)}
-    \PY{n}{unit001}\PY{o}{=}\PY{n}{Unit}\PY{p}{(}\PY{l+m+mi}{1000}\PY{p}{,}\PY{l+m+mi}{1000}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{gray}\PY{l+s}{\PYZsq{}}\PY{p}{)}
-    \PY{k}{print}\PY{p}{(}\PY{n}{unit001}\PY{p}{)}
-    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{:}
-        \PY{k}{print}\PY{p}{(}\PY{n}{garen001}\PY{p}{)}
-        \PY{n}{garen001}\PY{o}{.}\PY{n}{addlevel}\PY{p}{(}\PY{p}{)}
-    \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{盖伦的技能有：}\PY{l+s}{\PYZsq{}}\PY{p}{,}\PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZdq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{p}{[}\PY{n}{x} \PY{o}{+} \PY{l+s}{\PYZsq{}}\PY{l+s}{  }\PY{l+s}{\PYZsq{}} \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n}{garen001}\PY{o}{.}\PY{n}{skill}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{k}{print}\PY{p}{(}\PY{n}{mysum}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}

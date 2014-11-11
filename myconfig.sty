@@ -177,13 +177,15 @@ text-micro = μ
 \newcommand\reduline{\bgroup\markoverwith
     {\textcolor{red}{\rule[-0.5ex]{1em}{0.4pt}}}\ULon}
 
-\newcommand\utriangle{\bgroup\markoverwith
-    {\raisebox{-0.4em}{\makebox[1em][c]{\tikz[blue]{\draw(0,0) -- (0.1,0) -- (0.05,0.05) --cycle;}}}}
-    \ULon}
+%modified udot command from the dotuline
+\def\udot{\bgroup
+  \UL@setULdepth
+  \markoverwith{\begingroup
+     \advance\ULdepth0.1ex
+     \lower\ULdepth\hbox{\kern.25em . \kern.045em}%
+     \endgroup}%
+  \ULon}
 
-\newcommand\ucircle{\bgroup\markoverwith
-    {\raisebox{-0.6em}{\makebox[1em][c]{\tikz[red]{\draw(0,0) circle  (0.05) ;}}}}
-    \ULon}
 
 \renewcommand\emshape{\color{red}}
 
