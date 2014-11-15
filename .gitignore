@@ -90,3 +90,11 @@ docs/_build/
 # PyBuilder
 target/
 
+# addition
+*.listing
+*.pyg
+*.synctex.gz
+*.toc
+*.aux
+
+
