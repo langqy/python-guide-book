@@ -1,8 +1,9 @@
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{x1} \PY{o}{=} \PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{a}\PY{l+s}{\PYZsq{}}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{b}\PY{l+s}{\PYZsq{}}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{c}\PY{l+s}{\PYZsq{}}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{e}\PY{l+s}{\PYZsq{}}\PY{p}{]}
-\PY{n}{x2} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{]}
-\PY{n}{y} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{n+nb}{zip}\PY{p}{(}\PY{n}{x1}\PY{p}{,}\PY{n}{x2}\PY{p}{)}\PY{p}{)}
-\PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{列表到字典：}\PY{l+s}{\PYZsq{}}\PY{p}{,}\PY{n}{y}\PY{p}{)}
-\PY{n}{new\PYZus{}x1}\PY{p}{,}\PY{n}{new\PYZus{}x2} \PY{o}{=} \PY{n+nb}{zip}\PY{p}{(}\PY{o}{*}\PY{n}{y}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{)}
-\PY{k}{print}\PY{p}{(}\PY{n}{new\PYZus{}x1}\PY{p}{,}\PY{n}{new\PYZus{}x2}\PY{p}{)}
+\PY{k+kn}{import} \PY{n+nn}{os}\PY{o}{,}\PY{n+nn}{sys}
+\PY{n}{sys}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{environ}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{HOME}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{o}{+}\PY{l+s}{\PYZsq{}}\PY{l+s}{/pymf}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+\PY{k+kn}{from} \PY{n+nn}{pyconfig} \PY{k+kn}{import} \PY{o}{*}
+
+\PY{k+kn}{import} \PY{n+nn}{mymodule.mymod}
+
+\PY{n}{mymodule}\PY{o}{.}\PY{n}{mymod}\PY{o}{.}\PY{n}{myfun}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
