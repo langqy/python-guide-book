@@ -1,6 +1,0 @@
-所使用的正则表达式是： re.compile('(?m)^today', re.MULTILINE)
-所输入的字符串是： this is test line.
-this is the second line.
-today is sunday.
-匹配的结果是： today
-(44, 49)

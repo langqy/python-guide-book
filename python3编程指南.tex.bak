@@ -3389,15 +3389,14 @@ input函数最常用的两个参数如上所示，如果不带参数，那么就
 
 \textbf{inplace}默认是False，也就是原文件没有被修改，如果设置为True，那么对于line的一些操作是会原地修改原文件的。具体请看下面的例子：
 \begin{tcbpython}[]
-allfile = [os.path.join(path,f) for path,dirs,files in os.walk('.')
-        if files for f in files]
+allfile = [os.path.join(path,f) for path,dirs,files in os.walk('.') if files for f in files]
 def process(line):
     return line.replace('skeleton',project_name)
 with fileinput.input(files=allfile,inplace=1) as f:
     for line in f:
         print(process(line),end='')
 \end{tcbpython}
-上面代码第一行使用用os.walk来生成本文件夹下所有的文件名路径。然后作为参数输入给files，这里一般定义一个process函数来处理每一行，然后返回处理后的值。用print函数打印具体的处理的效果。如果这里inpalce没有设置为True那么结果只是打印在终端上，设置为True之后，原文件对应行将被修改。inplace参数很有用\footnote{\href{ruslanspivak.com/2010/10/20/in-place-file-rewrite-with-fileinput/}{参考网站}}，在你确认操作结果的情况下慎重使用。
+上面代码第一行使用用os.walk来生成本文件夹下所有的文件名路径。然后作为参数输入给files，这里一般定义一个process函数来处理每一行，然后返回处理后的值。用print函数打印具体的处理的效果。如果这里inpalce没有设置为True那么结果只是打印在终端上，设置为True之后，原文件对应行将被修改。inplace参数很有用，在你确认操作结果的情况下慎重使用。
 
 
 \chapter{os.path模块}
@@ -4072,10 +4071,6 @@ sudo python3 setup.py register
 
 你需要在pypi官网上注册一个帐号，然后你的软件不一定能够注册成功，因为很多好名字都被别人取了。。
 
-\section{一个项目模板}
-我在github上创建了一个小项目，这个小项目支持快速新建一个项目。
-
-\href{https://github.com/a358003542/skeleton}{https://github.com/a358003542/skeleton}
 
 
 \chapter{pillow模块}
