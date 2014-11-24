@@ -1,12 +1,11 @@
-from tkinter import *
-
-tk = Tk()
-tk1 = Tk()
-
-label1 = Label()
-label1['text'] = 'the label1 '
-label1.pack()
-label2 = Label(tk1)
-label2['text'] = 'the label2 '
-label2.pack()
-mainloop()
+from PIL import Image,ImageTk
+from pkg_resources import resource_stream
+file_image = Image.open(resource_stream('wise','icos/Folder-Documents.ico'))
+file_image = file_image.resize((60,60))
+file_photo = ImageTk.PhotoImage(file_image)
+id = canvas.create_image(100,100,image=file_photo,tags='file')
+def openfile(event):
+    from tkinter import filedialog
+    filename = filedialog.askopenfilename()
+    print(filename)
+canvas.tag_bind(id,"<Button-1>",openfile)

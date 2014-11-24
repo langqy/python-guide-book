@@ -22,7 +22,7 @@
 \editor{德山书生}
 \email{a358003542@gmail.com}
 \editorinfo{编者：}
-\version{0.02}
+\version{0.03}
 \titleLB
 
 \addchtoc{前言}
@@ -132,6 +132,8 @@ print('\u2460')
 python中一般不用分号，但是分号的意义大致和bash或者c语言中的意义类似，表示一行结束的意思。其中c语言我们知道是必须使用分号的。
 
 
+
+
 \section{输入和输出}
 \subsection{最基本的input和print命令}
 input函数请求用户输入，并将这个值赋值给某个变量。注意赋值之后类型是字符串，但后面你可以用强制类型转换——int函数（变成整数），float函数（变成实数），str函数（变成字符串）——将其转变过来。print函数就是一般的输出函数。
@@ -142,7 +144,8 @@ string001='你输入的这个实数乘以2等于：'+ str(float(x)*2)
 print(string001)
 \end{Verbatim}
 
-
+\section[\_{}\_{}mian\_{}\_{}和\_{}\_{}name\_{}\_{}]{py文件作为脚本执行}
+按照\href{http://stackoverflow.com/questions/419163/what-does-if-name-main-do}{这个网站}的讲解，
 
 
 
@@ -2878,144 +2881,61 @@ print(new_x1,new_x2)
 
 模块包这部分知识是我们理解前人编写的各个有用的模块包的基础，同时以后我们自己要编写大型的项目也是一个人编写一个模块，一个模块对应一个任务或者一个功能的形式展开的，然后多个模块合并成一个大型的模块包。以前我们都是编写的不超过一百行的小python代码，不过就是对于大型的项目也不意味着我们要找一个大型的编辑器，然后一写就是上万行。在模块包的合理布局下，我们完全还可以轻松的一次编写也就那么一两百行的小代码，最后各个模块组合起来，就是一个宏大的系统了。
 
-模块包和模块在使用上的区别如下所示：
-\begin{tcbpython}
-import  dir1.dir2.mod
-form dir1.dir2.mod import *
-\end{tcbpython}
-这里模块文件在系统中的具体路径是dir0/dir1/dir2/mod.py，其中dir0是python模块的搜索路径，然后在这个搜索路径下有一个dir1文件夹，然后下面有一个dir2文件夹，然后dir2文件夹里面有个mod.py文件，这样python程序就找到这个py文件了，然后按照前面介绍的如何处理加载模块文件的方式继续进行下一步工作。
-
-
 \section{\_{}\_{}init\_{}\_{}文件}
-well，模块包和简单地模块在管理上多出来的唯一的一个内容就是你需要在每个文件夹里面加一个\verb+__init__.py+文件，文件的内容就是空白都没关系，但必须要有。然后前面说的dir0，也就是默认的各个python模块的搜索路径，这个文件夹里面不需要加\verb+__init__.py+文件。
+well，模块包和简单的模块在管理上多出来的唯一的一个内容就是你需要在每个文件夹里面加一个\verb+__init__.py+文件，文件的内容就是空白都没关系，但必须要有。
 
+现在我们新建一个文件夹，\verb+mymodule+。然后进入mymodule文件夹，新建一个空白文件\verb+__init__.py+，然后新建一个文件\verb+mymod.py+，然后里面定义了一个简单的myfun函数，没什么意义，就是打印了一段信息。然后我们在当前目录下进入python3的eval模式就可以开始测试你的这个新模块包了，因为sys.path是默认自带搜索当前工作目录的。
 
-\subsection{我的第一个模块包例子}
-还记得在前面模块那一章我们通过修改sys.path把主文件夹下的pymf文件夹加入python模块的搜索路径了。现在我们在这个pymf文件夹里面新建一个文件夹，\verb+mymodule+。然后进入mymodule文件夹，新建一个空白文件\verb+__init__.py+，然后新建一个文件\verb+mymod.py+，然后里面定义了一个简单的myfun函数，没什么意义，就是打印了一段信息。
+你的模块包必须要有一个\verb+__init__.py+文件，这个文件实际上就是暗指的你的这个模块，比如说这里是mymodule。不管你是import还是使用from语句，只要调用mymodule，你的\verb+__init__.py+都将执行一次。
 
-接下来我们看看运行效果如何：
-\begin{xverbatim}[129]{py}
-import os,sys
-sys.path.append(os.environ['HOME']+'/pymf')
-from pyconfig import *
-
+你的模块包如果还有其他py文件\footnote{这个py文件就是子模块的概念。}，那么这个文件在你的\verb+__init__.py+文件没有任何配置的情况下只能通过：
+\begin{tcbpython}[]
 import mymodule.mymod
+\end{tcbpython}
+这样的语句来引入进来。
 
-mymodule.mymod.myfun()
-\end{xverbatim}
+在一般情况下，\verb+__init__.py+文件是空白的或者里面填上一些类和函数来表示mymodule自身的配置，这满足了一般的需求了。然后模块包里面的py文件在使用时都用mymodule.mymod来引用进来。
 
+\verb+__init__.py+文件如果是空白我们不用关心它到底起了什么作用，但如果它不是空白，里面有一些代码，比如定义了一些函数和类，因为每个模块包下的\verb+__init__.py+在python首次导入时都会执行一次这个文件内部的代码。所以当你import mymodule之后，mymodule里面的函数和类就可以通过mymodule.what来使用了。
 
+\subsection{如果里面有import语句}
+如果import的是外部的模块方面本文件某些函数或类的调用这自不必说。这里讨论的是这种情况，有的时候你的模块包的某些子模块，你不希望import mymodule之后还需要import mymodule.mymod才能使用mymod.py文件里面的内容，你希望马上就能够使用，那么你需要在\verb+__init__.py+文件里面使用import语句了。
 
-\subsection{如果不是空白？}
-\verb+__init__.py+文件如果是空白我们不用关心它到底起了什么作用，但如果它不是空白，里面有一些代码呢？那么我们就需要了解如下知识了。
-
-每个模块包下的\verb+__init__.py+在python首次导入该目录时都会执行一次这个文件内部的代码。
-
-比如上面的例子的那个\verb+__init__.py+文件我们随便写上一行打印信息命令，这样输出结果和上面一样的\footnote{上面代码的运行结果是即时编译生成的。}，然后我们做了一些其他测试。
-\begin{Verbatim}
-mymodule already import
-myfun is found
->>> mymodule.mymod.myfun()
-myfun is found
->>> from imp import reload
->>> reload(mymodule)
-mymodule already import
-<module 'mymodule' from '/home/wanze/pymf/mymodule/__init__.py'>
->>> import mymodule.mymod
->>> 
-\end{Verbatim}
-
-
-
-\subsection{一般有什么}
-\verb+__init__.py+文件里面一般有些什么内容？我们可以看看别人编写的模块包。一般是空白的，然后有的时候情况会很复杂，定义了一些类或者函数。然后有的时候只是简单的import语句或者from语句。
-
-要深入理解就是要认识到，当我们import mymodule的时候，实际上就是在加载这个\verb+__init__.py+文件。
-
-比如我现在在前面的例子的基础上修改\verb+__init__.py+文件，加上一句话：
+比如在这里\verb+__init__.py+文件加上一句话：
 \begin{tcbpython}
-from mymodule import  mymod
+import mymodule.mymod
 \end{tcbpython}
 
-那么上面的测试代码就可以写成这个样子了：
-\begin{tcbpython}
-import os,sys
-sys.path.append(os.environ['HOME']+'/pymf')
-from pyconfig import *
+这样在简单的import mymodule之后，你就可以直接使用mymodule.mymod.myfun来引用mymod.py文件里面的myfun函数了，而之前还需要额外的执行import mymodule.mymod命令一次。
 
+
+\subsection{如果里面有from语句}
+前面谈到from语句的前面和import语句是没有区别的，除了额外的引入变量名操作。在这里就是你厌倦了mymodule.mymod.myfun这类常常的引用的方式，你就想简单点就是mymodule.myfun，那么你可以在\verb+__init__.py+文件中加上如下语句：
+\begin{tcbpython}[]
+from mymodule.mymod import myfun
+\end{tcbpython}
+这样就把myfun这个变量名引入到mymodule（也就是\verb+__init__.py+文件）里面去了。此时mymodule点的下面引用就多了一些函数和类的定义了，在你简单import mymodule之后。
+
+读者应该猜到了，如果现在你在外面eval模式下使用from mymodule import *，那么就可以直接调用myfun命令了。
+
+
+\subsection{\_{}\_{}all\_{}\_{}变量}
+\verb+__init__.py+文件还有一个高级功能，这个高级功能多少取代了前面谈论的一切，是一种新的管理模式。
+
+如果外围eval调用使用的import mymodule语句，那么\_{}\_{}all\_{}\_{}变量将不会被读取。只有在外围eval调用使用from mymodule import *这样的语句情况下，\_{}\_{}all\_{}\_{}变量才会被读取。同时要特别提醒的是，如果\verb+__init__.py+文件里面没有\_{}\_{}all\_{}\_{}变量，那么情况就是我们上面讨论的，如果有\_{}\_{}all\_{}\_{}变量，并且使用了from mymodule import *语句，那么\verb+__init__.py+文件里面的其他import和from语句都将失效（其他语句还是有效的）。
+
+表面上看\_{}\_{}all\_{}\_{}变量的引入似乎使得事情变得混乱不堪了，不过我们外围可以使用这样的语法：
+\begin{tcbpython}[]
 import mymodule
+from mymodule import *
 \end{tcbpython}
+这样from*语句就负责\_{}\_{}all\_{}\_{}变量部分，import mymodule则负责其他import和from语句的管理，两者并无冲突。此时mymodule，mymodule.mymod和mymod2都是可以引用的。
 
-只需要简单的import mymodule即可，然后\verb+__init__.py+会自动from mymodule import mymod，也就是你的那个mymod.py文件，这样mymodule文件夹里面的一些子模块py文件你都可以引用了。如下所示：
-\begin{Verbatim}
-mymodule already import
->>> mymodule
-<module 'mymodule' from '/home/wanze/pymf/mymodule/__init__.py'>
->>> mymodule.mymod
-<module 'mymodule.mymod' from '/home/wanze/pymf/mymodule/mymod.py'>
->>> mymodule.mymod.myfun
-<function myfun at 0xb70cde84>
->>> mymodule.mymod.myfun()
-myfun is found
-\end{Verbatim}
+但是在这里最大的问题是当你使用from mymodule import *之后，mymod2被提到和mymodule同等级的状态，这多少不够美观，我们宁愿用mymodule.myfun或者mymodule.mymod2这样的形式，单独使用mymod2多少有点主次不分了。总的说来不推荐使用\_{}\_{}all\_{}\_{}变量，当然也不推荐使用from mymodule import *这样的语法。
 
-不得不承认我喜欢这种管理模式，这样的管理模式更加层次结构清晰。同时我们看到\verb+__init__.py+文件似乎就是对应的mymodule这个模块。在认识到这点之后，我们就可以对这个\verb+__init__.py+文件进行一些深度定制，其中定义的任何函数或者类等都可以通过mymodule.what来引用。
+\emph{例外}：在保证mymodule这个主入口不被侵犯的情况下，某些子模块的子模块（这里我们在mymodule文件夹里面新建一个mymod3文件夹，然后新建文件\verb+__init__.py+，这个\verb+__init__.py+里面通过\verb+__all__+代入了mymod4，然后新建mymod4.py，里面定义一个简单地打印函数。）的情况可以使用。
 
-不知道别人是怎么做的，但是我们可以在这里约定，比如mymodule主模块调用某个函数，那么这个函数就写在\verb+__init__.py+文件里面，如果主模块里面还有子模块mymod，那么这个mymod就是另外新建的mymod.py文件。然后我们引用子模块中的函数myfun需要用这样的语法：mymodule.mymod.myfun。
-
-
-
-\subsection{from*全部导入}
-\verb+__init__.py+文件还有一个高级功能，不过一般不建议使用这样的全部导入语句，但这种from*语句有一个好处，那就是主模块的名字你可以不用写了，然后\verb+__init__.py+文件里面你需要写上\verb+__all__+这个变量，后面跟上一个列表，列表里面的字符串就是你想要引入的子模块。
-
-\begin{tcbpython}[]
-#mymod.py
-def myfun():
-    print('myfun is found')
-\end{tcbpython}
-
-\begin{tcbpython}[]
-#__init__.py
-print('mymodule already import')
-
-from mymodule import mymod
-__all__ = ['mymod']
-\end{tcbpython}
-然后测试代码如下：
-\begin{tcbpython}
-import os,sys
-sys.path.append(os.environ['HOME']+'/pymf')
-from pyconfig import *
-
-from  mymodule import *
-\end{tcbpython}
-
-这种写法测试结果中，mymodule是不能用了，而需要直接引用子模块的名字了：
-\begin{Verbatim}
-mymodule already import
->>> mymod
-<module 'mymodule.mymod' from '/home/wanze/pymf/mymodule/mymod.py'>
->>> mymodule
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-NameError: name 'mymodule' is not defined
-\end{Verbatim}
-
-然后如果测试代码我们改成import语句，我们发现之前的那种逐步引用格式照样可行：
-\begin{tcbpython}
-import os,sys
-sys.path.append(os.environ['HOME']+'/pymf')
-from pyconfig import *
-
-import  mymodule 
-\end{tcbpython}
-\begin{Verbatim}
-mymodule already import
->>> mymodule
-<module 'mymodule' from '/home/wanze/pymf/mymodule/__init__.py'>
->>> mymodule.mymod
-<module 'mymodule.mymod' from '/home/wanze/pymf/mymodule/mymod.py'>
-\end{Verbatim}
+如上面说明的，在我们对项目模块包内部文档管理更加美观的要求下，现在在import mymodule之后，模块的模块的模块......都可以通过\_{}\_{}all\_{}\_{}变量来优化，从而外围可以直接通过mymodule.mymod4这样的二级引用格式来引用，如果我们不使用这种技术，按照常规手段，那么我们需要mymodule.mymod3.mymod4这样的格式来引用，这太过于复杂了。
 
 
 \section{模块中的帮助信息}
@@ -3397,7 +3317,7 @@ with fileinput.input(files=allfile,inplace=1) as f:
     for line in f:
         print(process(line),end='')
 \end{tcbpython}
-上面代码第一行使用用os.walk来生成本文件夹下所有的文件名路径。然后作为参数输入给files，这里一般定义一个process函数来处理每一行，然后返回处理后的值。用print函数打印具体的处理的效果。如果这里inpalce没有设置为True那么结果只是打印在终端上，设置为True之后，原文件对应行将被修改。inplace参数很有用\footnote{\href{ruslanspivak.com/2010/10/20/in-place-file-rewrite-with-fileinput/}{参考网站}}，在你确认操作结果的情况下慎重使用。
+上面代码第一行使用用os.walk来生成本文件夹下所有的文件名路径。然后作为参数输入给files，这里一般定义一个process函数来处理每一行，然后返回处理后的值。用print函数打印具体的处理的效果。如果这里inpalce没有设置为True那么结果只是打印在终端上，设置为True之后，原文件对应行将被修改。inplace参数很有用\footnote{\href{http://ruslanspivak.com/2010/10/20/in-place-file-rewrite-with-fileinput/}{参考网站}}，在你确认操作结果的情况下慎重使用。
 
 
 \chapter{os.path模块}
@@ -3422,7 +3342,7 @@ wanze
 >>> 
 \end{Verbatim}
 
-其中\verb+__file__+表示当前文件，然后接下来的一些命令我们后面慢慢讲。
+其中\verb+__file__+表示当前脚本文件，然后接下来的一些命令我们后面慢慢讲。
 
 \section{abspath函数}
 abspath函数接受一个path路径值然后返回一个正规的普适的路径地址。比如对于当前文件来说\footnote{文件名也是一个路径}，就是当前文件的具体路径地址，这个和getcwd的python的当前工作目录是不同的，这里的\verb+__file__+就是命令所在的具体的当前的文件地址。
@@ -3623,16 +3543,16 @@ os.remove(path)
 
 支持相对路径表达。如果路径是目录将会抛出一个OSError异常。
 
-\section{重命名文件或目录}
+\section{os.rename}
 \begin{Verbatim}
 os.rename(src, dst)
 \end{Verbatim}
 
-第一个参数是目标文件或目录，第二个参数是要替换成为的名字。
+第一个参数是目标文件或目录，第二个参数是要替换成为的名字。这个命令一方面可以重命名文件，此外可以移动文件。
  
 支持相对路径语法表达，rename在windows下不一定替换原文件，repalce一定替换文件。
 
-\section{替换文件}
+\section{os.repalce}
 \begin{Verbatim}
 os.replace(src, dst)
 \end{Verbatim}
@@ -4034,7 +3954,7 @@ def read(fname):
 long_description=read('README.md'),
 \end{tcbpython}
 \item[platforms] 本软件经过测试可运行的平台
-\item[classifiers] 本软件的分类，请参考\href{}{这个网页}给出一些值。是字符串的列表。
+\item[classifiers] 本软件的分类，请参考\href{https://pypi.python.org/pypi?%3Aaction=list_classifiers}{这个网页}给出一些值。是字符串的列表。
 \item[keywords] 本软件在pypi上搜索的关键词，字符串的列表。
 \item[packages] 你的软件依赖的模块。一般如下使用：
 \begin{tcbpython}[]
@@ -4053,7 +3973,6 @@ packages = find_packages(),
 \item[install\_{}requires] 接受字符串的列表值，将你依赖的可以通过pip安装的模块名放入进去，然后你的软件安装会自动检测并安装这些依赖模块。
 \item[package\_{}data] 你的软件的模块额外附加的（除了py文件的）其他文件，具体设置类似这样\verb+{"skeleton":['*.txt'],}+其中skeleton这里就是具体的你的软件的模块（对应的文件夹名），然后后面跟着的就是一系列的文件名列表，可以接受glob语法。注意这里只能包含你的模块文件夹也就是前面通过packages控制的文件夹下面的内容。
 \item[include\_{}package\_{}data] 这个一般设置为True，似乎可以省略？
-\item[data\_{}files] 前面的package\_{}data是只能在你的模块文件夹里面的其他数据文件等，然后可能还有一些数据文件你需要包含的，用data\_{}files来控制，具体后面跟着的参数格式和package\_{}data是一样的。
 \end{description}
 
 
@@ -4061,7 +3980,27 @@ packages = find_packages(),
 \begin{description}
 \item[scripts] 不推荐使用，推荐通过entry\_{}point来生成脚本。
 \item[py\_{}modules] 不推荐使用，推荐使用packages来管理模块。
+\item[data\_{}files] 前面的package\_{}data是只能在你的模块文件夹里面的其他数据文件等，然后可能还有一些数据文件你需要包含的，用data\_{}files来控制，具体后面跟着的参数格式如下面例子所示：
+\begin{tcbpython}[]
+data_files = [('icos',['icos/wise.ico'])],
+#这是添加的icos文件夹下面的wise.ico文件
+data_files = [('',['skeleton.tar.gz'])],
+#这是添加的主目录下的skeleton.tar.gz文件
+\end{tcbpython}
+值得一提的是data\_{}files不能接受glob语法。
+
+data\_{}files已经不推荐使用了，推荐用package\_{}data来管理，可以方便用pkg\_{}resources里面的方法来引用其中的资源文件。具体说明请看后面。
 \end{description}
+
+\section{pkg\_{}resources模块来管理读取资源文件}
+如下所示
+\begin{Verbatim}
+from pkg_resources import resource_filename
+resource_stream('wise','icos/Folder-Documents.ico')
+\end{Verbatim}
+第一个参数是模块名字，第二个参数是模块中的文件的相对路径表达。
+
+上面的例子是resource\_{}filename，返回的是引用的文件名。此外还有命令：resource\_{}string，参数和resource\_{}filename一样，除了它返回的是字节流。这个字节流可以赋值给某个变量从而直接使用，或者存储在某个文件里面。
 
 
 \section{在pypi上注册你的软件}
@@ -4095,6 +4034,11 @@ sudo apt-get install libtiff4-dev libjpeg8-dev zlib1g-dev \
     libfreetype6-dev liblcms2-dev libwebp-dev tcl8.5-dev tk8.5-dev
 \end{tcbbash}
 
+
+
+
+
+
 \subsection{测试安装情况}
 官方文档并没有给出测试安装情况的例子，这里给出刚开始那个简单的例子权做测试安装情况的测试。
 
@@ -4112,6 +4056,9 @@ img.show()
 open方法就目前按照官方文档的叙述支持如下格式：bmp，eps，gif，im，jpeg，jpeg2000，msp，pcx，png，ppm ，spider，tiff，webp\\ ，xbm，xv等。还有一些格式要某只支持读要某只支持写这里不说明了。其中写的时候save方法需要明确说明图片的目标格式，而open方法打开的时候图片名字是随意的，pillow会自动检测图片的格式。
 
 如果open方法图片打开失败，将会返回\textbf{IOError}异常。
+
+
+
 
 \section{图片格式转换器}
 根据图片格式转换器这个例子简单说明pillow的图片格式转换功能。
@@ -4643,7 +4590,9 @@ plt的show函数，让图形绘制出来。
 \subsection{axis}
 plt的axis函数控制图形的x轴y轴具体显示的范围。
 
-plt.axis([0,10,0,10])   axis方法接受的列表参数意义是 [xmin,xmax,ymin,ymax]
+plt.axis([0,10,0,10])   
+
+axis方法接受的列表参数意义是 [xmin,xmax,ymin,ymax]
 
 
 \subsection{figure}
@@ -4756,6 +4705,13 @@ color
 
 
 \part{tkinter快速GUI开发}
+参考资料：
+
+\href{http://www.ferg.org/thinking_in_tkinter/all_programs.html}{thinking in tkinter}
+
+\href{http://www.tkdocs.com/tutorial/index.html}{tkdocs tutorial}
+
+
 \chapter{tkinter入门}
 tkinter是Tk GUI模块的外包层，Tk是用Tcl语言写的。和其他GUI模块包一样，tkinter也是事件驱动的。
 \section{安装}
@@ -4764,11 +4720,25 @@ tkinter是Tk GUI模块的外包层，Tk是用Tcl语言写的。和其他GUI模�
 sudo apt-get install python3-tk
 \end{tcbbash}
 
+然后推荐把tk和tk-dev也安装上。
+\begin{tcbbash}[]
+sudo apt-get install tk tk-dev
+\end{tcbbash}
+
+
+\section{引入惯例}
+\begin{tcbpython}[]
+from tkinter import *
+from tkinter import ttk
+\end{tcbpython}
+
+
 \section{第一个例子}
 \begin{tcbpython}[]
-from tkinter import Tk,Label
+from tkinter import *
+from tkinter import ttk
 tk=Tk()
-Label(tk,text='Label 的text').pack()
+Label(tk,text='hello world.').pack()
 tk.mainloop()
 \end{tcbpython}
 
@@ -4845,6 +4815,9 @@ widget.bind('<Button-3>',right)
 mainloop()
 \end{tcbpython}
 
+更多关于事件控制的细节后面再慢慢讨论之。
+
+
 
 
 \chapter{窗体类型}
@@ -4852,32 +4825,51 @@ mainloop()
 这里收集一些属性，是所有窗体类型都有的，方便记忆和学习。
 \begin{description}
 \item[parent] 本窗体的母窗体，如果不填，则本窗体依附于主母窗体。
-
+\item[destroy方法] 任何窗体都可以调用destroy方法来消灭自己。
 \end{description}
 
-\section{主母窗体}
-前面谈到如果有子窗体parent不填，那么就是默认的主母窗体，那么如果我们通过\verb+tk=Tk()+自己新建一个主母窗体呢？这个时候tk就是默认的唯一的主母窗体。那么如果新建两个主母窗体呢？请看下面的例子：
+
+
+
+\section{Toplevel}
+前面谈到如果有子窗体parent不填，那么就是默认的主母窗体。如果你通过\verb+root=Tk()+来明确新建一个主母窗体，这时root就是那个默认的主母窗体。主母窗体退出了那么整个GUI程序就退出了，然后root用于方便管理整个GUI程序的一些参数\footnote{虽然用Tk()还可以继续创建主母窗体，但推荐只使用一次，明确表示root即为主母窗体。}。
+
+如果你需要创建第二个母窗体，那么可以用Toplevel来创建。当然Toplevel就不需要parent参数了，然后它还有其他一些属性参数可以配置，下面先演示一下两个母窗体的例子。
+
 \begin{tcbpython}[]
 from tkinter import *
+import sys
+root = Tk()
+win = Toplevel()
 
-tk = Tk()
-tk1 = Tk()
+button1 = Button(text = 'button1',command=sys.exit)
+tk.title('root')
+button1.pack()
 
-label1 = Label()
-label1['text'] = 'the label1 '
-label1.pack()
-label2 = Label(tk1)
-label2['text'] = 'the label2 '
-label2.pack()
+button2 = Button(win,text = 'button2',command=sys.exit)
+win.title('win')
+button2.pack()
+
 mainloop()
 \end{tcbpython}
 这样现在我们有了两个主母窗体，其中第一个创建的主母窗体是默认的根主母窗体，而第二个创建的主母窗体并不是根主母窗体，只是普通的一个主母窗体，不信，你关闭它程序也没有退出。
 
-\subsection{title方法}
-调用这个方法，输入一段字符串，这段字符串会成为主母窗体的标题，也就是主母窗体上面显示的那段文字。
 
-\subsection{quit方法}
-退出当前母窗体，多个母窗体的时候只是退出本母窗体。
+\subsection{title方法}
+调用这个方法，输入一段字符串，这段字符串会成为母窗体的标题，也就是母窗体上面显示的那段文字。
+
+
+\subsection{窗体最大化}
+\begin{Verbatim}
+root.attributes('-zoomed', True)
+\end{Verbatim}
+
+\subsection{菜单tearoff}
+\begin{Verbatim}
+root.option_add('*tearOff', FALSE)
+\end{Verbatim}
+
+
 
 \section{Frame}
 Frame是其他窗体的容器，可以简单称之为面板。
@@ -4921,24 +4913,32 @@ Button除了母窗体parent属性之外，下面慢慢列出其他的属性。
 
 button = ttk.Button(parent, text='Okay', command=submitForm)
 
-text
 
 image 属性
 
 button.state(['disabled'])   
-button.state(['!disabled'])     active", "disabled", "focus", "pressed", "selected", "background", "readonly", "alternate", and "invalid". 
+
+button.state(['!disabled']) 
+
+控制button的显示状态，参数有："active", "disabled", "focus", "pressed", "selected", "background", "readonly", "alternate",和"invalid"。 
 
 \section{Checkbutton}
+\begin{Verbatim}
 measureSystem = StringVar()
 check = ttk.Checkbutton(parent, text='Use Metric', 
 	    command=metricChanged, variable=measureSystem,
 	    onvalue='metric', offvalue='imperial')
+\end{Verbatim}
+
 
 \section{Radiobutton}
+\begin{Verbatim}
 phone = StringVar()
 home = ttk.Radiobutton(parent, text='Home', variable=phone, value='home')
 office = ttk.Radiobutton(parent, text='Office', variable=phone, value='office')
 cell = ttk.Radiobutton(parent, text='Mobile', variable=phone, value='cell')
+\end{Verbatim}
+
 
 
 
@@ -4946,6 +4946,7 @@ cell = ttk.Radiobutton(parent, text='Mobile', variable=phone, value='cell')
 单行输入框 Entry(母窗体, ...)
 
 username = StringVar()
+
 name = ttk.Entry(parent, textvariable=username)
 
 get()  get方法，输入框对象调用get方法之后返回输入框内的字符串。
@@ -4975,11 +4976,30 @@ set方法
 
 current方法
 
+\section{Menubar}
+通过Menu()创建Menubar对象，
 
+以下Menubar对象的一些方法：
+
+1.add\_{}cascade  给菜单栏添加子菜单，子菜单通过menu参数配置，接受的也是一个通过Menubar对象。
+\begin{Verbatim}
+menubar.add_cascade(menu=menu_file, label='File')
+\end{Verbatim}
+
+2.add\_{}command 给子菜单添加命令。具体命令由command属性控制，类似按钮。
+
+3. 最后config主母窗口menu属性为主菜单对象。
+
+4.分隔符
+\begin{Verbatim}
+menu_file.add_separator()
+\end{Verbatim}
+
+5.
 
 \chapter{布局管理}
 \section{PACK方法}
-side  可选参数接受如下参数：\textbf{TOP}，\textbf{BOTTOM}，\textbf{LEFT}，\textbf{RIGHT}。这样控制子窗体在母窗体中的布局位置。\uwave{默认是TOP}。
+side  可选参数接受如下参数：\textbf{TOP}，\textbf{BOTTOM}，\textbf{LEFT}，\textbf{RIGHT}。这样控制子窗体在母窗体中的布局位置。\uwave{默认是TOP}。值得一提的是side也可以接受字符串变量top，bottom，left和right，即\verb+'right'+，这样写也许更合理点，那个大写的TOP确实有点和其他python代码不合群。
 
 
 expand=YES  如果你的母窗体大小已经设置为不可更改，那么没有什么问题。如果你们母窗体大小是可变的，那么最好加上\verb+expand=YES+，这样子窗体会跟随母窗体而进行位置调整。
@@ -4991,6 +5011,86 @@ fill 可用选项有 X, Y, BOTH，意思是横向伸展，竖向伸展和双向�
 看名字就知道让子窗体在母窗体服从网格布局的意思。
 
 
+\chapter{Canvas画布}
+Canvas画布窗体非常强大，是tkinter的一大亮点。
+
+canvas = Canvas(tk)
+
+width   画布窗体宽度
+
+height  画布窗体高度
+
+bg  背景颜色
+
+
+\section{一个跟随鼠标画线条的程序}
+此外还显示了canvas内某个具体的图元和某个动作绑定起来的机制。
+\begin{tcbpython}[]
+from tkinter import *
+tk=Tk()
+canvas = Canvas(tk,width=800,height=600)
+
+color = "black"
+def setColor(newcolor):
+    global color
+    color = newcolor
+
+def addLine(event):
+    global lastx, lasty
+    canvas.create_line((lastx, lasty, event.x, event.y), fill=color)
+    lastx, lasty = event.x, event.y
+
+id = canvas.create_rectangle((10, 10, 30, 30), fill="red")
+canvas.tag_bind(id, "<Button-1>", lambda x: setColor("red"))
+id = canvas.create_rectangle((10, 35, 30, 55), fill="blue")
+canvas.tag_bind(id, "<Button-1>", lambda x: setColor("blue"))
+id = canvas.create_rectangle((10, 60, 30, 80), fill="black")
+canvas.tag_bind(id, "<Button-1>", lambda x: setColor("black"))
+
+
+lastx, lasty = 0, 0
+
+def xy(event):
+    global lastx, lasty
+    lastx, lasty = event.x, event.y
+
+def addLine(event):
+    global lastx, lasty
+    canvas.create_line(lastx, lasty, event.x, event.y,fill=color)
+    lastx, lasty = event.x, event.y
+
+canvas.bind("<Button-1>", xy)
+canvas.bind("<B1-Motion>", addLine)
+
+canvas.pack()
+mainloop()
+\end{tcbpython}
+
+\section{读取ico图片}
+xbm图片可以直接读取，下面是读取ico图片的过程，需要pillow模块的支持。此外还需要安装python3-imaging-tk来支持ImageTk子模块。
+\subsection{ImageTk子模块}
+\begin{Verbatim}
+sudo apt-get install python3-imaging-tk
+\end{Verbatim}
+
+下面这个例子是演示，其中pkg\_{}resources模块支持对egg文件的package\_{}data的访问。这里的resoruce\_{}stream将返回资源文件的文件接口。
+
+然后pillow模块的Image子模块的open函数用于打开这个图片，然后调用resize方法调整尺寸。
+
+接下来是用ImageTk子模块的PhotoImage构造函数接受处理后的图片对象，从而生成tkinter可以处理的图片对象。然后接下来就可以按照常规用create\_{}image来引入图片了，图片作为image属性引入进来。
+\begin{tcbpython}[]
+from PIL import Image,ImageTk
+from pkg_resources import resource_stream
+file_image = Image.open(resource_stream('wise','icos/Folder-Documents.ico'))
+file_image = file_image.resize((60,60))
+file_photo = ImageTk.PhotoImage(file_image)
+id = canvas.create_image(100,100,image=file_photo,tags='file')
+def openfile(event):
+    from tkinter import filedialog
+    filename = filedialog.askopenfilename()
+    print(filename)
+canvas.tag_bind(id,"<Button-1>",openfile)
+\end{tcbpython}
 
 
 
@@ -5011,958 +5111,6 @@ fill 可用选项有 X, Y, BOTH，意思是横向伸展，竖向伸展和双向�
 
 
 
-
-
-
-
-
-%这里空一行
-
-\end{common-format}
-\end{document}
-
-
-
-
-\part{其他}
-\chapter{暂时还不知道分类的东东}
-
-\section{matplotlib加入中文}
-\href{http://blog.sciencenet.cn/blog-43412-343002.html }{参考网站}
-
-\section{matplotlib棒状图上加上说明文字}
-\href{http://stackoverflow.com/questions/7423445/how-can-i-display-text-over-columns-in-a-bar-chart-in-matplotlib}{参考网站}
-
-
-
-\section{从excel中读取数据}
-
-xlrd模块
-
-\section{原处修改对象的函数没有返回值}
-这个问题我就遇到过，这个原则一定要牢记在心！
-
-\begin{Verbatim}
->>> lst=[1,2,3]
->>> lst=lst.append(4)
->>> print(lst)
-None
-\end{Verbatim}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\part{pyqt4教程}
-本部分主要参考资料：\\
-1.pyqt4教程，\href{http://blog.cx125.com/books/PyQt4_Tutorial/}{http://blog.cx125.com/books/PyQt4\_{}Tutorial/}
-
-2.Prentice Hall，Rapid GUI Programming with Python and Qt，2007年10月
-
-3.http://pyqt.sourceforge.net/Docs/PyQt4/classes.html
-
-4.http://straightedgelinux.com/blog/python/html/pyqtxt.html
-
-
-
-\chapter{刚开始}
-
-\section{安装pyqt4}
-ubuntu下安装pyqt4即安装python3-pyqt4即可：
-\begin{tcbbash}[]
-sudo apt-get install python3-pyqt4
-\end{tcbbash}
-
-此外本文后面会谈到用qt designer来辅助设计GUI，你还需要额外安装qt designer软件和pyuic4和pyrcc4命令。（顺便再次提醒下pyrcc4对中文目录目前支持有问题（201410）） 
-\begin{tcbbash}[]
-sudo apt-get install pyqt4-dev-tools qt4-designer
-\end{tcbbash}
-
-
-检查pyqt4安装情况执行以下脚本即可，显示的是当前安装的pyqt4的版本号:
-\begin{tcbpython}[]
-from PyQt4.QtCore import QT_VERSION_STR
-print(QT_VERSION_STR)
-\end{tcbpython}
-
-
-\section{pyqt4模块简介}
-\begin{description}
-\item[QtCore] 模块包括了核心的非GUI功能，该模块用来对时间、文件、目录、各种数据类型、流、网址、媒体类型、线程或进程进行处理。
-\item[QtGui] 模块包括图形化窗口部件和及相关类。包括如按钮、窗体、状态栏、滑块、位图、颜色、字体等等。
-\item[QtHelp] 模块包含了用于创建和查看可查找的文档的类。
-\item[QtNetwork] 模块包括网络编程的类。这些类可以用来编写TCP/IP和UDP的客户端和服务器。它们使得网络编程更容易和便捷。
-\item[QtOpenGL] 模块使用OpenGL库来渲染3D和2D图形。该模块使得Qt GUI库和OpenGL库无缝集成。
-\item[QtScript] 模块包含了使PyQt应用程序使用JavaScript解释器编写脚本的类。
-\item[QtSql] 模块提供操作数据库的类。
-\item[QtSvg] 模块提供了显示SVG文件内容的类。可缩放矢量图形(SVG)是一种用XML描述二维图形和图形应用的语言。
-\item[QtTest] 模块包含了对PyQt应用程序进行单元测试的功能。（PyQt没有实现完全的Qt单元测试框架，相反，它假设使用标准的Python单元测试框架来实现模拟用户和GUI进行交互。）
-\item[QtWebKit] 模块实现了基于开源浏览器引擎WebKit的浏览器引擎。
-\item[QtXml] 包括处理XML文件的类，该模块提供了SAX和DOM API的接口。
-\item[QtXmlPatterns] 模块包含的类实现了对XML和自定义数据模型的XQuery和XPath的支持。
-\item[phonon] 模块包含的类实现了跨平台的多媒体框架，可以在PyQt应用程序中使用音频和视频内容。
-\item[QtMultimedia] 模块提供了低级的多媒体功能，开发人员通常使用\textbf{phonon}模块。
-\item[QtAssistant] 模块包含的类允许集成\textbf{Qt Assistant}到PyQt应用程序中，提供在线帮助。
-\item[QtDesigner] 模块包含的类允许使用PyQt扩展\textbf{Qt Designer}。
-\item[Qt] 模块综合了上面描述的模块中的类到一个单一的模块中。这样做的好处是你不用担心哪个模块包含哪个特定的类，坏处是加载进了整个Qt框架，从而增加了应用程序的内存占用。
-\item[uic] 模块包含的类用来处理.ui文件，该文件由Qt Designer创建，用于描述整个或者部分用户界面。它包含的加载.ui文件和直接渲染以及从.ui文件生成Python代码为以后执行的类。
-\end{description}
-
-
-\chapter{第一个例子}
-\section{窗口}
-\begin{tcbpython}
-import sys
-from PyQt4  import QtGui
-
-class MyQWidget(QtGui.QWidget):
-    def __init__(self,parent=None):
-        QtGui.QWidget.__init__(self,parent)
-        self.setGeometry(0, 0, 800, 600)
-        #坐标0 0 大小800 600
-        self.setWindowTitle('myapp')
-
-myapp = QtGui.QApplication(sys.argv)
-mywidget = MyQWidget()
-mywidget.show()
-sys.exit(myapp.exec_())
-\end{tcbpython}
-
-首先导入sys宏包，是为了后面接受sys.argv参数。从PyQt4模块导入QtGui宏包，是为了后面创建QWidget类的实例。
-
-接下来我们定义了MyQWidget类，它继承自QtGui的QWidget类。然后重定义了构造函数，首先继承了QtGui的QWidget类的构造函数，这里将parent的默认参数传递进去了。
-
-然后通过QWidget类定义好的\textbf{setGeometry}方法来调整窗口的左顶点的坐标位置和窗口的大小。
-
-然后通过\textbf{setWindowTitle}方法来设置这个窗口程序的标题，这里就简单设置为myapp了。
-
-任何窗口程序都需要创建一个QApplication类的实例，这里是myapp。然后接下来创建QWidget类的实例mywidget，然后通过调用mywidget的方法\textbf{show}来显示窗体。
-
-最后我们看到系统要退出是调用的myapp实例的\textbf{exec\_}方法。
-
-
-\section{加上图标}
-现在我们在前面第一个程序的基础上稍作修改，来给这个程序加上图标。程序代码如下：
-\begin{tcbpython}
-import sys
-from PyQt4  import QtGui
-
-class MyQWidget(QtGui.QWidget):
-    def __init__(self,parent=None):
-        QtGui.QWidget.__init__(self,parent)
-        self.resize(800,600)
-        self.setWindowTitle('myapp')
-        self.setWindowIcon(QtGui.QIcon\
-        ('icons/myapp.ico'))
-
-
-myapp = QtGui.QApplication(sys.argv)
-mywidget = MyQWidget()
-mywidget.show()
-sys.exit(myapp.exec_())
-\end{tcbpython}
-
-
-
-这个程序相对上面的程序就增加了一个\textbf{setWindowIcon}方法，这个方法调用了QtGui.QIcon方法，然后后面跟的就是图标的存放路径，使用相对路径。在运行这个例子的时候，请随便弄个图标文件过来。
-
-这个程序为了简单起见就使用了QWidget类的\textbf{resize}方法来设置窗体的大小。
-
-
-
-\section{弹出提示信息}
-\begin{tcbpython}
-import sys
-from PyQt4  import QtGui
-
-class MyQWidget(QtGui.QWidget):
-    def __init__(self,parent=None):
-        QtGui.QWidget.__init__(self,parent)
-        self.resize(800,600)
-        self.setWindowTitle('myapp')
-        self.setWindowIcon(QtGui.QIcon\
-        ('icons/myapp.ico'))
-        self.setToolTip('看什么看^_^')
-        QtGui.QToolTip.setFont(QtGui.QFont\
-        ('微软雅黑', 12))
-
-myapp = QtGui.QApplication(sys.argv)
-mywidget = MyQWidget()
-mywidget.show()
-sys.exit(myapp.exec_())
-\end{tcbpython}
-
-
-
-上面这段代码和前面的代码的不同就在于MyQWidget类的初始函数新加入了两条命令。其中\textbf{setToolTip}方法设置具体显示的文本内容，然后后面调用QToolTip类的\textbf{setFont}方法来设置字体和字号，我不太清楚这里随便设置系统的字体微软雅黑是不是有效。
-
-这样你的鼠标停放在窗口上一会儿会弹出一小段提示文字。
-
-
-\section{关闭窗体时询问}
-目前程序点击那个叉叉图标关闭程序的时候将会直接退出，这里新加入一个询问机制。
-
-\begin{tcbpython}
-import sys
-from PyQt4  import QtGui
-
-class MyQWidget(QtGui.QWidget):
-    def __init__(self,parent=None):
-        QtGui.QWidget.__init__(self,parent)
-        self.resize(800,600)
-        self.setWindowTitle('myapp')
-        self.setWindowIcon(QtGui.QIcon\
-        ('icons/myapp.ico'))
-        self.setToolTip('看什么看^_^')
-        QtGui.QToolTip.setFont(QtGui.QFont\
-        ('微软雅黑', 12))
-
-    def closeEvent(self, event):
-        reply = QtGui.QMessageBox.question\
-        (self, '信息',
-            "你确定要退出吗？",
-             QtGui.QMessageBox.Yes,
-             QtGui.QMessageBox.No)
-
-        if reply == QtGui.QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
-
-myapp = QtGui.QApplication(sys.argv)
-mywidget = MyQWidget()
-mywidget.show()
-sys.exit(myapp.exec_())
-\end{tcbpython}
-
-
-
-这段代码和前面代码的不同就是重新定义了\textbf{colseEvent}事件。这段代码的核心就是QtGui类的QMessageBox类的question方法，这个方法将会弹出一个询问窗体。这个方法接受四个参数：第一个参数是这个窗体所属的母体，这里就是self也就是实例mywidget；第二个参数是弹出窗体的标题；第三个参数是一个标准button；第四个参数也是一个标准button，是默认（也就是按enter直接选定的）的button。然后这个方法返回的是那个被点击了的标准button的标识符，所以后面和标准buttonYes比较了，然后执行event的accept方法。
-
-这样这个程序在关闭的时候会弹出一个对话框，询问你是否真的要关闭，具体请读者自己实验一下。
-
-\section{屏幕居中显示窗体}
-
-
-\begin{tcbpython}
-import sys
-from PyQt4  import QtGui
-
-class MyQWidget(QtGui.QWidget):
-    def __init__(self,parent=None):
-        QtGui.QWidget.__init__(self,parent)
-        self.resize(800,600)
-        self.center()
-        self.setWindowTitle('myapp')
-        self.setWindowIcon(QtGui.QIcon\
-        ('icons/myapp.ico'))
-        self.setToolTip('看什么看^_^')
-        QtGui.QToolTip.setFont(QtGui.QFont\
-        ('微软雅黑', 12))
-
-    def closeEvent(self, event):
-        #重新定义colseEvent
-        reply = QtGui.QMessageBox.question\
-        (self, '信息',
-            "你确定要退出吗？",
-             QtGui.QMessageBox.Yes,
-             QtGui.QMessageBox.No)
-
-        if reply == QtGui.QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
-            
-    def center(self):
-        screen = QtGui.QDesktopWidget().screenGeometry()
-        size =  self.geometry()
-        self.move((screen.width()-size.width())/2,\
-         (screen.height()-size.height())/2)
-
-myapp = QtGui.QApplication(sys.argv)
-mywidget = MyQWidget()
-mywidget.show()
-sys.exit(myapp.exec_())
-\end{tcbpython}
-
-
-
-这个例子和前面相比改动是新建了一个center方法，接受一个实例，这里是mywidget。然后对这个实例也就是窗口的具体位置做一些调整。
-
-QDesktopWidget类的\textbf{screenGeometry}方法返回一个量，这个量的width属性就是屏幕的宽度（按照pt像素计，比如1366×768\\，宽度就是1366），这个量的height属性就是屏幕的高度。
-
-然后QWidget类的\textbf{geometry}方法同样返回一个量，这个量的width是这个窗体的宽度，这个量的height属性是这个窗体的高度。
-
-然后调用QWidget类的move方法，这里是对mywidget这个实例作用。我们可以看到move方法的X，Y是从屏幕的坐标原点 (0,0) 开始计算的。第一个参数X表示向右移动了多少宽度，Y表示向下移动了多少高度。
-
-整个函数的作用效果就是将这个窗体居中显示。
-
-
-\section{QMainWindow类}
-QtGui.QMainWindow类提供应用程序主窗口，可以创建一个经典的拥有状态栏、工具栏和菜单栏的应用程序骨架。（之前使用的是QWidget类，现在换成QMainWindow类。）
-
-前面第一个例子都是用的QtGui.QWidget类创建的一个窗体。关于QWidget和QMainWindow这两个类的区别\href{http://stackoverflow.com/questions/3298792/whats-the-difference-between-qmainwindow-and-qwidget-and-qdialog}{参考这个网站}得出的结论是：QWdget类在Qt中是所有可画类的基础（这里的意思可能是窗体的基础吧。） 任何基于QWidget的类都可以作为独立窗体而显示出来而不需要母体（parent）。
-
-QMainWindow类是针对主窗体一般需求而设计的，它预定义了菜单栏状态栏和其他widget（窗口小部件） 。因为它继承自QWidget，所以前面谈及的一些属性修改都适用于它。那么首先我们将之前的代码中的QWidget类换成QMainWindow类。
-
-
-
-\begin{tcbpython}
-import sys
-from PyQt4  import QtGui
-
-class MainWindow(QtGui.QMainWindow):
-    def __init__(self,parent=None):
-        QtGui.QMainWindow.__init__(self,parent)
-        self.resize(800,600)
-        self.center()
-        self.setWindowTitle('myapp')
-        self.setWindowIcon(QtGui.QIcon\
-        ('icons/myapp.ico'))
-        self.setToolTip('看什么看^_^')
-        QtGui.QToolTip.setFont(QtGui.QFont\
-        ('微软雅黑', 12))
-
-    def closeEvent(self, event):
-        reply = QtGui.QMessageBox.question\
-        (self, '信息',
-            "你确定要退出吗？",
-             QtGui.QMessageBox.Yes,
-             QtGui.QMessageBox.No)
-
-        if reply == QtGui.QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
-
-    def center(self):
-        screen = QtGui.QDesktopWidget().screenGeometry()
-        size =  self.geometry()
-        self.move((screen.width()-size.width())/2,\
-         (screen.height()-size.height())/2)
-
-myapp = QtGui.QApplication(sys.argv)
-mainwindow = MainWindow()
-mainwindow.show()
-sys.exit(myapp.exec_())
-\end{tcbpython}
-
-
-
-现在程序运行情况良好，我们继续加点东西进去。
-
-
-\section{加上状态栏}
-
-\begin{tcbpython}[]
-#!/usr/bin/env python3
-#-*- coding: utf-8 -*-
-import sys
-from PyQt4  import QtGui
-
-class MainWindow(QtGui.QMainWindow):
-    def __init__(self,parent=None):
-        QtGui.QMainWindow.__init__(self,parent)
-        self.resize(800,600)
-        self.center()
-        self.setWindowTitle('myapp')
-        self.setWindowIcon(QtGui.QIcon\
-        ('icons/myapp.ico'))
-        self.setToolTip('看什么看^_^')
-        QtGui.QToolTip.setFont(QtGui.QFont\
-        ('微软雅黑', 12))
-
-
-    def closeEvent(self, event):
-        reply = QtGui.QMessageBox.question\
-        (self, '信息',
-            "你确定要退出吗？",
-             QtGui.QMessageBox.Yes,
-             QtGui.QMessageBox.No)
-
-        if reply == QtGui.QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
-
-    def center(self):
-        screen = QtGui.QDesktopWidget().screenGeometry()
-        size =  self.geometry()
-        self.move((screen.width()-size.width())/2,\
-         (screen.height()-size.height())/2)
-
-myapp = QtGui.QApplication(sys.argv)
-mainwindow = MainWindow()
-mainwindow.show()
-mainwindow.statusBar().showMessage('程序已就绪...')
-sys.exit(myapp.exec_())
-\end{tcbpython}
-
-
-
-这个程序和前面的区别在于最后倒数第二行，调用mainwindow这个QMainWindow类生成的实例的\textbf{statusBar}方法生成一个QStatusBar对象，然后调用QStatusBar类的\textbf{showMessage}方法来显示一段文字。
-
-如果你希望这段代码在\verb+__init__+方法里面，那么具体实现过程也与上面描述的类似。考虑到状态栏有些程序不一定需要，这里暂时不加到构造函数里面了。
-
-
-\section{加上菜单栏}
-
-\begin{tcbpython}[]
-#!/usr/bin/env python3
-#-*- coding: utf-8 -*-
-import sys
-from PyQt4  import QtGui
-
-class MainWindow(QtGui.QMainWindow):
-    def __init__(self,parent=None):
-        QtGui.QMainWindow.__init__(self,parent)
-        self.resize(800,600)
-        self.center()
-        self.setWindowTitle('myapp')
-        self.setWindowIcon(QtGui.QIcon\
-        ('icons/myapp.ico'))
-        self.setToolTip('看什么看^_^')
-        QtGui.QToolTip.setFont(QtGui.QFont\
-        ('微软雅黑', 12))
-
-    #菜单栏
-        self.menubar = self.menuBar()
-        menu_file=self.menubar.addMenu('文件')
-        menu_edit=self.menubar.addMenu('编辑')
-        menu_help=self.menubar.addMenu('帮助')
-
-    def closeEvent(self, event):
-        reply = QtGui.QMessageBox.question\
-        (self, '信息',
-            "你确定要退出吗？",
-             QtGui.QMessageBox.Yes,
-             QtGui.QMessageBox.No)
-
-        if reply == QtGui.QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
-
-    def center(self):
-        screen = QtGui.QDesktopWidget().screenGeometry()
-        size =  self.geometry()
-        self.move((screen.width()-size.width())/2,\
-         (screen.height()-size.height())/2)
-
-myapp = QtGui.QApplication(sys.argv)
-mainwindow = MainWindow()
-mainwindow.show()
-mainwindow.statusBar().showMessage('程序已就绪...')
-sys.exit(myapp.exec_())
-\end{tcbpython}
-
-和上面讨论加上状态栏类似，这里用QMainWindow类的menuBar方法来获得一个菜单栏对象。然后用这个菜单栏对象的\textbf{addMenu}方法来创建一个新的菜单对象（QMenu类）——方法里面的内容是新建菜单显示的名字。
-
-建议给菜单对象取个名字，后面方便引用。
-
-
-
-\section{加上动作}
-
-\begin{tcbpython}[]
-#!/usr/bin/env python3
-#-*- coding: utf-8 -*-
-import sys
-from PyQt4  import QtGui
-
-class MainWindow(QtGui.QMainWindow):
-    def __init__(self,parent=None):
-        QtGui.QMainWindow.__init__(self,parent)
-        self.resize(800,600)
-        self.center()
-        self.setWindowTitle('myapp')
-        self.setWindowIcon(QtGui.QIcon\
-        ('icons/myapp.ico'))
-        self.setToolTip('看什么看^_^')
-        QtGui.QToolTip.setFont(QtGui.QFont\
-        ('微软雅黑', 12))
-
-    #动作和连接
-        act_exit = QtGui.QAction('退出', self)
-        act_exit.setStatusTip('退出程序')
-        act_exit.triggered.connect(self.close)
-
-        act_about = QtGui.QAction('关于本程序', self)
-        act_about.triggered.connect(self.about)
-
-        act_aboutqt = QtGui.QAction('关于Qt', self)
-        act_aboutqt.triggered.connect(self.aboutqt)
-
-    #菜单栏
-        self.menubar = self.menuBar()
-        menu_file=self.menubar.addMenu('文件')
-        menu_file.addAction(act_exit)
-        menu_edit=self.menubar.addMenu('编辑')
-        menu_help=self.menubar.addMenu('帮助')
-        menu_help.addAction(act_about)
-        menu_help.addAction(act_aboutqt)
-
-#函数
-    def about(self):
-        QtGui.QMessageBox.about(self,"关于本程序","本程序是一个用于教学的程序。
-        \n\nFell free to use it\n(including it's source code).")
-    def aboutqt(self):
-        QtGui.QMessageBox.aboutQt(self)
-
-    def closeEvent(self, event):
-        reply = QtGui.QMessageBox.question\
-        (self, '信息',
-            "你确定要退出吗？",
-             QtGui.QMessageBox.Yes,
-             QtGui.QMessageBox.No)
-
-        if reply == QtGui.QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
-
-    def center(self):
-        screen = QtGui.QDesktopWidget().screenGeometry()
-        size =  self.geometry()
-        self.move((screen.width()-size.width())/2,\
-         (screen.height()-size.height())/2)
-
-myapp = QtGui.QApplication(sys.argv)
-mainwindow = MainWindow()
-mainwindow.show()
-mainwindow.statusBar().showMessage('程序已就绪...')
-sys.exit(myapp.exec_())
-\end{tcbpython}
-
-现在在前面例子的基础上给之前的菜单对象加上动作。比如menu\_{}file就是之前创建的一个菜单对象，现在调用这个对象的\textbf{addAction}方法，将act\_{}exit动作对象加进去。
-
-act\_{}exit动作对象需要在前面定义，通过QtGui类的QAction类的构造函数来创建一个动作对象。构造函数最少需要两个参量：第一个是显示的文本，第二个是这个动作依附的母体（也就是常见的parent变量），通常这里填上self即可。
-
-在这里这个动作对象，就是菜单的下拉选项，如果我们用鼠标点击一下的话，将会触发\textbf{triggered}信号，如果我们connect方法连接到某个槽上（或者某个你定义的函数），那么将会触发这个函数的执行。下面就信号－槽机制详细说明之。
-
-\subsection{信号－槽机制}
-GUI程序一般都引入一种事件和信号机制，well，简单来说就是一个循环程序，这个循环程序等到某个时刻程序会自动做某些事情比如刷新程序界面啊，或者扫描键盘鼠标之类的，等用户点击鼠标或者按了键盘之后，它会接受这个信号然后做出相应的反应。
-
-所以你一定猜到了，close函数可能就是要退出这个循环程序。我们调用主程序的\verb+exec_+方法，就是开启这个循环程序。
-
-\begin{tcbpython}
-myapp.exec_()
-\end{tcbpython}
-
-pyqt4的旧信号－槽连接语句我在这里忽略了，网上到处都是。下面就新的语句说明之。
-
-\begin{tcbpython}
-act_exit.triggered.connect(self.close)
-\end{tcbpython}
-
-我们看到新的信号－槽机制语句变得更精简更易懂了。整个过程就是如我前面所述，某个对象发出了某个信号，然后用connect将这个信号和某个槽（或者你定义的某个函数）连接起来即形成了一个反射弧了。
-
-这里的槽就是self主窗口实例的close方法，这个是主窗口自带的函数。
-
-然后我们看到aboutqt和about函数。具体读者如果不懂请翻阅QMessageBox类的静态方法about和aboutqt。
-
-
-
-\chapter{简单的编辑器}
-简单编辑器这个例子还是在前面第一个例子的基础上进一步加上了一些功能，使之更加像一个我们平时所见的那种编辑器。这里为了节省篇幅代码我就不列出来了，具体的代码在文件夹[pyqt4-works]的[简单的编辑器]里面。
-
-别看这个例子似乎有点复杂了，但其实它相对于前面的第一个例子只是加上了pyqt4内置的文本编辑器窗件，然后做了一些优化，仅此而已。当然相对于成熟的实际使用的那种文本编辑器而言还有很大的改进优化空间。
-
-请读者看到\verb+#编辑器+的下面的代码，这里利用pyqt4的QTextEdit类来创建了一个文本编辑器对象，然后新建了一个变量，fileName，这个存储着当前程序打开的文件名。然后QMainWindow类的布局默认中间是什么CentralWidget，这里将其设置为self.editor也就是我们创建的文本编辑器对象即可。
-
-做到这里我们发现一个文本编辑窗口已经出来了，如果你愿意，这就算是一个最最简单的文本编辑器了，只是一些最最基本的功能没加上使得这个程序毫无用处。所谓的基本的功能包括新建文件，打开文件，保存文件，另存为文件，判断文件是否已保存（退出时），剪切复制粘贴等。
-
-这里例子是最最精简的版本，推荐读者自己阅读代码然后有不懂的查阅pyqt4的各个类的说明，比如\href{http://pyqt.sourceforge.net/Docs/PyQt4/classes.html}{这个官方的类的查阅网站}。
-
-有时间我会在这里继续补上具体代码更详细的说明。
-
-
-\chapter{pyqt4详解}
-
-
-
-
-\chapter{pyqt4实例}
-这是本文关于pyqt4介绍的重点内容，通过一个个从简单到复杂逐步深入的实例来学习pyqt4，我认为这是最有效率的。具体更加详细的讨论在各个子项目中有时间我会慢慢加上。
-
-\section{按钮打印你好}
-\begin{Verbatim}
-import sys
-from PyQt4  import QtGui
-
-class Mybutton(QtGui.QPushButton):
-    def __init__(self,parent=None):
-        QtGui.QPushButton.__init__(self,parent)
-        self.resize(150, 90)
-        self.center()
-        self.setWindowTitle('你好')
-        self.clicked.connect(self.hello)
-
-    def center(self):
-        screen = QtGui.QDesktopWidget().screenGeometry()
-        size =  self.geometry()
-        self.move((screen.width()-size.width())/2,\
-         (screen.height()-size.height())/2)
-
-    def hello(self):
-        print('你好')
-
-myapp = QtGui.QApplication(sys.argv)
-mywidget = Mybutton()
-mywidget.show()
-
-myapp.exec_()
-sys.exit()
-\end{Verbatim}
-这个代码最值得一提的就是pyqt4最新的信号－槽机制。就是某个对象的某个信号调用connect方法连接到某个槽上，所谓槽实际上就是定义的函数，只是这个函数没加上()圆括号，只是一个函数符号，所以称之为槽。
-
-
-\section{文件对话框}
-\begin{Verbatim}
-import sys
-from PyQt4  import QtGui
-
-class Mybutton(QtGui.QPushButton):
-    def __init__(self,parent=None):
-        QtGui.QPushButton.__init__(self,"打开文件",parent)
-        self.resize(150, 90)
-        self.center()
-        self.setWindowTitle('打开文件')
-        self.clicked.connect(self.openfile)
-
-    def center(self):
-        screen = QtGui.QDesktopWidget().screenGeometry()
-        size =  self.geometry()
-        self.move((screen.width()-size.width())/2,\
-         (screen.height()-size.height())/2)
-
-
-    def openfile(self):
-        filename=QtGui.QFileDialog.getOpenFileName(self,"打开文件...",".","")
-        print('文件'+str(filename)+'已选择')
-
-myapp = QtGui.QApplication(sys.argv)
-mywidget = Mybutton()
-mywidget.show()
-
-myapp.exec_()
-sys.exit()
-\end{Verbatim}
-这个例子和上面例子的区别就在于将按钮的动作改成了openfile，然后用QFileDialog的静态方法getOpenFileName来获取打开文件的对话框。
-
-
-\section{更多的按钮更多的对话框}
-这个例子我们在前面两个例子的基础上，加上更多的按钮并对应更多的对话框（文件选择对话框，颜色选择对话框，字体选择对话框，一般信息对话框，一般选择对话框（关闭机制））。同时引入一种简单的布局。
-
-\begin{Verbatim}
-import sys
-from PyQt4  import QtGui
-
-class Mywidget(QtGui.QWidget):
-    def __init__(self,parent=None):
-        QtGui.QWidget.__init__(self,parent)
-        self.center()
-        self.setWindowTitle('myapp')
-
-        button1=QtGui.QPushButton("文件")
-        button2=QtGui.QPushButton("颜色")
-        button3=QtGui.QPushButton("字体")
-        button4=QtGui.QPushButton("关于")
-        button5=QtGui.QPushButton("关于Qt")
-        mainlayout=QtGui.QHBoxLayout()
-        mainlayout.addWidget(button1)
-        mainlayout.addWidget(button2)
-        mainlayout.addWidget(button3)
-        mainlayout.addWidget(button4)
-        mainlayout.addWidget(button5)
-        self.setLayout(mainlayout)
-        button1.clicked.connect(self.openfile)
-        button2.clicked.connect(self.choosecolor)
-        button3.clicked.connect(self.choosefont)
-        button4.clicked.connect(self.about)
-        button5.clicked.connect(self.aboutqt)
-
-    def center(self):
-        screen = QtGui.QDesktopWidget().screenGeometry()
-        size =  self.geometry()
-        self.move((screen.width()-size.width())/2,\
-         (screen.height()-size.height())/2)
-
-    def openfile(self):
-        filename=QtGui.QFileDialog.getOpenFileName(self,"打开文件...",".","")
-        print('文件'+str(filename)+'已选择')
-
-    def choosecolor(self):
-        colorname=QtGui.QColorDialog.getColor()
-        print('颜色'+str(colorname)+'已选择')
-
-    def choosefont(self):
-        fontname=QtGui.QFontDialog.getFont()
-        print('字体'+str(fontname)+'已选择')
-
-    def about(self):
-        QtGui.QMessageBox.about(self,"关于本程序","本程序用于测试按钮和对话框。")
-    def aboutqt(self):
-        QtGui.QMessageBox.aboutQt(self)
-
-    def closeEvent(self, event):
-        #重新定义colseEvent
-        reply = QtGui.QMessageBox.question\
-        (self, '信息',
-            "你确定要退出吗？",
-             QtGui.QMessageBox.Yes,
-             QtGui.QMessageBox.No)
-
-        if reply == QtGui.QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
-
-myapp = QtGui.QApplication(sys.argv)
-mywidget = Mywidget()
-mywidget.show()
-myapp.exec_()
-sys.exit()
-\end{Verbatim}
-
-
-
-\section{funnyclock例子}
-请参看github项目：\href{https://github.com/a358003542/funnyclock}{一个有趣的时钟例子}
-
-
-\section{timer例子}
-请参看github项目：\href{https://github.com/a358003542/timer}{一个计时和倒计时程序}
-
-
-\section{myretext例子}
-请参看github项目：\href{https://github.com/a358003542/myretext}{简单模拟了retext软件}，实现了即时编写markdown和即时显示的功能。
-
-
-
-\chapter{pyqt4实例进阶}
-
-
-
-
-
-\chapter{pyqt4类参考}
-这个考虑另外写本小册子，就叫pyqt4参考手册。
-
-详细的pyqt4类的参考请参看\href{http://pyqt.sourceforge.net/Docs/PyQt4/classes.html}{这个网页}。下面只是尽可能的将我涉及到的一些pyqt4的类的一些信息尽可能的写上去，某些可以临时做为参考，不全也不可能做到齐全。。
-
-\section{QHBoxLayout类}
-在QtGui模块中，继承自QBoxLayout，QBoxLayout继承自QLayout，QLayout继承自QObject和QLayoutItem。
-
-简单布局，让元素横向排列。
-
-使用方法如下：
-\begin{Verbatim}
-mainlayout=QtGui.QHBoxLayout()
-mainlayout.addWidget(button1)
-mainlayout.addWidget(button2)
-self.setLayout(mainlayout)
-\end{Verbatim}
-首先建立一个布局对象，有QHBoxLayout类生成，然后在这个布局实例里面用\textbf{addWidget}方法来加入元素，然后将这个布局用主窗口的\textbf{setLayout}方法设置进去。
-
-\section{QVBoxLayout类}
-在QtGui模块中，继承自QBoxLayout，QBoxLayout继承自QLayout，QLayout继承自QObject和QLayoutItem。
-
-和QHBoxLayout类似，简单布局，竖向排列。
-
-
-\section{QWidget类}
-在QtGui模块中，继承自QObject和QPaintDevice。
-
-\subsection{构造函数}
-\begin{Verbatim}
-QWidget.__init__(self, QWidget parent = None, Qt.WindowFlags flags = 0)
-\end{Verbatim}
-
-默认parent是None，如果是其他widget，那么这个widget就变成那个（参量）widget的子窗口了，如果那个（参量）widget删除了，这个widget也就是删除了。
-
-\subsection{激活窗口}
-\begin{Verbatim}
-QWidget.activateWindow(self)
-\end{Verbatim}
-activateWindow方法用于激活这个窗口，这个窗口是可见的并且可以键盘输入。点击窗口的标题栏一个窗口就上前显现了用的就是这个函数。
-
-\subsection{调整窗口大小}
-\begin{Verbatim}
-QWidget.setGeometry(self, QRect)
-QWidget.setGeometry(self, int ax, int ay, int aw, int ah)
-QWidget.resize(self, QSize)
-QWidget.resize(self, int w, int h)
-\end{Verbatim}
-
-\subsection{设置图标}
-\begin{Verbatim}
-QWidget.setWindowIcon(self, QIcon icon)
-QWidget.setWindowIconText(self, QString)
-\end{Verbatim}
-就是设置程序下面显示的图标和图标文字。（QString对象我测试了直接用python3的字符串对象也是可以的。）
-
-
-\subsection{设置窗口标题}
-\begin{Verbatim}
-QWidget.setWindowTitle(self, QString)
-\end{Verbatim}
-
-
-\subsection{show方法}
-\begin{Verbatim}
-QWidget.show(self)
-\end{Verbatim}
-显示某个窗口和它的子窗口，相当于让这个窗口可见，和\textbf{setVisible(True)}等价。
-
-\subsection{设置提示词}
-\begin{Verbatim}
-QWidget.setToolTip(self, QString)
-\end{Verbatim}
-
-\subsection{closeEvent方法}
-\begin{Verbatim}
-QWidget.closeEvent (self, QCloseEvent)
-\end{Verbatim}
-一般在窗口关闭时调用，你可以重定义这个方法来改变窗口在面对关闭事件时的反应。
-
-
-
-\section{QIcon类}
-在QtGui模块中。
-
-这个类提供了可缩放图标的解决方案。
-
-\subsection{构造函数}
-\begin{Verbatim}
-__init__(self)
-__init__(self, QPixmap pixmap)
-__init__(self, QIcon other)
-__init__(self, QString fileName)
-__init__(self, QIconEngine engine)
-__init__(self, QIconEngineV2 engine)
-__init__(self, QVariant variant)
-\end{Verbatim}
-
-最常用的是第四种形式，也就是用相对路径（要注意操作系统的不同可能带来的问题）引用某个图标文件。
-
-
-\section{QPushButton类}
-来自QtGui模块，继承自QAbstractButton类，QAbstractButton类继承自QWidget类。
-
-QPushButton也就是GUI设计中最常见的按钮。
-
-\subsection{构造函数}
-\begin{Verbatim}
-__init__(self, QWidget parent = None)
-__init__(self, QString text, QWidget parent = None)
-__init__(self, QIcon icon, QString text, QWidget parent = None)
-\end{Verbatim}
-我们看到按钮显示的文字和图标在这里是可以设置的。
-
-
-\section{QFileDialog}
-来自QtGui模块，继承自QDialog，QDialog继承自QWidget。
-
-弹出一个文件或目录选择对话框。
-
-简单的使用常通过静态方法来实现：
-\subsection{静态方法}
-更多信息请参见官方类文档。
-
-\subsubsection{getExistingDirectory方法}
-返回用户选定的已存在的目录。这里parent是对话框依附的父窗口，caption是弹出窗口的标题，directory是窗口弹出时默认打开的位置，options是？
-
-\subsubsection{getOpenFileName方法}
-返回用户选定的已存在文件。比如：
-\begin{Verbatim}
-filename=QtGui.QFileDialog.getOpenFileName(self,"打开文件...",".","")
-\end{Verbatim}
-这里filename是字符串类型，就是你选择的文件的名字（包含绝对引用地址），后面"."是当前目录的意思，在后面过滤器空字符串表示所有的文件都显示。
-
-
-\section{QColorDialog类}
-来自QtGui模块，继承自QDialog，QDialog继承自QWidget。
-
-弹出一个选择颜色的窗口。
-
-\subsection{静态方法}
-\subsubsection{getColor方法}
-简单的设置不给参数也是可以的。
-
-\section{QFontDialog类}
-来自QtGui模块，继承自QDialog，QDialog继承自QWidget。
-
-弹出一个选择字体的窗口。
-\subsection{静态方法}
-\subsubsection{getFont方法}
-简单的设置不给参数也是可以的。
-
-
-\section{QMessageBox类}
-来自QtGui模块，继承自QDialog，QDialog继承自QWidget。
-
-弹出一个对话框用于用户做出一些选择或者给出一些提示信息。
-
-\subsection{静态方法}
-\subsubsection{about方法}
-需要三个参数，第一个参数是窗口的依附父窗口，第二个参数是窗口的标题，第三个参数是窗口的文字信息。
-
-\subsubsection{aboutQt方法}
-最少只需要一个参数，即弹出窗口的依附父窗口。
-
-
-\section{QMainWindow类}
-
-
-
-\section{QDialog类}
-
-
-\part{kivy教程}
-\section{安装}
-具体安装请参看官方文档，Ubuntu下我的安装如下：
-\begin{tcbbash}[]
-sudo add-apt-repository ppa:thopiekar/pygame
-sudo add-apt-repository ppa:kivy-team/kivy
-sudo apt-get update
-sudo apt-get install python3-kivy
-sudo apt-get install kivy-examples
-\end{tcbbash}
-
-\subsection{测试安装情况}
-第一个例子作为测试安装情况：
-\begin{tcbpython}[]
-import kivy
-#kivy.require('1.8.0')
-
-from kivy.app import App
-from kivy.uix.label import Label
-class MyApp(App):
-    def build(self):
-        return Label(text='hello')
-
-
-if __name__ == '__main__':
-    MyApp().run()
-\end{tcbpython}
 
 
 %这里空一行
