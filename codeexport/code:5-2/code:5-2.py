@@ -1,11 +1,9 @@
 
-
 class A():
     def __init__(self,a):
         self.a=a
 
-    @staticmethod
-    def fun():
+    def fun(self):
         print('fun')
 
     def fun2(self,what):
