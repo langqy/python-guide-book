@@ -2260,52 +2260,6 @@ for i in range(6):
 
 这里就简单的两个类，盖伦Garen类是继承自Hero类的，实例garen001是继承自Garen类的，这样garen001也有了addlevel方法，就是将自己的level属性加一，同时hp生命值也加上一定的值，整个过程还是很直观的。
 
-\subsection{super}
-\begin{flushright}
-\begin{notecard}[red!30]{16em}
-警报：这一小节super涉及到的知识稍微有点高深，请对类大体基本知识都熟悉之后再来看这个。 
-\end{notecard}
-\end{flushright}
-
-super是python3新加入的特性，按照官方文档，有两种用法：
-
-第一种是如果是单继承的类的系统，super()这种形式就直接表示父类的意思。然后用super().什么什么的来引用父类的某个变量或方法，\uwave{值得一提的是原父类的self参量会默认加进去了}，详细请看下面的调试例子。
-
-第二种是多重继承的，搜索顺序和多重继承的搜索顺序相同，也就是从左到右。请注意调试下面的例子，如果调用c.d就会返回错误，说明调用的是类A的构造函数。
-
-\begin{xverbatim}[129]{py}
-class A():
-    def __init__(self,a):
-        self.a=a
-
-    def fun(self):
-        print('fun')
-
-    def fun2(self,what):
-        print('fun',what)
-
-class B():
-    def __init__(self):
-        self.d=5
-    b=2
-    def fun3(self):
-        print('fun3')
-
-class C(A,B):
-    def __init__(self):
-        super().__init__(3)
-        super().fun()
-        super().fun2('what')
-        super().fun3()
-        print(super().b)
-
-c=C()
-print(c.a,c.b)
-\end{xverbatim}
-其中A类定义的fun函数在写的函数上通常有个self参数，而\emph{super()}这种调用形式在意义上表示其的父类，同时默认第一个参数就是self。为了理解你可以和self做个比较，比如self.fun()就是调用的实例的fun函数，默认的第一个参数是self。
-
-fun3也能被调用是因为多重继承的机制在这里，所以它会逐个找父类。然后c.d会出错，因为这里初始化是用的A类的构造函数。
-
 
 \section{类的内置方法}
 如果构建一个类，就使用pass语句，什么都不做，python还是会为这个类自动创建一些属性或者方法。
@@ -2966,7 +2920,7 @@ class Test:
 test=Test()
 test.hello()
 \end{Verbatim}
-在上面的例子中，我们希望创造一个函数，这个函数和self或者其他类都没有关系（这里的其他类一般指继承来的）。如上所示，hello函数只是希望简单打印一小段字符，如上面这样的代码是错误的，如果我们在这个函数上面加上\textbf{@staticmethod}，那么上面这段代码就不会出错了，
+在上面的例子中，我们希望创造一个函数，这个函数和self实例没有关系（这里指这个函数将不接受self这个默认参数了）。如上所示，hello函数只是希望简单打印一小段字符，如上面这样的代码是错误的，如果我们在这个函数上面加上\textbf{@staticmethod}，那么上面这段代码就不会出错了，
 
 \begin{Verbatim}
 class Test:
@@ -2987,6 +2941,148 @@ class Test:
 Test.hello()
 \end{Verbatim}
 
+静态方法的使用比如pyqt中的
+\begin{Verbatim}
+QtGui.QFileDialog.getOpenFileName(......)
+\end{Verbatim}
+就是一个静态方法，可以通过直接调用这个方法来弹出询问打开文件的窗口，并不需要先实例化一个对象，然后通过self.what等类似的形式来调用。
+
+
+
+\section{多重继承的顺序问题}
+我们来看下面这个例子：
+\begin{tcbpython}[]
+class B1():x='B1'
+class B2():x='B2'
+class B3():x='B3'
+class B(B1,B2,B3):x='B'
+class A1():x='A1'
+class A2():x='A2'
+class A(A1,A2):x='A'
+class D(B,A):x='D'
+test=D()
+print(test.x)
+\end{tcbpython}
+
+\begin{fig}{多重继承}
+\caption{多重继承}
+\label{fig:多重继承}
+\end{fig}
+
+你可以测试一下上面这个例子，首先当然结果是D自己的x被先查找，然后返回\emph{'D'}，如果你把类D的x定义语句换成pass，结果就是\emph{'B'}。这说明这里程序的逻辑是如果test实例找不到x，那么再找D，D找不到再接下来找D继承自的父类，首先是B，到目前为止，没什么新鲜事发生。
+
+然后我们再把B的x赋值语句换成pass，这时的结果是\emph{'B1'}，也没什么好惊讶的。然后类似的一致操作下去，我们会发现python的值的查找顺序在这里是：D，B，B1，B2，B3，A，A1，A2。
+
+于是我们可以总结道：恩，类的多重继承就是深度优先法则，先把子类或者子类的子类都查找完，确认没有值之后再继续从左到右的查找。
+
+
+一般情况来说这么理解是没有问题的，但是在编程界多重继承中有名的问题——菱形难题。
+
+\subsection{菱形难题}
+参考资料： \href{http://en.wikipedia.org/wiki/Multiple_inheritance#The_diamond_problem}{维基百科菱形难题}
+
+\begin{fig}{菱形难题}
+\caption{菱形难题}
+\label{fig:菱形难题}
+\end{fig}
+
+菱形难题即在如上的类的继承中，如果C和A都有同名属性x，那么D会调用谁的呢？读者测试下面的例子：
+\begin{tcbpython}[]
+class E():x='E'
+class F():x='F'
+class G():x='G'
+class A(F,G):x='A'
+class B(E,F):x='B'
+class D(B,A):pass
+test=D()
+print(test.x)
+\end{tcbpython}
+此时运行结果到DBE都没有什么出奇的， 接下来要某是DBEF\footnote{E当然也检查过了，否则E有没有值是无法确认的。}，要某是DBEA，这里程序的结果是\emph{'A'}。这里的情况确实比较纠结，如果没有这个F作为菱形难题的交叉点，似前面的层次分明，那么简单的理解为深度优先即可，这里python3的选择是\emph{'A'}，不清楚为什么要这么选择。
+
+我们再来看这个例子：
+\begin{tcbpython}[]
+class E():x='E'
+class F():x='F'
+class G():x='G'
+class A(F,G):x='A'
+class B(F,E):pass
+class D(B,A):pass
+test=D()
+print(test.x)
+\end{tcbpython}
+此时结果是\emph{'A'}，连E都被跳过去了，变成了彻底的横向优先原则。
+
+程序出现菱形难题之后，情况变得不可琢磨了。上面的三个情况
+\begin{Verbatim}
+D(B(B1 B2 B3) A(A1 A2)) → D B B1 B2 B3 A A1 A2
+
+D(B(E F) A(F G)) → D B E A F G
+
+D(B(F E) A(F G)) → D B A F E G
+\end{Verbatim}
+就是这样的，总之这是很冷门的领域了。。简单的理解就是深度搜索，类似flatten函数处理过，然后如果遇到某个子元在下一个平行级别的子元中也含有，那么本子元会被略过，做个记号，分叉跳过去跑到A那里，执行完那个子元之后，又会重新调到之前的操作点上。python怎么弄这么古怪的逻辑，整这种算法逻辑应该伤了他们不少脑细胞了吧。。
+
+
+
+\subsection{super()}
+super是python3新加入的特性，按照官方文档，有两种用法：
+
+第一种是如果是单继承的类的系统，super()这种形式就直接表示父类的意思。然后用super().什么什么的来引用父类的某个变量或方法，\uwave{值得一提的是原父类的self参量会默认加进去了}，详细请看下面的调试例子。
+
+第二种是多重继承的，搜索顺序和多重继承的搜索顺序相同，也就是从左到右。请注意调试下面的例子，如果调用c.d就会返回错误，说明调用的是类A的构造函数。
+
+\begin{xverbatim}[129]{py}
+class A():
+    def __init__(self,a):
+        self.a=a
+
+    def fun(self):
+        print('fun')
+
+    def fun2(self,what):
+        print('fun',what)
+
+class B():
+    def __init__(self):
+        self.d=5
+    b=2
+    def fun3(self):
+        print('fun3')
+
+class C(A,B):
+    def __init__(self):
+        super().__init__(3)
+        super().fun()
+        super().fun2('what')
+        super().fun3()
+        print(super().b)
+
+c=C()
+print(c.a,c.b)
+\end{xverbatim}
+
+其中A类定义的fun函数在写的函数上通常有个self参数，而\emph{super()}这种调用形式在意义上表示其的父类，同时默认第一个参数就是self。为了理解你可以和self做个比较，比如self.fun()就是调用的实例的fun函数，默认的第一个参数是self。使用super()在类的编写中引用本类的父类的属性和方法是很便捷的，自带支持类的多重继承功能。比如上面的例子中fun3能被调用是因为多重继承的机制在这里，所以它会逐个找父类。然后c.d会出错，因为这里初始化是用的A类的构造函数。
+
+
+\chapter{装饰器}
+python语言的装饰器概念算是比较高级的概念了，不过并不是那种冷门的用的很少的概念，比如在前面的静态方法中就使用装饰器的概念：
+\begin{tcbpython}[]
+    @staticmethod
+    def what():
+        pass
+\end{tcbpython}
+
+
+装饰器的作用机制就是对接下来的函数进行进一步的封装，比如上面的例子就是：
+\begin{tcbpython}[]
+    def what():
+        pass
+    what = staticmethod(what)
+\end{tcbpython}
+
+可见装饰器并不是一个什么神秘的难懂的概念，同样你可以定义自己的函数，这个函数处理某个函数对象，并对其进行某种封装。
+
+类似的装饰器还有类的方法装饰器\verb+@classmethod+，在pyqt中有槽的装饰器\verb+@pyqtSlot()+和\verb+@pyqtSlot(int, str)+等，第一个例子接下来你定义的槽只接受self这个参数，第二个例子接下来你定义的槽除了接受self参数外，还接受一个int类型参数和一个str类型参数。
 
 
 
@@ -3305,6 +3401,8 @@ myfun函数
 类和模块的这些文档信息都存放在\verb+__doc__+变量里面的。
 
 
+
+
 \chapter{文件处理高级知识}
 接下来的例子如果涉及到文件的请自己随便创建一个对应文件名的文件，内容随意了。
 
@@ -3366,7 +3464,7 @@ pyout.close()
 从这里起我们看到如果需要更加复杂的文本处理技巧就需要学习正则表达式和re模块了，请参见re模块这一小节\ref{sec:re模块}。
 
 
-\chapter{装饰器}
+
 
 
 

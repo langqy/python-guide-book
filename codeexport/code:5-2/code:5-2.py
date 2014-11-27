@@ -1,29 +1,19 @@
 
-class A():
-    def __init__(self,a):
-        self.a=a
+class Hero():
+    def addlevel(self):
+        self.level=self.level+1
+        self.hp=self.hp+self.addhp
 
-    def fun(self):
-        print('fun')
-
-    def fun2(self,what):
-        print('fun',what)
-
-class B():
+class Garen(Hero):
     def __init__(self):
-        self.d=5
-    b=2
-    def fun3(self):
-        print('fun3')
+        self.level=1
+        self.hp=455
+        self.addhp=96
+        self.skill=['不屈','致命打击','勇气','审判','德玛西亚正义']
 
-class C(A,B):
-    def __init__(self):
-        super().__init__(3)
-        super().fun()
-        super().fun2('what')
-        super().fun3()
-        print(super().b)
-
-c=C()
-print(c.a,c.b)
+garen001=Garen()
+for i in range(6):
+    print('级别:',garen001.level,'生命值：' ,garen001.hp)
+    garen001.addlevel()
+print('盖伦的技能有：',"".join([x + '  ' for x in garen001.skill]))
 
