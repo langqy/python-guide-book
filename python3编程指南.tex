@@ -2898,6 +2898,29 @@ TypeError: 'list' object is not an iterator
 
 range对象也可以通过iter函数来生成一个可迭代对象。
 
+\subsection{重构字典的iter函数}
+我们可以通过重新定义字典类的\verb+__iter__+函数来获得一个新类，这个类用iter函数处理之后的迭代器返回的是经过排序的字典的键。
+\begin{tcbpython}[]
+class SortedDict(dict):
+    def __init__(self,dict={}):
+        super().__init__(dict)
+
+    def __iter__(self):
+        self._keys = sorted(self.keys())
+        for i in self._keys:
+            yield i
+
+dict02 = SortedDict()
+dict02['a'] = 1
+dict02['b'] = 1
+dict02['c'] = 1
+dict02['d'] = 1
+x = iter(dict02)
+\end{tcbpython}
+这个\verb+__iter__+函数就是所谓的生成器函数，需要返回一个生成器对象。然后经过iter函数处理之后就能调用next函数来逐渐获得经过排序之后的值了。
+
+
+
 \subsection{enumerate函数}
 enumerate函数返回一个enumerate对象，这个对象将偏移值和元素组合起来，成为一个可迭代对象了。
 
@@ -2976,7 +2999,7 @@ print(test.x)
 于是我们可以总结道：恩，类的多重继承就是深度优先法则，先把子类或者子类的子类都查找完，确认没有值之后再继续从左到右的查找。
 
 
-一般情况来说这么理解是没有问题的，但是在编程界多重继承中有名的问题——菱形难题。
+一般情况来说这么理解是没有问题的，但是在编程界多重继承中有个有名的问题——菱形难题。
 
 \subsection{菱形难题}
 参考资料： \href{http://en.wikipedia.org/wiki/Multiple_inheritance#The_diamond_problem}{维基百科菱形难题}
@@ -3464,7 +3487,108 @@ pyout.close()
 从这里起我们看到如果需要更加复杂的文本处理技巧就需要学习正则表达式和re模块了，请参见re模块这一小节\ref{sec:re模块}。
 
 
+\chapter{与c语言或c++语言编写的模块集成}
+\section{安装和配置}
+\subsection{通过apt安装}
+\begin{tcbbash}[]
+sudo apt-get install swig
+\end{tcbbash}
 
+在Ubuntu14.04这将安装swig2.0版本。
+
+\subsection{从github下载最新版安装}
+从github上下载最新版本：
+\begin{tcbbash}[]
+git  clone  https://github.com/swig/swig
+\end{tcbbash}
+
+安装需要的前提软件：
+\begin{tcbbash}[]
+sudo apt-get install autotools-dev
+sudo apt-get install automake
+sudo apt-get install byacc
+sudo apt-get install yodl
+\end{tcbbash}
+
+安装：
+\begin{tcbbash}[]
+./configure
+make
+sudo make install
+\end{tcbbash}
+
+\subsection{安装后的配置}
+需要确认安装了python3-dev，好支持\verb+#include python.h+：
+\begin{tcbbash}[]
+sudo apt-get install python3-dev
+\end{tcbbash}
+
+\section{beginning}
+\subsection{手工编译}
+找到源码的[Examples]→[python]→[simple]文件夹。简单的编译过程如下：
+\begin{tcbbash}[]
+wig -python example.i
+
+gcc -fpic -c example.c example_wrap.c -I/usr/include/python3.4m
+
+gcc -shared example.o example_wrap.o -o _example.so
+\end{tcbbash}
+
+可以通过如下命令查看具体\textbf{-I}的引用地址：
+\begin{tcbbash}[]
+python3-config --includes
+\end{tcbbash}
+
+简单的使用如下：
+\begin{Verbatim}
+>>> import example
+>>> example.gcd(100,25)
+25
+>>> example.cvar.Foo
+3.0
+>>> 
+\end{Verbatim}
+
+\subsection{通过setuptools安装}
+更加简便的处理方式是用setuptools模块来自动处理这一些，包括build到安装egg文件。
+\begin{tcbpython}[]
+from setuptools import setup ,Extension
+
+setup(
+    name = 'example',
+    version = '0.01',
+    ext_modules = [Extension('_example', ['example.i','example.c'],
+    swig_opts=['-modern', '-I../include'])],
+    py_modules = ['example']
+)
+\end{tcbpython}
+上面的swig\_{}opts推荐加上。
+
+编写自己的一个函数：
+\begin{tcbcode}{c}
+#include <stdio.h>
+void hello(){
+    printf("hello, world\n");
+}
+\end{tcbcode}
+
+修改example.i文件：
+\begin{tcbcode}{c}
+%module example
+
+%inline %{
+extern int    gcd(int x, int y);
+extern double Foo;
+extern void hello();
+%}
+\end{tcbcode}
+
+重新用setuptools安装一下。
+\begin{Verbatim}
+>>> import example
+>>> example.hello()
+hello, world
+\end{Verbatim}
 
 
 
@@ -3928,6 +4052,13 @@ print(os.getcwd())
 >>> print(os.getcwd())
 /home/wanze
 \end{Verbatim}
+
+\section{mkdir函数}
+新建一个文件夹。
+\begin{Verbatim}
+os.mkdir(str)
+\end{Verbatim}
+
 
 \section{chdir函数}
 os模块里有一个chdir函数来更改当前工作目录所在地。
@@ -5364,6 +5495,7 @@ countryvar = StringVar()
 country = ttk.Combobox(parent, textvariable=countryvar)
 
 值被选择事件<ComboboxSelected>
+
 country.bind('<<ComboboxSelected>>', function)
 
 values属性  就是列表列出来的值
@@ -5508,6 +5640,12 @@ canvas.tag_bind(id,"<Button-1>",openfile)
 数理化经典知识手册，我收集的数理化经典知识，手册性质。从基本的哲学讨论，到初中的数学物理化学的全部，到高中的数学物理化学的大部分，到大学的微积分部分，线性代数部分等等。
 
 
+\chapter{PyQt编程指南}
+
+\href{https://github.com/a358003542/the-pyqt-guide-book}{https://github.com/a358003542/the-pyqt-guide-book}
+
+
+\chapter{C语言快速参考}
 
 
 

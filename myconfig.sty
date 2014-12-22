@@ -222,10 +222,13 @@ text-micro = μ
 \RequirePackage{minted}%
 \RequirePackage[minted]{tcolorbox}%
 \tcbuselibrary{breakable}
-\definecolor{pythonback}{RGB}{240,240,240}
+\definecolor{codeback}{RGB}{240,240,240}
 \definecolor{bashback}{RGB}{48,10,36}
-\newtcblisting{tcbminted}[2][]{listing engine=minted,minted language=#2,minted options={fontsize=\footnotesize,frame=none},listing only,#1,breakable=true,colback=white,boxrule=0.4pt}
-\newtcblisting{tcbpython}[1][]{listing engine=minted,minted language=python,minted options={fontsize=\footnotesize,frame=none},listing only,#1,breakable=true,colback=pythonback,boxrule=0.4pt,boxsep=0pt}
+
+\newtcblisting{tcbcode}[2][]{listing engine=minted,minted language=#2,minted options={fontsize=\footnotesize,frame=none},listing only,#1,breakable=true,colback=codeback,boxrule=0.4pt,boxsep=0pt}
+
+
+\newtcblisting{tcbpython}[1][]{listing engine=minted,minted language=python,minted options={fontsize=\footnotesize,frame=none},listing only,#1,breakable=true,colback=codeback,boxrule=0.4pt,boxsep=0pt}
 \newtcblisting{tcbbash}[1][]{listing engine=minted,minted style=native,minted language=bash,minted options={fontsize=\footnotesize,frame=none},listing only,#1,breakable=true,boxrule=0.4pt,colback=bashback,coltext=white}
 
 %=============插入尾注=========%
