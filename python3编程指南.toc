@@ -7,131 +7,131 @@
 \contentsline {section}{\numberline {1.3}python3命令行用法}{3}{section.1.3}
 \contentsline {subsection}{\numberline {1.3.1}python执行脚本参数的传递}{3}{subsection.1.3.1}
 \contentsline {section}{\numberline {1.4}geany的相关配置}{3}{section.1.4}
-\contentsline {section}{\numberline {1.5}代码注释}{3}{section.1.5}
+\contentsline {section}{\numberline {1.5}代码注释}{4}{section.1.5}
 \contentsline {section}{\numberline {1.6}Unicode码支持}{4}{section.1.6}
-\contentsline {section}{\numberline {1.7}代码多行表示一行}{4}{section.1.7}
+\contentsline {section}{\numberline {1.7}代码多行表示一行}{5}{section.1.7}
 \contentsline {subsection}{\numberline {1.7.1}一行表示多行}{5}{subsection.1.7.1}
 \contentsline {section}{\numberline {1.8}输入和输出}{5}{section.1.8}
 \contentsline {subsection}{\numberline {1.8.1}最基本的input和print命令}{5}{subsection.1.8.1}
-\contentsline {section}{\numberline {1.9}\_{}\_{}mian\_{}\_{}和\_{}\_{}name\_{}\_{}}{5}{section.1.9}
-\contentsline {chapter}{\numberline {2}程序中的逻辑}{6}{chapter.2}
-\contentsline {section}{\numberline {2.1}布尔值}{6}{section.2.1}
-\contentsline {subsection}{\numberline {2.1.1}其他逻辑小知识}{6}{subsection.2.1.1}
-\contentsline {subsection}{\numberline {2.1.2}None}{6}{subsection.2.1.2}
-\contentsline {section}{\numberline {2.2}条件判断}{7}{section.2.2}
-\contentsline {subsection}{\numberline {2.2.1}逻辑与或否}{8}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}稍复杂的条件判断}{8}{subsection.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}try语句捕捉错误}{11}{subsection.2.2.3}
-\contentsline {subsubsection}{异常处理完整语句}{11}{subsubsection*.5}
-\contentsline {subsection}{\numberline {2.2.4}in语句}{12}{subsection.2.2.4}
-\contentsline {section}{\numberline {2.3}迭代}{13}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}range函数}{13}{subsection.2.3.1}
-\contentsline {subsection}{\numberline {2.3.2}迭代加上操作}{14}{subsection.2.3.2}
-\contentsline {section}{\numberline {2.4}循环}{15}{section.2.4}
-\contentsline {subsection}{\numberline {2.4.1}break命令}{15}{subsection.2.4.1}
-\contentsline {subsection}{\numberline {2.4.2}continue命令}{15}{subsection.2.4.2}
-\contentsline {subsection}{\numberline {2.4.3}pass命令}{16}{subsection.2.4.3}
-\contentsline {chapter}{\numberline {3}程序中的操作对象}{17}{chapter.3}
-\contentsline {section}{\numberline {3.1}赋值}{17}{section.3.1}
-\contentsline {subsection}{\numberline {3.1.1}序列赋值}{18}{subsection.3.1.1}
-\contentsline {subsubsection}{交换两个元素}{18}{subsubsection*.6}
-\contentsline {subsection}{\numberline {3.1.2}同时赋相同的值}{19}{subsection.3.1.2}
-\contentsline {subsection}{\numberline {3.1.3}增强赋值语句}{21}{subsection.3.1.3}
-\contentsline {subsection}{\numberline {3.1.4}序列解包赋值}{21}{subsection.3.1.4}
-\contentsline {subsection}{\numberline {3.1.5}可迭代对象的迭代赋值}{21}{subsection.3.1.5}
-\contentsline {section}{\numberline {3.2}数值}{22}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}二进制八进制十六进制}{22}{subsection.3.2.1}
-\contentsline {subsubsection}{进制转换小程序}{23}{subsubsection*.7}
-\contentsline {subsection}{\numberline {3.2.2}数学幂方运算}{24}{subsection.3.2.2}
-\contentsline {subsection}{\numberline {3.2.3}数值比较}{24}{subsection.3.2.3}
-\contentsline {subsection}{\numberline {3.2.4}相除取商或余}{24}{subsection.3.2.4}
-\contentsline {subsection}{\numberline {3.2.5}复数}{25}{subsection.3.2.5}
-\contentsline {subsection}{\numberline {3.2.6}abs函数}{25}{subsection.3.2.6}
-\contentsline {subsection}{\numberline {3.2.7}round函数}{25}{subsection.3.2.7}
-\contentsline {subsection}{\numberline {3.2.8}min，max和sum函数}{26}{subsection.3.2.8}
-\contentsline {subsection}{\numberline {3.2.9}位操作}{26}{subsection.3.2.9}
-\contentsline {subsection}{\numberline {3.2.10}math模块}{27}{subsection.3.2.10}
-\contentsline {subsection}{\numberline {3.2.11}random模块}{28}{subsection.3.2.11}
-\contentsline {subsection}{\numberline {3.2.12}statistics模块}{30}{subsection.3.2.12}
-\contentsline {section}{\numberline {3.3}序列}{31}{section.3.3}
-\contentsline {subsection}{\numberline {3.3.1}len函数}{31}{subsection.3.3.1}
-\contentsline {subsection}{\numberline {3.3.2}调出某个值}{31}{subsection.3.3.2}
-\contentsline {subsubsection}{倒着来}{32}{subsubsection*.8}
-\contentsline {subsection}{\numberline {3.3.3}调出多个值}{33}{subsection.3.3.3}
-\contentsline {subsection}{\numberline {3.3.4}序列反转}{34}{subsection.3.3.4}
-\contentsline {subsection}{\numberline {3.3.5}序列的可更改性}{35}{subsection.3.3.5}
-\contentsline {subsection}{\numberline {3.3.6}序列的加法和减法}{35}{subsection.3.3.6}
-\contentsline {section}{\numberline {3.4}字符串}{36}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}三单引号和三双引号}{36}{subsection.3.4.1}
-\contentsline {subsection}{\numberline {3.4.2}find方法}{36}{subsection.3.4.2}
-\contentsline {subsection}{\numberline {3.4.3}replace方法}{37}{subsection.3.4.3}
-\contentsline {subsection}{\numberline {3.4.4}upper方法}{37}{subsection.3.4.4}
-\contentsline {subsection}{\numberline {3.4.5}isdigit方法}{37}{subsection.3.4.5}
-\contentsline {subsection}{\numberline {3.4.6}split方法}{37}{subsection.3.4.6}
-\contentsline {subsubsection}{splitline方法}{38}{subsubsection*.9}
-\contentsline {subsection}{\numberline {3.4.7}join方法}{38}{subsection.3.4.7}
-\contentsline {subsection}{\numberline {3.4.8}strip方法}{39}{subsection.3.4.8}
-\contentsline {subsubsection}{rstrip方法}{39}{subsubsection*.10}
-\contentsline {subsubsection}{lstrip方法}{39}{subsubsection*.11}
-\contentsline {subsection}{\numberline {3.4.9}format方法}{39}{subsection.3.4.9}
-\contentsline {subsection}{\numberline {3.4.10}转义和不转义}{39}{subsection.3.4.10}
-\contentsline {subsection}{\numberline {3.4.11}count方法}{40}{subsection.3.4.11}
-\contentsline {section}{\numberline {3.5}列表}{40}{section.3.5}
-\contentsline {subsection}{\numberline {3.5.1}列表的插入操作}{40}{subsection.3.5.1}
-\contentsline {subsection}{\numberline {3.5.2}append方法}{41}{subsection.3.5.2}
-\contentsline {subsection}{\numberline {3.5.3}reverse方法}{41}{subsection.3.5.3}
-\contentsline {subsection}{\numberline {3.5.4}sort方法}{42}{subsection.3.5.4}
-\contentsline {subsubsection}{sort函数}{43}{subsubsection*.12}
-\contentsline {paragraph}{字典按值排序}{43}{paragraph*.13}
-\contentsline {paragraph}{中文排序}{43}{paragraph*.14}
-\contentsline {subsection}{\numberline {3.5.5}删除某个元素}{44}{subsection.3.5.5}
-\contentsline {subsection}{\numberline {3.5.6}count方法}{45}{subsection.3.5.6}
-\contentsline {subsection}{\numberline {3.5.7}index方法}{45}{subsection.3.5.7}
-\contentsline {subsection}{\numberline {3.5.8}列表元素去重}{46}{subsection.3.5.8}
-\contentsline {subsection}{\numberline {3.5.9}列表元素的替换}{46}{subsection.3.5.9}
-\contentsline {subsection}{\numberline {3.5.10}列表解析}{47}{subsection.3.5.10}
-\contentsline {subsubsection}{列表解析加上过滤条件}{49}{subsubsection*.15}
-\contentsline {subsubsection}{完整的列表解析结构}{49}{subsubsection*.16}
-\contentsline {subsubsection}{列表解析的好处}{50}{subsubsection*.17}
-\contentsline {subsubsection}{元组的生成}{50}{subsubsection*.18}
-\contentsline {subsection}{\numberline {3.5.11}for语句中列表可变的影响}{50}{subsection.3.5.11}
+\contentsline {section}{\numberline {1.9}\_{}\_{}main\_{}\_{}和\_{}\_{}name\_{}\_{}}{6}{section.1.9}
+\contentsline {chapter}{\numberline {2}程序中的逻辑}{7}{chapter.2}
+\contentsline {section}{\numberline {2.1}布尔值}{7}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}其他逻辑小知识}{7}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}None}{7}{subsection.2.1.2}
+\contentsline {section}{\numberline {2.2}条件判断}{8}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}逻辑与或否}{9}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}稍复杂的条件判断}{9}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}try语句捕捉错误}{12}{subsection.2.2.3}
+\contentsline {subsubsection}{异常处理完整语句}{12}{subsubsection*.5}
+\contentsline {subsection}{\numberline {2.2.4}in语句}{13}{subsection.2.2.4}
+\contentsline {section}{\numberline {2.3}迭代}{14}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}range函数}{14}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}迭代加上操作}{15}{subsection.2.3.2}
+\contentsline {section}{\numberline {2.4}循环}{16}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}break命令}{16}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}continue命令}{16}{subsection.2.4.2}
+\contentsline {subsection}{\numberline {2.4.3}pass命令}{17}{subsection.2.4.3}
+\contentsline {chapter}{\numberline {3}程序中的操作对象}{18}{chapter.3}
+\contentsline {section}{\numberline {3.1}赋值}{18}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}序列赋值}{19}{subsection.3.1.1}
+\contentsline {subsubsection}{交换两个元素}{19}{subsubsection*.6}
+\contentsline {subsection}{\numberline {3.1.2}同时赋相同的值}{20}{subsection.3.1.2}
+\contentsline {subsection}{\numberline {3.1.3}增强赋值语句}{22}{subsection.3.1.3}
+\contentsline {subsection}{\numberline {3.1.4}序列解包赋值}{22}{subsection.3.1.4}
+\contentsline {subsection}{\numberline {3.1.5}可迭代对象的迭代赋值}{22}{subsection.3.1.5}
+\contentsline {section}{\numberline {3.2}数值}{23}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}二进制八进制十六进制}{23}{subsection.3.2.1}
+\contentsline {subsubsection}{进制转换小程序}{24}{subsubsection*.7}
+\contentsline {subsection}{\numberline {3.2.2}数学幂方运算}{25}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}数值比较}{25}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}相除取商或余}{25}{subsection.3.2.4}
+\contentsline {subsection}{\numberline {3.2.5}复数}{26}{subsection.3.2.5}
+\contentsline {subsection}{\numberline {3.2.6}abs函数}{26}{subsection.3.2.6}
+\contentsline {subsection}{\numberline {3.2.7}round函数}{26}{subsection.3.2.7}
+\contentsline {subsection}{\numberline {3.2.8}min，max和sum函数}{27}{subsection.3.2.8}
+\contentsline {subsection}{\numberline {3.2.9}位操作}{27}{subsection.3.2.9}
+\contentsline {subsection}{\numberline {3.2.10}math模块}{28}{subsection.3.2.10}
+\contentsline {subsection}{\numberline {3.2.11}random模块}{29}{subsection.3.2.11}
+\contentsline {subsection}{\numberline {3.2.12}statistics模块}{31}{subsection.3.2.12}
+\contentsline {section}{\numberline {3.3}序列}{32}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}len函数}{32}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}调出某个值}{32}{subsection.3.3.2}
+\contentsline {subsubsection}{倒着来}{33}{subsubsection*.8}
+\contentsline {subsection}{\numberline {3.3.3}调出多个值}{34}{subsection.3.3.3}
+\contentsline {subsection}{\numberline {3.3.4}序列反转}{35}{subsection.3.3.4}
+\contentsline {subsection}{\numberline {3.3.5}序列的可更改性}{36}{subsection.3.3.5}
+\contentsline {subsection}{\numberline {3.3.6}序列的加法和减法}{36}{subsection.3.3.6}
+\contentsline {section}{\numberline {3.4}字符串}{37}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}三单引号和三双引号}{37}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}find方法}{37}{subsection.3.4.2}
+\contentsline {subsection}{\numberline {3.4.3}replace方法}{38}{subsection.3.4.3}
+\contentsline {subsection}{\numberline {3.4.4}upper方法}{38}{subsection.3.4.4}
+\contentsline {subsection}{\numberline {3.4.5}isdigit方法}{38}{subsection.3.4.5}
+\contentsline {subsection}{\numberline {3.4.6}split方法}{38}{subsection.3.4.6}
+\contentsline {subsubsection}{splitline方法}{39}{subsubsection*.9}
+\contentsline {subsection}{\numberline {3.4.7}join方法}{39}{subsection.3.4.7}
+\contentsline {subsection}{\numberline {3.4.8}strip方法}{40}{subsection.3.4.8}
+\contentsline {subsubsection}{rstrip方法}{40}{subsubsection*.10}
+\contentsline {subsubsection}{lstrip方法}{40}{subsubsection*.11}
+\contentsline {subsection}{\numberline {3.4.9}format方法}{40}{subsection.3.4.9}
+\contentsline {subsection}{\numberline {3.4.10}转义和不转义}{40}{subsection.3.4.10}
+\contentsline {subsection}{\numberline {3.4.11}count方法}{41}{subsection.3.4.11}
+\contentsline {section}{\numberline {3.5}列表}{41}{section.3.5}
+\contentsline {subsection}{\numberline {3.5.1}列表的插入操作}{41}{subsection.3.5.1}
+\contentsline {subsection}{\numberline {3.5.2}append方法}{42}{subsection.3.5.2}
+\contentsline {subsection}{\numberline {3.5.3}reverse方法}{43}{subsection.3.5.3}
+\contentsline {subsection}{\numberline {3.5.4}copy方法}{43}{subsection.3.5.4}
+\contentsline {subsection}{\numberline {3.5.5}sort方法}{43}{subsection.3.5.5}
+\contentsline {subsubsection}{sorted函数}{44}{subsubsection*.12}
+\contentsline {paragraph}{字典按值排序}{45}{paragraph*.13}
+\contentsline {paragraph}{中文排序}{45}{paragraph*.14}
+\contentsline {subsection}{\numberline {3.5.6}删除某个元素}{46}{subsection.3.5.6}
+\contentsline {subsection}{\numberline {3.5.7}count方法}{46}{subsection.3.5.7}
+\contentsline {subsection}{\numberline {3.5.8}index方法}{47}{subsection.3.5.8}
+\contentsline {subsection}{\numberline {3.5.9}列表解析}{47}{subsection.3.5.9}
+\contentsline {subsubsection}{列表解析加上过滤条件}{48}{subsubsection*.15}
+\contentsline {subsubsection}{完整的列表解析结构}{48}{subsubsection*.16}
+\contentsline {subsubsection}{列表解析的好处}{49}{subsubsection*.17}
+\contentsline {subsubsection}{元组的生成}{49}{subsubsection*.18}
+\contentsline {subsection}{\numberline {3.5.10}for语句中列表可变的影响}{49}{subsection.3.5.10}
+\contentsline {subsection}{\numberline {3.5.11}列表元素替换}{50}{subsection.3.5.11}
+\contentsline {subsection}{\numberline {3.5.12}列表元素去重}{51}{subsection.3.5.12}
 \contentsline {section}{\numberline {3.6}字典}{51}{section.3.6}
 \contentsline {subsection}{\numberline {3.6.1}创建字典}{51}{subsection.3.6.1}
 \contentsline {subsubsection}{根据列表创建字典}{52}{subsubsection*.19}
 \contentsline {subsection}{\numberline {3.6.2}字典里面有字典}{52}{subsection.3.6.2}
-\contentsline {subsection}{\numberline {3.6.3}字典遍历操作}{53}{subsection.3.6.3}
-\contentsline {subsubsection}{keys方法}{54}{subsubsection*.20}
+\contentsline {subsection}{\numberline {3.6.3}字典遍历操作}{52}{subsection.3.6.3}
+\contentsline {subsubsection}{keys方法}{53}{subsubsection*.20}
 \contentsline {subsubsection}{values方法}{54}{subsubsection*.21}
 \contentsline {subsubsection}{items方法}{54}{subsubsection*.22}
-\contentsline {subsection}{\numberline {3.6.4}字典的in语句}{55}{subsection.3.6.4}
+\contentsline {subsection}{\numberline {3.6.4}字典的in语句}{54}{subsection.3.6.4}
 \contentsline {subsection}{\numberline {3.6.5}字典对象的get方法}{55}{subsection.3.6.5}
 \contentsline {subsection}{\numberline {3.6.6}update方法}{55}{subsection.3.6.6}
-\contentsline {subsection}{\numberline {3.6.7}pop方法}{56}{subsection.3.6.7}
-\contentsline {subsection}{\numberline {3.6.8}字典解析}{56}{subsection.3.6.8}
+\contentsline {subsection}{\numberline {3.6.7}pop方法}{55}{subsection.3.6.7}
+\contentsline {subsection}{\numberline {3.6.8}字典解析}{55}{subsection.3.6.8}
 \contentsline {subsubsection}{zip函数创建字典}{56}{subsubsection*.23}
-\contentsline {section}{\numberline {3.7}集合}{57}{section.3.7}
+\contentsline {section}{\numberline {3.7}集合}{56}{section.3.7}
 \contentsline {subsection}{\numberline {3.7.1}集合添加元素}{57}{subsection.3.7.1}
 \contentsline {subsection}{\numberline {3.7.2}集合去掉某个元素}{58}{subsection.3.7.2}
-\contentsline {subsection}{\numberline {3.7.3}两个集合之间的关系}{59}{subsection.3.7.3}
-\contentsline {subsubsection}{子集判断}{59}{subsubsection*.24}
+\contentsline {subsection}{\numberline {3.7.3}两个集合之间的关系}{58}{subsection.3.7.3}
+\contentsline {subsubsection}{子集判断}{58}{subsubsection*.24}
 \contentsline {subsection}{\numberline {3.7.4}两个集合之间的操作}{59}{subsection.3.7.4}
 \contentsline {subsection}{\numberline {3.7.5}clear方法}{60}{subsection.3.7.5}
 \contentsline {subsection}{\numberline {3.7.6}copy方法}{60}{subsection.3.7.6}
 \contentsline {subsection}{\numberline {3.7.7}pop方法}{60}{subsection.3.7.7}
-\contentsline {section}{\numberline {3.8}元组}{61}{section.3.8}
+\contentsline {section}{\numberline {3.8}元组}{60}{section.3.8}
 \contentsline {subsection}{\numberline {3.8.1}生成器表达式}{61}{subsection.3.8.1}
 \contentsline {section}{\numberline {3.9}文件}{61}{section.3.9}
-\contentsline {subsection}{\numberline {3.9.1}写文件}{62}{subsection.3.9.1}
+\contentsline {subsection}{\numberline {3.9.1}写文件}{61}{subsection.3.9.1}
 \contentsline {subsection}{\numberline {3.9.2}读文件}{62}{subsection.3.9.2}
 \contentsline {subsection}{\numberline {3.9.3}open函数的处理模式}{62}{subsection.3.9.3}
 \contentsline {subsection}{\numberline {3.9.4}用with语句打开文件}{63}{subsection.3.9.4}
-\contentsline {subsection}{\numberline {3.9.5}除字符串外其他类型的读取}{64}{subsection.3.9.5}
-\contentsline {section}{\numberline {3.10}异常对象}{64}{section.3.10}
+\contentsline {subsection}{\numberline {3.9.5}除字符串外其他类型的读取}{63}{subsection.3.9.5}
 \contentsline {chapter}{\numberline {4}操作或者函数}{65}{chapter.4}
 \contentsline {section}{\numberline {4.1}自定义函数}{66}{section.4.1}
 \contentsline {section}{\numberline {4.2}参数传递问题}{66}{section.4.2}
 \contentsline {section}{\numberline {4.3}变量作用域问题}{68}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}内置作用域？}{69}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.1}内置作用域}{69}{subsection.4.3.1}
 \contentsline {subsection}{\numberline {4.3.2}global命令}{70}{subsection.4.3.2}
 \contentsline {subsection}{\numberline {4.3.3}nonlocal命令}{70}{subsection.4.3.3}
 \contentsline {section}{\numberline {4.4}参数和默认参数}{74}{section.4.4}
@@ -169,76 +169,77 @@
 \contentsline {section}{\numberline {6.1}找到模块文件}{97}{section.6.1}
 \contentsline {section}{\numberline {6.2}编写模块}{98}{section.6.2}
 \contentsline {section}{\numberline {6.3}import语句}{99}{section.6.3}
-\contentsline {section}{\numberline {6.4}from语句}{100}{section.6.4}
+\contentsline {section}{\numberline {6.4}from语句}{99}{section.6.4}
 \contentsline {section}{\numberline {6.5}reload函数}{100}{section.6.5}
 \contentsline {part}{II\hspace {1em}python3高级篇}{101}{part.2}
-\contentsline {chapter}{\numberline {7}字符串操作进阶}{102}{chapter.7}
-\contentsline {section}{\numberline {7.1}bytes类型介绍}{102}{section.7.1}
-\contentsline {chapter}{\numberline {8}类的高级知识}{104}{chapter.8}
-\contentsline {section}{\numberline {8.1}类内部的字典}{104}{section.8.1}
-\contentsline {subsection}{\numberline {8.1.1}\_{}\_{}dict\_{}\_{}值}{104}{subsection.8.1.1}
-\contentsline {subsection}{\numberline {8.1.2}类按键取值}{105}{subsection.8.1.2}
-\contentsline {subsection}{\numberline {8.1.3}类按键赋值}{106}{subsection.8.1.3}
-\contentsline {subsection}{\numberline {8.1.4}字典的索引删除}{106}{subsection.8.1.4}
-\contentsline {section}{\numberline {8.2}属性管理}{107}{section.8.2}
-\contentsline {subsection}{\numberline {8.2.1}属性赋值}{107}{subsection.8.2.1}
-\contentsline {subsection}{\numberline {8.2.2}属性删除}{107}{subsection.8.2.2}
-\contentsline {subsection}{\numberline {8.2.3}属性获取}{107}{subsection.8.2.3}
-\contentsline {section}{\numberline {8.3}数学运算}{108}{section.8.3}
-\contentsline {subsection}{\numberline {8.3.1}一般加法}{108}{subsection.8.3.1}
-\contentsline {subsection}{\numberline {8.3.2}右侧加法}{108}{subsection.8.3.2}
-\contentsline {subsection}{\numberline {8.3.3}增强加法}{108}{subsection.8.3.3}
-\contentsline {subsection}{\numberline {8.3.4}一般减法}{108}{subsection.8.3.4}
-\contentsline {subsection}{\numberline {8.3.5}其他数学运算符一览}{108}{subsection.8.3.5}
-\contentsline {section}{\numberline {8.4}逻辑运算}{109}{section.8.4}
-\contentsline {subsection}{\numberline {8.4.1}bool函数支持}{109}{subsection.8.4.1}
-\contentsline {subsection}{\numberline {8.4.2}类之间的相等判断}{109}{subsection.8.4.2}
-\contentsline {subsubsection}{\_{}\_{}eq\_{}\_{}方法}{112}{subsubsection*.29}
-\contentsline {subsection}{\numberline {8.4.3}比较判断操作}{113}{subsection.8.4.3}
-\contentsline {subsection}{\numberline {8.4.4}in语句}{113}{subsection.8.4.4}
-\contentsline {section}{\numberline {8.5}强制类型变换}{114}{section.8.5}
-\contentsline {section}{\numberline {8.6}len函数}{114}{section.8.6}
-\contentsline {section}{\numberline {8.7}copy方法和deepcopy方法}{114}{section.8.7}
-\contentsline {section}{\numberline {8.8}with语句支持}{114}{section.8.8}
-\contentsline {section}{\numberline {8.9}函数调用}{115}{section.8.9}
-\contentsline {section}{\numberline {8.10}和迭代操作有关}{116}{section.8.10}
-\contentsline {subsection}{\numberline {8.10.1}\_{}\_{}next\_{}\_{}方法}{116}{subsection.8.10.1}
-\contentsline {subsection}{\numberline {8.10.2}next函数}{116}{subsection.8.10.2}
-\contentsline {subsection}{\numberline {8.10.3}iter函数}{116}{subsection.8.10.3}
-\contentsline {subsection}{\numberline {8.10.4}重构字典的iter函数}{118}{subsection.8.10.4}
-\contentsline {subsection}{\numberline {8.10.5}enumerate函数}{119}{subsection.8.10.5}
-\contentsline {section}{\numberline {8.11}当对象内存存储回收时的操作}{119}{section.8.11}
-\contentsline {section}{\numberline {8.12}静态方法}{119}{section.8.12}
-\contentsline {section}{\numberline {8.13}多重继承的顺序问题}{120}{section.8.13}
-\contentsline {subsection}{\numberline {8.13.1}菱形难题}{122}{subsection.8.13.1}
-\contentsline {subsection}{\numberline {8.13.2}super()}{124}{subsection.8.13.2}
-\contentsline {chapter}{\numberline {9}装饰器}{127}{chapter.9}
-\contentsline {chapter}{\numberline {10}深入理解python3的迭代}{128}{chapter.10}
-\contentsline {section}{\numberline {10.1}生成器函数}{130}{section.10.1}
-\contentsline {section}{\numberline {10.2}map和filter函数}{132}{section.10.2}
-\contentsline {subsection}{\numberline {10.2.1}map函数}{133}{subsection.10.2.1}
-\contentsline {subsection}{\numberline {10.2.2}filter函数}{133}{subsection.10.2.2}
-\contentsline {subsection}{\numberline {10.2.3}zip函数}{134}{subsection.10.2.3}
-\contentsline {subsubsection}{字典到列表}{135}{subsubsection*.33}
-\contentsline {chapter}{\numberline {11}模块包}{137}{chapter.11}
-\contentsline {section}{\numberline {11.1}\_{}\_{}init\_{}\_{}文件}{137}{section.11.1}
-\contentsline {subsection}{\numberline {11.1.1}如果里面有import语句}{138}{subsection.11.1.1}
-\contentsline {subsection}{\numberline {11.1.2}如果里面有from语句}{139}{subsection.11.1.2}
-\contentsline {subsection}{\numberline {11.1.3}\_{}\_{}all\_{}\_{}变量}{139}{subsection.11.1.3}
-\contentsline {section}{\numberline {11.2}模块中的帮助信息}{140}{section.11.2}
-\contentsline {chapter}{\numberline {12}文件处理高级知识}{143}{chapter.12}
-\contentsline {section}{\numberline {12.1}一行行的操作}{143}{section.12.1}
-\contentsline {section}{\numberline {12.2}整个文件的列表解析}{144}{section.12.2}
-\contentsline {subsection}{\numberline {12.2.1}readlines方法}{144}{subsection.12.2.1}
-\contentsline {subsection}{\numberline {12.2.2}文本所有某个单词的替换}{145}{subsection.12.2.2}
-\contentsline {chapter}{\numberline {13}与c语言或c++语言编写的模块集成}{146}{chapter.13}
-\contentsline {section}{\numberline {13.1}安装和配置}{146}{section.13.1}
-\contentsline {subsection}{\numberline {13.1.1}通过apt安装}{146}{subsection.13.1.1}
-\contentsline {subsection}{\numberline {13.1.2}从github下载最新版安装}{146}{subsection.13.1.2}
-\contentsline {subsection}{\numberline {13.1.3}安装后的配置}{147}{subsection.13.1.3}
-\contentsline {section}{\numberline {13.2}beginning}{147}{section.13.2}
-\contentsline {subsection}{\numberline {13.2.1}手工编译}{147}{subsection.13.2.1}
-\contentsline {subsection}{\numberline {13.2.2}通过setuptools安装}{148}{subsection.13.2.2}
+\contentsline {chapter}{\numberline {7}类的高级知识}{102}{chapter.7}
+\contentsline {section}{\numberline {7.1}类内部的字典}{102}{section.7.1}
+\contentsline {subsection}{\numberline {7.1.1}\_{}\_{}dict\_{}\_{}值}{102}{subsection.7.1.1}
+\contentsline {subsection}{\numberline {7.1.2}类按键取值}{103}{subsection.7.1.2}
+\contentsline {subsection}{\numberline {7.1.3}类按键赋值}{103}{subsection.7.1.3}
+\contentsline {subsection}{\numberline {7.1.4}字典的索引删除}{104}{subsection.7.1.4}
+\contentsline {section}{\numberline {7.2}属性管理}{105}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}属性赋值}{105}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {7.2.2}属性删除}{105}{subsection.7.2.2}
+\contentsline {subsection}{\numberline {7.2.3}属性获取}{105}{subsection.7.2.3}
+\contentsline {section}{\numberline {7.3}数学运算}{105}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}一般加法}{105}{subsection.7.3.1}
+\contentsline {subsection}{\numberline {7.3.2}右侧加法}{106}{subsection.7.3.2}
+\contentsline {subsection}{\numberline {7.3.3}增强加法}{106}{subsection.7.3.3}
+\contentsline {subsection}{\numberline {7.3.4}一般减法}{106}{subsection.7.3.4}
+\contentsline {subsection}{\numberline {7.3.5}其他数学运算符一览}{106}{subsection.7.3.5}
+\contentsline {section}{\numberline {7.4}逻辑运算}{107}{section.7.4}
+\contentsline {subsection}{\numberline {7.4.1}bool函数支持}{107}{subsection.7.4.1}
+\contentsline {subsection}{\numberline {7.4.2}类之间的相等判断}{107}{subsection.7.4.2}
+\contentsline {subsubsection}{\_{}\_{}eq\_{}\_{}方法}{110}{subsubsection*.29}
+\contentsline {subsection}{\numberline {7.4.3}比较判断操作}{111}{subsection.7.4.3}
+\contentsline {subsection}{\numberline {7.4.4}in语句}{111}{subsection.7.4.4}
+\contentsline {section}{\numberline {7.5}强制类型变换}{112}{section.7.5}
+\contentsline {section}{\numberline {7.6}len函数}{112}{section.7.6}
+\contentsline {section}{\numberline {7.7}copy方法和deepcopy方法}{112}{section.7.7}
+\contentsline {section}{\numberline {7.8}with语句支持}{112}{section.7.8}
+\contentsline {section}{\numberline {7.9}函数调用}{113}{section.7.9}
+\contentsline {section}{\numberline {7.10}和迭代操作有关}{114}{section.7.10}
+\contentsline {subsection}{\numberline {7.10.1}\_{}\_{}next\_{}\_{}方法}{114}{subsection.7.10.1}
+\contentsline {subsection}{\numberline {7.10.2}next函数}{114}{subsection.7.10.2}
+\contentsline {subsection}{\numberline {7.10.3}iter函数}{114}{subsection.7.10.3}
+\contentsline {subsection}{\numberline {7.10.4}重构字典的iter函数}{116}{subsection.7.10.4}
+\contentsline {subsection}{\numberline {7.10.5}enumerate函数}{117}{subsection.7.10.5}
+\contentsline {section}{\numberline {7.11}当对象内存存储回收时的操作}{117}{section.7.11}
+\contentsline {section}{\numberline {7.12}静态方法}{117}{section.7.12}
+\contentsline {section}{\numberline {7.13}多重继承的顺序问题}{118}{section.7.13}
+\contentsline {subsection}{\numberline {7.13.1}菱形难题}{120}{subsection.7.13.1}
+\contentsline {subsection}{\numberline {7.13.2}super()}{122}{subsection.7.13.2}
+\contentsline {section}{\numberline {7.14}装饰器}{124}{section.7.14}
+\contentsline {chapter}{\numberline {8}深入理解python3的迭代}{125}{chapter.8}
+\contentsline {section}{\numberline {8.1}生成器函数}{127}{section.8.1}
+\contentsline {section}{\numberline {8.2}map和filter函数}{129}{section.8.2}
+\contentsline {subsection}{\numberline {8.2.1}map函数}{130}{subsection.8.2.1}
+\contentsline {subsection}{\numberline {8.2.2}filter函数}{130}{subsection.8.2.2}
+\contentsline {subsection}{\numberline {8.2.3}zip函数}{131}{subsection.8.2.3}
+\contentsline {subsubsection}{字典到列表}{132}{subsubsection*.33}
+\contentsline {chapter}{\numberline {9}模块包}{134}{chapter.9}
+\contentsline {section}{\numberline {9.1}\_{}\_{}init\_{}\_{}文件}{134}{section.9.1}
+\contentsline {subsection}{\numberline {9.1.1}如果里面有import语句}{135}{subsection.9.1.1}
+\contentsline {subsection}{\numberline {9.1.2}如果里面有from语句}{136}{subsection.9.1.2}
+\contentsline {subsection}{\numberline {9.1.3}\_{}\_{}all\_{}\_{}变量}{136}{subsection.9.1.3}
+\contentsline {section}{\numberline {9.2}模块中的帮助信息}{137}{section.9.2}
+\contentsline {chapter}{\numberline {10}python元类编程}{140}{chapter.10}
+\contentsline {chapter}{\numberline {11}文件处理高级知识}{141}{chapter.11}
+\contentsline {section}{\numberline {11.1}一行行的操作}{141}{section.11.1}
+\contentsline {section}{\numberline {11.2}整个文件的列表解析}{142}{section.11.2}
+\contentsline {subsection}{\numberline {11.2.1}readlines方法}{142}{subsection.11.2.1}
+\contentsline {subsection}{\numberline {11.2.2}文本所有某个单词的替换}{143}{subsection.11.2.2}
+\contentsline {chapter}{\numberline {12}与c语言或c++语言编写的模块集成}{144}{chapter.12}
+\contentsline {section}{\numberline {12.1}安装和配置}{144}{section.12.1}
+\contentsline {subsection}{\numberline {12.1.1}通过apt安装}{144}{subsection.12.1.1}
+\contentsline {subsection}{\numberline {12.1.2}从github下载最新版安装}{144}{subsection.12.1.2}
+\contentsline {subsection}{\numberline {12.1.3}安装后的配置}{145}{subsection.12.1.3}
+\contentsline {section}{\numberline {12.2}beginning}{145}{section.12.2}
+\contentsline {subsection}{\numberline {12.2.1}手工编译}{145}{subsection.12.2.1}
+\contentsline {subsection}{\numberline {12.2.2}通过setuptools安装}{146}{subsection.12.2.2}
+\contentsline {chapter}{\numberline {13}字符串操作进阶}{148}{chapter.13}
+\contentsline {section}{\numberline {13.1}bytes类型介绍}{148}{section.13.1}
 \contentsline {part}{III\hspace {1em}常用的模块}{150}{part.3}
 \contentsline {chapter}{\numberline {14}pickle模块}{151}{chapter.14}
 \contentsline {section}{\numberline {14.1}将对象存入文件}{151}{section.14.1}

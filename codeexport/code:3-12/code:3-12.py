@@ -1,13 +1,7 @@
 
-def removeduplicate(list):
-    newlist = list.copy()
-    for j in newlist:
-        for index in range(newlist.index(j)+1,len(newlist)-1):
-            if j == newlist[index]:
-                del newlist[index]
-                return removeduplicate(newlist)
-    return newlist
+def square(n):
+    return n*n
 
-list001=[1,2,3,1,2,4,4,5,5,5,7]
-print(removeduplicate(list001))
+print(list(map(square,[1,2,3,4,5])))
+print([square(x) for x in [1,2,3,4,5]])
 
