@@ -22,40 +22,13 @@
 \editor{德山书生}
 \email{a358003542@gmail.com}
 \editorinfo{编者：}
-\version{0.03}
+\version{0.04}
 \titleLB
 
 \addchtoc{前言}
 \chapter*{前言}
 \begin{common-format}
-需要提醒的是在本文档中不管是xverbatim环境生成的code文件还是cverbatim环境，最前面都多了一个空行，因为最前面有一个newlinechar符号最后转变成换行了，我还不知道如何避免，所以，如果你需要将代码文件以可执行模式执行（以脚本文件模式载入的没有问题），你需要进入文件按一下Backspace键将第一行消去即可。
-
-主要参考资料：
-
-1.\href{https://drive.google.com/open?id=0ByWxOeitx54PSW40bU5zNVhuMlU&authuser=0}{python入门教程}  作者：Guido van Rossum  Fred L. Drake
-
-2.learning python v5  主要python语言参考   python学习手册（第四版） 老鼠版
-
-3.programming python v4 蟒蛇版
-
-4.python官网的\href{https://docs.python.org/3/}{参考文档}。
-
-5. numpy, scipy, matplotlib等第三方模块官网发布的pdf手册。
-
-6.pyqt4 tutorial \href{http://zetcode.com/gui/pyqt4/}{英文网站} 也参考了jimmykuu的中文翻译，\href{http://blog.cx125.com/books/PyQt4_Tutorial/}{中文翻译网站}
-
-7.dive into python3 \href{http://www.diveintopython3.net/index.html}{dive into python3} , 这是\href{http://sebug.net/paper/books/dive-into-python3/index.html}{中文网站链接}。
-
-8. \href{https://drive.google.com/open?id=0ByWxOeitx54PNXRIMUVybTlLZDQ&authuser=0}{numpy beginner's guide book}
-
-9. \href{https://drive.google.com/open?id=0ByWxOeitx54PTXN6RW5ydzQ4YXc&authuser=0}{Introduction to Python for Econometrics, Statistics and Data Analysis}
-
-正则表达式部分：
-1.\href{http://wiki.ubuntu.org.cn/Python%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97}{Python正则表达式操作指南}
-
-2.\href{https://docs.python.org/3.4/howto/regex.html#regex-howto}{regex-howto}
-
-3.\href{http://my.oschina.net/o0Kira0o/blog/138516#OSC_h4_2}{Python下的正则表达式原理和优化笔记}
+本书讨论了python语言的基础知识和高级知识，并对python中的一些常用模块和常用的第三方模块进行了介绍。然后简要地介绍了tk的GUI编程。其中有关python语言本身的初级中级或高级知识为本书的着重点，将求全面和详细的讨论。
 
 
 %这里空一行。
@@ -144,7 +117,7 @@ string001='你输入的这个实数乘以2等于：'+ str(float(x)*2)
 print(string001)
 \end{Verbatim}
 
-\section[]{\_{}\_{}mian\_{}\_{}和\_{}\_{}name\_{}\_{}}
+\section{\_{}\_{}mian\_{}\_{}和\_{}\_{}name\_{}\_{}}
 按照\href{http://stackoverflow.com/questions/419163/what-does-if-name-main-do}{这个网站}的讲解，如果当前这个py文件是被执行的，那么\verb+__name__+在本py文件中的值是\verb+__main__+，如果这个py文件是被作为模块引入的，那么\verb+__name__+在那个py文件中的值是本py文件作为模块的模块名。比如说你随便新建一个test.py文件，里面就简单打印\verb+__name__+的值，这个时候你会发现\verb+__name__+的值是字符"test"，如果是mymodule模块里的mymod.py文件，那么在这个py文件里面其\verb+__name__+的值是"mymodule.mymod"。
 
 
@@ -5627,28 +5600,60 @@ canvas.tag_bind(id,"<Button-1>",openfile)
 
 
 
-\part{网络编程}
+
 
 
 \appendix
 \part{附录}
+\chapter{the-python-companion}
+\href{https://github.com/a358003542/the-python-companion}{the-python-companion}
 
-\chapter{Ubuntu上的知识手册}
-相当于我在Ubuntu收集的其他相关知识手册。
-
-\chapter{数理化经典知识手册}
-数理化经典知识手册，我收集的数理化经典知识，手册性质。从基本的哲学讨论，到初中的数学物理化学的全部，到高中的数学物理化学的大部分，到大学的微积分部分，线性代数部分等等。
+the-python-companion：有关python第三方模块的资料。
 
 
 \chapter{PyQt编程指南}
-
-\href{https://github.com/a358003542/the-pyqt-guide-book}{https://github.com/a358003542/the-pyqt-guide-book}
-
-
-\chapter{C语言快速参考}
+\href{https://github.com/a358003542/the-pyqt-guide-book}{the-pyqt-guide-book}
 
 
+PyQt编程指南：有关PyQt进行GUI编程的一切。
 
+\chapter{linux及时了解}
+\href{https://github.com/a358003542/the-linux-keepup}{the-linux-keepup}
+
+linux及时了解：有关linux系统上的一些知识。
+
+\chapter{数理化参考手册}
+\href{https://github.com/a358003542/math-physics-chemistry}{math-physics-chemistry}
+
+数理化参考手册：从基本的哲学讨论，到初中的数学物理化学的全部，到高中的数学物理化学的大部分，到大学的微积分部分，线性代数部分等等。
+
+\chapter{C和C++快速参考}
+\href{https://github.com/a358003542/C-and-CPP-quick-reference}{C-and-CPP-quick-reference}
+
+C和C++快速参考：本资料是在假设你已经熟悉python语言的基础上继续的。
+
+
+\addchtoc{参考文献}
+\begin{thebibliography}{9}
+\bibitem[python入门教程]{python入门教程} python官网上的tutorial。原作者：Guido van Rossum  Fred L. Drake ；中文翻译：刘鑫等；版本：2013-10-28；pdf下载链接：\href{https://drive.google.com/open?id=0ByWxOeitx54PSW40bU5zNVhuMlU&authuser=0}{python入门教程}  。
+
+\bibitem[learning python]{learning python} 主要python语言参考，我主要参看了python学习手册（第四版）。原作者：Mark Lutz，中文翻译：李军，刘红伟等。
+
+\bibitem[programming python]{programming python} 作者Mark Lutz对python编程的进阶讨论；版本：第四版。
+
+\bibitem[python官网]{python官网} \href{https://docs.python.org/3/}{官网上的资料}。
+
+\bibitem[第三方模块参考手册]{第三方模块参考手册} numpy, scipy, matplotlib等等第三方模块官网上发布的官方参考手册。
+
+\bibitem[zetcode网站]{zetcode网站} pyqt4部分，这是\href{http://zetcode.com/gui/pyqt4/}{英文网站链接}，这是jimmykuu的\href{http://blog.cx125.com/books/PyQt4_Tutorial/}{中文翻译网站}。
+
+\bibitem[dive into python3]{dive into python3} \href{http://www.diveintopython3.net/index.html}{the english origin site} , 这是\href{http://sebug.net/paper/books/dive-into-python3/index.html}{中文网站链接}。
+
+\bibitem[numpy beginner's guide book]{numpy beginner's guide book} the pdf download link is \href{https://drive.google.com/open?id=0ByWxOeitx54PNXRIMUVybTlLZDQ&authuser=0}{here} . 
+
+\bibitem[Introduction to Python for Econometrics, Statistics and Data Analysis]{Introduction to Python for Econometrics, Statistics and Data Analysis} the pdf download link is\href{https://drive.google.com/open?id=0ByWxOeitx54PTXN6RW5ydzQ4YXc&authuser=0}{here}.
+
+\end{thebibliography}
 
 
 

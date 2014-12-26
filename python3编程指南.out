@@ -13,7 +13,7 @@
 \BOOKMARK [2][-]{subsection.1.7.1}{一行表示多行}{section.1.7}% 13
 \BOOKMARK [1][-]{section.1.8}{输入和输出}{chapter.1}% 14
 \BOOKMARK [2][-]{subsection.1.8.1}{最基本的input和print命令}{section.1.8}% 15
-\BOOKMARK [1][-]{section.1.9}{}{chapter.1}% 16
+\BOOKMARK [1][-]{section.1.9}{__mian__和__name__}{chapter.1}% 16
 \BOOKMARK [0][-]{chapter.2}{程序中的逻辑}{part.1}% 17
 \BOOKMARK [1][-]{section.2.1}{布尔值}{chapter.2}% 18
 \BOOKMARK [2][-]{subsection.2.1.1}{其他逻辑小知识}{section.2.1}% 19
@@ -384,9 +384,10 @@
 \BOOKMARK [1][-]{section.36.1}{一个跟随鼠标画线条的程序}{chapter.36}% 384
 \BOOKMARK [1][-]{section.36.2}{读取ico图片}{chapter.36}% 385
 \BOOKMARK [2][-]{subsection.36.2.1}{ImageTk子模块}{section.36.2}% 386
-\BOOKMARK [-1][-]{part.6}{VI 网络编程}{}% 387
-\BOOKMARK [-1][-]{part.7}{VII 附录}{}% 388
-\BOOKMARK [0][-]{appendix.A}{Ubuntu上的知识手册}{part.7}% 389
-\BOOKMARK [0][-]{appendix.B}{数理化经典知识手册}{part.7}% 390
-\BOOKMARK [0][-]{appendix.C}{PyQt编程指南}{part.7}% 391
-\BOOKMARK [0][-]{appendix.D}{C语言快速参考}{part.7}% 392
+\BOOKMARK [-1][-]{part.6}{VI 附录}{}% 387
+\BOOKMARK [0][-]{appendix.A}{the-python-companion}{part.6}% 388
+\BOOKMARK [0][-]{appendix.B}{PyQt编程指南}{part.6}% 389
+\BOOKMARK [0][-]{appendix.C}{linux及时了解}{part.6}% 390
+\BOOKMARK [0][-]{appendix.D}{数理化参考手册}{part.6}% 391
+\BOOKMARK [0][-]{appendix.E}{C和C++快速参考}{part.6}% 392
+\BOOKMARK [0][-]{section*.37}{参考文献}{part.6}% 393
