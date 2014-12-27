@@ -22,13 +22,13 @@
 \editor{德山书生}
 \email{a358003542@gmail.com}
 \editorinfo{编者：}
-\version{0.05}
+\version{0.1}
 \titleLB
 
 \addchtoc{前言}
 \chapter*{前言}
 \begin{common-format}
-本书讨论了python语言的基础知识和高级知识，并对python中的一些常用模块和常用的第三方模块进行了介绍。然后简要地介绍了tk的GUI编程。其中有关python语言本身的初级中级或高级知识为本书的着重点，将求全面和详细的讨论。
+本书讨论了python语言的基础和进阶，并对python中的一些常用模块和常用的第三方模块进行了介绍。然后简要地介绍了tk的GUI编程。其中有关python语言本身的基础和进阶知识为本书的着重点，将求全面和详细的讨论。
 
 
 %这里空一行。
@@ -2410,7 +2410,7 @@ reload(somemodule)
 
 
 
-\part{python3高级篇}
+\part{python3进阶}
 \chapter{类的高级知识}
 \label{sec:类的高级知识}
 \section{类内部的字典}
@@ -2436,7 +2436,9 @@ class B(A):
 其\verb+__dict__+值如下所示：
 \begin{Verbatim}
 >>> B.__dict__
-mappingproxy({'__doc__': None, '__init__': <function B.__init__ at 0xb7096adc>, 'fun3': <function B.fun3 at 0xb7096a4c>, '__module__': '__main__', 'b': 2})
+mappingproxy({'__doc__': None, '__init__': <function B.__init__ at 
+0xb7096adc>, 'fun3': <function B.fun3 at 0xb7096a4c>, 
+'__module__': '__main__', 'b': 2})
 \end{Verbatim}
 
 我们看到除了class定义的继承关系之外，类B内部定义的所有属性都存储在\verb+__dict__+字典值里面了。我们可以猜测类的继承关系python是通过另外一种机制管理的，而且有一个通用类，这个通用类上有很多方法就是后面要谈到的那些内置的方法。
@@ -2485,7 +2487,7 @@ class GClass():
 {}
 \end{Verbatim}
 
-实际上上面三个内置方法不一定是对类内部字典的操作，也可以是类其中其他数据的操作，而且经过修改它们也支持如同列表的切片操作，只是我觉得这有点古怪，不推荐这样使用。
+实际上上面三个内置方法不一定是对类内部字典的操作，也可以是类其中其他数据的操作，而且经过修改它们也支持如同列表的切片操作。
 
 
 
@@ -2506,7 +2508,7 @@ class GClass():
 X + other , \verb+__add__(self,other)+
 
 \subsection{右侧加法}
-所谓加法是X+other，如果是右侧加法，则为radd，然后公式是other+X。一般不区分左右的就用上面的一般加法，\verb+__add__(self,other)+。
+所谓加法是X+other，如果是右侧加法，则为radd，然后公式是：other+X。一般不区分左右的就用上面的一般加法。
 
 other + X , \verb+__radd__(self,other)+
 \subsection{增强加法}
@@ -2610,20 +2612,22 @@ True
 
 \end{description}
 
+\begin{large}
 更多内容请参见\href{https://docs.python.org/3.4/library/types.html}{types模块的官方文档}。
+\end{large}
 
 \subsubsection{\_{}\_{}eq\_{}\_{}方法}
 \verb+__eq__+方法定义了两个对象之间A == B的行为。
 比如下面：
 \begin{tcbpython}[]
-    def __eq__(self,other):
-        if self.__dict__.keys() == other.__dict__.keys():
-            for key in self.__dict__.keys():
-                if  not self.__dict__.get(key) ==other.__dict__.get(key):
-                    return False
-            return True
-        else:
-            return False
+def __eq__(self,other):
+    if self.__dict__.keys() == other.__dict__.keys():
+        for key in self.__dict__.keys():
+            if  not self.__dict__.get(key)==other.__dict__.get(key):
+                return False
+        return True
+    else:
+        return False
 \end{tcbpython}
 定义了这样的\verb+__eq__+方法之后，我们运行==语句，如果两个对象之间内置字典键和值都是一样的，那么就返回True。
 \begin{Verbatim}
@@ -2710,11 +2714,6 @@ class Position():
 \verb+__call__(self,args)+方法支持类或者实例以X(args)或者instance(args)这样的形式调用这个函数。
 
 
-
-
-
-
-
 \section{和迭代操作有关}
 \subsection{\_{}\_{}next\_{}\_{}方法}
 比如文件对象本身就是可迭代的，调用\verb+__next__+方法就返回文件中下一行的内容，到达文件尾也就是迭代越界了返回：\textbf{StopIteration}异常。
@@ -2741,7 +2740,7 @@ next函数比如next(f)等价于\verb+f.__next__()+，其中f是一个文件对�
 \subsection{iter函数}
 \uwave{文件对象}，\uwave{map对象}，\uwave{zip对象}，\uwave{filter对象}，\uwave{生成器对象}自身已经带有了\verb+__next__+方法，所以可以直接用next函数。不过虽然序列（列表，元组，字典，ranges对象\footnote{range函数的返回，也属于序列类型。}）等是可迭代对象，但是没有\verb+__next__+方法。
 
-iter函数可以让序列拥有\verb+__next__+方法，这样的它们就可以使用next函数了。
+iter函数可以让序列们拥有\verb+__next__+方法，这样的它们就可以使用next函数了。
 
 \begin{Verbatim}
 >>> list=[1,2,3]
@@ -2919,7 +2918,7 @@ D(B(E F) A(F G)) → D B E A F G
 
 D(B(F E) A(F G)) → D B A F E G
 \end{Verbatim}
-就是这样的，总之这是很冷门的领域了。。简单的理解就是深度搜索，类似flatten函数处理过，然后如果遇到某个子元在下一个平行级别的子元中也含有，那么本子元会被略过，做个记号，分叉跳过去跑到A那里，执行完那个子元之后，又会重新调到之前的操作点上。python怎么弄这么古怪的逻辑，整这种算法逻辑应该伤了他们不少脑细胞了吧。。
+就是这样的，总之这是很冷门的领域了。。简单的理解就是深度搜索，类似flatten函数处理过，然后如果遇到某个子元在下一个平行级别的子元中也含有，那么本子元会被略过，做个记号，分叉跳过去跑到A那里，执行完那个子元之后，又会重新调到之前的操作点上。python怎么弄这么古怪的逻辑。。
 
 
 
@@ -2982,6 +2981,7 @@ python语言的装饰器概念算是比较高级的概念了，不过并不是�
 可见装饰器并不是一个什么神秘的难懂的概念，同样你可以定义自己的函数，这个函数处理某个函数对象，并对其进行某种封装。
 
 类似的装饰器还有类的方法装饰器\verb+@classmethod+，在pyqt中有槽的装饰器\verb+@pyqtSlot()+和\verb+@pyqtSlot(int, str)+等，第一个例子接下来你定义的槽只接受self这个参数，第二个例子接下来你定义的槽除了接受self参数外，还接受一个int类型参数和一个str类型参数。
+
 
 
 
@@ -3068,9 +3068,9 @@ def prime(n):
 >>> isprime(479)
 True
 >>> [x for x in prime2(100)]
-[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
+[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, ........]
 >>> [x for x in prime2(1000) if 100< x < 200]
-[101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199]
+[101, 103, 107, 109, 113, 127, 131, 137, 139, 149, .......]
 >>> len([x for x in prime2(10000) if -1 < x < 3572])
 500
 >>> [x for x in prime(1)]
@@ -3276,9 +3276,9 @@ import  mymodule
 \begin{Verbatim}
 mymodule already import
 >>> dir(mymodule)
-['__all__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', 'mymod']
+['__all__', '__builtins__', '__cached__', '__doc__', ......]
 >>> dir(mymodule.mymod)
-['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', 'myfun']
+['__builtins__', '__cached__', '__doc__', '__file__', ......, 'myfun']
 >>> print(mymodule.__doc__)
 mymodule
 我在mymodule文件夹的__init__.py文件里面
@@ -3299,7 +3299,6 @@ myfun函数
 类和模块的这些文档信息都存放在\verb+__doc__+变量里面的。
 
 
-\chapter{python元类编程}
 
 
 \chapter{文件处理高级知识}
@@ -3361,6 +3360,9 @@ pyout.close()
 我们可以看到这种列表解析风格代码更加具有python风格和更加的简洁同时功能是异常的强大的。
 
 从这里起我们看到如果需要更加复杂的文本处理技巧就需要学习正则表达式和re模块了，请参见re模块这一小节\ref{sec:re模块}。
+
+
+
 
 
 \chapter{与c语言或c++语言编写的模块集成}
@@ -3469,34 +3471,6 @@ hello, world
 
 
 
-\chapter{字符串操作进阶}
-\section{bytes类型介绍}
-一般就使用str字符串类型然后使用默认的utf-8编码，然后大部分情况下不会有任何问题。而且按照《Unix编程艺术》作者的观点，一般数据的存储也推荐都文本化，就直接以字符串的形式存储，至少在编程开发早期不会有任何问题。不过到后面可能要考虑速度问题还有保密问题还有某些特殊的领域是需要直接和二进制打交道的，比如处理图像声音文件等。
-
-python3为了真正支持二进制数据的处理，引入了一个新的类型bytes。bytes字节类型的定义是8位整数的不可变序列，表示绝对的字节值。bytes类型支持之前谈论的str也就是常用的字符串类型的几乎所有的操作：包括类型内部的方法，序列操作，re模块匹配等，但不包括字符串的格式化（也就是format方法）。
-
-虽然bytes类型也可以打印，因为8位整数正好对应ASCⅡ的编码，但这只是使用方便罢了，最好还是把bytes看作纯数值没有任何字符含义的二进制数据。我们在读取文件的时候也分为常规读取和以二进制形式读取（需要加个b字符），这些都涉及到编码问题。
-
-bytes类型有一个decode方法，可以把自己按照某种编码方式（比如'big5'或'utf-8'等）进行解码\footnote{二进制数据难读，相当于密码。}。字符串类型有一个encode方法，就是把这个字符串按照某种编码方式进行编码。
-\begin{Verbatim}
->>> string001='你好'
->>> bytes001=string001.encode('utf-8')
->>> bytes001
-b'\xe4\xbd\xa0\xe5\xa5\xbd'
->>> bytes002=string001.encode('big5')
->>> bytes002
-b'\xa7A\xa6n'
->>> string002=bytes002.decode('utf-8')
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-UnicodeDecodeError: 'utf-8' codec can't decode byte 0xa7 in position 0: invalid start byte
->>> string002=bytes002.decode('big5')
->>> string002
-'你好'
-\end{Verbatim}
-
-我们看到不同编码解码弄混了会出问题，本来想找个例子然后出现字符混乱的情况的。
-
 
 \part{常用的模块}
 \chapter{pickle模块}
@@ -3594,11 +3568,10 @@ if __name__ == '__main__':
 
 我们看到就作为简单的程序或者原型程序的数据库，shelve模块已经很好用而且够用了。
 
-\begin{Large}
-更多内容请参见\href{https://docs.python.org/3/library/shelve.html}{官方文档}。
-\end{Large}
 
-\subsection{zodb模块}
+\begin{large}
+更多内容请参见\href{https://docs.python.org/3/library/shelve.html}{官方文档}。
+\end{large}
 
 
 \chapter{time模块}
@@ -3662,9 +3635,11 @@ tm_min=0, tm_sec=0, tm_wday=3, tm_yday=1, tm_isdst=0)
 sleep函数有时需要用到，将程序休眠个几秒的意思。需要接受一个数值参数，单位是秒，可以是零点几秒。但sleep函数只是大概休眠几秒的意思，最好不去用来计时，因为它不大精确。
 
 
-\begin{Large}
+
+\begin{large}
 更多内容请参见\href{https://docs.python.org/3/library/time.html}{官方文档}。
-\end{Large}
+\end{large}
+
 
 \chapter{sys模块}
 sys模块有一些功能很常用，其实在前面我们就看到过一些了。
@@ -3717,17 +3692,21 @@ sys.version输出当前python的版本信息和编译环境的详细信息。
 
 \section{sys.maxsize}
 返回当前计算环境下整数(int)类型的最大值，32位系统是$2**31-1$。
+\begin{Verbatim}
 >>> 2**31-1
 2147483647
 >>> import sys
 >>> sys.maxsize
 2147483647
->>> 
+\end{Verbatim}
 
 
-\begin{Large}
+
+
+\begin{large}
 更多内容请参见\href{https://docs.python.org/3/library/sys.html}{官方文档}。
-\end{Large}
+\end{large}
+
 
 \chapter{fileinput模块}
 fileinput模块提供了便捷的多文件处理方案。
@@ -3770,7 +3749,6 @@ print(os.path.basename(os.environ['HOME']))
 /home/wanze/桌面
 test.py
 wanze
->>> 
 \end{Verbatim}
 
 其中\verb+__file__+表示当前脚本文件，然后接下来的一些命令我们后面慢慢讲。
@@ -3870,9 +3848,10 @@ os.path.isfile(path)：接受一个字符串路径变量，如果是文件那么
 os.path.samefile(path1,path2)：如果两个文件或路径相同则返回True\\，否则返回False。
 
 
-\begin{Large}
+
+\begin{large}
 更多内容请参见\href{https://docs.python.org/3/library/os.path.html}{官方文档}。
-\end{Large}
+\end{large}
 
 
 \chapter{glob模块}
@@ -3933,9 +3912,10 @@ print(name)
 根据Popen类创建一个进程管理实例，可以进行进程的沟通，暂停，关闭等等操作。前面的函数的实现是基于Popen类的，这是较高级的课题，这里暂时略过。
 
 
-\begin{Large}
+
+\begin{large}
 更多内容请参见\href{https://docs.python.org/3/library/subprocess.html}{官方文档}。
-\end{Large}
+\end{large}
 
 
 
@@ -4060,9 +4040,9 @@ print(filename + '大小是' +str(int(filesize)) + unit)
 这个python小脚本自动输出合适的单位，具体程序逻辑还是很简单的。
 
 
-\begin{Large}
+\begin{large}
 更多os模块内容请参见\href{https://docs.python.org/3.4/library/os.html}{官方文档}。
-\end{Large}
+\end{large}
 
 \chapter{tarfile和zipfile模块}
 tarfile是gzip，bz2和lzma压缩文件读写的解决方案，zipfile模块是zip压缩文件的解决方案，\uwave{值得一提的是pip管理的egg文件也可以通过zipfile模块来管理}。
@@ -4098,9 +4078,10 @@ with tarfile.open("skeleton.tar.gz") as tar:
 \subsection{TarFile的extractall方法}
 用tarfile模块的open函数打开那个压缩文件，用返回的TarFile对象的extractall方法解压缩这个文件，注意用os.chdir来控制当前工作目录。
 
-\begin{Large}
+
+\begin{large}
 更多tarfile模块内容请参见\href{https://docs.python.org/3.4/library/tarfile.html}{官方文档}。
-\end{Large}
+\end{large}
 
 \section{提取egg文件中的内容}
 简单的例子如下所示：
@@ -4121,9 +4102,10 @@ with zipfile.ZipFile('test.zip','w') as zip:
 首先用zipfile模块的ZipFile构造函数创建一个ZipFile对象，这里mode需要使用\textbf{'w'}，然后使用ZipFile对象的write方法来添加内容。你可以猜到如果模式是\textbf{'a'}的话write方法是给这个压缩文件添加内容（a模式同文件操作含义如果原压缩文件不存在也是可以创建的）。
 
 
-\begin{Large}
+
+\begin{large}
 更多zipfile模块内容请参见\href{https://docs.python.org/3.4/library/zipfile.html}{官方文档}。
-\end{Large}
+\end{large}
 
 
 \chapter{collections模块}
@@ -4138,26 +4120,22 @@ print(p1)
 print(p1[0],p1.z)
 \end{xverbatim}
 
-\subsection{多结果输出}
 
 
 
-\begin{Large}
+\begin{large}
 更多内容请参见\href{https://docs.python.org/3/library/collections.html}{官方文档}。
-\end{Large}
+\end{large}
 
-
-\section{队列对象}
 
 
 \chapter{re模块}
 \label{sec:re模块}
 re模块提供了python对于正则表达式的支持，对于字符串操作，如果之前在介绍字符串类型的一些方法（比如split，replace等等），能够用它们解决问题就用它们，因为更快更简单。实在需要动用正则表达式理念才考虑使用re模块，而且你要克制写很多或者很复杂的（除非某些特殊情况）正则表达式的冲动，因为正则表达式的引入将会使得整个程序都更加难懂和不可捉摸。
 
-
-\begin{Large}
+\begin{large}
 更多内容请参见\href{https://docs.python.org/3/library/re.html}{官方文档}。
-\end{Large}
+\end{large}
 
 \section{re模块中的元字符集}
 \begin{description}
@@ -4283,56 +4261,6 @@ if __name__ == '__main__':
 然后程序还需要建立两个选项，一个是自动替换所有，一个是对于每一个替换操作都请求确认——需要打印相关信息。
 
 程序需要经过如下几个阶段：1.明确匹配模板  1.1写出字符串模板 匹配操作 给出匹配的所有情况，最好是行模板匹配模式。  最后明确匹配情况 2.明确匹配的文字的后给出情况 
-
-
-
-
-
-\chapter{datetime模块}
-
-\chapter{calendar模块}
-
-
-学编程学到后面就需要学习和了解Linux系统相关知识，从Linux系统的架构可以学到很多软件架构的知识，熟悉了解Linux系统能够让我们做出更多基于Linux的实用的程序。
-
-相关更多内容请参看我编写的指尖上的Ubuntu一书。具体github地址是：\\
-\href{https://github.com/a358003542/finger-on-ubuntu}{https://github.com/a358003542/finger-on-ubuntu}
-
-python脚本系统级编程的一大好处就是你经过一些技艺的练习写出来的python系统脚本是可以做到跨平台兼容的。（目前还不清楚具体如何？）
-
-
-
-当前工作目录，os.getcwd ，  所谓当前工作目录是指python命令运行的地方，而不是指运行的python脚本所在地。而sys.path的第一个搜索路径是当前脚本所在地。如果你只输入文件名而不输入路径，那么完整的文件名是当前工作目录加上文件名，而import则还是第一搜索这个脚本的所在地。
-
-
-
-os.environ  当前shell的环境变量字典。
-
-
-标准流  sys sys.stdin sys.stdout sys.stderr  标准流对象就是python中的文件对象。
-
-遍历文件树  os.walk   os.listdir
-
-平行计算  ——多进程 管理 os.fork   这个先略过
-
-线程 略过
-
-sys.exit()            
-\begin{Verbatim}
-echo $status
-\end{Verbatim}
-%$
-
-
- 
-
-
-
-
-\chapter{getopt模块}
-
-
-
 
 
 
@@ -4473,10 +4401,6 @@ sudo apt-get install libtiff4-dev libjpeg8-dev zlib1g-dev \
 \end{tcbbash}
 
 
-
-
-
-
 \subsection{测试安装情况}
 官方文档并没有给出测试安装情况的例子，这里给出刚开始那个简单的例子权做测试安装情况的测试。
 
@@ -4494,16 +4418,6 @@ img.show()
 open方法就目前按照官方文档的叙述支持如下格式：bmp，eps，gif，im，jpeg，jpeg2000，msp，pcx，png，ppm ，spider，tiff，webp\\ ，xbm，xv等。还有一些格式要某只支持读要某只支持写这里不说明了。其中写的时候save方法需要明确说明图片的目标格式，而open方法打开的时候图片名字是随意的，pillow会自动检测图片的格式。
 
 如果open方法图片打开失败，将会返回\textbf{IOError}异常。
-
-
-
-
-\section{图片格式转换器}
-根据图片格式转换器这个例子简单说明pillow的图片格式转换功能。
-
-
-\href{https://github.com/a358003542/imgformat}{imgformat小工具}
-
 
 
 
@@ -4954,11 +4868,6 @@ array([[ 1.,  0.,  0.],
 
 
 \chapter{matplotlib模块}
-参考资料：
-\begin{itemize}
-\item \href{http://www.labri.fr/perso/nrougier/teaching/matplotlib/}{matplotlib tutorial}  author: Nicolas P. Rougier
-
-\end{itemize}
 
 \section{安装}
 \begin{tcbbash}[]
@@ -5121,34 +5030,9 @@ color
 使用pgf后台，
 
 
-\section{matplotlib的后台}
-['WXAgg', 'gdk', 'GTK', 'pdf', 'agg', 'WX', 'GTK3Cairo', 'WebAgg', 'GTKAgg', 'cairo', 'Qt4Agg', 'MacOSX', 'Qt5Agg', 'TkAgg', 'ps', 'nbAgg', 'template', 'emf', 'GTKCairo', 'CocoaAgg', 'GTK3Agg', 'svg', 'pgf']
-
-这些是可用的后台。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 \part{tkinter快速GUI开发}
-参考资料：
-
-\href{http://www.ferg.org/thinking_in_tkinter/all_programs.html}{thinking in tkinter}
-
-\href{http://www.tkdocs.com/tutorial/index.html}{tkdocs tutorial}
-
 
 \chapter{tkinter入门}
 tkinter是Tk GUI模块的外包层，Tk是用Tcl语言写的。和其他GUI模块包一样，tkinter也是事件驱动的。
@@ -5358,7 +5242,7 @@ button.state(['disabled'])
 
 button.state(['!disabled']) 
 
-控制button的显示状态，参数有："active", "disabled", "focus", "pressed", "selected", "background", "readonly", "alternate",和"invalid"。 
+控制button的显示状态，参数有：active, disabled, focus, pressed, selected, background, readonly, alternate和invalid。 
 
 \section{Checkbutton}
 \begin{Verbatim}
@@ -5371,10 +5255,7 @@ check = ttk.Checkbutton(parent, text='Use Metric',
 
 \section{Radiobutton}
 \begin{Verbatim}
-phone = StringVar()
-home = ttk.Radiobutton(parent, text='Home', variable=phone, value='home')
-office = ttk.Radiobutton(parent, text='Office', variable=phone, value='office')
-cell = ttk.Radiobutton(parent, text='Mobile', variable=phone, value='cell')
+ttk.Radiobutton(parent, text='Home', variable=phone, value='home')
 \end{Verbatim}
 
 
@@ -5532,16 +5413,57 @@ canvas.tag_bind(id,"<Button-1>",openfile)
 \end{tcbpython}
 
 
+\part{python3高级篇}
 
 
+\chapter{bytes类型介绍}
+一般就使用str字符串类型然后使用默认的utf-8编码，然后大部分情况下不会有任何问题。而且按照《Unix编程艺术》作者的观点，一般数据的存储也推荐都文本化，就直接以字符串的形式存储，至少在编程开发早期不会有任何问题。不过到后面可能要考虑速度问题还有保密问题还有某些特殊的领域是需要直接和二进制打交道的，比如处理图像声音文件等。
 
+python3为了真正支持二进制数据的处理，引入了一个新的类型bytes。bytes字节类型的定义是8位整数的不可变序列，表示绝对的字节值。bytes类型支持之前谈论的str也就是常用的字符串类型的几乎所有的操作：包括类型内部的方法，序列操作，re模块匹配等，但不包括字符串的格式化（也就是format方法）。
+
+虽然bytes类型也可以打印，因为8位整数正好对应ASCⅡ的编码，但这只是使用方便罢了，最好还是把bytes看作纯数值没有任何字符含义的二进制数据。我们在读取文件的时候也分为常规读取和以二进制形式读取（需要加个b字符），这些都涉及到编码问题。
+
+bytes类型有一个decode方法，可以把自己按照某种编码方式（比如'big5'或'utf-8'等）进行解码\footnote{二进制数据难读，相当于密码。}。字符串类型有一个encode方法，就是把这个字符串按照某种编码方式进行编码。
+\begin{Verbatim}
+>>> string001='你好'
+>>> bytes001=string001.encode('utf-8')
+>>> bytes001
+b'\xe4\xbd\xa0\xe5\xa5\xbd'
+>>> bytes002=string001.encode('big5')
+>>> bytes002
+b'\xa7A\xa6n'
+>>> string002=bytes002.decode('utf-8')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xa7 in position 0: invalid start byte
+>>> string002=bytes002.decode('big5')
+>>> string002
+'你好'
+\end{Verbatim}
+
+我们看到不同编码解码弄混了会出问题，本来想找个例子然后出现字符混乱的情况的。
+
+
+\chapter{python的元类编程}
+python中的类和class自己定义的类和具体实例化的对象我们都了解了，而以上这些都是基于元类(metaclass)这个概念。
+
+元类可以看作python中类的最底层的原子结构了，默认的元类叫做\textbf{type}。元类创造类，类创造实例。所谓的元类编程就是......读者在使用元类编程之前需要评估好是不是需要使用这么底层的概念。
+
+\begin{tcbpython}[]
+class C():
+    pass
+\end{tcbpython}
+
+\begin{tcbpython}[]
+C = type('C',(),{})
+\end{tcbpython}
 
 \appendix
 \part{附录}
 \chapter{the-python-companion}
 \href{https://github.com/a358003542/the-python-companion}{the-python-companion}
 
-the-python-companion：有关python第三方模块的资料。
+the-python-companion：有关python内置或第三方模块的资料。
 
 
 \chapter{PyQt编程指南}
@@ -5568,24 +5490,32 @@ C和C++快速参考：本资料是在假设你已经熟悉python语言的基础�
 
 \addchtoc{参考文献}
 \begin{thebibliography}{9}
-\bibitem[python入门教程]{python入门教程} python官网上的tutorial。原作者：Guido van Rossum  Fred L. Drake ；中文翻译：刘鑫等；版本：2013-10-28；pdf下载链接：\href{https://drive.google.com/open?id=0ByWxOeitx54PSW40bU5zNVhuMlU&authuser=0}{python入门教程}  。
+\bibitem{python入门教程} python入门教程，python官网上的tutorial。原作者：Guido van Rossum  Fred L. Drake ；中文翻译：刘鑫等；版本：2013-10-28；pdf下载链接：\href{https://drive.google.com/open?id=0ByWxOeitx54PSW40bU5zNVhuMlU&authuser=0}{python入门教程}  。
 
-\bibitem[learning python]{learning python} 主要python语言参考，我主要参看了python学习手册（第四版）。原作者：Mark Lutz，中文翻译：李军，刘红伟等。
+\bibitem{learning python} learning python，主要python语言参考，我主要参看了python学习手册（第四版）。原作者：Mark Lutz，中文翻译：李军，刘红伟等。
 
-\bibitem[programming python]{programming python} 作者Mark Lutz对python编程的进阶讨论；版本：第四版。
+\bibitem{programming python} programming python，作者Mark Lutz对python编程的进阶讨论；版本：第四版。
 
-\bibitem[python官网]{python官网} \href{https://docs.python.org/3/}{官网上的资料}。
+\bibitem{python官网} python\href{https://docs.python.org/3/}{官网上的资料}。
 
-\bibitem[第三方模块参考手册]{第三方模块参考手册} numpy, scipy, matplotlib等等第三方模块官网上发布的官方参考手册。
+\bibitem{第三方模块参考手册} 第三方模块参考手册，如numpy, scipy, matplotlib等等第三方模块官网上发布的官方参考手册。
 
-\bibitem[zetcode网站]{zetcode网站} pyqt4部分，这是\href{http://zetcode.com/gui/pyqt4/}{英文网站链接}，这是jimmykuu的\href{http://blog.cx125.com/books/PyQt4_Tutorial/}{中文翻译网站}。
+\bibitem{zetcode网站} zetcode网站pyqt4部分，这是\href{http://zetcode.com/gui/pyqt4/}{英文网站链接}，这是jimmykuu的\href{http://blog.cx125.com/books/PyQt4_Tutorial/}{中文翻译网站}。
 
-\bibitem[dive into python3]{dive into python3} \href{http://www.diveintopython3.net/index.html}{the english origin site} , 这是\href{http://sebug.net/paper/books/dive-into-python3/index.html}{中文网站链接}。
+\bibitem{dive into python3} dive into python3，\href{http://www.diveintopython3.net/index.html}{the english origin site} , 这是\href{http://sebug.net/paper/books/dive-into-python3/index.html}{中文网站链接}。
 
-\bibitem[numpy beginner's guide book]{numpy beginner's guide book} the pdf download link is \href{https://drive.google.com/open?id=0ByWxOeitx54PNXRIMUVybTlLZDQ&authuser=0}{here} . 
+\bibitem{numpy beginner's guide book} numpy beginner's guide book，the pdf download link is \href{https://drive.google.com/open?id=0ByWxOeitx54PNXRIMUVybTlLZDQ&authuser=0}{here} . 
 
-\bibitem[Introduction to Python for Econometrics, Statistics and Data Analysis]{Introduction to Python for Econometrics, Statistics and Data Analysis} the pdf download link is\href{https://drive.google.com/open?id=0ByWxOeitx54PTXN6RW5ydzQ4YXc&authuser=0}{here}.
-\bibitem[A Guide to Python's Magic Methods]{A Guide to Python's Magic Methods} 作者：Rafe Kettler ,版本：2014-01-04，github地址：\href{https://github.com/RafeKettler/magicmethods}{here}.
+\bibitem{Introduction to Python for Econometrics, Statistics and Data Analysis} Introduction to Python for Econometrics,Statistics and Data Analysis，the pdf download link is\href{https://drive.google.com/open?id=0ByWxOeitx54PTXN6RW5ydzQ4YXc&authuser=0}{here}.
+
+\bibitem{A Guide to Python's Magic Methods} A Guide to Python's Magic Methods，作者：Rafe Kettler ,版本：2014-01-04，github地址：\href{https://github.com/RafeKettler/magicmethods}{here}.
+
+\bibitem{metaprogramming} metaprogramming，the website link is \href{http://python-3-patterns-idioms-test.readthedocs.org/en/latest/Metaprogramming.html}{here} .
+
+\bibitem{matplotlib tutorial} matplotlib tutorial，author: Nicolas P. Rougier , the website is  \href{http://www.labri.fr/perso/nrougier/teaching/matplotlib/}{here}.  
+
+\bibitem{tkdocs tutorial} tkdocs tutorial，the website is \href{http://www.tkdocs.com/tutorial/index.html}{here}.
+
 
 \end{thebibliography}
 
