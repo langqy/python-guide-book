@@ -88,6 +88,18 @@ except AttributeError:
 
 
 
+def _swig_setattr_nondynamic_method(set):
+    def set_attr(self, name, value):
+        if (name == "thisown"):
+            return self.this.own(value)
+        if hasattr(self, name) or (name == "this"):
+            set(self, name, value)
+        else:
+            raise AttributeError("You cannot add attributes to %s" % self)
+    return set_attr
+
+
+
 def gcd(x, y):
     return _example.gcd(x, y)
 gcd = _example.gcd
@@ -95,7 +107,6 @@ gcd = _example.gcd
 def hello():
     return _example.hello()
 hello = _example.hello
-# This file is compatible with both classic and new-style classes.
 
 cvar = _example.cvar
 

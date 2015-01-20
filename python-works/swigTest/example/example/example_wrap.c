@@ -2923,6 +2923,12 @@ static swig_module_info swig_module = {swig_types, 1, 0, 0, 0, 0};
 #  error "This python version requires swig to be run with the '-classic' option"
 # endif
 #endif
+#if (PY_VERSION_HEX <= 0x02020000)
+# error "This python version requires swig to be run with the '-nomodern' option"
+#endif
+#if (PY_VERSION_HEX <= 0x02020000)
+# error "This python version requires swig to be run with the '-nomodernargs' option"
+#endif
 
 /*-----------------------------------------------
               @(target):= _example.so
@@ -3118,7 +3124,7 @@ SWIGINTERN PyObject *_wrap_gcd(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject * obj1 = 0 ;
   int result;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:gcd",&obj0,&obj1)) SWIG_fail;
+  if(!PyArg_UnpackTuple(args,(char *)"gcd",2,2,&obj0,&obj1)) SWIG_fail;
   ecode1 = SWIG_AsVal_int(obj0, &val1);
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "gcd" "', argument " "1"" of type '" "int""'");
@@ -3163,7 +3169,7 @@ SWIGINTERN PyObject *Swig_var_Foo_get(void) {
 SWIGINTERN PyObject *_wrap_hello(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   
-  if (!PyArg_ParseTuple(args,(char *)":hello")) SWIG_fail;
+  if(!PyArg_UnpackTuple(args,(char *)"hello",0,0)) SWIG_fail;
   hello();
   resultobj = SWIG_Py_Void();
   return resultobj;

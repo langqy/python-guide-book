@@ -7,8 +7,8 @@
 \setlength{\textpt}{12pt}
 
 
-\usepackage{myconfig}
-\usepackage{mytitle}
+\usepackage{book}
+\usepackage{title}
 
 
 
@@ -3405,7 +3405,7 @@ sudo apt-get install python3-dev
 \subsection{手工编译}
 找到源码的[Examples]→[python]→[simple]文件夹。简单的编译过程如下：
 \begin{tcbbash}[]
-wig -python example.i
+swig -python example.i
 
 gcc -fpic -c example.c example_wrap.c -I/usr/include/python3.4m
 
@@ -3473,6 +3473,8 @@ hello, world
 
 
 \part{常用的模块}
+这些常用的模块都是python3语言自带的模块。
+
 \chapter{pickle模块}
 \label{sec:pickle模块}
 pickle模块可以将某\uwave{一个}复杂的对象永久存入\uwave{一个}文件中，以后再导入这个文件，这样自动将这个复杂的对象导入进来了。
@@ -4266,7 +4268,7 @@ if __name__ == '__main__':
 
 
 
-\part{常用的第三方模块}
+\part{安装配置系}
 \chapter{setuptools模块}
 虽然官方内置distutils模块也能实现类似的功能，不过现在人们更常用的是第三方模块setuptools，相当于distutils模块的加强版，初学者推荐就使用setuptools模块。
 
@@ -4383,45 +4385,11 @@ sudo python3 setup.py register
 \href{https://github.com/a358003542/skeleton}{https://github.com/a358003542/skeleton}
 
 
-\chapter{pillow模块}
-pillow模块让python具备的初步的图片处理能力。
-
-\section{安装}
-推荐使用pip3命令安装pillow模块。
-
-\begin{tcbbash}[]
-sudo pip3 install pillow
-\end{tcbbash}
-
-此外可能还需要其他宏包来支持一些图片格式，安装官方文档的叙述\footnote{also reference \href{http://askubuntu.com/questions/427358/install-pillow-for-python-3}{this}}，下面这些可能需要装上。
-\begin{tcbbash}[]
-sudo apt-get install python3-dev python3-setuptools
-sudo apt-get install libtiff4-dev libjpeg8-dev zlib1g-dev \
-    libfreetype6-dev liblcms2-dev libwebp-dev tcl8.5-dev tk8.5-dev
-\end{tcbbash}
-
-
-\subsection{测试安装情况}
-官方文档并没有给出测试安装情况的例子，这里给出刚开始那个简单的例子权做测试安装情况的测试。
-
-\begin{tcbpython}[]
-from PIL import Image
-img = Image.open("test.jpg")
-print(img.format, img.size , img.mode)
-img.show()
-\end{tcbpython}
-
-这个例子的顺利运行需要你找一个jpg图片文件。pillow模块在这里名字叫PIL是因为它的父亲是PIL，pillow fork自它，并setuptools兼容。
-
-我们看到pillow模块的语法还是很清晰的，Image是个类，open方法返回具体的jpg img 对象，这里就简单称作img对象了，img对象有format, size , mode方法，分别是图片的格式（JPEG），图片的尺寸（(1920, 1080)）和图片的模式（RGB）。然后img对象调用show方法会（通过系统内部工具）显示图片。
-
-open方法就目前按照官方文档的叙述支持如下格式：bmp，eps，gif，im，jpeg，jpeg2000，msp，pcx，png，ppm ，spider，tiff，webp\\ ，xbm，xv等。还有一些格式要某只支持读要某只支持写这里不说明了。其中写的时候save方法需要明确说明图片的目标格式，而open方法打开的时候图片名字是随意的，pillow会自动检测图片的格式。
-
-如果open方法图片打开失败，将会返回\textbf{IOError}异常。
 
 
 
-
+\part{ipython系}
+ipython系指这几大套件：numpy，scipy，matplotlib，pandas。
 \chapter{numpy模块}
 \section{安装}
 安装使用类似的语法：
@@ -5031,386 +4999,11 @@ color
 
 
 
+\part{网络抓取系}
 
-\part{tkinter快速GUI开发}
 
-\chapter{tkinter入门}
-tkinter是Tk GUI模块的外包层，Tk是用Tcl语言写的。和其他GUI模块包一样，tkinter也是事件驱动的。
-\section{安装}
-在ubuntu下你可能已经安装了tkinter模块了，不管怎么样运行下面的命令确保tkinter安装上：
-\begin{tcbbash}[]
-sudo apt-get install python3-tk
-\end{tcbbash}
 
-然后推荐把tk和tk-dev也安装上。
-\begin{tcbbash}[]
-sudo apt-get install tk tk-dev
-\end{tcbbash}
 
-
-\section{引入惯例}
-\begin{tcbpython}[]
-from tkinter import *
-from tkinter import ttk
-\end{tcbpython}
-
-
-\section{第一个例子}
-\begin{tcbpython}[]
-from tkinter import *
-from tkinter import ttk
-tk=Tk()
-Label(tk,text='hello world.').pack()
-tk.mainloop()
-\end{tcbpython}
-
-第一个语句是用Tk类创建了一个母窗体。
-
-第二个语句Label就是一个标签类，其中第一个参数是母窗体，text可选参数控制标签的文本，一般标签的这个text选项都会填上一些内容吧。pack方法是控制这个窗体在母窗体的布局，如果不使用这个方法窗体不会在母窗体中显示。
-
-tk母窗体的mainloop方法是开启GUI的事件驱动。所谓事件驱动指mainloop程序里面有个循环逻辑，不停的扫描，如果发生某个事件，比如鼠标点击按钮，并且这个事件联系着某个动作，那么就触发这个事件，并执行这个动作。如此不断循环下去，直到主窗口退出为止。
-
-tkinter对于编程风格并没有强制一定要用面向对象的模式，实际上如上所示我更喜欢这种函数风格。
-
-
-\section{事件控制}
-一般tkinter编程都推荐使用\verb+from tkinter import *+，按照《programming python》一书第372页的说法，tkinter模块是少数可以安全import *而没有问题的，因为这个模块内部机制是只有我们真正需要的时候才引入进来（不清楚是具体情况？）。如果不import *确实会很麻烦，下面的Label类，Button类都好理解，就是RIGHT这个东西都是从tkinter模块来的。
-
-下面这个程序画了一个标签，然后加了一个按钮，具体窗体类型和布局相关东西请参看后面两小节，这里只讨论事件控制机制。
-
-我们看到tkinter的事件控制机制也很简单，就是通过command属性来控制的，如果command后面跟上reroll这个名字，那么将会执行reroll()这个函数，如果我们需要执行的这个函数带有参数，那么需要如下所示，使用lambda语法，后面跟上对应的参数传递过去的参数即可。
-\begin{tcbpython}[]
-import random
-from tkinter import *
-n_max = 42
-
-tk =Tk()
-
-def reroll(label):
-    label['text'] = str(random.randint(1,n_max))
-
-label = Label(tk,text = str(random.randint(1,n_max)),width=20)
-label.pack()
-button = Button(tk,text="重摇",command=(lambda : reroll(label)) )
-button.pack(side=RIGHT)
-
-tk.mainloop()
-\end{tcbpython}
-
-\uwave{值得一提的是tkinter的所有类的属性都可以通过label['text']这样的字典索引值形式引用和修改，其中也包括赋初值。}这是很重要的一点，然后推荐关于tkinter的对象的动作也就是函数传递的参数就是tkinter的对象，而不是某个具体对象的某个属性。
-
-实际上tkinter的窗体类型在初始化时所有的属性设置都是可选项，包括上面的tk，其是\textit{parent}的一个值，如果不填那么默认就是最顶层的母窗体。如果parent值不填那么就是默认的参数None，也就是tkinter模块自动根据Tk创建的母窗体。
-
-这样上面的程序实际上还有更加简化的形式：
-\begin{tcbpython}[]
-import random
-from tkinter import *
-n_max = 42
-
-def reroll(label):
-    label['text'] = str(random.randint(1,n_max))
-
-label = Label(text = str(random.randint(1,n_max)),width=20)
-label.pack()
-button = Button(text="重摇",command=(lambda : reroll(label)) )
-button.pack(side=RIGHT)
-
-mainloop()
-\end{tcbpython}
-其中mainloop函数（事件驱动开启）也不是依附在某个窗体类型上的，可以单独调用。这实在是简单和清晰即可，这也正是我喜爱tkinter的原因。
-
-
-\subsection{bind一个事件}
-可以对按钮bind很多不同的按键事件：
-\begin{tcbpython}[]
-import sys
-from tkinter import *
-
-def right(event):
-    print('right')
-
-widget = Button(text='hello')
-widget.pack()
-widget.bind('<Button-1>',lambda e:print('left'))
-widget.bind('<Button-2>',lambda e:print('middle'))
-widget.bind('<Button-3>',right)
-mainloop()
-\end{tcbpython}
-
-更多关于事件控制的细节后面再慢慢讨论之。
-
-
-
-
-\chapter{窗体类型}
-\section{窗体类型通用属性}
-这里收集一些属性，是所有窗体类型都有的，方便记忆和学习。
-\begin{description}
-\item[parent] 本窗体的母窗体，如果不填，则本窗体依附于主母窗体。
-\item[destroy方法] 任何窗体都可以调用destroy方法来消灭自己。
-\end{description}
-
-
-
-
-\section{Toplevel}
-前面谈到如果有子窗体parent不填，那么就是默认的主母窗体。如果你通过\verb+root=Tk()+来明确新建一个主母窗体，这时root就是那个默认的主母窗体。主母窗体退出了那么整个GUI程序就退出了，然后root用于方便管理整个GUI程序的一些参数\footnote{虽然用Tk()还可以继续创建主母窗体，但推荐只使用一次，明确表示root即为主母窗体。}。
-
-如果你需要创建第二个母窗体，那么可以用Toplevel来创建。当然Toplevel就不需要parent参数了，然后它还有其他一些属性参数可以配置，下面先演示一下两个母窗体的例子。
-
-\begin{tcbpython}[]
-from tkinter import *
-import sys
-root = Tk()
-win = Toplevel()
-
-button1 = Button(text = 'button1',command=sys.exit)
-tk.title('root')
-button1.pack()
-
-button2 = Button(win,text = 'button2',command=sys.exit)
-win.title('win')
-button2.pack()
-
-mainloop()
-\end{tcbpython}
-这样现在我们有了两个主母窗体，其中第一个创建的主母窗体是默认的根主母窗体，而第二个创建的主母窗体并不是根主母窗体，只是普通的一个主母窗体，不信，你关闭它程序也没有退出。
-
-
-\subsection{title方法}
-调用这个方法，输入一段字符串，这段字符串会成为母窗体的标题，也就是母窗体上面显示的那段文字。
-
-
-\subsection{窗体最大化}
-\begin{Verbatim}
-root.attributes('-zoomed', True)
-\end{Verbatim}
-
-\subsection{菜单tearoff}
-\begin{Verbatim}
-root.option_add('*tearOff', FALSE)
-\end{Verbatim}
-
-
-
-\section{Frame}
-Frame是其他窗体的容器，可以简单称之为面板。
-
-frame = ttk.Frame(parent)
-
-width = 面板宽
-height = 面板高
-
-padding 
-
-borderwidth 
-
-as well as the "relief" option, which specifies the visual appearance of the border: "flat" (default), "raised", "sunken", "solid", "ridge", or "groove".
-
-
-
-
-\section{Label}
-Label除了母窗体parent属性之外，下面慢慢列出其他的属性。
-\begin{description}
-\item[text] 标签显示的文字
-\end{description}
-
-ttk.Label()
-
-image  属性  显示图片
-image = PhotoImage(file='myimage.gif')
-label['image'] = image
-
-
-
-
-\section{Button}
-Button除了母窗体parent属性之外，下面慢慢列出其他的属性。
-\begin{description}
-\item[text] 按钮上显示的文字
-\item[command] 设置按钮点击后执行的动作，如果只是function名，那么function函数不应该接受任何参数，如果是(lambda:fun(par1...))的形式，那么可以接受参数。
-
-\end{description}
-
-button = ttk.Button(parent, text='Okay', command=submitForm)
-
-
-image 属性
-
-button.state(['disabled'])   
-
-button.state(['!disabled']) 
-
-控制button的显示状态，参数有：active, disabled, focus, pressed, selected, background, readonly, alternate和invalid。 
-
-\section{Checkbutton}
-\begin{Verbatim}
-measureSystem = StringVar()
-check = ttk.Checkbutton(parent, text='Use Metric', 
-	    command=metricChanged, variable=measureSystem,
-	    onvalue='metric', offvalue='imperial')
-\end{Verbatim}
-
-
-\section{Radiobutton}
-\begin{Verbatim}
-ttk.Radiobutton(parent, text='Home', variable=phone, value='home')
-\end{Verbatim}
-
-
-
-
-\section{Entry}
-单行输入框 Entry(母窗体, ...)
-
-username = StringVar()
-
-name = ttk.Entry(parent, textvariable=username)
-
-get()  get方法，输入框对象调用get方法之后返回输入框内的字符串。
-
-width 
-
-delete方法
-
-insert方法
-
-
-\section{Combobox}
-countryvar = StringVar()
-country = ttk.Combobox(parent, textvariable=countryvar)
-
-值被选择事件<ComboboxSelected>
-
-country.bind('<<ComboboxSelected>>', function)
-
-values属性  就是列表列出来的值
-country['values'] = ('USA', 'Canada', 'Australia')
-
- "readonly" state flag 
- 
-get 方法
-
-set方法
-
-current方法
-
-\section{Menubar}
-通过Menu()创建Menubar对象，
-
-以下Menubar对象的一些方法：
-
-1.add\_{}cascade  给菜单栏添加子菜单，子菜单通过menu参数配置，接受的也是一个通过Menubar对象。
-\begin{Verbatim}
-menubar.add_cascade(menu=menu_file, label='File')
-\end{Verbatim}
-
-2.add\_{}command 给子菜单添加命令。具体命令由command属性控制，类似按钮。
-
-3. 最后config主母窗口menu属性为主菜单对象。
-
-4.分隔符
-\begin{Verbatim}
-menu_file.add_separator()
-\end{Verbatim}
-
-5.
-
-\chapter{布局管理}
-\section{PACK方法}
-side  可选参数接受如下参数：\textbf{TOP}，\textbf{BOTTOM}，\textbf{LEFT}，\textbf{RIGHT}。这样控制子窗体在母窗体中的布局位置。\uwave{默认是TOP}。值得一提的是side也可以接受字符串变量top，bottom，left和right，即\verb+'right'+，这样写也许更合理点，那个大写的TOP确实有点和其他python代码不合群。
-
-
-expand=YES  如果你的母窗体大小已经设置为不可更改，那么没有什么问题。如果你们母窗体大小是可变的，那么最好加上\verb+expand=YES+，这样子窗体会跟随母窗体而进行位置调整。
-
-fill 可用选项有 X, Y, BOTH，意思是横向伸展，竖向伸展和双向伸展。
-
-
-\section{grid方法}
-看名字就知道让子窗体在母窗体服从网格布局的意思。
-
-
-\chapter{Canvas画布}
-Canvas画布窗体非常强大，是tkinter的一大亮点。
-
-canvas = Canvas(tk)
-
-width   画布窗体宽度
-
-height  画布窗体高度
-
-bg  背景颜色
-
-
-\section{一个跟随鼠标画线条的程序}
-此外还显示了canvas内某个具体的图元和某个动作绑定起来的机制。
-\begin{tcbpython}[]
-from tkinter import *
-tk=Tk()
-canvas = Canvas(tk,width=800,height=600)
-
-color = "black"
-def setColor(newcolor):
-    global color
-    color = newcolor
-
-def addLine(event):
-    global lastx, lasty
-    canvas.create_line((lastx, lasty, event.x, event.y), fill=color)
-    lastx, lasty = event.x, event.y
-
-id = canvas.create_rectangle((10, 10, 30, 30), fill="red")
-canvas.tag_bind(id, "<Button-1>", lambda x: setColor("red"))
-id = canvas.create_rectangle((10, 35, 30, 55), fill="blue")
-canvas.tag_bind(id, "<Button-1>", lambda x: setColor("blue"))
-id = canvas.create_rectangle((10, 60, 30, 80), fill="black")
-canvas.tag_bind(id, "<Button-1>", lambda x: setColor("black"))
-
-
-lastx, lasty = 0, 0
-
-def xy(event):
-    global lastx, lasty
-    lastx, lasty = event.x, event.y
-
-def addLine(event):
-    global lastx, lasty
-    canvas.create_line(lastx, lasty, event.x, event.y,fill=color)
-    lastx, lasty = event.x, event.y
-
-canvas.bind("<Button-1>", xy)
-canvas.bind("<B1-Motion>", addLine)
-
-canvas.pack()
-mainloop()
-\end{tcbpython}
-
-\section{读取ico图片}
-xbm图片可以直接读取，下面是读取ico图片的过程，需要pillow模块的支持。此外还需要安装python3-imaging-tk来支持ImageTk子模块。
-\subsection{ImageTk子模块}
-\begin{Verbatim}
-sudo apt-get install python3-imaging-tk
-\end{Verbatim}
-
-下面这个例子是演示，其中pkg\_{}resources模块支持对egg文件的package\_{}data的访问。这里的resoruce\_{}stream将返回资源文件的文件接口。
-
-然后pillow模块的Image子模块的open函数用于打开这个图片，然后调用resize方法调整尺寸。
-
-接下来是用ImageTk子模块的PhotoImage构造函数接受处理后的图片对象，从而生成tkinter可以处理的图片对象。然后接下来就可以按照常规用create\_{}image来引入图片了，图片作为image属性引入进来。
-\begin{tcbpython}[]
-from PIL import Image,ImageTk
-from pkg_resources import resource_stream
-file_image = Image.open(resource_stream('wise','icos/Folder-Documents.ico'))
-file_image = file_image.resize((60,60))
-file_photo = ImageTk.PhotoImage(file_image)
-id = canvas.create_image(100,100,image=file_photo,tags='file')
-def openfile(event):
-    from tkinter import filedialog
-    filename = filedialog.askopenfilename()
-    print(filename)
-canvas.tag_bind(id,"<Button-1>",openfile)
-\end{tcbpython}
 
 
 \part{python3高级篇}
@@ -5488,6 +5081,47 @@ linux及时了解：有关linux系统上的一些知识。
 C和C++快速参考：本资料是在假设你已经熟悉python语言的基础上继续的。
 
 
+
+\chapter{pillow模块}
+pillow模块让python具备的初步的图片处理能力。
+
+\section{安装}
+推荐使用pip3命令安装pillow模块。
+
+\begin{tcbbash}[]
+sudo pip3 install pillow
+\end{tcbbash}
+
+此外可能还需要其他宏包来支持一些图片格式，安装官方文档的叙述\footnote{also reference \href{http://askubuntu.com/questions/427358/install-pillow-for-python-3}{this}}，下面这些可能需要装上。
+\begin{tcbbash}[]
+sudo apt-get install python3-dev python3-setuptools
+sudo apt-get install libtiff4-dev libjpeg8-dev zlib1g-dev \
+    libfreetype6-dev liblcms2-dev libwebp-dev tcl8.5-dev tk8.5-dev
+\end{tcbbash}
+
+
+\subsection{测试安装情况}
+官方文档并没有给出测试安装情况的例子，这里给出刚开始那个简单的例子权做测试安装情况的测试。
+
+\begin{tcbpython}[]
+from PIL import Image
+img = Image.open("test.jpg")
+print(img.format, img.size , img.mode)
+img.show()
+\end{tcbpython}
+
+这个例子的顺利运行需要你找一个jpg图片文件。pillow模块在这里名字叫PIL是因为它的父亲是PIL，pillow fork自它，并setuptools兼容。
+
+我们看到pillow模块的语法还是很清晰的，Image是个类，open方法返回具体的jpg img 对象，这里就简单称作img对象了，img对象有format, size , mode方法，分别是图片的格式（JPEG），图片的尺寸（(1920, 1080)）和图片的模式（RGB）。然后img对象调用show方法会（通过系统内部工具）显示图片。
+
+open方法就目前按照官方文档的叙述支持如下格式：bmp，eps，gif，im，jpeg，jpeg2000，msp，pcx，png，ppm ，spider，tiff，webp\\ ，xbm，xv等。还有一些格式要某只支持读要某只支持写这里不说明了。其中写的时候save方法需要明确说明图片的目标格式，而open方法打开的时候图片名字是随意的，pillow会自动检测图片的格式。
+
+如果open方法图片打开失败，将会返回\textbf{IOError}异常。
+
+
+
+
+
 \addchtoc{参考文献}
 \begin{thebibliography}{9}
 \bibitem{python入门教程} python入门教程，python官网上的tutorial。原作者：Guido van Rossum  Fred L. Drake ；中文翻译：刘鑫等；版本：2013-10-28；pdf下载链接：\href{https://drive.google.com/open?id=0ByWxOeitx54PSW40bU5zNVhuMlU&authuser=0}{python入门教程}  。
@@ -5514,7 +5148,6 @@ C和C++快速参考：本资料是在假设你已经熟悉python语言的基础�
 
 \bibitem{matplotlib tutorial} matplotlib tutorial，author: Nicolas P. Rougier , the website is  \href{http://www.labri.fr/perso/nrougier/teaching/matplotlib/}{here}.  
 
-\bibitem{tkdocs tutorial} tkdocs tutorial，the website is \href{http://www.tkdocs.com/tutorial/index.html}{here}.
 
 
 \end{thebibliography}
