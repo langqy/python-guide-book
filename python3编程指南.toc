@@ -63,19 +63,20 @@
 \contentsline {subsection}{\numberline {3.3.6}序列的加法和减法}{36}{subsection.3.3.6}
 \contentsline {section}{\numberline {3.4}字符串}{37}{section.3.4}
 \contentsline {subsection}{\numberline {3.4.1}三单引号和三双引号}{37}{subsection.3.4.1}
-\contentsline {subsection}{\numberline {3.4.2}find方法}{37}{subsection.3.4.2}
-\contentsline {subsection}{\numberline {3.4.3}replace方法}{38}{subsection.3.4.3}
-\contentsline {subsection}{\numberline {3.4.4}upper方法}{38}{subsection.3.4.4}
-\contentsline {subsection}{\numberline {3.4.5}isdigit方法}{38}{subsection.3.4.5}
-\contentsline {subsection}{\numberline {3.4.6}split方法}{38}{subsection.3.4.6}
+\contentsline {subsection}{\numberline {3.4.2}startswith方法}{37}{subsection.3.4.2}
+\contentsline {subsection}{\numberline {3.4.3}find方法}{38}{subsection.3.4.3}
+\contentsline {subsection}{\numberline {3.4.4}replace方法}{38}{subsection.3.4.4}
+\contentsline {subsection}{\numberline {3.4.5}upper方法}{38}{subsection.3.4.5}
+\contentsline {subsection}{\numberline {3.4.6}isdigit方法}{38}{subsection.3.4.6}
+\contentsline {subsection}{\numberline {3.4.7}split方法}{39}{subsection.3.4.7}
 \contentsline {subsubsection}{splitline方法}{39}{subsubsection*.9}
-\contentsline {subsection}{\numberline {3.4.7}join方法}{39}{subsection.3.4.7}
-\contentsline {subsection}{\numberline {3.4.8}strip方法}{40}{subsection.3.4.8}
+\contentsline {subsection}{\numberline {3.4.8}join方法}{39}{subsection.3.4.8}
+\contentsline {subsection}{\numberline {3.4.9}strip方法}{40}{subsection.3.4.9}
 \contentsline {subsubsection}{rstrip方法}{40}{subsubsection*.10}
 \contentsline {subsubsection}{lstrip方法}{40}{subsubsection*.11}
-\contentsline {subsection}{\numberline {3.4.9}format方法}{40}{subsection.3.4.9}
-\contentsline {subsection}{\numberline {3.4.10}转义和不转义}{40}{subsection.3.4.10}
-\contentsline {subsection}{\numberline {3.4.11}count方法}{41}{subsection.3.4.11}
+\contentsline {subsection}{\numberline {3.4.10}format方法}{40}{subsection.3.4.10}
+\contentsline {subsection}{\numberline {3.4.11}转义和不转义}{41}{subsection.3.4.11}
+\contentsline {subsection}{\numberline {3.4.12}count方法}{41}{subsection.3.4.12}
 \contentsline {section}{\numberline {3.5}列表}{41}{section.3.5}
 \contentsline {subsection}{\numberline {3.5.1}列表的插入操作}{41}{subsection.3.5.1}
 \contentsline {subsection}{\numberline {3.5.2}append方法}{42}{subsection.3.5.2}
@@ -86,47 +87,47 @@
 \contentsline {paragraph}{字典按值排序}{45}{paragraph*.13}
 \contentsline {paragraph}{中文排序}{45}{paragraph*.14}
 \contentsline {subsection}{\numberline {3.5.6}删除某个元素}{46}{subsection.3.5.6}
-\contentsline {subsection}{\numberline {3.5.7}count方法}{46}{subsection.3.5.7}
+\contentsline {subsection}{\numberline {3.5.7}count方法}{47}{subsection.3.5.7}
 \contentsline {subsection}{\numberline {3.5.8}index方法}{47}{subsection.3.5.8}
 \contentsline {subsection}{\numberline {3.5.9}列表解析}{47}{subsection.3.5.9}
 \contentsline {subsubsection}{列表解析加上过滤条件}{48}{subsubsection*.15}
 \contentsline {subsubsection}{完整的列表解析结构}{48}{subsubsection*.16}
 \contentsline {subsubsection}{列表解析的好处}{49}{subsubsection*.17}
-\contentsline {subsubsection}{元组的生成}{49}{subsubsection*.18}
-\contentsline {subsection}{\numberline {3.5.10}for语句中列表可变的影响}{49}{subsection.3.5.10}
+\contentsline {subsubsection}{元组的生成}{50}{subsubsection*.18}
+\contentsline {subsection}{\numberline {3.5.10}for语句中列表可变的影响}{50}{subsection.3.5.10}
 \contentsline {subsection}{\numberline {3.5.11}列表元素替换}{50}{subsection.3.5.11}
 \contentsline {subsection}{\numberline {3.5.12}列表元素去重}{51}{subsection.3.5.12}
 \contentsline {section}{\numberline {3.6}字典}{51}{section.3.6}
-\contentsline {subsection}{\numberline {3.6.1}创建字典}{51}{subsection.3.6.1}
+\contentsline {subsection}{\numberline {3.6.1}创建字典}{52}{subsection.3.6.1}
 \contentsline {subsubsection}{根据列表创建字典}{52}{subsubsection*.19}
-\contentsline {subsection}{\numberline {3.6.2}字典里面有字典}{52}{subsection.3.6.2}
-\contentsline {subsection}{\numberline {3.6.3}字典遍历操作}{52}{subsection.3.6.3}
-\contentsline {subsubsection}{keys方法}{53}{subsubsection*.20}
+\contentsline {subsection}{\numberline {3.6.2}字典里面有字典}{53}{subsection.3.6.2}
+\contentsline {subsection}{\numberline {3.6.3}字典遍历操作}{53}{subsection.3.6.3}
+\contentsline {subsubsection}{keys方法}{54}{subsubsection*.20}
 \contentsline {subsubsection}{values方法}{54}{subsubsection*.21}
 \contentsline {subsubsection}{items方法}{54}{subsubsection*.22}
-\contentsline {subsection}{\numberline {3.6.4}字典的in语句}{54}{subsection.3.6.4}
+\contentsline {subsection}{\numberline {3.6.4}字典的in语句}{55}{subsection.3.6.4}
 \contentsline {subsection}{\numberline {3.6.5}字典对象的get方法}{55}{subsection.3.6.5}
-\contentsline {subsection}{\numberline {3.6.6}update方法}{55}{subsection.3.6.6}
-\contentsline {subsection}{\numberline {3.6.7}pop方法}{55}{subsection.3.6.7}
-\contentsline {subsection}{\numberline {3.6.8}字典解析}{55}{subsection.3.6.8}
+\contentsline {subsection}{\numberline {3.6.6}update方法}{56}{subsection.3.6.6}
+\contentsline {subsection}{\numberline {3.6.7}pop方法}{56}{subsection.3.6.7}
+\contentsline {subsection}{\numberline {3.6.8}字典解析}{56}{subsection.3.6.8}
 \contentsline {subsubsection}{zip函数创建字典}{56}{subsubsection*.23}
-\contentsline {section}{\numberline {3.7}集合}{56}{section.3.7}
-\contentsline {subsection}{\numberline {3.7.1}集合添加元素}{57}{subsection.3.7.1}
-\contentsline {subsection}{\numberline {3.7.2}集合去掉某个元素}{58}{subsection.3.7.2}
-\contentsline {subsection}{\numberline {3.7.3}两个集合之间的关系}{58}{subsection.3.7.3}
-\contentsline {subsubsection}{子集判断}{58}{subsubsection*.24}
-\contentsline {subsection}{\numberline {3.7.4}两个集合之间的操作}{59}{subsection.3.7.4}
+\contentsline {section}{\numberline {3.7}集合}{57}{section.3.7}
+\contentsline {subsection}{\numberline {3.7.1}集合添加元素}{58}{subsection.3.7.1}
+\contentsline {subsection}{\numberline {3.7.2}集合去掉某个元素}{59}{subsection.3.7.2}
+\contentsline {subsection}{\numberline {3.7.3}两个集合之间的关系}{59}{subsection.3.7.3}
+\contentsline {subsubsection}{子集判断}{59}{subsubsection*.24}
+\contentsline {subsection}{\numberline {3.7.4}两个集合之间的操作}{60}{subsection.3.7.4}
 \contentsline {subsection}{\numberline {3.7.5}clear方法}{60}{subsection.3.7.5}
-\contentsline {subsection}{\numberline {3.7.6}copy方法}{60}{subsection.3.7.6}
-\contentsline {subsection}{\numberline {3.7.7}pop方法}{60}{subsection.3.7.7}
-\contentsline {section}{\numberline {3.8}元组}{60}{section.3.8}
+\contentsline {subsection}{\numberline {3.7.6}copy方法}{61}{subsection.3.7.6}
+\contentsline {subsection}{\numberline {3.7.7}pop方法}{61}{subsection.3.7.7}
+\contentsline {section}{\numberline {3.8}元组}{61}{section.3.8}
 \contentsline {subsection}{\numberline {3.8.1}生成器表达式}{61}{subsection.3.8.1}
-\contentsline {section}{\numberline {3.9}文件}{61}{section.3.9}
-\contentsline {subsection}{\numberline {3.9.1}写文件}{61}{subsection.3.9.1}
+\contentsline {section}{\numberline {3.9}文件}{62}{section.3.9}
+\contentsline {subsection}{\numberline {3.9.1}写文件}{62}{subsection.3.9.1}
 \contentsline {subsection}{\numberline {3.9.2}读文件}{62}{subsection.3.9.2}
-\contentsline {subsection}{\numberline {3.9.3}open函数的处理模式}{62}{subsection.3.9.3}
+\contentsline {subsection}{\numberline {3.9.3}open函数的处理模式}{63}{subsection.3.9.3}
 \contentsline {subsection}{\numberline {3.9.4}用with语句打开文件}{63}{subsection.3.9.4}
-\contentsline {subsection}{\numberline {3.9.5}除字符串外其他类型的读取}{63}{subsection.3.9.5}
+\contentsline {subsection}{\numberline {3.9.5}除字符串外其他类型的读取}{64}{subsection.3.9.5}
 \contentsline {chapter}{\numberline {4}操作或者函数}{65}{chapter.4}
 \contentsline {section}{\numberline {4.1}自定义函数}{66}{section.4.1}
 \contentsline {section}{\numberline {4.2}参数传递问题}{66}{section.4.2}
@@ -286,101 +287,43 @@
 \contentsline {section}{\numberline {20.5}os.rename}{173}{section.20.5}
 \contentsline {section}{\numberline {20.6}os.repalce}{173}{section.20.6}
 \contentsline {section}{\numberline {20.7}删除空目录}{173}{section.20.7}
-\contentsline {section}{\numberline {20.8}遍历目录树}{173}{section.20.8}
-\contentsline {section}{\numberline {20.9}environ函数}{174}{section.20.9}
-\contentsline {section}{\numberline {20.10}getpid函数}{174}{section.20.10}
-\contentsline {section}{\numberline {20.11}stat函数}{174}{section.20.11}
-\contentsline {subsection}{\numberline {20.11.1}文件大小单位优化}{175}{subsection.20.11.1}
-\contentsline {chapter}{\numberline {21}tarfile和zipfile模块}{176}{chapter.21}
-\contentsline {section}{\numberline {21.1}制作gz压缩文件}{176}{section.21.1}
-\contentsline {subsection}{\numberline {21.1.1}TarFile的add方法}{177}{subsection.21.1.1}
-\contentsline {section}{\numberline {21.2}解压缩gz压缩文件}{177}{section.21.2}
-\contentsline {subsection}{\numberline {21.2.1}TarFile的extractall方法}{177}{subsection.21.2.1}
-\contentsline {section}{\numberline {21.3}提取egg文件中的内容}{177}{section.21.3}
-\contentsline {section}{\numberline {21.4}制作zip压缩文件}{178}{section.21.4}
-\contentsline {chapter}{\numberline {22}collections模块}{179}{chapter.22}
-\contentsline {section}{\numberline {22.1}namedtuple函数}{179}{section.22.1}
-\contentsline {chapter}{\numberline {23}re模块}{180}{chapter.23}
-\contentsline {section}{\numberline {23.1}re模块中的元字符集}{180}{section.23.1}
-\contentsline {section}{\numberline {23.2}re模块中的特殊字符类}{181}{section.23.2}
-\contentsline {section}{\numberline {23.3}转义问题}{182}{section.23.3}
-\contentsline {section}{\numberline {23.4}re模块的使用}{182}{section.23.4}
-\contentsline {subsection}{\numberline {23.4.1}匹配和查找}{182}{subsection.23.4.1}
-\contentsline {subsection}{\numberline {23.4.2}分割操作}{184}{subsection.23.4.2}
-\contentsline {subsection}{\numberline {23.4.3}替换操作}{185}{subsection.23.4.3}
-\contentsline {part}{IV\hspace {1em}安装配置系}{186}{part.4}
-\contentsline {chapter}{\numberline {24}setuptools模块}{187}{chapter.24}
-\contentsline {section}{\numberline {24.1}安装}{187}{section.24.1}
-\contentsline {section}{\numberline {24.2}setuptools基础}{187}{section.24.2}
-\contentsline {section}{\numberline {24.3}pkg\_{}resources模块来管理读取资源文件}{190}{section.24.3}
-\contentsline {section}{\numberline {24.4}在pypi上注册你的软件}{191}{section.24.4}
-\contentsline {section}{\numberline {24.5}一个项目模板}{191}{section.24.5}
-\contentsline {part}{V\hspace {1em}ipython系}{192}{part.5}
-\contentsline {chapter}{\numberline {25}numpy模块}{194}{chapter.25}
-\contentsline {section}{\numberline {25.1}安装}{194}{section.25.1}
-\contentsline {section}{\numberline {25.2}引入规则}{194}{section.25.2}
-\contentsline {section}{\numberline {25.3}ndarray对象}{194}{section.25.3}
-\contentsline {subsection}{\numberline {25.3.1}array函数}{195}{subsection.25.3.1}
-\contentsline {subsection}{\numberline {25.3.2}arange函数}{195}{subsection.25.3.2}
-\contentsline {subsection}{\numberline {25.3.3}dtype属性}{196}{subsection.25.3.3}
-\contentsline {subsection}{\numberline {25.3.4}初步控制dtype}{196}{subsection.25.3.4}
-\contentsline {subsection}{\numberline {25.3.5}多个维度}{198}{subsection.25.3.5}
-\contentsline {subsection}{\numberline {25.3.6}ndim属性}{199}{subsection.25.3.6}
-\contentsline {subsection}{\numberline {25.3.7}索引值}{199}{subsection.25.3.7}
-\contentsline {subsection}{\numberline {25.3.8}索引多个值}{201}{subsection.25.3.8}
-\contentsline {subsubsection}{索引多个值并修改}{201}{subsubsection*.34}
-\contentsline {subsection}{\numberline {25.3.9}加减运算}{203}{subsection.25.3.9}
-\contentsline {subsection}{\numberline {25.3.10}和标量的运算}{203}{subsection.25.3.10}
-\contentsline {subsection}{\numberline {25.3.11}copy方法}{203}{subsection.25.3.11}
-\contentsline {section}{\numberline {25.4}矩阵}{204}{section.25.4}
-\contentsline {subsection}{\numberline {25.4.1}matrix函数}{204}{subsection.25.4.1}
-\contentsline {subsubsection}{array转matrix}{204}{subsubsection*.35}
-\contentsline {subsection}{\numberline {25.4.2}shape属性}{205}{subsection.25.4.2}
-\contentsline {subsection}{\numberline {25.4.3}flatten方法}{205}{subsection.25.4.3}
-\contentsline {subsection}{\numberline {25.4.4}矩阵转置}{206}{subsection.25.4.4}
-\contentsline {subsection}{\numberline {25.4.5}行矢量和列矢量}{207}{subsection.25.4.5}
-\contentsline {subsection}{\numberline {25.4.6}矩阵相乘}{207}{subsection.25.4.6}
-\contentsline {subsection}{\numberline {25.4.7}reshape方法}{208}{subsection.25.4.7}
-\contentsline {section}{\numberline {25.5}numpy模块常用函数}{209}{section.25.5}
-\contentsline {subsection}{\numberline {25.5.1}linspace函数}{209}{subsection.25.5.1}
-\contentsline {subsection}{\numberline {25.5.2}histogram函数}{209}{subsection.25.5.2}
-\contentsline {section}{\numberline {25.6}微积分相关}{209}{section.25.6}
-\contentsline {section}{\numberline {25.7}读写文件}{209}{section.25.7}
-\contentsline {chapter}{\numberline {26}matplotlib模块}{211}{chapter.26}
-\contentsline {section}{\numberline {26.1}安装}{211}{section.26.1}
-\contentsline {section}{\numberline {26.2}ipython3下的pylab模式}{211}{section.26.2}
-\contentsline {subsection}{\numberline {26.2.1}ipython3的notebook模式}{211}{subsection.26.2.1}
-\contentsline {subsubsection}{inline plot风格}{212}{subsubsection*.36}
-\contentsline {section}{\numberline {26.3}引入规则}{212}{section.26.3}
-\contentsline {section}{\numberline {26.4}plt子模块}{213}{section.26.4}
-\contentsline {subsection}{\numberline {26.4.1}plot函数}{213}{subsection.26.4.1}
-\contentsline {subsection}{\numberline {26.4.2}title}{213}{subsection.26.4.2}
-\contentsline {subsection}{\numberline {26.4.3}xlabel和ylabel}{213}{subsection.26.4.3}
-\contentsline {subsection}{\numberline {26.4.4}show}{214}{subsection.26.4.4}
-\contentsline {subsection}{\numberline {26.4.5}axis}{214}{subsection.26.4.5}
-\contentsline {subsection}{\numberline {26.4.6}figure}{214}{subsection.26.4.6}
-\contentsline {subsection}{\numberline {26.4.7}subplot}{214}{subsection.26.4.7}
-\contentsline {subsection}{\numberline {26.4.8}清除图形或坐标轴}{214}{subsection.26.4.8}
-\contentsline {subsection}{\numberline {26.4.9}close函数}{215}{subsection.26.4.9}
-\contentsline {subsection}{\numberline {26.4.10}text函数}{215}{subsection.26.4.10}
-\contentsline {subsection}{\numberline {26.4.11}annotate函数}{215}{subsection.26.4.11}
-\contentsline {subsection}{\numberline {26.4.12}grid函数}{215}{subsection.26.4.12}
-\contentsline {section}{\numberline {26.5}定义你自己的图片样式}{215}{section.26.5}
-\contentsline {subsection}{\numberline {26.5.1}自带的工具栏}{216}{subsection.26.5.1}
-\contentsline {section}{\numberline {26.6}hist函数}{216}{section.26.6}
-\contentsline {section}{\numberline {26.7}文字处理方案}{216}{section.26.7}
-\contentsline {subsection}{\numberline {26.7.1}调用XeLaTeX引擎}{217}{subsection.26.7.1}
-\contentsline {part}{VI\hspace {1em}网络抓取系}{218}{part.6}
-\contentsline {part}{VII\hspace {1em}python3高级篇}{219}{part.7}
-\contentsline {chapter}{\numberline {27}bytes类型介绍}{220}{chapter.27}
-\contentsline {chapter}{\numberline {28}python的元类编程}{222}{chapter.28}
-\contentsline {part}{VIII\hspace {1em}附录}{223}{part.8}
-\contentsline {chapter}{\numberline {A}the-python-companion}{224}{appendix.A}
-\contentsline {chapter}{\numberline {B}PyQt编程指南}{225}{appendix.B}
-\contentsline {chapter}{\numberline {C}linux及时了解}{226}{appendix.C}
-\contentsline {chapter}{\numberline {D}数理化参考手册}{227}{appendix.D}
-\contentsline {chapter}{\numberline {E}C和C++快速参考}{228}{appendix.E}
-\contentsline {chapter}{\numberline {F}pillow模块}{229}{appendix.F}
-\contentsline {section}{\numberline {F.1}安装}{229}{section.F.1}
-\contentsline {subsection}{\numberline {F.1.1}测试安装情况}{229}{subsection.F.1.1}
-\contentsline {chapter}{参考文献}{231}{section*.37}
+\contentsline {section}{\numberline {20.8}listdir命令}{173}{section.20.8}
+\contentsline {section}{\numberline {20.9}遍历目录树}{174}{section.20.9}
+\contentsline {section}{\numberline {20.10}environ函数}{175}{section.20.10}
+\contentsline {section}{\numberline {20.11}getpid函数}{175}{section.20.11}
+\contentsline {section}{\numberline {20.12}stat函数}{175}{section.20.12}
+\contentsline {subsection}{\numberline {20.12.1}文件大小单位优化}{176}{subsection.20.12.1}
+\contentsline {chapter}{\numberline {21}shutil模块}{177}{chapter.21}
+\contentsline {section}{\numberline {21.1}复制文件}{177}{section.21.1}
+\contentsline {section}{\numberline {21.2}复制文件夹}{177}{section.21.2}
+\contentsline {section}{\numberline {21.3}删除整个目录}{178}{section.21.3}
+\contentsline {section}{\numberline {21.4}移动文件夹}{178}{section.21.4}
+\contentsline {section}{\numberline {21.5}chown函数}{178}{section.21.5}
+\contentsline {section}{\numberline {21.6}which函数}{178}{section.21.6}
+\contentsline {chapter}{\numberline {22}tarfile和zipfile模块}{180}{chapter.22}
+\contentsline {section}{\numberline {22.1}制作gz压缩文件}{180}{section.22.1}
+\contentsline {subsection}{\numberline {22.1.1}TarFile的add方法}{181}{subsection.22.1.1}
+\contentsline {section}{\numberline {22.2}解压缩gz压缩文件}{181}{section.22.2}
+\contentsline {subsection}{\numberline {22.2.1}TarFile的extractall方法}{181}{subsection.22.2.1}
+\contentsline {section}{\numberline {22.3}提取egg文件中的内容}{181}{section.22.3}
+\contentsline {section}{\numberline {22.4}制作zip压缩文件}{182}{section.22.4}
+\contentsline {chapter}{\numberline {23}collections模块}{183}{chapter.23}
+\contentsline {section}{\numberline {23.1}namedtuple函数}{183}{section.23.1}
+\contentsline {chapter}{\numberline {24}re模块}{184}{chapter.24}
+\contentsline {section}{\numberline {24.1}re模块中的元字符集}{184}{section.24.1}
+\contentsline {section}{\numberline {24.2}re模块中的特殊字符类}{185}{section.24.2}
+\contentsline {section}{\numberline {24.3}转义问题}{186}{section.24.3}
+\contentsline {section}{\numberline {24.4}re模块的使用}{186}{section.24.4}
+\contentsline {subsection}{\numberline {24.4.1}匹配和查找}{186}{subsection.24.4.1}
+\contentsline {subsection}{\numberline {24.4.2}分割操作}{188}{subsection.24.4.2}
+\contentsline {subsection}{\numberline {24.4.3}替换操作}{189}{subsection.24.4.3}
+\contentsline {part}{IV\hspace {1em}python3高级篇}{190}{part.4}
+\contentsline {chapter}{\numberline {25}bytes类型介绍}{191}{chapter.25}
+\contentsline {chapter}{\numberline {26}python的元类编程}{193}{chapter.26}
+\contentsline {part}{V\hspace {1em}附录}{194}{part.5}
+\contentsline {chapter}{\numberline {A}python第三方模块参考资料}{195}{appendix.A}
+\contentsline {chapter}{\numberline {B}linux及时了解}{196}{appendix.B}
+\contentsline {chapter}{\numberline {C}pillow模块}{197}{appendix.C}
+\contentsline {section}{\numberline {C.1}安装}{197}{section.C.1}
+\contentsline {subsection}{\numberline {C.1.1}测试安装情况}{197}{subsection.C.1.1}
+\contentsline {chapter}{参考文献}{199}{section*.34}

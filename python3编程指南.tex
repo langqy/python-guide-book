@@ -868,6 +868,11 @@ print('''\
 \end{Verbatim}
 
 
+\subsection{startswith方法}
+
+endswith
+
+
 \subsection{find方法}
 字符串的find方法可用来查找某个子字符串，没有找到返回-1，找到了返回字符串的偏移量。用法就是：\verb+s.find('d')+。
 
@@ -3772,7 +3777,7 @@ abspath函数接受一个path路径值然后返回一个正规的普适的路径
 \end{Verbatim}
 
 \section{dirname函数}
-dirname函数接受一个路径值然后 返回这个路径除开最后一个元素的前面的路径值。比如上面的例子，路径指向文件，那么dirname函数返回的是除开这个文件名的前面的路径；而如果接受的路径指向目录，那么返回的是除开最后一个文件夹名的前面的路径值。
+dirname函数接受一个路径值然后返回这个路径除开最后一个元素的前面的路径值。比如上面的例子，路径指向文件，那么dirname函数返回的是除开这个文件名的前面的路径；而如果接受的路径指向目录，那么返回的是除开最后一个文件夹名的前面的路径值。
 
 \section{basename函数}
 如上面例子所示，basename函数接受一个路径值然后返回路径的最后一个元素，如果路径指向文件，那么返回的是文件名；如果路径指向目录，那么返回的是最后那个目录的文件夹名。比如下面实现了从绝对路径提取出文件名的功能。
@@ -3783,6 +3788,9 @@ dirname函数接受一个路径值然后 返回这个路径除开最后一个元
 >>> fileName
 'test'
 \end{Verbatim}
+
+
+
 
 \section{split函数}
 将路径path字符串分割，可以视作dirname和basename的组合。
@@ -3986,6 +3994,33 @@ os.rmdir(path)
 
 支持相对路径语法表达，只能删除空目录。如果要删除整个目录，请使用shutil.rmtree(path)。
 
+\section{listdir命令}
+\begin{Verbatim}
+os.listdir(path='.')
+\end{Verbatim}
+
+相当于简单的ls命令，将返回一个字符串列表，其内包含本path下所有的文件和文件夹名（包括链接文件）。
+
+可以结合前面介绍的os.path模块的isfile等函数新建一个函数listdir\_{}file，listdir\_{}dir和listdir\_{}link，将普通文件，目录和链接文件区分开来。
+
+\begin{tcbpython}[]
+import os
+
+def listdir_dir(path='.'):
+    '''os的listdir函数加强，只返回文件夹。'''
+    return [dir for dir in os.listdir(path) if os.path.isdir(dir) ]
+def listdir_file(path='.'):
+    '''os的listdir函数加强，只返回普通文件'''
+    return [file for file in os.listdir(path) if os.path.isfile(file)
+     and  not os.path.islink(file)]
+def listdir_link(path='.'):
+    '''os的listdir函数加强，只返回链接文件'''
+    return [link for link in os.listdir(path) if os.path.islink(link) ]
+\end{tcbpython}
+
+
+
+
 \section{遍历目录树}
 \begin{tcbpython}[]
 os.walk('.')
@@ -4045,6 +4080,61 @@ print(filename + '大小是' +str(int(filesize)) + unit)
 \begin{large}
 更多os模块内容请参见\href{https://docs.python.org/3.4/library/os.html}{官方文档}。
 \end{large}
+
+\chapter{shutil模块}
+相当于os模块的补充，shutil模块进一步提供了一些系统级别的文件或文件夹的复制，删除，移动等等操作。
+
+\section{复制文件}
+\begin{Verbatim}
+shutil.copyfile(src, dst)
+shutil.copy(src, dst)
+shutil.copy2(src, dst)
+\end{Verbatim}
+其中\textbf{copyfile}的src和dst两个参量都是完整文件路径名，第一个参量是待复制的文件，第二个参量是复制后的文件名；而\textbf{copy}函数的第一个参量是待复制的文件，但是第二个参量是目标文件夹路径；\textbf{copy2}函数和copy函数类似，不同的是它能尝试保留文件的所有元信息metadata（模块开头有说明是理论上但不尽然）。
+
+\section{复制文件夹}
+\begin{Verbatim}
+shutil.copytree(src, dst)
+\end{Verbatim}
+
+\textbf{copytree}函数第一个参量是待复制的文件夹路径名，第二个参量是目标文件夹路径名，其将被创建不应该存在。
+
+\section{删除整个目录}
+\begin{Verbatim}
+shutil.rmtree(path)
+\end{Verbatim}
+
+\textbf{rmtree}函数用于删除整个文件夹，path就是目标文件夹的路径名。
+
+\section{移动文件夹}
+\begin{Verbatim}
+shutil.move(src,dst)
+\end{Verbatim}
+\textbf{move}函数把一个文件或者一个文件夹移动到一个文件夹内。
+
+
+
+\section{chown函数}
+\begin{Verbatim}
+shutil.chown(path, user=None, group=None)
+\end{Verbatim}
+
+\textbf{chown}函数类似的linux系统下的chown函数，这个函数基于os.chown函数，不过接口更友好。
+
+
+\section{which函数}
+\begin{Verbatim}
+shutil.which(cmd)
+\end{Verbatim}
+
+\textbf{which}函数类似的linux系统下的which函数。
+
+
+
+\begin{large}
+更多shutil模块内容请参见\href{https://docs.python.org/3.4/library/shutil.html}{官方文档}。
+\end{large}
+
 
 \chapter{tarfile和zipfile模块}
 tarfile是gzip，bz2和lzma压缩文件读写的解决方案，zipfile模块是zip压缩文件的解决方案，\uwave{值得一提的是pip管理的egg文件也可以通过zipfile模块来管理}。
@@ -4267,745 +4357,6 @@ if __name__ == '__main__':
 
 
 
-
-\part{安装配置系}
-\chapter{setuptools模块}
-虽然官方内置distutils模块也能实现类似的功能，不过现在人们更常用的是第三方模块setuptools，相当于distutils模块的加强版，初学者推荐就使用setuptools模块。
-
-\section{安装}
-安装就是先安装pip3：
-\begin{Verbatim}
-sudo apt-get install python3-pip
-\end{Verbatim}
-
-
-然后通过pip3来安装setuptools：
-\begin{Verbatim}
-sudo pip3 install setuptools
-\end{Verbatim}
-
-
-\section{setuptools基础}
-安装官方文档最简单的“setup.py”文件如下所示：
-\begin{tcbpython}[]
-from setuptools import setup, find_packages
-setup(
-    name = "HelloWorld",
-    version = "0.1",
-    packages = find_packages(),
-)
-\end{tcbpython}
-第一行是从setuptools模块中引入setup函数和find\_{}packages函数。
-
-setup函数接受一系列的字典值，下面就setup函数的一些字典值的含义慢慢道来：
-\begin{description}
-\item[name] 本软件的名字
-\item[version] 本软件的版本号
-\item[author] 本软件的作者
-\item[author\_{}email] 本软件作者的邮箱
-\item[maintainer] 本软件的维护者
-\item[maintainer\_{}email] 本软件维护者的邮箱
-\item[contact] 本软件的联系人。可以不写，则是维护者的名字，如果没有则是作者的名字。
-\item[contact\_{}email] 本软件的联系人的邮箱，可以不写，则是维护者的邮箱，如果没有则是作者的邮箱。
-\item[license] 本软件的license
-\item[url] 本软件项目主页地址
-\item[description] 本软件的简要描述
-\item[long\_{}description] 本软件的完整描述，一般如下定义一行函数，然后读取本地目录下面README.md文件。
-
-\begin{tcbpython}[]
-import os.path
-def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
-\end{tcbpython}
-然后long\_{}description如下设置：
-\begin{tcbpython}[]
-long_description=read('README.md'),
-\end{tcbpython}
-\item[platforms] 本软件经过测试可运行的平台
-\item[classifiers] 本软件的分类，请参考\href{https://pypi.python.org/pypi?%3Aaction=list_classifiers}{这个网页}给出一些值。是字符串的列表。
-\item[keywords] 本软件在pypi上搜索的关键词，字符串的列表。
-\item[packages] 你的软件依赖的模块。一般如下使用：
-\begin{tcbpython}[]
-packages = find_packages(),
-\end{tcbpython}
-则你文件夹下有\verb+__init__.py+文件的都将视作python模块并加入进去。
-
-除此之外你也可以直接手工输入你的模块名字，具体就是字符串的列表。
-\item[entry\_{}point] entry\_{}point属性视图解决在Linux\footnote{windows下的情况不清楚。}下的脚本调用问题。如下所示：
-\begin{tcbpython}[]
-  entry_points = {
-  'console_scripts' :[ 'zwc=zwc.zwc:main',],
-  }
-\end{tcbpython}
-其中zwc是你的shell调用的名字，然后zwc是你的模块，另外一个zwc是你的主模块的子模块，然后main是其中的main函数。这就是你的shell调用程序的接口了。类似的还有gui\_{}script可以控制你调用GUI图形的命令入口。
-\item[install\_{}requires] 接受字符串的列表值，将你依赖的可以通过pip安装的模块名放入进去，然后你的软件安装会自动检测并安装这些依赖模块。
-\item[package\_{}data] 你的软件的模块额外附加的（除了py文件的）其他文件，具体设置类似这样\verb+{"skeleton":['*.txt'],}+其中skeleton这里就是具体的你的软件的模块（对应的文件夹名），然后后面跟着的就是一系列的文件名列表，可以接受glob语法。注意这里只能包含你的模块文件夹也就是前面通过packages控制的文件夹下面的内容。
-\item[include\_{}package\_{}data] 这个一般设置为True，似乎可以省略？
-\end{description}
-
-
-其他不常用的属性值列在下面：
-\begin{description}
-\item[scripts] 不推荐使用，推荐通过entry\_{}point来生成脚本。
-\item[py\_{}modules] 不推荐使用，推荐使用packages来管理模块。
-\item[data\_{}files] 前面的package\_{}data是只能在你的模块文件夹里面的其他数据文件等，然后可能还有一些数据文件你需要包含的，用data\_{}files来控制，具体后面跟着的参数格式如下面例子所示：
-\begin{tcbpython}[]
-data_files = [('icos',['icos/wise.ico'])],
-#这是添加的icos文件夹下面的wise.ico文件
-data_files = [('',['skeleton.tar.gz'])],
-#这是添加的主目录下的skeleton.tar.gz文件
-\end{tcbpython}
-值得一提的是data\_{}files不能接受glob语法。
-
-data\_{}files已经不推荐使用了，推荐用package\_{}data来管理，可以方便用pkg\_{}resources里面的方法来引用其中的资源文件。具体说明请看后面。
-\end{description}
-
-\section{pkg\_{}resources模块来管理读取资源文件}
-如下所示
-\begin{Verbatim}
-from pkg_resources import resource_filename
-resource_stream('wise','icos/Folder-Documents.ico')
-\end{Verbatim}
-第一个参数是模块名字，第二个参数是模块中的文件的相对路径表达。
-
-上面的例子是resource\_{}filename，返回的是引用的文件名。此外还有命令：resource\_{}string，参数和resource\_{}filename一样，除了它返回的是字节流。这个字节流可以赋值给某个变量从而直接使用，或者存储在某个文件里面。
-
-
-\section{在pypi上注册你的软件}
-具体很简单，就是
-\begin{tcbbash}[]
-sudo python3 setup.py register
-\end{tcbbash}
-
-你需要在pypi官网上注册一个帐号，然后你的软件不一定能够注册成功，因为很多好名字都被别人取了。。
-
-\section{一个项目模板}
-我在github上创建了一个小项目，这个小项目支持快速新建一个项目。
-
-\href{https://github.com/a358003542/skeleton}{https://github.com/a358003542/skeleton}
-
-
-
-
-
-\part{ipython系}
-ipython系指这几大套件：numpy，scipy，matplotlib，pandas。
-\chapter{numpy模块}
-\section{安装}
-安装使用类似的语法：
-\begin{Verbatim}
-sudo apt-get install python3-numpy
-\end{Verbatim}
-
-\section{引入规则}
-\begin{tcbpython}[]
-import numpy as np
-\end{tcbpython}
-
-一般numpy引入语句如上所示，这已经是个惯例了，下面这个语句就省略了。
-
-
-
-\section{ndarray对象}
-ndarray对象严格个意义上讲可以包含任意维度，而且每个维度的元素个数不一定要相等，而矩阵是ndarray的一个子类。这里为了讨论简单，决定最多只讨论到二维的情况，然后array多维数组只讨论矩阵排布的情况，也就是某些行元素不等的情况不考虑。为了区分方便，这里假设读者已经知道矩阵是ndarray的一个子类，也就是ndarray的属性和方法它都已经继承了，这样array，或多维数组在此处的含义就是广义的ndarray对象，而matrix，矩阵在此处的含义指矩阵对象。
-
-
-\subsection{array函数}
-\begin{Verbatim}
->>> x = np.array([1,2,3,4,5,6])
->>> print(x)
-[1 2 3 4 5 6]
->>> type(x)
-<class 'numpy.ndarray'>
-\end{Verbatim}
-
-如上所示numpy模块的array方法接受列表之后会将其变成numpy自己的ndarray对象，包括matplotlib模块等在内，它们都使用numpy模块的ndarray对象来表示和运算（类似列表的）数据。
-
-
-\subsection{arange函数}
-arange(start,end,step)  参数类似range函数。生成numpy的一维数组列表，如下所示：
-\begin{Verbatim}
->>> x = np.arange(1,10,0.5)
->>> type(x)
-<class 'numpy.ndarray'>
->>> x
-array([ 1. ,  1.5,  2. ,  2.5,  3. ,  3.5,  4. ,  4.5,  5. ,  5.5,  6. ,
-        6.5,  7. ,  7.5,  8. ,  8.5,  9. ,  9.5])
-\end{Verbatim}
-
-
-\subsection{dtype属性}
-ndarray里面存储的数据类型都是一致的，我们可以调用ndarray的dtype属性来查看具体存放的数据类型。
-
-\begin{Verbatim}
->>> x = np.arange(5)
->>> x
-array([0, 1, 2, 3, 4])
->>> x.dtype
-dtype('int32')
->>> y = np.arange(1,5,0.5)
->>> y
-array([ 1. ,  1.5,  2. ,  2.5,  3. ,  3.5,  4. ,  4.5])
->>> y.dtype
-dtype('float64')
-\end{Verbatim}
-
-ndarray可以支持很多数据类型，简单的了解就是逻辑值01，整数值int，实数值float，复数值complex。ndarray和python原来的列表区别还是很大的，更多具体的细节这里略过，总之把numpy的ndarray对象看作经过优化的更适合处理一系列\textbf{数值}数据\footnote{似乎ndarray也可以存储字符串类型，但这只会让事情变得复杂罢了。}的类型会更简单一些而且在应用上没太大损伤。
-
-
-\subsection{初步控制dtype}
-为了简单起见，这里只讨论bool，int，float和complex这几个dtype类型。
-
-用array方法的dtype可选项可以达到控制具体生成的ndarray对象的dtype属性。其中bool类型将0视作False将1或其他数字都视作True，这个操作在某些领域也许有些用处。实际上在这里array函数接受的列表中可以接受任意类型的数据，然后进行了bool函数\footnote{具体过程应该是numpy模块控制的，但在这里讨论的逻辑真假惯例和python的bool函数是一致的。}的强制类型转换罢了。
-\begin{Verbatim}
->>> x = np.array([0,1,2,0,4,0],dtype='bool')
->>> x
-array([False,  True,  True, False,  True, False], dtype=bool)
-\end{Verbatim}
-
-对于整数型，dtype接受的参数可以是\emph{i}或者\emph{int}，不过integer却不可以。最后的输出ndarray对象的dtype属性要视具体情况而定，这里是int32。
-\begin{Verbatim}
->>> x = np.array([0,1,2,3,4,5],dtype='i')
->>> x.dtype
-dtype('int32')
->>> x = np.array([0,1,2,3,4,5],dtype='int')
->>> x
-array([0, 1, 2, 3, 4, 5])
->>> x.dtype
-dtype('int32')
-\end{Verbatim}
-
-对于实数型，如果输入\emph{f}，则返回的float32类型；如果输入float，则返回的是float64类型。
-\begin{Verbatim}
->>> x = np.array([0,1,2,3,4,5],dtype='f')
->>> x
-array([ 0.,  1.,  2.,  3.,  4.,  5.], dtype=float32)
->>> x.dtype
-dtype('float32')
->>> x = np.array([0,1,2,3,4,5],dtype='float')
->>> x
-array([ 0.,  1.,  2.,  3.,  4.,  5.])
->>> x.dtype
-dtype('float64')
-\end{Verbatim}
-
-对于复数型，dtype可以接受\emph{D}和\emph{complex}参数，具体是complex128 dtype类型，可能同样也会有点差异。
-\begin{Verbatim}
->>> x = np.array([0,1,2,3,4,5],dtype='complex')
->>> x
-array([ 0.+0.j,  1.+0.j,  2.+0.j,  3.+0.j,  4.+0.j,  5.+0.j])
->>> x.dtype
-dtype('complex128')
-\end{Verbatim}
-
-关于dtype类型更多具体的细节请参看官方文档。
-
-\subsection{多个维度}
-如下所示，多个一维数组ndarray对象再放入一个列表中变成ndarray对象就是多维数组了。如果有一行列数和其它并不是相等的，显示打印是有差异的，似乎其内部实现机制也会有点差异。如果我们查看x.dtype和z.dtype，也是有差异的，具体细节我还不清楚。
-\begin{Verbatim}
->>> x=np.array([[1,2,3,4,5],[6,7,8,9,10]])
->>> x
-array([[ 1,  2,  3,  4,  5],
-       [ 6,  7,  8,  9, 10]])
->>> y = np.array([np.arange(5),np.arange(6)])
->>> y
-array([array([0, 1, 2, 3, 4]), array([0, 1, 2, 3, 4, 5])], dtype=object)
->>> z = np.array([np.arange(5),np.arange(5)])
->>> z
-array([[0, 1, 2, 3, 4],
-       [0, 1, 2, 3, 4]])
-\end{Verbatim}
-
-下面叙述的内容是多维数组情况的一些普适的操作（即矩阵也可如此应用）。
-
-
-\subsection{ndim属性}
-显示多维数组的维度，比如下面的一个矩阵就是二维的，更高的维度在数学上过于艰深除非要实际应用，否则还是少接触吧。
-\begin{Verbatim}
->>> y = np.array([[1,2,3,4],[5,6,7,8],[10,11,12,14]])
->>> y
-array([[ 1,  2,  3,  4],
-       [ 5,  6,  7,  8],
-       [10, 11, 12, 14]])
->>> y.ndim
-2
-\end{Verbatim}
-
-
-\subsection{索引值}
-多维数组对于值的索引和列表索引值的情况并无二致，即方括号语法索引\verb+[index]+，如果要继续深入继续使用方括号语法。数字同样从0开始索引，去索引几行几列。
-
-\begin{Verbatim}
->>> x = np.array([[1,2,3],[4,5,6],[7,8,9]])
->>> x
-array([[1, 2, 3],
-       [4, 5, 6],
-       [7, 8, 9]])
->>> x[0]
-array([1, 2, 3])
->>> y
-array([array([0, 1, 2, 3, 4]), array([0, 1, 2, 3, 4, 5])], dtype=object)
->>> y[0]
-array([0, 1, 2, 3, 4])
->>> x[0][0]
-1
->>> y[1][5]
-5
-\end{Verbatim}
-
-通过上面描述的索引值语法可以直接修改该ndarray对象的这个元素的值。值得强调的是多维数组和矩阵的索引值语法有点差异！numpy还提供了一种表示语法：\verb+[a,b]+，对于多维数组和\verb+[a][b]+的意思是一样的，推荐多维数组就用python的原来表示方法，意思也很明确，是a维的第几个元素。但是矩阵\udot{不}支持\verb+[a][b]+这种索引语法，而只支持\verb+[a,b]+这种表示语法，推荐对于矩阵都用带逗号的这种索引方法，表示矩阵的a行b列。
-\begin{Verbatim}
->>> A = np.matrix([[1,2,3],[4,5,6],[7,8,9]])
->>> A[0]
-matrix([[1, 2, 3]])
->>> A[0][0]
-matrix([[1, 2, 3]])
->>> A[0,0]
-1
-\end{Verbatim}
-
-
-
-\subsection{索引多个值}
-同样，索引多个值的语法和python中的语法完全一致，这里也不赘述了，就是[start:end:step]。
-\begin{Verbatim}
->>> x = np.array([[1,2,3],[4,5,6],[7,8,9]])
->>> x
-array([[1, 2, 3],
-       [4, 5, 6],
-       [7, 8, 9]])
->>> x[::-1]
-array([[7, 8, 9],
-       [4, 5, 6],
-       [1, 2, 3]])
->>> y = np.arange(10)
->>> y
-array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
->>> y[0::2]
-array([0, 2, 4, 6, 8])
-\end{Verbatim}
-
-\subsubsection{索引多个值并修改}
-下面是索引多个值和进行修改的例子：
-\begin{Verbatim}
->>> A = np.matrix([[1,2,3],[4,5,6],[7,8,9]])
->>> A[:,1]
-matrix([[2],
-        [5],
-        [8]])
->>> A[:,1] = np.matrix([2,2,2]).transpose()
->>> A
-matrix([[1, 2, 3],
-        [4, 2, 6],
-        [7, 2, 9]])
->>> A[0] = [1,1,1]
->>> A
-matrix([[1, 1, 1],
-        [4, 2, 6],
-        [7, 2, 9]])
-\end{Verbatim}
-
-从上面例子可以看到，对于横向的一行修改直接用列表数据没有问题，但是如果是一列修改，则新值是需要做出一些修改好让shape对应的。在看下面的例子，选取的值是[(0,0),(0,2),(2,0),(2,2)]，则赋予的新值的矩阵shape比如是相容的，也就是元素要一一对应起来。
-\begin{Verbatim}
->>> A = np.matrix([[1,2,3],[4,5,6],[7,8,9]])
->>> A[::2,::2]
-matrix([[1, 3],
-        [7, 9]])
->>> A
-matrix([[1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9]])
->>> A[::2,::2] = np.matrix([[10,10],[10,10]])
->>> A
-matrix([[10,  2, 10],
-        [ 4,  5,  6],
-        [10,  8, 10]])
-\end{Verbatim}
-
-
-
-\subsection{加减运算}
-多维数组的加法和减法就直接用$ + $和$ - $来操作就是了，和日常写数学公式一样，然后意义就是\uwave{对应的元素}执行加法和减法操作，如果维度不匹配将会产生错误。矩阵的加法和减法同样与之类似。
-
-\begin{Verbatim}
->>> A = np.array([[4,0,5],[-1,3,2]])
->>> A
-array([[ 4,  0,  5],
-       [-1,  3,  2]])
->>> B = np.array([[1,1,1],[3,5,7]])
->>> B
-array([[1, 1, 1],
-       [3, 5, 7]])
->>> A + B
-array([[5, 1, 6],
-       [2, 8, 9]])
->>> A - B
-array([[ 3, -1,  4],
-       [-4, -2, -5]])
-\end{Verbatim}
-
-\subsection{和标量的运算}
-多维数组（包括矩阵）和标量之间的运算和大家预期的并无二致，运算符也和python之前的一样。有[+ - * / **]，意义就是对于每个数组中的元素都和标量做如此运算。
-
-
-\subsection{copy方法}
-多维数组和矩阵都类似列表有copy方法，返回本对象副本，不容赘述。
-
-size属性
-
-
-\section{矩阵}
-矩阵对象是ndarray对象的子类，也就是说ndarray对象的一些属性和方法它都是可以使用的。行矢量和列矢量是属于矩阵中的特殊情况。矩阵这个概念在以后的数学运算中较为重要。
-
-\subsection{matrix函数}
-用numpy的matrix函数可以创建一个矩阵对象：
-\begin{Verbatim}
->>> x
-matrix([[1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9]])
-\end{Verbatim}
-
-\subsubsection{array转matrix}
-最直接的方法就是matrix函数处理一下。
-\begin{Verbatim}
->>> np.arange(1,10)
-array([1, 2, 3, 4, 5, 6, 7, 8, 9])
->>> np.matrix(np.arange(1,10))
-matrix([[1, 2, 3, 4, 5, 6, 7, 8, 9]])
-\end{Verbatim}
-
-\subsection{shape属性}
-对于各个维度所含元素数目相等的多维数组来说也有一个shape属性，和这里描述的矩阵的shape意思一样，是一共有几行几列的意思。
-\begin{Verbatim}
->>> A = np.matrix([[1,2,3],[4,5,6]])
->>> A.shape
-(2, 3)
-\end{Verbatim}
-
-\subsection{flatten方法}
-flatten，拉平。flatten是多维数组（包括矩阵）的一个方法，可将其变为一维形式。此方法返回结果但\uwave{不原地修改}。
-
-这里将flatten方法归到矩阵这里是因为多维数组必须各个维度所含元素数目相等（也就是必须要有类似矩阵的空间矩形排布感）才有意义。然后矩阵返回的是行矢量形式。
-
-\begin{Verbatim}
->>> x = np.array([[1,2,3],[4,5,6],[7,8,9]])
->>> x
-array([[1, 2, 3],
-       [4, 5, 6],
-       [7, 8, 9]])
->>> x.flatten()
-array([1, 2, 3, 4, 5, 6, 7, 8, 9])
->>> x
-array([[1, 2, 3],
-       [4, 5, 6],
-       [7, 8, 9]])
->>> y = np.array([[1,2,3],[4,5,6,7]])
->>> y
-array([[1, 2, 3], [4, 5, 6, 7]], dtype=object)
->>> y.flatten()
-array([[1, 2, 3], [4, 5, 6, 7]], dtype=object)
->>> z
-matrix([[1, 2, 3],
-        [4, 5, 6]])
->>> z.flatten()
-matrix([[1, 2, 3, 4, 5, 6]])
-\end{Verbatim}
-
-\subsection{矩阵转置}
-transpose方法，将矩阵转置过来。只返回结果，非原处修改函数。同样多维数组也支持transpose方法，但必须有空间矩形排布感，也就是各个维度所言元素数目相等。
-\begin{Verbatim}
->>> x = np.matrix([[1,2,3],[4,5,6],[7,8,9]])
->>> x
-matrix([[1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9]])
->>> x.transpose()
-matrix([[1, 4, 7],
-        [2, 5, 8],
-        [3, 6, 9]])
-\end{Verbatim}
-
-
-\subsection{行矢量和列矢量}
-行矢量和列矢量是矩阵的特殊情况，需要用matrix函数创建之。行矢量转置之后就是列矢量请注意看它的写法。
-\begin{Verbatim}
->>> x = np.matrix([1,2,3,4,5])
->>> x
-matrix([[1, 2, 3, 4, 5]])
->>> x.transpose()
-matrix([[1],
-        [2],
-        [3],
-        [4],
-        [5]])
-\end{Verbatim}
-
-\subsection{矩阵相乘}
-学过线性代数印像最深的可能就是矩阵那个怪异的乘法运算了。这里有了numpy模块的支持，就可以直接用\emph{*}来执行两个矩阵的乘法，很是方便。
-
-\begin{Verbatim}
->>> A = np.matrix([[1,0,3,-1],[2,1,0,2]])
->>> B = np.matrix([[4,1,0],[-1,1,3],[2,0,1],[1,3,4]])
->>> A * B
-matrix([[ 9, -2, -1],
-        [ 9,  9, 11]])
->>> x = np.matrix([1,2,3])
->>> y = np.matrix([4,5,6]).transpose()
->>> x * y
-matrix([[32]])
->>> y * x
-matrix([[ 4,  8, 12],
-        [ 5, 10, 15],
-        [ 6, 12, 18]])
-\end{Verbatim}
-
-\subsection{reshape方法}
-顾名思义reshape方法可以改变矩阵的形状\footnote{多维数组同样有个reshape方法，须有空间排布矩形感，不容赘述。}。
-\begin{Verbatim}
->>> A = np.matrix(np.arange(1,13))
->>> A
-matrix([[ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12]])
->>> A.reshape(2,6)
-matrix([[ 1,  2,  3,  4,  5,  6],
-        [ 7,  8,  9, 10, 11, 12]])
->>> B = A.reshape(2,6)
->>> B
-matrix([[ 1,  2,  3,  4,  5,  6],
-        [ 7,  8,  9, 10, 11, 12]])
->>> B.reshape(3,4)
-matrix([[ 1,  2,  3,  4],
-        [ 5,  6,  7,  8],
-        [ 9, 10, 11, 12]])
->>> B.reshape(4,3)
-matrix([[ 1,  2,  3],
-        [ 4,  5,  6],
-        [ 7,  8,  9],
-        [10, 11, 12]])
-\end{Verbatim}
-
-
-
-点乘
-
-矩阵乘方
->>> A = np.matrix([[1,2,3],[4,5,6],[7,8,9]])
->>> A**2
-matrix([[ 30,  36,  42],
-        [ 66,  81,  96],
-        [102, 126, 150]])
-
-max方法 min方法
-
-
-\section{numpy模块常用函数}
-\subsection{linspace函数}
-\begin{Verbatim}
->>> np.linspace(1,5,10)
-array([ 1.        ,  1.44444444,  1.88888889,  2.33333333,  2.77777778,
-        3.22222222,  3.66666667,  4.11111111,  4.55555556,  5.        ])
-\end{Verbatim}
-
-np.linspace(a,b,n)：生成从a到b的n个数字组成的array对象，其中a和b都包括进去。
-
-
-\subsection{histogram函数}
-
-
-
-
-\section{微积分相关}
-diff函数
-
-
-
-
-
-\section{读写文件}
-\begin{Verbatim}
-In [10]: ndarray001=np.eye(3)
-In [12]: np.savetxt("ndarray001.txt",ndarray001)
-In [13]: x=np.loadtxt("ndarray001.txt")
-In [14]: x
-Out[14]: 
-array([[ 1.,  0.,  0.],
-       [ 0.,  1.,  0.],
-       [ 0.,  0.,  1.]])
-\end{Verbatim}
-
-
-
-\chapter{matplotlib模块}
-
-\section{安装}
-\begin{tcbbash}[]
-sudo apt-get install python3-matplotlib
-\end{tcbbash}
-
-\section{ipython3下的pylab模式}
-输入\verb+%pylab+即进入ipython3下的pylab模式，具体就是可以一边输入命令一边实时看图片效果了。
-
-
-\subsection{ipython3的notebook模式}
-在Ubuntu下运行：
-\begin{tcbbash}[]
-sudo apt-get install ipython3-notebook
-\end{tcbbash}
-然后输入命令\verb+ipython3  notebook+即可进入ipython3界面更漂亮的notebook模式，注意这个命令中间不是连字号连接的，而是空格。
-
-\subsubsection{inline plot风格}
-如果我们在notebook下输入\verb+%matplotlib inline+，那么就可以在网页里面看到图片了。这通常更加便捷。
-
-现在我们刚开始的命令如下所示了，后面的这些代码就省略了。
-\begin{tcbpython}[]
-%matplotlib inline
-import matplotlib.pyplot as plt
-import numpy as np
-\end{tcbpython}
-值得一提的是如果使用\verb+%pylab+，那么上面两个惯例引入语句就可以不写了，不过这里还是这样写出来，更加清晰一些。
-
-notebook网页上的菜单，比如Kernel的restart功能和cell的run all功能等等，这些随便看看熟悉一下即可。ipython3 notebook创建的是自己特有的文件格式和文件名后缀ipynb，你可以找个地方保存好你的这些文件，用ipython3 notebook命令打开即可。
-\begin{tcbbash}[]
-ipython3 notebook test.ipynb
-\end{tcbbash}
-
-
-\section{引入规则}
-\begin{tcbpython}[]
-import matplotlib.pyplot as plt
-\end{tcbpython}
-pyplot里面有很多基本的绘图函数，一般都如上引入为"plt"名字。
-
-
-\section{plt子模块}
-
-\subsection{plot函数}
-plt模块的plot函数，接受一系列数字的列表（当然numpy的array对象也支持），绘出线状图\footnote{更确切的描述是在默认画布上加入这些点，因为具体是线状图还是点状图等等要看具体的配置参数的。}。
-
-如果只接受一个列表作为参数，那么认为是y轴上的数值，x轴值取默认值[0,1,2......]。如果接受两个列表作为参数，那个第一个认为是x轴上的数值，第二个是y轴上的数值。
-
-下面是一个例子：
-\begin{tcbpython}[]
-X = np.linspace(-np.pi,np.pi,256)
-C,S= np.cos(X),np.sin(X)
-plt.plot(X,C)
-plt.plot(X,S)
-\end{tcbpython}
-我们看到语法还是很简洁的。
-
-\subsection{title}
-title函数控制图片的标题。
-
-\subsection{xlabel和ylabel}
-plt的xlabel函数，ylabel，控制图形的x轴标签和y轴标签。
-
-\subsection{show}
-plt的show函数，让图形绘制出来。
-
-\subsection{axis}
-plt的axis函数控制图形的x轴y轴具体显示的范围。
-
-plt.axis([0,10,0,10])   
-
-axis方法接受的列表参数意义是 [xmin,xmax,ymin,ymax]
-
-
-\subsection{figure}
-figure(1)  这是默认的设置。 这个控制的编号是主图片编号。
-
-\subsection{subplot}
-subplot(111) 这是默认的设置。
-
-subplot的参数意义是：numrows(行数) numcols(列数) 和fignum (子图片编号）。子图片编号的含义是从1开始直到numrows*numcols，也就是所有的图片次序。
-
-\subsection{清除图形或坐标轴}
-清除当前图形 clf函数 ——这里的图形指当前主图片编号下的图片。
-清除当前坐标轴  cla函数  ——这里指清除当前子图片的所有数据。
-
-\subsection{close函数}
-真正清除计算机内部相关图形数据。
-
-\subsection{text函数}
-给图片添加文字，text和xlabel和ylabel都属于matplotlib.text.Text的实例，它们都类似的接受一些配置参数。同时它们都支持\TeX 的数学语法，
-\begin{Verbatim}
-plt.text(60, .025, r'$\mu=100,\ \sigma=15$')
-\end{Verbatim}
-
-\subsection{annotate函数}
-加入注释注解。
-\begin{Verbatim}
-plt.annotate('local max', xy=(2, 1), xytext=(3, 1.5))
-\end{Verbatim}
-
-这里的xy是图形中精确对应的x和y的具体的值。而xytext是text具体的位置，同样也是对应图形中的数值的位置。
-
-
-\subsection{grid函数}
-控制网格 True ——显示。
-
-\section{定义你自己的图片样式}
-\emph{注意}：python3这里引入样式的功能有问题，之前我的matplotlib用apt安装的是1.3，推荐用pip安装最新版本的matplotlib。
-\begin{tcbbash}[]
-sudo apt-get remove python3-matplotlib
-sudo pip3 install  matplotlib
-\end{tcbbash}
-
-
-\verb+~/.matplotlib/stylelib+文件夹里面，存放文件yourstyle.mplstyle
-内容大致如下：
-\begin{Verbatim}
-axes.titlesize : 24
-axes.labelsize : 20
-lines.linewidth : 3
-lines.markersize : 10
-xtick.labelsize : 16
-ytick.labelsize : 16
-\end{Verbatim}
-
-使用 plt.style.use('yourstyle')  
-\begin{Verbatim}
-plt.style.use(['dark_background', 'presentation'])
-\end{Verbatim}
-
-
-
-\subsection{自带的工具栏}
-plt自带的工具栏还是很有用的。
-
-
-
-\section{hist函数}
-
-
-\section{文字处理方案}
-涉及到文字的接口有text，xlabel，ylabel，title，figtext，suptitle，annotate。它们都是返回的matplotlib.text.Text的实例，因此对应的可用matplotlib.text.Text类的各个方法属性来配置之。
-
-常用的属性有：
-fontsize  
-
-fontweight
-
-style
-
-family
-
-color
-
-更多属性请参看文档P39。
-
-
-\subsection{调用XeLaTeX引擎}
-使用pgf后台，
-
-
-
-\part{网络抓取系}
-
-
-
-
-
-
 \part{python3高级篇}
 
 
@@ -5053,33 +4404,18 @@ C = type('C',(),{})
 
 \appendix
 \part{附录}
-\chapter{the-python-companion}
-\href{https://github.com/a358003542/the-python-companion}{the-python-companion}
+\chapter{python第三方模块参考资料}
+\begin{enumerate}
+\item 当然，首先是各第三方模块的官方参考tutorial或reference。
+\item 我整理的一些python第三方模块的参考资料，网站链接在\href{http://a358003542.github.io/articles/index.html#sec:python%E7%AC%AC%E4%B8%89%E6%96%B9%E6%A8%A1%E5%9D%97}{这里}。
+\end{enumerate}
 
-the-python-companion：有关python内置或第三方模块的资料。
-
-
-\chapter{PyQt编程指南}
-\href{https://github.com/a358003542/the-pyqt-guide-book}{the-pyqt-guide-book}
-
-
-PyQt编程指南：有关PyQt进行GUI编程的一切。
 
 \chapter{linux及时了解}
-\href{https://github.com/a358003542/the-linux-keepup}{the-linux-keepup}
-
-linux及时了解：有关linux系统上的一些知识。
-
-\chapter{数理化参考手册}
-\href{https://github.com/a358003542/math-physics-chemistry}{math-physics-chemistry}
-
-数理化参考手册：从基本的哲学讨论，到初中的数学物理化学的全部，到高中的数学物理化学的大部分，到大学的微积分部分，线性代数部分等等。
-
-\chapter{C和C++快速参考}
-\href{https://github.com/a358003542/C-and-CPP-quick-reference}{C-and-CPP-quick-reference}
-
-C和C++快速参考：本资料是在假设你已经熟悉python语言的基础上继续的。
-
+\begin{enumerate}
+\item 
+\item 我整理的有关linux系统上的一些知识，参考网站是：
+\end{enumerate}
 
 
 \chapter{pillow模块}
