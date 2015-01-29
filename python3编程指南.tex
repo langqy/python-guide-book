@@ -4354,7 +4354,100 @@ if __name__ == '__main__':
 
 程序需要经过如下几个阶段：1.明确匹配模板  1.1写出字符串模板 匹配操作 给出匹配的所有情况，最好是行模板匹配模式。  最后明确匹配情况 2.明确匹配的文字的后给出情况 
 
+\chapter{itertools模块}
+\label{sec:itertools}
+\section{repeat函数}
+其定义函数如下：
+\begin{Verbatim}
+def repeat(object, times=None):
+    # repeat(10, 3) --> 10 10 10
+    if times is None:
+        while True:
+            yield object
+    else:
+        for i in range(times):
+            yield object
+\end{Verbatim}
+也就是返回一个可迭代对象，这么封装最大的一个用处是用于填充map函数或者zip函数的某个常数值。因为你填写repeat(5)之后将一个返回一个可迭代对象，不停的返回数字5而不需要你考虑长度问题。
 
+\section{starmap函数}
+starmap函数具体定义如下所示：
+\begin{tcbpython}[]
+def starmap(function, iterable):
+    # starmap(pow, [(2,5), (3,2), (10,3)]) --> 32 9 1000
+    for args in iterable:
+        yield function(*args)
+\end{tcbpython}
+其接受一个可迭代对象，然后逐个将可迭代对象中的元素解包之后送入函数当参数（最后当然函数也执行了）。
+
+
+
+\chapter{multiprocessing模块}
+multiprocessing为python提供了多进程（或者多线程）的解决方案。
+
+\section{Pool类}
+\begin{Verbatim}
+from multiprocessing import Pool
+
+def f(x):
+    return x*x
+
+if __name__ == '__main__':
+    with Pool(5) as p:
+        print(p.map(f, [1, 2, 3]))
+\end{Verbatim}
+这里Pool的第一个参数是可选项\textbf{processes}，如果不设置，则默认的是\verb+os.cpu_count()+，即当前系统的cpu数。
+
+一般cpu密集型的任务推荐使用多进程处理，当然前提是你有多个cpu的情况下，如果你并没有相关硬件条件，追求时髦动用多进程还不如用单进程，集中精力用好的算法办好一件事。不过不同进程（不同程序）之间的通信还是很有用的。
+
+这里的map是Pool对象的\textbf{map}方法，其除了接受第一个列表参数，然后用多进程分别处理这些列表中的元素之外，并不能在额外接受其他参数了。如果你想要接受一些参数，推荐使用\textbf{starmap}方法。
+
+\subsection{starmap方法}
+starmap类似map方法，不过其接受的是一系列的函数参数。值得注意的是python的itertools模块\ref{sec:itertools}里面提供的starmap，repeat还有python语言的zip和map函数等在此处有时会很有用，可能是你感兴趣的。
+\begin{tcbpython}[]
+from multiprocessing import Pool
+
+def f(x,y):
+    return (x*x+y*y)
+
+if __name__ == '__main__':
+    with Pool(5) as p:
+        print(p.starmap(f, [(1,1),(2,2),(3,3)]))
+\end{tcbpython}
+
+在看一个有可选参数的情况：
+
+\begin{tcbpython}[]
+from multiprocessing.dummy import Pool as ThreadPool
+from itertools import repeat
+
+urls = get_all_urls(base_url,model_url)
+
+with ThreadPool(6) as tp:
+    imgs = tp.starmap(get_url_imgs,zip(urls,repeat(inclass))
+\end{tcbpython}
+这里的\verb+get_url_imgs+除了接受第一个url参数之外，还接受一个可选参数inclass，这里通过repeat封装之后将这两个参数用zip函数封装即能达到这样的执行效果：
+\begin{Verbatim}
+get_url_imgs(url,inclass)
+get_url_imgs(url,inclass)
+get_url_imgs(url,inclass)
+.....
+\end{Verbatim}
+然后这些都是多线程运行的。
+
+
+\section{ThreadPool类}
+一般和网络相关的I/O密集型任务推荐使用多线程处理，但也不是线程设置得越多越好，一般设置为当前CPU数*2+2左右，再多并没有起到提速效果，有时反而会降低速度。
+
+multiprocessing还有一个dummy子模块，其提供了和multiprocessing一样的API\footnote{请参看这个\href{http://segmentfault.com/blog/caspar/1190000000414339b}{网页}。}，不同的是multiprocessing作用于进程，而dummy子模块是作用于线程的。
+
+
+\begin{Verbatim}
+from multiprocessing.dummy import Pool as ThreadPool
+
+with ThreadPool(6) as tp:
+    imgs = tp.map(partial_get_url_imgs,urls)
+\end{Verbatim}
 
 
 \part{python3高级篇}
