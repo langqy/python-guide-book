@@ -324,13 +324,20 @@
 \contentsline {section}{\numberline {26.1}Pool类}{192}{section.26.1}
 \contentsline {subsection}{\numberline {26.1.1}starmap方法}{193}{subsection.26.1.1}
 \contentsline {section}{\numberline {26.2}ThreadPool类}{194}{section.26.2}
-\contentsline {part}{IV\hspace {1em}python3高级篇}{195}{part.4}
-\contentsline {chapter}{\numberline {27}bytes类型介绍}{196}{chapter.27}
-\contentsline {chapter}{\numberline {28}python的元类编程}{198}{chapter.28}
-\contentsline {part}{V\hspace {1em}附录}{199}{part.5}
-\contentsline {chapter}{\numberline {A}python第三方模块参考资料}{200}{appendix.A}
-\contentsline {chapter}{\numberline {B}linux及时了解}{201}{appendix.B}
-\contentsline {chapter}{\numberline {C}pillow模块}{202}{appendix.C}
-\contentsline {section}{\numberline {C.1}安装}{202}{section.C.1}
-\contentsline {subsection}{\numberline {C.1.1}测试安装情况}{202}{subsection.C.1.1}
-\contentsline {chapter}{参考文献}{204}{section*.34}
+\contentsline {chapter}{\numberline {27}socket模块}{195}{chapter.27}
+\contentsline {section}{\numberline {27.1}setdefaulttimeout函数}{195}{section.27.1}
+\contentsline {section}{\numberline {27.2}timeout异常}{195}{section.27.2}
+\contentsline {chapter}{\numberline {28}urllib模块}{196}{chapter.28}
+\contentsline {section}{\numberline {28.1}urlopen函数}{196}{section.28.1}
+\contentsline {section}{\numberline {28.2}HTTPError和URLError异常}{198}{section.28.2}
+\contentsline {section}{\numberline {28.3}ContentTooShortError异常}{198}{section.28.3}
+\contentsline {part}{IV\hspace {1em}python3高级篇}{199}{part.4}
+\contentsline {chapter}{\numberline {29}bytes类型介绍}{200}{chapter.29}
+\contentsline {chapter}{\numberline {30}python的元类编程}{202}{chapter.30}
+\contentsline {part}{V\hspace {1em}附录}{203}{part.5}
+\contentsline {chapter}{\numberline {A}python第三方模块参考资料}{204}{appendix.A}
+\contentsline {chapter}{\numberline {B}linux及时了解}{205}{appendix.B}
+\contentsline {chapter}{\numberline {C}pillow模块}{206}{appendix.C}
+\contentsline {section}{\numberline {C.1}安装}{206}{section.C.1}
+\contentsline {subsection}{\numberline {C.1.1}测试安装情况}{206}{subsection.C.1.1}
+\contentsline {chapter}{参考文献}{208}{section*.34}
