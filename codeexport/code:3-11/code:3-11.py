@@ -1,10 +1,7 @@
 
-def tostr(item):
-    return str(item)
+def square(n):
+    return n*n
 
-list001 = ['a','ab','A',123,124,5]
-
-list001.sort(key=tostr)
-
-print(list001)
+print(list(map(square,[1,2,3,4,5])))
+print([square(x) for x in [1,2,3,4,5]])
 

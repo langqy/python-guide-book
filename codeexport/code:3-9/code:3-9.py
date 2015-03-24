@@ -1,6 +1,5 @@
 
-print('abc'+'def')
-print('abc'*3)
-print([1,2,3]+[4,5,6])
-print((0,'a')*2)
+list001=['one','two','three']
+list001[1:-2]=['four','five']
+print(list001)
 

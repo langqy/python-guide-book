@@ -682,18 +682,26 @@ random模块提供了一些函数来解决随机数问题。
 \item[randint] randint函数产生从a到b之间的随机整数，包含a和b。\\ randint(a,b)->[a,b]
 \item[choice] choice随机从一个列表或者字符串中取出一个元素。
 \item[randrange] randrange函数产生从a到b之间的随机整数，步长为c（a，b，c的值指定，相当于choice(range(a,b,c))。整数之间就用randint函数吧，这里函数主要是针对range函数按照步长从而生成一些整数序列的情况。
+\item[sample(p,k)] sample函数从p中随机选取唯一的元素（p一般是range(n)或集合之类的，这里所谓的唯一的意思就是不放回抽样的意思，但如果p样品里面有重复的元素，最后生成的列表还是会有重复的元素的。）然后组成k长度的列表返回。
 \end{description}
 
 下面是一个简单的例子：
-\begin{xverbatim}[129]{py}
-from random import *
-print(random())
-print(uniform(1,10))
-print(randrange(1,6))
-print(randint(1,10))
-print(choice('abcdefghij'))
-print(choice(['①','②','③']))
-\end{xverbatim}
+\begin{Verbatim}
+>>> from random import *
+>>> print(random())
+0.36882919781549717
+>>> print(uniform(1,10))
+2.771065174892699
+>>> print(randrange(1,6))
+1
+>>> print(randint(1,10))
+3
+>>> print(choice('abcdefghij'))
+j
+>>> print(choice(['①','②','③']))
+①
+\end{Verbatim}
+
 
 
 作为随机实数，所谓开始包含的那个临界值可能数学意义大于实际价值，你可以写一个类似下面的小脚本看一下，随机实数是很难随机到某个具体的数的。

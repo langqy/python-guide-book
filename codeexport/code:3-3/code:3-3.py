@@ -1,9 +1,8 @@
 
-from random import *
-print(random())
-print(uniform(1,10))
-print(randrange(1,6))
-print(randint(1,10))
-print(choice('abcdefghij'))
-print(choice(['①','②','③']))
+string001='string'
+list001=['a','b','c']
+tuple001=(1,2,3,4)
+
+for x in [string001,list001,tuple001]:
+    print(len(x))
 
