@@ -317,7 +317,8 @@
 \BOOKMARK [-1][-]{part.5}{V 附录}{}% 317
 \BOOKMARK [0][-]{appendix.A}{python第三方模块参考资料}{part.5}% 318
 \BOOKMARK [0][-]{appendix.B}{linux及时了解}{part.5}% 319
-\BOOKMARK [0][-]{appendix.C}{pillow模块}{part.5}% 320
-\BOOKMARK [1][-]{section.C.1}{安装}{appendix.C}% 321
-\BOOKMARK [2][-]{subsection.C.1.1}{测试安装情况}{section.C.1}% 322
-\BOOKMARK [0][-]{section*.34}{参考文献}{part.5}% 323
+\BOOKMARK [0][-]{appendix.C}{古怪的python}{part.5}% 320
+\BOOKMARK [1][-]{section.C.1}{字符串比较大小}{appendix.C}% 321
+\BOOKMARK [2][-]{subsection.C.1.1}{中文比较大小？}{section.C.1}% 322
+\BOOKMARK [2][-]{subsection.C.1.2}{ord和chr函数}{section.C.1}% 323
+\BOOKMARK [0][-]{section*.34}{参考文献}{part.5}% 324

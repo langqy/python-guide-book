@@ -1333,6 +1333,7 @@ UnicodeDecodeError: 'utf-8' codec can't decode byte 0xa7 in position 0: invalid 
 
 我们看到不同编码解码弄混了会出问题，本来想找个例子然后出现字符混乱的情况的。
 
+
 \section{bytearray类型}
 
 
@@ -4626,52 +4627,69 @@ C = type('C',(),{})
 \chapter{python第三方模块参考资料}
 \begin{enumerate}
 \item 当然，首先是各第三方模块的官方参考tutorial或reference。
-\item 我整理的一些python第三方模块的参考资料，网站链接在\href{http://a358003542.github.io/articles/index.html#sec:python%E7%AC%AC%E4%B8%89%E6%96%B9%E6%A8%A1%E5%9D%97}{这里}。
+\item 我整理的一些python第三方模块的参考资料，在\href{http://www.cdwanze.org/}{这个网站}的\textbf{python第三方模块}部分。
 \end{enumerate}
 
 
 \chapter{linux及时了解}
 \begin{enumerate}
 \item 
-\item 我整理的有关linux系统上的一些知识，参考网站是：
+\item 我整理的有关linux系统上的一些知识，在\href{http://www.cdwanze.org/}{这个网站}的\textbf{linux}部分。
 \end{enumerate}
 
 
-\chapter{pillow模块}
-pillow模块让python具备的初步的图片处理能力。
+\chapter{古怪的python}
+本附录部分写了一些python中我认为很古怪的部分，因为古怪，所以常常被人忽视。
 
-\section{安装}
-推荐使用pip3命令安装pillow模块。
+\section{字符串比较大小}
+读者可以实验一下python中字符串之间是可以比较大小的：
 
-\begin{tcbbash}[]
-sudo pip3 install pillow
-\end{tcbbash}
+\begin{Verbatim}
+>>> 'abc' > 'ab'
+True
+>>> 'fabc' > 'abc'
+True
+>>> '3.04' > '3'
+True
+\end{Verbatim}
 
-此外可能还需要其他宏包来支持一些图片格式，安装官方文档的叙述\footnote{also reference \href{http://askubuntu.com/questions/427358/install-pillow-for-python-3}{this}}，下面这些可能需要装上。
-\begin{tcbbash}[]
-sudo apt-get install python3-dev python3-setuptools
-sudo apt-get install libtiff4-dev libjpeg8-dev zlib1g-dev \
-    libfreetype6-dev liblcms2-dev libwebp-dev tcl8.5-dev tk8.5-dev
-\end{tcbbash}
+这个特性有的时候很有用的，具体是如何比较大小的呢？按照python官方文档的描述，采用的是词典编纂顺序。具体描述信息如下：
+
+\begin{quotation}
+序列之间比较大小是，首先两个序列各自的第一个元素开始比较，如果它们相同，则进行下一个比较，直到任何一个序列被穷尽。如果两个序列各自比较的类型都是相同的，那么整个过程将一直进行下去。如果两个序列是相等的则认为它们是相等的，如果某一个序列是另外一个序列的子序列，则那个短的序列认为比长的序列要小。具体到每一个元素的大小比较，是按照ASCII顺序对其进行比较的。
+\end{quotation}
+
+\subsection{中文比较大小？}
+读者这时会想到，既然python中字符串都默认是unicode编码（utf-8），那么中文应该也是能够比较大小的吧，事实确实如此：
+
+\begin{Verbatim}
+>>> '章' > '张'
+True
+>>> '章' < '张'
+False
+>>> ord('章')
+31456
+>>> ord('张')
+24352
+\end{Verbatim}
+
+感兴趣的读者可以打开字符映射表看一下，'张'对应的unicode编号是U+5F20，你输入0x5f20，返回的正是24352。如果你输入hex(24352)，返回的就是'0x5f20'。
 
 
-\subsection{测试安装情况}
-官方文档并没有给出测试安装情况的例子，这里给出刚开始那个简单的例子权做测试安装情况的测试。
+\subsection{ord和chr函数}
+ord函数接受\textbf{一个}字符，然后返回其unicode编码，十进制的。chr函数是ord函数的反向，比如你输入24352这个十进制uniocde，就返回了对应的字符。
+\begin{Verbatim}
+>>> chr(24352)
+'张'
+\end{Verbatim}
 
-\begin{tcbpython}[]
-from PIL import Image
-img = Image.open("test.jpg")
-print(img.format, img.size , img.mode)
-img.show()
-\end{tcbpython}
+所以我们可以总结到，python3的字符串比较大小，是基于utf-8编码的。
 
-这个例子的顺利运行需要你找一个jpg图片文件。pillow模块在这里名字叫PIL是因为它的父亲是PIL，pillow fork自它，并setuptools兼容。
 
-我们看到pillow模块的语法还是很清晰的，Image是个类，open方法返回具体的jpg img 对象，这里就简单称作img对象了，img对象有format, size , mode方法，分别是图片的格式（JPEG），图片的尺寸（(1920, 1080)）和图片的模式（RGB）。然后img对象调用show方法会（通过系统内部工具）显示图片。
 
-open方法就目前按照官方文档的叙述支持如下格式：bmp，eps，gif，im，jpeg，jpeg2000，msp，pcx，png，ppm ，spider，tiff，webp\\ ，xbm，xv等。还有一些格式要某只支持读要某只支持写这里不说明了。其中写的时候save方法需要明确说明图片的目标格式，而open方法打开的时候图片名字是随意的，pillow会自动检测图片的格式。
 
-如果open方法图片打开失败，将会返回\textbf{IOError}异常。
+
+
 
 
 

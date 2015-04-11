@@ -1,4 +1,1 @@
-from PIL import Image
-img = Image.open("test.jpg")
-print(img.format, img.size , img.mode)
-img.show()
+C = type('C',(),{})

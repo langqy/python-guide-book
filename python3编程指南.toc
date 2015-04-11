@@ -340,7 +340,8 @@
 \contentsline {part}{V\hspace {1em}附录}{204}{part.5}
 \contentsline {chapter}{\numberline {A}python第三方模块参考资料}{205}{appendix.A}
 \contentsline {chapter}{\numberline {B}linux及时了解}{206}{appendix.B}
-\contentsline {chapter}{\numberline {C}pillow模块}{207}{appendix.C}
-\contentsline {section}{\numberline {C.1}安装}{207}{section.C.1}
-\contentsline {subsection}{\numberline {C.1.1}测试安装情况}{207}{subsection.C.1.1}
-\contentsline {chapter}{参考文献}{209}{section*.34}
+\contentsline {chapter}{\numberline {C}古怪的python}{207}{appendix.C}
+\contentsline {section}{\numberline {C.1}字符串比较大小}{207}{section.C.1}
+\contentsline {subsection}{\numberline {C.1.1}中文比较大小？}{208}{subsection.C.1.1}
+\contentsline {subsection}{\numberline {C.1.2}ord和chr函数}{208}{subsection.C.1.2}
+\contentsline {chapter}{参考文献}{210}{section*.34}
