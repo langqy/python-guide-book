@@ -328,20 +328,13 @@
 \contentsline {section}{\numberline {26.1}Pool类}{195}{section.26.1}
 \contentsline {subsection}{\numberline {26.1.1}starmap方法}{196}{subsection.26.1.1}
 \contentsline {section}{\numberline {26.2}ThreadPool类}{197}{section.26.2}
-\contentsline {chapter}{\numberline {27}socket模块}{198}{chapter.27}
-\contentsline {section}{\numberline {27.1}setdefaulttimeout函数}{198}{section.27.1}
-\contentsline {section}{\numberline {27.2}timeout异常}{198}{section.27.2}
-\contentsline {chapter}{\numberline {28}urllib模块}{199}{chapter.28}
-\contentsline {section}{\numberline {28.1}urlopen函数}{199}{section.28.1}
-\contentsline {section}{\numberline {28.2}HTTPError和URLError异常}{201}{section.28.2}
-\contentsline {section}{\numberline {28.3}ContentTooShortError异常}{201}{section.28.3}
-\contentsline {part}{IV\hspace {1em}python3高级篇}{202}{part.4}
-\contentsline {chapter}{\numberline {29}python的元类编程}{203}{chapter.29}
-\contentsline {part}{V\hspace {1em}附录}{204}{part.5}
-\contentsline {chapter}{\numberline {A}python第三方模块参考资料}{205}{appendix.A}
-\contentsline {chapter}{\numberline {B}linux及时了解}{206}{appendix.B}
-\contentsline {chapter}{\numberline {C}古怪的python}{207}{appendix.C}
-\contentsline {section}{\numberline {C.1}字符串比较大小}{207}{section.C.1}
-\contentsline {subsection}{\numberline {C.1.1}中文比较大小？}{208}{subsection.C.1.1}
-\contentsline {subsection}{\numberline {C.1.2}ord和chr函数}{208}{subsection.C.1.2}
-\contentsline {chapter}{参考文献}{210}{section*.34}
+\contentsline {part}{IV\hspace {1em}python3高级篇}{198}{part.4}
+\contentsline {chapter}{\numberline {27}python的元类编程}{199}{chapter.27}
+\contentsline {part}{V\hspace {1em}附录}{200}{part.5}
+\contentsline {chapter}{\numberline {A}更多的python信息}{201}{appendix.A}
+\contentsline {chapter}{\numberline {B}linux及时了解}{202}{appendix.B}
+\contentsline {chapter}{\numberline {C}古怪的python}{203}{appendix.C}
+\contentsline {section}{\numberline {C.1}字符串比较大小}{203}{section.C.1}
+\contentsline {subsection}{\numberline {C.1.1}中文比较大小？}{204}{subsection.C.1.1}
+\contentsline {subsection}{\numberline {C.1.2}ord和chr函数}{204}{subsection.C.1.2}
+\contentsline {chapter}{参考文献}{206}{section*.34}

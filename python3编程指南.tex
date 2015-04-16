@@ -4544,67 +4544,9 @@ with ThreadPool(6) as tp:
     imgs = tp.map(partial_get_url_imgs,urls)
 \end{Verbatim}
 
-\chapter{socket模块}
-\section{setdefaulttimeout函数}
-设置全局socket的timeout参数，
-
-\section{timeout异常}
-timeout异常，当套接字工作时等待时间超过timeout参数时，将触发这个timeout异常。
-
-\chapter{urllib模块}
-\section{urlopen函数}
-urlopen函数在urllib模块的request子模块，其提供了简单的获取目标url网页内容的接口。一个简单的例子如下所示：
-
-\begin{tcbpython}[]
-from urllib.request import urlopen
-import socket
-socket.setdefaulttimeout(10)
-
-urls = ['https://www.google.com.cn','https://www.google.com',
-    'http://www.google.com.cn']
-
-for url in urls:
-    try:
-        response = urlopen(url)
-        html = response.read().decode('utf-8')
-        print(html)
-    except socket.timeout as error:
-        print(error)
-    except OSError as error:
-        print(error)
-\end{tcbpython}
-
-为什么刚开始就用这么一个稍显复杂的例子作为演示，well，天朝网络的特色。如果你用百度的url ~http://www.baidu.com~ ，可能大部分情况下你都不用操心这些问题，但既然我们处在天朝网络这个大背景下，还是早点介绍这个。这个例子的返回的error种类似乎间接地反映了GFW的工作原理。
-
-比如google的.com.cn的https连接还能正常工作（目前暂时。。），只是有时会有点慢，然后其http连接则会返回404错误，这是天朝网络常见的网络错误了，大家的分析是GFW进行了dns投毒。而对于google的.com连接不管是http或者https连接都会返回OSError错误，说的是：Network is unreachable，这表明GFW对于后缀google.com的url采取的完全硬件级别的网络掐断。
-
-然后urlopen函数第一个参数是url连接这不用多说，其还有很多可选项，其中很重要的参数就是\textbf{timeout}参数，这个和socket套接字的工作模式相关。如果不加上这个timeout参数，对于某些被墙的网站就会一直尝试然后程序陷入卡死状态了。在后面会介绍\textbf{urlretrieve}函数，也在这个urllib.request模块下面，这个函数可以用于网络下载东西，其并没有内置的timeout参数，不过可以通过设置全局网络socket的timeout（前面socket模块的setdefaulttimeout函数），这个全局timeout最好设置得稍微大一点。
-
-关于TCP/IP协议还有HTTP协议之类的我还没弄清楚，不管怎么说，似乎对于程序员来说，数据的发送和接受都是通过一个所谓的套接字来完成的。这里的套接字socket的timeout参数就是控制阻塞时间的，因为有些网络数据不可能一次就传递完，好比下载过程一样的有个时间，而这个timeout就是控制这个下载时间的，如果超过这个时间了那么直接返回错误。
-
-这里有个问题，就是这个程序默认全局socket的timeout都设置为10秒，那么会不会以后用urlretrieve函数下载某个东西，本身就要求超过10秒？对此还不清楚。
-
-因为网络上的情况比较复杂，关于网络的这些异常处理是不可回避的话题。上面虽然只是一个简单读取网页的程序也跟上了这么多异常捕捉，不是为了偏执的追求程序的健壮，而是必要的必须做的工作。
-
-
-\section{HTTPError和URLError异常}
-\begin{Verbatim}
-from urllib.error import HTTPError
-\end{Verbatim}
-HTTPError是URLError的子类，URLError是OSError的子类，而OSError是不要加载模块就可以直接引用的，所以简单的处理就用OSError来捕捉。
-
-\section{ContentTooShortError异常}
-\begin{Verbatim}
-from urllib.error import ContentTooShortError
-\end{Verbatim}
-当\textbf{urlretrieve}函数下载的数据量少于预期的数据量时返回这个错误。
-
 
 
 \part{python3高级篇}
-
-
-
 
 \chapter{python的元类编程}
 python中的类和class自己定义的类和具体实例化的对象我们都了解了，而以上这些都是基于元类(metaclass)这个概念。
@@ -4624,10 +4566,14 @@ C = type('C',(),{})
 
 \appendix
 \part{附录}
-\chapter{python第三方模块参考资料}
+
+\chapter{更多的python信息}
+
+
 \begin{enumerate}
-\item 当然，首先是各第三方模块的官方参考tutorial或reference。
-\item 我整理的一些python第三方模块的参考资料，在\href{http://www.cdwanze.org/}{这个网站}的\textbf{python第三方模块}部分。
+\item 首先当然是官方各个模块的文档以及各第三方模块的官方参考tutorial或reference。
+\item github上的各个python相关源码，这是\href{https://github.com/a358003542}{我的github地址}，其中有些项目很适合初学者学习。
+\item 为了控制本文档的内容，很多我整理的一些额外的和python相关信息都放在\href{http://www.cdwanze.org/}{这个网站}的\textbf{python}部分。
 \end{enumerate}
 
 
