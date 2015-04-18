@@ -1,6 +1,4 @@
 %!Mode:: "TeX:UTF-8"%確保文檔utf-8編碼
-%新加入的命令如下：addchtoc addsectoc reduline showendnotes hlabel
-%新加入的环境如下：common-format  fig  xverbatim
 
 \documentclass[12pt,oneside]{book}
 \newlength{\textpt}
@@ -2905,7 +2903,7 @@ class Test:
 test=Test()
 test.hello()
 \end{Verbatim}
-在上面的例子中，我们希望创造一个函数，这个函数和self实例没有关系（这里指这个函数将不接受self这个默认参数了）。如上所示，hello函数只是希望简单打印一小段字符，如上面这样的代码是错误的，如果我们在这个函数上面加上\textbf{@staticmethod}，那么上面这段代码就不会出错了，
+在上面的例子中，我们希望创造一个函数，这个函数和self实例没有关系（这里指这个函数将不接受self这个默认参数了）。如上所示，hello函数只是希望简单打印一小段字符，如上面这样的代码是错误的，如果我们在这个函数上面加上\textbf{@staticmethod}，那么上面这段代码就不会报错了，
 
 \begin{Verbatim}
 class Test:
@@ -2931,6 +2929,45 @@ Test.hello()
 QtGui.QFileDialog.getOpenFileName(......)
 \end{Verbatim}
 就是一个静态方法，可以通过直接调用这个方法来弹出询问打开文件的窗口，并不需要先实例化一个对象，然后通过self.what等类似的形式来调用。
+
+
+
+\section{装饰器}
+python语言的装饰器概念算是比较高级的概念了，不过并不是那种冷门的用的很少的概念，比如在前面的静态方法中就使用装饰器的概念：
+\begin{tcbpython}[]
+    @staticmethod
+    def what():
+        pass
+\end{tcbpython}
+
+
+装饰器的作用机制就是对接下来的函数进行进一步的封装，比如上面的例子就是：
+\begin{tcbpython}[]
+    def what():
+        pass
+    what = staticmethod(what)
+\end{tcbpython}
+
+可见装饰器并不是一个什么神秘的难懂的概念，同样你可以定义自己的函数，这个函数处理某个函数对象，并对其进行某种封装。
+
+类似的装饰器还有类的方法装饰器\verb+@classmethod+，在pyqt中有槽的装饰器\verb+@pyqtSlot()+和\verb+@pyqtSlot(int, str)+等，第一个例子接下来你定义的槽只接受self这个参数，第二个例子接下来你定义的槽除了接受self参数外，还接受一个int类型参数和一个str类型参数。
+
+
+
+\section{类方法}
+还有一个装饰器有时也会用到， \verb+@classmethod+ ，叫什么类方法装饰器。其和前面的静态方法一样也可以不新建实例，而直接通过类来调用。其和静态方法的区别就是静态方法在调用的时候没有任何默认的第一参数，而类方法在调用的时候默认第一参数就是调用的那个类\footnote{参考了\href{http://stackoverflow.com/questions/136097/what-is-the-difference-between-staticmethod-and-classmethod-in-python}{这个网站}。}。
+
+\begin{Verbatim}
+class Test:
+    @classmethod
+    def hello(cls):
+        print('from class:', cls, 'saying hello')
+
+Test.hello()
+\end{Verbatim}
+\begin{Verbatim}
+from class: <class '__main__.Test'> saying hello
+\end{Verbatim}
 
 
 
@@ -3047,27 +3084,6 @@ print(c.a,c.b)
 \end{xverbatim}
 
 其中A类定义的fun函数在写的函数上通常有个self参数，而\emph{super()}这种调用形式在意义上表示其的父类，同时默认第一个参数就是self。为了理解你可以和self做个比较，比如self.fun()就是调用的实例的fun函数，默认的第一个参数是self。使用super()在类的编写中引用本类的父类的属性和方法是很便捷的，自带支持类的多重继承功能。比如上面的例子中fun3能被调用是因为多重继承的机制在这里，所以它会逐个找父类。然后c.d会出错，因为这里初始化是用的A类的构造函数。
-
-
-\section{装饰器}
-python语言的装饰器概念算是比较高级的概念了，不过并不是那种冷门的用的很少的概念，比如在前面的静态方法中就使用装饰器的概念：
-\begin{tcbpython}[]
-    @staticmethod
-    def what():
-        pass
-\end{tcbpython}
-
-
-装饰器的作用机制就是对接下来的函数进行进一步的封装，比如上面的例子就是：
-\begin{tcbpython}[]
-    def what():
-        pass
-    what = staticmethod(what)
-\end{tcbpython}
-
-可见装饰器并不是一个什么神秘的难懂的概念，同样你可以定义自己的函数，这个函数处理某个函数对象，并对其进行某种封装。
-
-类似的装饰器还有类的方法装饰器\verb+@classmethod+，在pyqt中有槽的装饰器\verb+@pyqtSlot()+和\verb+@pyqtSlot(int, str)+等，第一个例子接下来你定义的槽只接受self这个参数，第二个例子接下来你定义的槽除了接受self参数外，还接受一个int类型参数和一个str类型参数。
 
 
 
