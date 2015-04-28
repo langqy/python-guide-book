@@ -1,1 +1,8 @@
-C = type('C',(),{})
+    codeOut = StringIO()
+    codeErr = StringIO()
+    sys.stdout = codeOut
+    sys.stderr = codeErr
+    exec(code)
+    sys.stdout = sys.__stdout__
+    sys.stderr = sys.__stderr__
+    content = codeOut.getvalue()

@@ -338,4 +338,6 @@
 \contentsline {section}{\numberline {C.1}字符串比较大小}{204}{section.C.1}
 \contentsline {subsection}{\numberline {C.1.1}中文比较大小？}{205}{subsection.C.1.1}
 \contentsline {subsection}{\numberline {C.1.2}ord和chr函数}{205}{subsection.C.1.2}
-\contentsline {chapter}{参考文献}{207}{section*.34}
+\contentsline {chapter}{\numberline {D}其他}{207}{appendix.D}
+\contentsline {section}{\numberline {D.1}exec和eval}{207}{section.D.1}
+\contentsline {chapter}{参考文献}{210}{section*.34}

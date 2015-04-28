@@ -4649,11 +4649,71 @@ ord函数接受\textbf{一个}字符，然后返回其unicode编码，十进制�
 
 
 
+\chapter{其他}
+\section{exec和eval}
+exec和eval都可以用来执行python代码的字符串形式，exec没有返回值，eval有返回值。不过这两个函数使用都要慎重，按照diveintopython3 \href{http://www.diveintopython3.net/advanced-iterators.html}{第8章第九节}的讲解，这些代码如果混入网络服务器中确实会很危险，如果一定要用，必须对输入字符串进行严格正则限定。
+
+不过话虽然这样说，但这两个函数的使用有时能够给程序的架构带来意想不到的好处。比如说我编写的youget模块，其最核心的一个代码就是：
+
+\begin{tcbpython}[]
+    def get_info(self):
+        if self.netloc in netloc_id:
+            target = netloc_id.get(self.netloc)
+            print('在调用模块', target)
+            exec('from youget.{0} import youget'.format(target), globals())
+            self.info = youget(self.url)
+        else:
+            print('还不支持站点',self.netloc)
+
+        return self.info
+\end{tcbpython}
+
+其对输入网站的netloc进行判断，然后选择某个 target模块 来import youget函数，exec的第二个参数是一个变量设置，这里用globals函数继承自本模块的全局变量，这样就给全局变量import 对应的youget函数了（具体细节还需要进一步摸清。）这给这个模块带来了非常灵活的结构协同性。
+
+在比如说我写过一个根据小型python代码生成svg文件的小模块，具体绘图的python代码类似下面的样子：
+
+\begin{tcbpython}[]
+from pysvg.basicshapes import *
+from pysvg.core import *
+
+svg = Svg(width=XMAX * 2,height=YMAX * 2)
+p0 = Point(0,0)
+circle = Circle(p=p0, r=Quantity(2))
+circle.set('fill',"red")
+svg.add(circle)
+
+p1 = Point(0,0)
+p2 = Point(2,2)
+line = Line(p1,p2)
+svg.add(line)
+
+rect = Rect(Point(-2,2),Point(2,-2))
+svg.add(rect)
+
+g1 = Group('g1',circle,rect)
+g1.set('transform','translate(100)')
+svg.add(g1)
+
+print(svg)
+\end{tcbpython}
+
+这里不讨论那些类的具体细节，实际上很简单，就是编好 \verb+__str__+字符串输出控制函数。这里我们看到最后的那个print函数。然后字符串的输出流是用下面这个核心代码控制的\footnote{参考了\href{http://stackoverflow.com/questions/701802/how-do-i-execute-a-string-containing-python-code-in-python}{这个网页}。}：
 
 
+\begin{tcbpython}[]
+    codeOut = StringIO()
+    codeErr = StringIO()
+    sys.stdout = codeOut
+    sys.stderr = codeErr
+    exec(code)
+    sys.stdout = sys.__stdout__
+    sys.stderr = sys.__stderr__
+    content = codeOut.getvalue()
+\end{tcbpython}
 
+首先从io模块里面引入StringIO这个类，然后构建codeOut，codeErr这两个文本流对象，然后将sys默认的标准输出和错误输出对接成它们，然后使用 \textbf{exec} 函数执行代码即可，代码里面print的内容会进入文本流对象中，使用getvalue方法即可取出。最后重置了sys的默认的标准输出和错误输出流。
 
-
+这里采用这样的exec方法很是暴力，但对于实现某些小的基于python的脚本语言还是很方便的。
 
 
 

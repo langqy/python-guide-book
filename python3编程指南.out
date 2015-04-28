@@ -315,4 +315,6 @@
 \BOOKMARK [1][-]{section.C.1}{字符串比较大小}{appendix.C}% 315
 \BOOKMARK [2][-]{subsection.C.1.1}{中文比较大小？}{section.C.1}% 316
 \BOOKMARK [2][-]{subsection.C.1.2}{ord和chr函数}{section.C.1}% 317
-\BOOKMARK [0][-]{section*.34}{参考文献}{part.5}% 318
+\BOOKMARK [0][-]{appendix.D}{其他}{part.5}% 318
+\BOOKMARK [1][-]{section.D.1}{exec和eval}{appendix.D}% 319
+\BOOKMARK [0][-]{section*.34}{参考文献}{part.5}% 320
