@@ -4733,7 +4733,121 @@ for t in threads:
 上面的例子对线程的执行顺序没有特殊要求，如果有的话推荐使用python的queue模块，这里就略过了。
 
 \section{多线程下载大文件}
+本小节参考了 \href{http://stackoverflow.com/questions/13973188/requests-with-multiple-connections}{这个网页} 和 \href{http://stackoverflow.com/questions/16694907/how-to-download-large-file-in-python-with-requests-py}{这个网页} 。
 
+下面的 \verb+get_content_tofile+ 函数在目标内容大小大于1M的时候将启动多线程下载方法。其中 \verb+guess_url_filename+ 函数是根据url来猜测可能的目标下载文件名字，还只是一个尝试版本。
+
+注意下面使用requests.get函数的时候加上了 \verb+stream=True+参数，这样连接目标url的时候只是获得头文件信息而不会进一步下载content内容。这方便我们早期根据headers里面的信息做出一些判断。
+
+接下来根据HTTP头文件的 \verb+content-length+ 来判断要下载内容的大小，如果没有这个属性，那么目标url是没有content内容的，本函数将不会对这一情况做出反应，这通常是单网页url，使用requests的get方法获取网页文本内容即可。
+
+然后如果目标长度小于1M，那么就直接打开文件，使用requests模块里response对象的\verb+iter_content+方法来不断迭代完content内容。
+
+如果目标长度大于1M，则采用一种多线程下载方法。首先是\verb+get_content_partly+这个函数，接受url和index，这个index是一个简单的索引，具体多少bytes后面还需要计算。关于多线程操作和具体多少bytes的计算细节这里略过讨论了。唯一值得一提的就是HTTP协议的Range属性，begin-end，对应具体的范围0-1024，还包括1024位，所以实际上有1025个bytes，为了获得和我们python中一致的体验，我们让其end为begin+1024-1。这样就有1024个bytes位，然后定位是(0, 1024)，即和python中的一样，不包括1024位。
+
+然后还有一个小信息是，HTTP协议返回的头文件中的\textbf{content-range}属性，如果你请求Range越界了，那么将不会有这个属性。那么begin没有越界，end越界的请求如何呢？HTTP协议处理得很好，这种跨界情况都只返回最后那点content内容。
+
+最后写文件那里降低内存消耗，使用了下面的语句来强制文件流写入文件中，好释放内存，否则你的下载程序内存使用率是剧增的。
+\begin{Verbatim}
+f.flush()
+os.fsync(f.fileno())
+\end{Verbatim}
+
+
+\begin{tcbpython}[]
+import re
+def guess_url_filename(url):
+    '''根据url来猜测可能的目标文件名，'''
+    response = requests.get(url, stream=True)###还有一个content-type信息可以利用
+    s = urlsplit(url)
+    guess_element = s.path.split('/')[-1]
+    guess_pattern = re.compile(r'''
+    (.png|.flv)
+    $           # end of string
+    ''', re.VERBOSE | re.IGNORECASE)
+
+    if re.search(guess_pattern,guess_element):
+        filename = guess_element
+    else:
+        filename = guess_element + '.html'
+    return filename
+
+import threading
+import os
+class DownloadThread(threading.Thread):
+    def __init__(self, url,begin,chunk_size = 1024*300):
+        threading.Thread.__init__(self)
+        self.url = url
+        self.begin = begin
+        self.chunk_size = chunk_size
+        self.result = b''
+    def run(self):
+        headers = {'Range':'bytes={begin}-{end}'.format(begin = str(self.begin),
+            end = str(self.begin + self.chunk_size-1))}
+
+        response = requests.get(url, stream=True, headers = headers)
+
+        if response.headers.get('content-range') is None:
+            self.result = 0###表示已经越界了
+        else:
+            self.result = response.content
+            print('start download...', self.begin/1024, 'KB')
+
+    def getvalue(self):
+        return self.result
+
+def get_content_partly(url, index):
+    threads = []
+    content = b''
+    chunk_size = 1024*300# 这个不能设置太大也不能设置太小
+    block_size = 10*chunk_size# 具体线程数
+
+    for i in range(10):
+        t = DownloadThread(url, index * block_size + i*chunk_size )
+        t.start()
+        threads.append(t)
+
+    for i,t in enumerate(threads):
+        t.join()
+
+    for t in threads:
+        if  t.getvalue():
+            content += t.getvalue()
+
+    return content
+
+import os
+def get_content_tofile(url,filename = ''):
+    '''简单的根据url获取content，并将其存入内容存入某个文件中。
+    如果某个内容size 小于1M 1000000 byte ，则采用多线程下载法'''
+
+    if not filename:
+        filename = guess_url_filename(url)
+
+    # NOTE the stream=True parameter
+    response = requests.get(url, stream=True)
+    if not response.headers.get('content-length'):
+        print('this url does not have a content .')
+        return 0
+    elif response.headers.get('content-length') < '1000000':
+        with open(filename, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=1024):
+                if chunk: # filter out keep-alive new chunks
+                    f.write(chunk)
+                    f.flush()
+                    os.fsync(f.fileno())
+    else:
+        with open(filename, 'wb') as f:
+            for i in range(1000000):###very huge
+                content = get_content_partly(url, i)
+                if content:
+                    f.write(content)
+                    f.flush()
+                    os.fsync(f.fileno())
+                else:
+                    print('end...')
+                    break
+\end{tcbpython}%$
 
 \chapter{python的元类编程}
 python中的类和class自己定义的类和具体实例化的对象我们都了解了，而以上这些都是基于元类(metaclass)这个概念。

@@ -316,14 +316,15 @@
 \BOOKMARK [1][-]{section.27.2}{子进程和父进程分开}{chapter.27}% 316
 \BOOKMARK [1][-]{section.27.3}{进程僵死}{chapter.27}% 317
 \BOOKMARK [1][-]{section.27.4}{线程入门}{chapter.27}% 318
-\BOOKMARK [0][-]{chapter.28}{python的元类编程}{part.4}% 319
-\BOOKMARK [-1][-]{part.5}{V 附录}{}% 320
-\BOOKMARK [0][-]{appendix.A}{更多的python信息}{part.5}% 321
-\BOOKMARK [0][-]{appendix.B}{linux及时了解}{part.5}% 322
-\BOOKMARK [0][-]{appendix.C}{古怪的python}{part.5}% 323
-\BOOKMARK [1][-]{section.C.1}{字符串比较大小}{appendix.C}% 324
-\BOOKMARK [2][-]{subsection.C.1.1}{中文比较大小？}{section.C.1}% 325
-\BOOKMARK [2][-]{subsection.C.1.2}{ord和chr函数}{section.C.1}% 326
-\BOOKMARK [0][-]{appendix.D}{其他}{part.5}% 327
-\BOOKMARK [1][-]{section.D.1}{exec和eval}{appendix.D}% 328
-\BOOKMARK [0][-]{section*.34}{参考资料}{part.5}% 329
+\BOOKMARK [1][-]{section.27.5}{多线程下载大文件}{chapter.27}% 319
+\BOOKMARK [0][-]{chapter.28}{python的元类编程}{part.4}% 320
+\BOOKMARK [-1][-]{part.5}{V 附录}{}% 321
+\BOOKMARK [0][-]{appendix.A}{更多的python信息}{part.5}% 322
+\BOOKMARK [0][-]{appendix.B}{linux及时了解}{part.5}% 323
+\BOOKMARK [0][-]{appendix.C}{古怪的python}{part.5}% 324
+\BOOKMARK [1][-]{section.C.1}{字符串比较大小}{appendix.C}% 325
+\BOOKMARK [2][-]{subsection.C.1.1}{中文比较大小？}{section.C.1}% 326
+\BOOKMARK [2][-]{subsection.C.1.2}{ord和chr函数}{section.C.1}% 327
+\BOOKMARK [0][-]{appendix.D}{其他}{part.5}% 328
+\BOOKMARK [1][-]{section.D.1}{exec和eval}{appendix.D}% 329
+\BOOKMARK [0][-]{section*.34}{参考资料}{part.5}% 330
