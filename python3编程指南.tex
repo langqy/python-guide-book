@@ -3817,7 +3817,8 @@ sys.version输出当前python的版本信息和编译环境的详细信息。
 2147483647
 \end{Verbatim}
 
-
+\section{sys.stdin.isatty()}
+测试输入流是不是终端。如果是终端，则返回True。
 
 
 \begin{large}
@@ -4143,6 +4144,41 @@ os.walk('.')
 \end{tcbpython}
 
 产生一个生成器对象，具体数值含义如下：（dirpath, dirnames, filenames），其中dirpath和filenames可以合并出本目录下所有文件的具体文件名路径，而dirpath和dirnames可以合并出本目录下所有目录的具体路径名。
+
+根据这个os.walk函数我写了一个\verb+gen_file+ 函数，其是一个生成器函数，会遍历目录树，并返回本目录下的文件信息。具体代码如下所示:
+
+\begin{tcbpython}[]
+def gen_file(startpath='.',filetype=""):
+    '''利用os.walk 遍历某个目录，收集其内的文件，返回
+    (文件路径列表, 本路径下的文件列表)
+    比如:
+    (['shortly'], ['shortly.py'])
+(['shortly', 'templates'], ['shortly.py'])
+(['shortly', 'static'], ['shortly.py'])
+
+    第一个可选参数 startpath  默认值 '.'
+    第二个参数  filetype  正则表达式模板 默认值是"" 其作用是只选择某些文件
+    如果是空值，则所有的文件都将被选中。比如 "html$|pdf$" 将只选中 html和pdf文件。
+    '''
+    for root, dirs, files in os.walk(startpath):
+        filelist = []
+        for f in files:
+            fileName,fileExt = os.path.splitext(f)
+            if filetype:
+                if re.search(filetype,fileExt):
+                    filelist.append(f)
+            else:
+                filelist = files
+        if filelist:#空文件夹不加入
+            dirlist = root.split(os.path.sep)
+            dirlist = dirlist[1:]
+            if dirlist:
+                yield (dirlist, filelist)
+            else:
+                yield (['.'], filelist)
+\end{tcbpython}
+
+这个函数可以帮助你管理本目录下（可以通过正则表达式过滤）你感兴趣的文件，都刷一边。然后继续必要的操作，比如查找等等之类的。
 
 \section{environ函数}
 os.environ，返回一个字典值，这个字典值里面存储着当前shell的一些变量和值。比如系统中“HOME”所具体的路径名是：
