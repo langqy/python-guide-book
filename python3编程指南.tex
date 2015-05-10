@@ -4236,10 +4236,33 @@ print(filename + '大小是' +str(int(filesize)) + unit)
 \subsection{st\_{}ctime属性}
 最后文件创建的时间，在windows下是严格的最初文件创建时间，在unix下是最后文件metadata的改变时间。
 
+\section{给进程发送信号}
+可以通过os模块的kill函数来给某个进程发送某个信号。
+\begin{Verbatim}
+os.kill(pid, sig)
+\end{Verbatim}
+
+函数第一个参数是进程的pid，第二个参数是具体发送的信号。比如:
+\begin{Verbatim}
+os.kill(pid, signal.SIGSTOP)
+\end{Verbatim}
+就是暂停某个进程，然后
+
+\begin{Verbatim}
+os.kill(pid, signal.SIGCONT)
+\end{Verbatim}
+是继续某个进程。 然后\textbf{killpg}函数能够对某个进程包括其子进程发送某个信号，参考了\href{http://kernelcheck.blogspot.com/2009/07/pausestop-process-in-python.html}{这个网页}。
+
+除此之外还有 \textbf{SIGINT} （正常终止进程信号）和 \textbf{SIGKILL} （强制终止进程信号） 等等，更多信号请参看关于unix信号那块，比如\href{http://en.wikipedia.org/wiki/Unix_signal}{这个wiki页面} 。
+
+
+
 
 \begin{large}
 更多os模块内容请参见\href{https://docs.python.org/3.4/library/os.html}{官方文档}。
 \end{large}
+
+
 
 \chapter{shutil模块}
 相当于os模块的补充，shutil模块进一步提供了一些系统级别的文件或文件夹的复制，删除，移动等等操作。
@@ -4679,9 +4702,7 @@ after fork
 
 
 
-\section{进程僵死}
 
-os.kill(pid, sig)
 
 
 \section{线程入门}
@@ -4767,6 +4788,55 @@ for t in threads:
 来确保各个线程都执行完了，如之前的形式并不能达到多任务并行处理的效果。
 
 上面的例子对线程的执行顺序没有特殊要求，如果有的话推荐使用python的queue模块，这里就略过了。
+
+
+\section{多线程: 一个定时器}
+这个例子主要参考了\href{https://mail.python.org/pipermail/tutor/2004-November/033333.html}{这个网页}。
+
+\begin{tcbpython}[]
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+import time
+import threading
+
+class Timer(threading.Thread):
+    def __init__(self,interval, action=lambda:print('\a')):
+        threading.Thread.__init__(self)
+        self.interval = interval
+        self.action = action
+
+    def run(self):
+        time.sleep(self.interval)
+        self.action()
+
+    def set_interval(self,interval):
+        self.interval = interval
+
+#timer = Timer(5)
+#timer.start()
+
+class CountDownTimer(Timer):
+    def run(self):
+        counter = self.interval
+        for sec in range(self.interval):
+            print(counter)
+            time.sleep(1.0)
+            counter -= 1
+        ####
+        self.action()
+
+#timer = CountDownTimer(5)
+#timer.start()
+
+def hello():
+    print('hello\a')
+
+timer = CountDownTimer(5, action = hello)
+timer.start()
+\end{tcbpython}
+
+具体还是很简单的，这里之所以使用线程就是为了timer.sleep函数不冻结主程序。
+
 
 \section{多线程下载大文件}
 本小节参考了 \href{http://stackoverflow.com/questions/13973188/requests-with-multiple-connections}{这个网页} 和 \href{http://stackoverflow.com/questions/16694907/how-to-download-large-file-in-python-with-requests-py}{这个网页} 。
@@ -4884,6 +4954,10 @@ def get_content_tofile(url,filename = ''):
                     print('end...')
                     break
 \end{tcbpython}%$
+
+
+
+
 
 \chapter{python的元类编程}
 python中的类和class自己定义的类和具体实例化的对象我们都了解了，而以上这些都是基于元类(metaclass)这个概念。
@@ -5034,7 +5108,7 @@ print(svg)
 
 首先从io模块里面引入StringIO这个类，然后构建codeOut，codeErr这两个文本流对象，然后将sys默认的标准输出和错误输出对接成它们，然后使用 \textbf{exec} 函数执行代码即可，代码里面print的内容会进入文本流对象中，使用getvalue方法即可取出。最后重置了sys的默认的标准输出和错误输出流。
 
-这里采用这样的exec方法很是暴力，但对于实现某些小的基于python的脚本语言还是很方便的。
+这里采用这样的exec方法很是暴力，但对于实现某些小的基于python的脚本方言还是很方便的。
 
 
 
