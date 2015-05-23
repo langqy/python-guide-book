@@ -1,8 +1,7 @@
 
-string001='string'
-list001=['a','b','c']
-tuple001=(1,2,3,4)
+def square(n):
+    return n*n
 
-for x in [string001,list001,tuple001]:
-    print(x[::-1])
+print(list(map(square,[1,2,3,4,5])))
+print([square(x) for x in [1,2,3,4,5]])
 

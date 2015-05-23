@@ -97,11 +97,17 @@ python语言的注释符号和bash语言（linux终端的编程语言）一样�
 这么一句。
 
 读者请实验下面这个小例子，这将打印一个笑脸符号：
-\begin{xverbatim}[129]{py}
+\begin{tcbpython}[]
 #!/usr/bin/env python3
 #-*-coding:utf-8-*-
 print('\u263a')
-\end{xverbatim}
+\end{tcbpython}
+
+\begin{Verbatim}
+☺
+>>> 
+\end{Verbatim}
+
 
 上面的数字就是笑脸符号具体的Unicode码（十六进制）。
 
@@ -149,11 +155,16 @@ python程序由各个模块（modules）组成，模块就是各个文件。模�
 python中的赋值语法非常的简单，x=1，就是一个赋值语句了。和c语言不同，c是必须先声明int x之类，开辟一个内存空间，然后才能给这个x赋值。而python的x=1语句实际上至少完成了三个工作：一，判断1的类型（动态类型语言必须要这步）；二，把这个类型的对象存储在内存里面；三，创建x这个名字和这个名字指向这个内存，x似乎可以称之为对应c语言的指针对象。
 
 \subsection{序列赋值}
-\begin{xverbatim}[129]{py}
+\begin{tcbpython}[]
 x,y=1,'a'
 [z,w]=['b',10]
 print(x,y,z,w)
-\end{xverbatim}
+\end{tcbpython}
+\begin{Verbatim}
+1 a b 10
+>>> 
+\end{Verbatim}
+
 
 我们记得python中表达式可以加上圆括号，所以这里\verb+x,y+产生的是一个数组\verb+(x,y)+，然后是对应的数组平行赋值，第二行是列表的平行赋值。这是一个很有用的技巧。
 
@@ -173,11 +184,16 @@ print(x,y,z,w)
 
 
 \subsection{同时赋相同的值}
-\begin{xverbatim}[129]{py}
+\begin{tcbpython}[]
 x=y='a'
 z=w=2
 print(x,y,z,w)
-\end{xverbatim}
+\end{tcbpython}
+\begin{Verbatim}
+a a 2 2
+>>> 
+\end{Verbatim}
+
 
 这种语句形式c语言里面也有，不过内部实现机制就非常的不一样了。python当声明x=y的时候，x和y是相同的指针值，然后相同的指针值都指向了'a'这个字符串对象，也可以说x和y就是一个东西，只是取的名字不同罢了。
 
@@ -514,26 +530,40 @@ statistics模块中的\textbf{mean}函数接受一组数值列表，然后返回
 
 \subsection{len函数}
 len函数返回序列所含元素的个数：
-\begin{xverbatim}[129]{py}
+\begin{tcbpython}[]
 string001='string'
 list001=['a','b','c']
 tuple001=(1,2,3,4)
 
 for x in [string001,list001,tuple001]:
     print(len(x))
-\end{xverbatim}
+\end{tcbpython}
+\begin{Verbatim}
+6
+3
+4
+>>> 
+\end{Verbatim}
+
 
 
 \subsection{调出某个值}
 对于序列来说后面跟个方括号，然后加上序号（程序界的老规矩，从0开始计数。），那么调出对应位置的那个值。还以上面那个例子来说明。
-\begin{xverbatim}[129]{py}
+\begin{tcbpython}[]
 string001='string'
 list001=['a','b','c']
 tuple001=(1,2,3,4)
 
 for x in [string001,list001,tuple001]:
     print(x[2])
-\end{xverbatim}
+\end{tcbpython}
+\begin{Verbatim}
+r
+c
+3
+>>> 
+\end{Verbatim}
+
 
 \subsubsection{倒着来}
 倒着来计数-1表示倒数第一个，-2表示倒数第二个。依次类推。
@@ -2970,7 +3000,6 @@ print3('c')#image print1(print3)('c')
 
 \subsection{多个装饰器}
 \begin{tcbpython}[]
-
 def print1(f):
     print('1',f)
     return f
@@ -2990,7 +3019,33 @@ print4('c')#image print2(print1(print4))(c)
 类似上面的多个装饰器就可以简单理解为:
 print4 = print2(print1(print4))
 
-然后装饰器函数是可以接受参数的，不过本着简单的原则，多个装饰器和装饰器带参数的情况应该少使用，具体函数参数的修改请参看functools模块的partial对象。
+\subsection{装饰器带上参数}
+在前面的例子中，我们就可以简单将装饰器函数理解为一个接受函数对象返回返回函数对象的函数，这很直观和简单，要有限考虑这样的模型。实际上装饰器也是可以带上自己的参数的，这需要通过什么函数的闭包结构才能完成，如下面的例子所示:
+
+\begin{tcbpython}[]
+def print1(f):
+    print('1',f)
+    return f
+
+def print2(b):
+    def test(f):
+        print('2',f,b)
+        return f
+    return test
+
+@print2('b')
+@print1
+def print4(c):
+    print(c)
+
+print4('c')#image print2(print1(print4))('b')(c)
+\end{tcbpython}
+
+所谓闭包结构简单来说就是函数里面套函数的结构。前面在介绍nolocal关键词的时候说道，如果函数里面的嵌套函数的某个变量加上声明关键词nolocal，那么（如果嵌套函数内没有定义该本地变量），则该变量名是对应嵌套函数外面的自由变量的（自由变量在函数生存期具有记忆能力）。
+
+上面例子可以理解为\verb+print2(print1(print4))('b')(c)+ 这样一个过程。首先执行print1(print4)，然后返回print4，这很直观。然后表达式变为\verb+print2(print4)('b')(c)+，这里紧跟着的参数应该由python的装饰器解释程序做的，具体我还有点困惑......，总之这里装饰器函数的额外的参数是由print2这个最外层的函数接收的，然后具体返回的test函数对象还是如同前面一样只接受目标函数对象。前面这样的\verb+print2(print1(print4))('b')(c)+ 描述可能并没很好地反映python的内部处理机制了，也许更好的描述是:
+
+装饰器的参数是通过函数的闭包机制以自由变量的形式引入进去的。
 
 
 \section{类方法}
@@ -3092,7 +3147,7 @@ super是python3新加入的特性，按照官方文档，有两种用法：
 
 第二种是多重继承的，搜索顺序和多重继承的搜索顺序相同，也就是从左到右。请注意调试下面的例子，如果调用c.d就会返回错误，说明调用的是类A的构造函数。
 
-\begin{xverbatim}[129]{py}
+\begin{tcbpython}[]
 class A():
     def __init__(self,a):
         self.a=a
@@ -3120,7 +3175,16 @@ class C(A,B):
 
 c=C()
 print(c.a,c.b)
-\end{xverbatim}
+\end{tcbpython}
+
+\begin{Verbatim}
+fun
+fun what
+fun3
+2
+3 2
+\end{Verbatim}
+
 
 其中A类定义的fun函数在写的函数上通常有个self参数，而\emph{super()}这种调用形式在意义上表示其的父类，同时默认第一个参数就是self。为了理解你可以和self做个比较，比如self.fun()就是调用的实例的fun函数，默认的第一个参数是self。使用super()在类的编写中引用本类的父类的属性和方法是很便捷的，自带支持类的多重继承功能。比如上面的例子中fun3能被调用是因为多重继承的机制在这里，所以它会逐个找父类。然后c.d会出错，因为这里初始化是用的A类的构造函数。
 
@@ -3286,14 +3350,19 @@ filter函数的基本逻辑是只有return True（用lambda表达式就是这个
 
 \subsubsection{字典到列表}
 这个例子似乎使用价值不大，只是说明zip函数接受任意数目参数的情况。y.items()解包之后是4个参数传递给zip函数，而zip函数的封装逻辑就是如果有人问我，我就把你们这些迭代对象每个取出一个元素，然后用元组包装之后返回。
-\begin{xverbatim}[129]{py}
+\begin{tcbpython}[]
 x1 = ['a','b','c','e']
 x2 = [1,2,3,4]
 y = dict(zip(x1,x2))
 print('列表到字典：',y)
 new_x1,new_x2 = zip(*y.items())
 print(new_x1,new_x2)
-\end{xverbatim}
+\end{tcbpython}
+\begin{Verbatim}
+列表到字典： {'b': 2, 'c': 3, 'a': 1, 'e': 4}
+('b', 'c', 'a', 'e') (2, 3, 1, 4)
+\end{Verbatim}
+
 
 这个例子如果到更加复杂的情况，我们可以跳过字典形式，来个数据映射对：
 \begin{Verbatim}
@@ -4089,10 +4158,11 @@ print(name)
 \section{getcwd函数}
 不管你在终端运行python还是运行某个python脚本，总有一个变量存储着当前工作目录的位置。你可以通过getcwd命令来查看当前工作目录。
 
-\begin{xverbatim}[129]{py}
+\begin{tcbpython}[]
 import os
 print(os.getcwd())
-\end{xverbatim}
+\end{tcbpython}
+
 上面是通过\LaTeX 文件运行的python小脚本，当你以python命令来运行某个脚本的时候，你调用python命令的地方就是当前的工作目录\footnote{这里在\LaTeX 文档下的情况有点小复杂，通过我编写的xverbatim.sty我们可以看到当时运行python3命令的当前工作目录就在这个tex文档所在的目录下。}。然后加载的其他模块的各个py文件运行时的当前工作目录和主py文件脚本的当前目录是一样的，都是你运行python命令的地方。
 
 如果是终端调用python就是你终端的当前工作目录所在，你可以用pwd命令来查看。如下所示：
@@ -4425,18 +4495,22 @@ with zipfile.ZipFile('test.zip','w') as zip:
 \chapter{collections模块}
 \section{namedtuple函数}
 collections模块里面的namedtuple函数将会产生一个有名字的数组的类（有名数组），通过这个类可以新建类似的实例。比如：
-\begin{xverbatim}[129]{py}
+\begin{tcbpython}[]
 from collections import namedtuple
 
 Point3d=namedtuple('Point3d',['x','y','z'])
 p1=Point3d(0,1,2)
 print(p1)
 print(p1[0],p1.z)
-\end{xverbatim}
+\end{tcbpython}
+\begin{Verbatim}
+Point3d(x=0, y=1, z=2)
+0 2
+\end{Verbatim}
+
+
 
 \section{Counter计数类}
-
-
 
 \begin{large}
 更多内容请参见\href{https://docs.python.org/3/library/collections.html}{官方文档}。
