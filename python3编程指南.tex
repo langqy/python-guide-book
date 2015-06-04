@@ -3189,6 +3189,79 @@ fun3
 其中A类定义的fun函数在写的函数上通常有个self参数，而\emph{super()}这种调用形式在意义上表示其的父类，同时默认第一个参数就是self。为了理解你可以和self做个比较，比如self.fun()就是调用的实例的fun函数，默认的第一个参数是self。使用super()在类的编写中引用本类的父类的属性和方法是很便捷的，自带支持类的多重继承功能。比如上面的例子中fun3能被调用是因为多重继承的机制在这里，所以它会逐个找父类。然后c.d会出错，因为这里初始化是用的A类的构造函数。
 
 
+\section{给某个对象动态加载一个方法}
+这里主要参考了\href{http://stackoverflow.com/questions/962962/python-changing-methods-and-attributes-at-runtime}{这个网页} 。
+
+具体原理还是很简单的，那就是构建一个函数对象，然后将这个对象赋值给某个对象。但这里的函数对象如果要接受self参数的话，其作为类的方法还是需要一些特殊的处理的。
+
+\begin{Verbatim}
+class Test():
+    pass
+
+test = Test()
+
+def hello(self):
+    print("hello")
+
+import types
+test.hello = types.MethodType(hello,Test)
+
+test.hello()
+\end{Verbatim}
+
+上面的types.MethodType是用来构建一个类的方法的，其第一个参数是具体的函数对象，第二个参数是对应的类或实例。
+
+然后上面的例子继续优化就是如下的形式:
+\begin{Verbatim}
+import types
+
+class Test():
+    @classmethod
+    def removeVariable(cls,name):
+        return delattr(cls,name)
+
+    @classmethod
+    def addMethod(cls,func):
+        return setattr(cls,func.__name__,types.MethodType(func,cls))
+
+def hello(self):
+    print("hello")
+
+test = Test()
+
+Test.addMethod(hello)
+
+test.hello()
+\end{Verbatim}
+
+你看到了这里的addMethod是作用于本类的，当然你也可以选择作用于本实例:
+
+\begin{Verbatim}
+import types
+
+class Test():
+    @classmethod
+    def removeVariable(cls,name):
+        return delattr(cls,name)
+
+    @classmethod
+    def addMethod(cls,func):
+        return setattr(cls,func.__name__,types.MethodType(func,cls))
+
+    def addMethod2(self,func):
+        return setattr(self,func.__name__,types.MethodType(func,self))
+
+def hello(self):
+    print("hello")
+
+test = Test()
+
+test.addMethod2(hello)
+
+test.hello()
+\end{Verbatim}
+
+这样这个函数就只加在本实例上面了，这用处不太大。
 
 
 \chapter{深入理解python3的迭代}
@@ -5088,6 +5161,10 @@ C = type('C',(),{})
 
 
 
+
+
+
+
 \appendix
 \part{附录}
 
@@ -5222,6 +5299,25 @@ print(svg)
 首先从io模块里面引入StringIO这个类，然后构建codeOut，codeErr这两个文本流对象，然后将sys默认的标准输出和错误输出对接成它们，然后使用 \textbf{exec} 函数执行代码即可，代码里面print的内容会进入文本流对象中，使用getvalue方法即可取出。最后重置了sys的默认的标准输出和错误输出流。
 
 这里采用这样的exec方法很是暴力，但对于实现某些小的基于python的脚本方言还是很方便的。
+
+
+
+\section{assert语句}
+assert语句简单的理解就是 \verb+assert True+ ，正常刷过去，而 \verb+assert False+ 将抛出\textbf{AssertionError} 。
+
+
+\section{属性管理的函数}
+hasattr，setattr，getattr，delattr，这些函数都属于关于python中各个对象的属性管理函数，其都是内置函数。
+
+其中hasattr(object, name)检测某个对象有没有某个属性。
+
+setattr(object, name, value)用于设置某个对象的某个属性为某个值，\verb+setattr(x,a,3)+ 对应 \verb+x.a = 3+ 这样的语法。
+
+getattr(object, name[, default])用于取某个对象的某个属性的值，对应 \verb+object.name+ 这样的语法。
+
+delattr(object,name)用于删除某个对象的某个属性，对应\verb+del object.name+ 这样的语法。
+
+
 
 
 
