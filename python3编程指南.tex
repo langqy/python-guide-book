@@ -1335,34 +1335,90 @@ True
 
 
 \section{bytes类型}
-一般就使用str字符串类型然后使用默认的utf-8编码，然后大部分情况下不会有任何问题。不过在对于某些文件操作（比如处理图像或者声音文件等）和网络通信等领域，还是需要接触字节流这个概念的。
+\subsection{基本编码知识}
+具体存储在计算机里面的都是二进制流，而如果要将其正确解析成为对应的字符，是需要建立一定的编码规则的，比如大家熟悉的ASCⅡ编码规则。ACSⅢ编码是Latin-1和utf-8等编码的子集，也就是一连串基于ACSⅡ编码的字符串用utf-8编码也能正确解析。
 
-python3为了真正支持二进制数据的处理，引入了一个新的类型bytes。bytes字节类型的定义是8位整数的不可变序列，表示绝对的字节值。bytes类型支持之前谈论的str也就是常用的字符串类型的几乎所有的操作：包括类型内部的方法，序列操作，re模块匹配等，但不包括字符串的格式化（也就是format方法）。
+python2中目前也支持bytes类型了，但其只是str类型的一个别名\footnote{\href{http://stackoverflow.com/questions/5901706/the-bytes-type-in-python-2-7-and-pep-358}{参考这个网页。}} 。然后python2还有一个unicode类型，由于python3字符串默认是unicode编码的，所以python3中的str可以对应python2的unicode。此外还有一个bytearray类型，目前python2也加入进来了，差别不大。
 
-虽然bytes类型也可以打印，因为8位整数正好对应ASCⅡ的编码，但这只是使用方便罢了，最好还是把bytes看作纯数值没有任何字符含义的二进制数据。我们在读取文件的时候也分为常规读取和以二进制形式读取（需要加个b字符），这些都涉及到编码问题。
+就实现上具体python2和python3底层还有什么区别不大清楚，而且大家都承认python3定义字符串str和字节流bytes这两个名字都是很好的。只是因为python2和python3在这块领域具体功能都差不多，而因为这种转变带来了困扰很多，可能也是人们迟迟不愿意接受python3的原因吧。
 
-bytes类型有一个decode方法，可以把自己按照某种编码方式（比如'big5'或'utf-8'等）进行解码\footnote{二进制数据难读，相当于密码。}。字符串类型有一个encode方法，就是把这个字符串按照某种编码方式进行编码。
+
+bytes简单的理解就是没有任何字符含义的二进制字节流。然后如这样 \verb+b'test'+ ，在前面加个字符b或者B，其将解析为bytes类型。
+
 \begin{Verbatim}
->>> string001='你好'
->>> bytes001=string001.encode('utf-8')
->>> bytes001
-b'\xe4\xbd\xa0\xe5\xa5\xbd'
->>> bytes002=string001.encode('big5')
->>> bytes002
-b'\xa7A\xa6n'
->>> string002=bytes002.decode('utf-8')
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-UnicodeDecodeError: 'utf-8' codec can't decode byte 0xa7 in position 0: invalid start byte
->>> string002=bytes002.decode('big5')
->>> string002
-'你好'
+>>> x = b'test'
+>>> x
+b'test'
+>>> type(x)
+<class 'bytes'>
+>>> x[0]
+116
+>>> x[1]
+101
+>>> list(x)
+[116, 101, 115, 116]
+>>> 
 \end{Verbatim}
 
-我们看到不同编码解码弄混了会出问题，本来想找个例子然后出现字符混乱的情况的。
+python在打印时会尽可能打印可见字符，尽管上面的x打印显示出了具体的test这个字符，但我们应该认为x是一连串的数字序列而不具有任何字符串含义，如果我们调用bytes类型的\textbf{decode}方法，那么bytes类型解码之后将变成str类型。
+
+\begin{Verbatim}
+>>> y = x.decode('utf-8')
+>>> y
+'test'
+>>> type(y)
+<class 'str'>
+\end{Verbatim}
+
+当然具体编码方式是否正确，是否正确解析了原bytes字节流那又是另外一回事了。比如还可能是big5或者GB什么的编码。
+
+此外字符串str类型有个\textbf{decode}方法可以进行编码操作从而输出对应编码的bytes字节流。
+
+\subsection{使用方法}
+我们可以如下看一下str类型和bytes类型具体有那些方法差异:
+\begin{Verbatim}
+>>> set(dir('abc')) - set(dir(b'abc'))
+{'isdecimal', 'casefold', '__rmod__', 'format_map', 'format', 'encode', '__mod__', 'isnumeric', 'isprintable', 'isidentifier'}
+>>> set(dir(b'abc')) - set(dir('abc'))
+{'decode', 'fromhex'}
+\end{Verbatim}
+
+我们看到bytes和str几乎拥有相同的功能，所以大部分之前学到的用于str字符串类型的那些方法同样可以用于bytes类型中。这多少有点方法泛滥了，因为bytes是字节流类型，内在是没有字符含义的，可能某些方法并不推荐使用。
+
+比如下面的upper方法和replace方法:
+\begin{Verbatim}
+>>> b't'.upper()
+b'T'
+>>> b'testst'.replace(b'st',b'oo')
+b'teoooo'
+\end{Verbatim}
+
+replace方法还可以接受，但upper方法有点过了。
+
+然后字节流的连接可以很方便的用加法或join方法来进行，如下所示:
+\begin{Verbatim}
+>>> b't' + b'e'
+b'te'
+>>> b''.join([b'a',b'c'])
+b'ac'
+\end{Verbatim}
+
+但是要\emph{注意}，python2里面不管是加法还是join方法都将丢掉那个b修饰符\footnote{参考了\href{http://gehrcke.de/2014/02/concatenate-byte-strings-in-python-3/}{这个网页}。}:
+\begin{Verbatim}
+>>> b''.join([b'a',b'c'])
+'ac'
+>>> b'a' + b'b'
+'ab'
+\end{Verbatim}
+
+不过这也无关紧要，因为python2里面我们可以理解str就对应的是python3的bytes类型。这一块最好python2和python3分裂得很厉害，最好不要用对接的思维了，是python2就用python2的思维，是python3就用python3的思维。
+
+其他还有很多方法包括切片操作等就不赘述了。
 
 
 \section{bytearray类型}
+bytearray和bytes类型类似，而且其内部支持的方法和操作也和bytes类型类似，除了其更像是一个列表，可以原处修改而字符串和bytes是不可变的。python2现在也有bytearray类型了，只是内在的文本和二进制是不分的。
+
 
 
 \section{文件}
