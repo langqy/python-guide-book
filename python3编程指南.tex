@@ -1658,11 +1658,53 @@ finally:
     do the funallystuff
 \end{Verbatim}
 
-这个语句的逻辑是试着执行try区块下的语句，如果出现异常，那么看是不是异常yourError，如果是则执行do something，如果是yourError2，则执行do something2 ......等等，如果没有异常，则do somethingN，如果还有异常，则这个异常将会返回（更上面的控制程序）。
+这个语句的逻辑是试着执行try区块下的语句，如果出现异常，那么看是不是异常yourError，如果是则执行do something，如果是yourError2，则执行do something2 ......等等，如果没有异常，则执行else字句: do somethingN，如果还有异常，则这个异常将会返回（更上面的控制程序）。
 
 那么finally语句的作用是什么呢，finally语句实际上和整个语句中异常判断情况没有关系，不管有没有异常发生，最后它都将被执行。和简单地不缩进直接写在下面的语句比起来，finally语句的特点就是就算程序发生异常了，它也会先被执行，然后将异常上传给上面的控制程序。
 
 else语句和finally语句是可选的，根据具体情况来看。
+
+
+\subsubsection{for里面放try语句的情况}
+for语句里面放上try语句还需要细讲一下。
+
+具体try语句相关逻辑前面说过了，这里的问题是for语句的继续执行问题。首先是第一个情况，try字句里面使用return，这在函数里面是会跳出for语句的，也就是执行多次只要成功一次就会被跳出。然后错误捕捉，如果错误捕捉里面再放入一个raise语句，再抛出一个错误，这个时候for语句是会被中止的。然后抛出这个异常。然后是else字句，其逻辑是try多次没有错误，那么将会执行else字句，但是如果你try一次，然后else语句里面加入break命令，则会跳出for语句的。
+
+这里面情况稍微有点复杂，目前我接触到的有如下两种应用:
+
+这是一个mongodb的安全调用的函数装饰器。其在试图调用mongodb的时候，如果发生AutoReconnect异常，那么将会sleep一秒然后再去try 之前的那个调用函数。如果成功了，那么进入return，然后自然就跳出for语句了。
+\begin{Verbatim}
+def safe_mongocall(call):
+    '''mongodb replica set assistant'''
+    def _safe_mongocall(*args, **kwargs):
+        for i in xrange(100):#
+            try:
+                return call(*args, **kwargs)
+            except pymongo.AutoReconnect:
+                import time
+                time.sleep(1)
+                print("try to connect mongodb again...")
+    return _safe_mongocall
+\end{Verbatim}
+
+
+第二个例子较为常用，就是在重复做某件事的时候可能会发生错误，然后捕捉这个错误，然后继续执行。然后捕捉的时候计了一下数。
+\begin{Verbatim}
+def test():
+    failcount = 0
+
+    for i in range(src_count):
+        try:
+            do something
+        except Exception as ex:
+            failcount += 1
+
+    sucess_count = src_count - failcount
+    return sucess_count
+\end{Verbatim}
+
+其实我们还可以想到另外一种程序结构，那就是try和else在for语句里面构成逻辑分支。当你试着做某件事的时候，try，如果正常则执行else字句然后break，如果发生某个异常则执行异常中的字句，就是try里面的内容不被执行。这有点反常规，但联系实际生活，我们确实也存在这样的逻辑，那就是假想如何如何，发生错误不行则执行else字句，就是假想try里面的内容不实际执行。
+
 
 \subsection{in语句}
 in语句对于可迭代对象都可以做出是否某个元素包含在某个对象之中的判断。
@@ -4086,7 +4128,7 @@ with fileinput.input(files=allfile,inplace=1) as f:
 
 
 \chapter{os.path模块}
-前面提到sys.argv只能返回当前python脚本的文件名，而我们常常需要这个python脚本在系统中的具体位置。前面如os.getcwd等也能获得当前python脚本的所在目录，不过os.path模块的一个有点就是跨平台特性支持很好，也就是一般我们通过其他方式获得的path路径都会用这个模块的函数辅助处理一下。
+前面提到sys.argv只能返回当前python脚本的文件名，而我们常常需要这个python脚本在系统中的具体位置。前面如os.getcwd等也能获得当前python脚本的所在目录，不过os.path模块的一个优点就是跨平台特性支持很好，也就是一般我们通过其他方式获得的path路径都会用这个模块的函数辅助处理一下。
 
 我们来看下面的例子：
 \begin{tcbpython}[]
@@ -4106,10 +4148,10 @@ test.py
 wanze
 \end{Verbatim}
 
-其中\verb+__file__+表示当前脚本文件，然后接下来的一些命令我们后面慢慢讲。
+其中\verb+__file__+表示当前脚本文件所在的路径。
 
 \section{abspath函数}
-abspath函数接受一个path路径值然后返回一个正规的普适的路径地址。比如对于当前文件来说\footnote{文件名也是一个路径}，就是当前文件的具体路径地址，这个和getcwd的python的当前工作目录是不同的，这里的\verb+__file__+就是命令所在的具体的当前的文件地址。
+abspath函数接受一个path路径值然后返回一个正规的普适的路径地址。具体效果类似于执行了: \verb+normpath(join(os.getcwd(), path))+ 。
 
 再看下面的例子演示了空字符串默认当前工作目录，然后也接受绝对路径等。
 \begin{Verbatim}
@@ -4123,6 +4165,9 @@ abspath函数接受一个path路径值然后返回一个正规的普适的路径
 >>> os.path.abspath('test/')
 '/home/wanze/test'
 \end{Verbatim}
+
+我们看到如果abspath接收的是空字符串，其定位是当前脚本的工作目录，那么是引用的模块里面的\verb+os.path.abspath('')+，具体对应的也是当前脚本的工作目录。然后os.path.abspath(".")返回的是当前脚本工作目录。
+
 
 \section{dirname函数}
 dirname函数接受一个路径值然后返回这个路径除开最后一个元素的前面的路径值。比如上面的例子，路径指向文件，那么dirname函数返回的是除开这个文件名的前面的路径；而如果接受的路径指向目录，那么返回的是除开最后一个文件夹名的前面的路径值。
@@ -5355,6 +5400,13 @@ print(svg)
 首先从io模块里面引入StringIO这个类，然后构建codeOut，codeErr这两个文本流对象，然后将sys默认的标准输出和错误输出对接成它们，然后使用 \textbf{exec} 函数执行代码即可，代码里面print的内容会进入文本流对象中，使用getvalue方法即可取出。最后重置了sys的默认的标准输出和错误输出流。
 
 这里采用这样的exec方法很是暴力，但对于实现某些小的基于python的脚本方言还是很方便的。
+
+\subsection{如果执行import语句}
+参考了\href{http://stackoverflow.com/questions/12505047/in-python-why-doesnt-an-import-in-an-exec-in-a-function-work}{这个网页}，如果在exec语句里面使用import语句，具体引入的变量名希望被外围程序使用，则需要如下所示。这里globals()返回当前全局变量值字典。
+\begin{Verbatim}
+exec('from youget.{0} import youget'.format(target), globals())
+\end{Verbatim}
+
 
 
 
